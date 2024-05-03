@@ -72,7 +72,7 @@ const Page: NextPage<Props> = async ({ params }) => {
         )}
       </div>
 
-      <article className="mx-auto flex max-w-screen-md flex-col items-center">
+      <article>
         <Typography variant="h1">{meta.title}</Typography>
         <Typography className="text-muted-foreground [&:not(:first-child)]:mt-0">
           {meta.date.toDateString()}
@@ -80,19 +80,19 @@ const Page: NextPage<Props> = async ({ params }) => {
         <Typography className="[&:not(:first-child)]:mt-0">{meta.description}</Typography>
       </article>
 
-      <section className="my-2 flex cursor-default select-none items-center justify-center gap-2">
+      <section className="mt-2 flex cursor-default select-none gap-2">
         {meta.tags.map((tag) => (
           <Badge key={tag}>{tag}</Badge>
         ))}
       </section>
 
-      <article className="mx-auto max-w-screen-md">
+      <article className="">
         <Image
           src={meta.image}
           width={1920}
           height={1080}
           alt={meta.title}
-          className="rounded-lg"
+          className="my-4 rounded-lg"
         />
 
         {content}

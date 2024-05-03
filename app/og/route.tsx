@@ -27,6 +27,11 @@ export const GET = async (_: NextRequest, { params }: Props): Promise<ImageRespo
       <div tw="flex flex-col w-full h-full p-20 items-center justify-center bg-white" style={dotBg}>
         <div tw="flex justify-between w-full items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://raw.githubusercontent.com/tiesen243/portfolio/main/public/images/tiesen.png"
+            alt="Tiesen"
+            tw="w-2/3 aspect-video"
+          />
         </div>
 
         <div tw="flex-1 flex w-full items-end justify-between">

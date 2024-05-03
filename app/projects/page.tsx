@@ -22,6 +22,9 @@ const Page: NextPage = async () => {
   })
     .then((res) => res.json())
     .then((p: Project[]) => p.filter((p) => p.topics.includes('showcase')))
+    .then((p) =>
+      p.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()),
+    )
     .catch((_e) => [])
 
   return (

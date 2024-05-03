@@ -12,7 +12,7 @@ export const mdxComponents = {
   h3: (props) => <Typography variant="h3" id={slugify(props.children)} {...props} />,
   h4: (props) => <Typography variant="h4" id={slugify(props.children)} {...props} />,
 
-  p: (props) => <Typography variant="p" {...props} />,
+  p: (props) => <Typography variant="p" className="md:text-lg" {...props} />,
   blockquote: (props) => <Typography variant="blockquote" {...(props as any)} />,
   ul: (props) => <Typography variant="ul" {...(props as any)} />,
   ol: (props) => <Typography variant="ol" {...(props as any)} />,
