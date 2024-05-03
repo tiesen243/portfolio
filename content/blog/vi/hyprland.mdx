@@ -1,0 +1,351 @@
+---
+title: Hyprland
+description: Cài đặt Hyprland OS dựa trên Arch Linux với các bước dễ dàng.
+image: /images/blog/hyprland.png
+date: 2024-04-10
+tags:
+  - archlinux
+  - hyprland
+hasMultipleLang: true
+---
+
+## Mục lục
+
+1. [Giới thiệu](#gioi-thieu)
+2. [Cài đặt](#cai-dat)
+3. [Thiết lập](#thiet-lap)
+4. [Phím tắt](#phim-tat)
+5. [Kết luận](#ket-luan)
+
+## Giới thiệu
+
+### Hyprland là gì?
+
+Hyprland là một bản phân phối Linux dựa trên Arch Linux. Đây là bản phân phối phát hành rolling release, tập trung vào sự đơn giản và tối giản. Nó được thiết kế để nhẹ và nhanh, với giao diện người dùng sạch sẽ và đơn giản. Hyprland được thiết kế để dễ cài đặt và sử dụng, tập trung vào việc cung cấp một hệ điều hành ổn định và đáng tin cậy, dễ dàng bảo trì và cập nhật.
+
+### Tại sao chọn Hyprland?
+
+Hyprland là một lựa chọn tuyệt vời cho người dùng muốn có một bản phân phối Linux đơn giản và nhẹ, dễ cài đặt và sử dụng. Nó được thiết kế để nhanh chóng và hiệu quả, với giao diện người dùng sạch sẽ và đơn giản, dễ dàng điều hướng. Hyprland là bản phân phối phát hành rolling release, nghĩa là nó liên tục được cập nhật với các phần mềm và bản cập nhật bảo mật mới nhất. Điều này làm cho nó trở thành lựa chọn tuyệt vời cho người dùng muốn cập nhật phần mềm và bản vá bảo mật mới nhất.
+
+Hyprland cũng là một lựa chọn tuyệt vời cho người dùng muốn có một hệ điều hành ổn định và đáng tin cậy, dễ dàng bảo trì và cập nhật. Nó được thiết kế để dễ cài đặt và sử dụng, tập trung vào việc cung cấp một hệ điều hành ổn định và đáng tin cậy, dễ dàng bảo trì và cập nhật. Hyprland là một lựa chọn tuyệt vời cho người dùng muốn có một bản phân phối Linux đơn giản và nhẹ, dễ cài đặt và sử dụng.
+
+## Cài đặt
+
+### Yêu cầu
+
+- Một ổ đĩa USB có dung lượng ít nhất 8GB
+- Một ảnh ISO của Arch Linux [Tải xuống](https://archlinux.org/download/)
+- Máy tính có bộ xử lý 64-bit
+- Kết nối internet ổn định
+
+### Các bước cài đặt
+
+Đầu tiên, bạn cần tải xuống ảnh ISO của Arch Linux từ trang web của Arch Linux. Bạn có thể tải xuống ảnh ISO từ trang web của Arch Linux bằng cách nhấp vào liên kết tải xuống trên trang web của Arch Linux.
+
+Sau đó, sử dụng `Rufus` để ghi ảnh ISO vào ổ đĩa USB. Bạn có thể tải xuống Rufus từ trang web Rufus. Sau khi tải xuống Rufus, bạn cần mở Rufus và chọn ảnh ISO của Arch Linux mà bạn đã tải xuống. Sau đó, bạn cần chọn ổ đĩa USB mà bạn muốn ghi ảnh ISO vào. Sau khi bạn đã chọn ảnh ISO và ổ đĩa USB, bạn cần nhấp vào nút bắt đầu để ghi ảnh ISO vào ổ đĩa USB.
+
+> Cài đặt Rufus [Tải xuống](https://rufus.ie/)
+
+Thứ hai, cắm ổ đĩa USB vào máy tính mà bạn muốn cài đặt Arch Linux. Sau đó, bạn cần khởi động máy tính từ ổ đĩa USB. Bạn có thể làm điều này bằng cách khởi động lại máy tính và nhấn phím menu khởi động khi máy tính khởi động. Phím menu khởi động thường là F12, nhưng nó có thể thay đổi tùy thuộc vào máy tính. Sau khi bạn đã khởi động máy tính từ ổ đĩa USB, bạn cần chọn tùy chọn cài đặt Arch Linux từ menu khởi động.
+
+> Nhớ tắt tính năng `Secure Boot` trong cài đặt BIOS
+
+Bây giờ, bắt đầu cài đặt Arch Linux trên máy tính của bạn. Bạn có thể làm theo hướng dẫn cài đặt Arch Linux để cài đặt Arch Linux trên máy tính của mình.
+
+```bash
+# Chỉnh sửa font
+setfont ter-132n
+```
+
+Kiểm tra kết nối internet.
+
+```bash
+ping google.com
+```
+
+Nếu kết nối internet không hoạt động, bạn có thể sử dụng lệnh sau để kết nối internet.
+
+```bash
+iwctl
+
+# Liệt kê các thiết bị khả dụng
+device list
+
+# Quét mạng khả dụng
+station device_name scan
+station device_name get-networks
+
+# Kết nối mạng
+station device_name connect SSID
+# Nhập mật khẩu
+
+# Kiểm tra kết nối
+station device_name show
+
+# Thoát iwctl và kiểm tra kết nối
+exit
+ping google.com
+
+# nếu kết nối hoạt động, bạn có thể tiếp tục bước tiếp theo
+```
+
+Thiết lập phân vùng ổ đĩa để cài đặt Arch Linux.
+
+```bash
+# Hiển thị các ổ đĩa khả dụng
+lsblk
+
+# Chọn ổ đĩa có dung lượng ít nhất 50GB
+# Sử dụng cfdisk để tạo bảng phân
+cfdisk /dev/[drive_name]
+```
+
+Tạo phân vùng:
+
+- Trong cfdisk, di chuyển con trỏ đến vùng trống và nhấn `Enter`.
+- Chọn lựa chọn `New` và nhấn `Enter`.
+- Thiết lập kích thước phân vùng là `1G` và nhấn `Enter`.
+- Chọn loại phân vùng `EFI System` và nhấn `Enter`.
+- Di chuyển con trỏ đến vùng trống khác và chọn lựa chọn `New` và nhấn `Enter`.
+- Thiết lập kích thước phân vùng ít nhất `40GB` và nhấn `Enter`.
+
+> Lưu ý: Phân vùng này dùng cho thư mục home.
+
+- Chọn `write` và nhấn `Enter` để lưu thay đổi vào ổ đĩa, sau đó chọn `quit` để thoát cfdisk.
+
+```bash
+# Định dạng phân vùng
+mkfs.fat -F32 /dev/[ten_o_dia] # Đinh dạng phân vùng EFI (1G)
+mkfs.ext4 /dev/[ten_o_dia] # Đinh dạng phân vùng Home (>= 40G)
+# [ten_o_dia] thay thế bằng tên thiết bị ổ đĩa bạn chọn (ví dụ: /dev/sda)
+
+mount --mkdir /dev/[ten_o_dia] /mnt/archinstall # Mount phân vùng Home (>= 40G)
+mount --mkdir /dev/[ten_o_dia] /mnt/archinstall/boot # Mount phân vùng EFI (1G)
+# [ten_o_dia] thay thế bằng tên thiết bị ổ đĩa bạn chọn (ví dụ: /dev/sda)
+```
+
+Sau khi mount các phân vùng, bạn có thể chạy `archinstall` để bắt đầu quá trình cài đặt Arch Linux. Tùy chọn cài đặt trong archinstall:
+
+- `Disk Configuration`:
+  - Chọn `Pre-mounted configuration` (Cấu hình được mount sẵn) để sử dụng phân vùng bạn đã tạo.
+  - Nhập thư mục: `/mnt/archinstall`
+- `Bootloader`: Chọn `GRUB` làm bootloader.
+- `Hostname`: Nhập tên máy chủ của bạn.
+- `Root Password`: Nhập mật khẩu cho tài khoản root.
+- `User`: Tạo tài khoản người dùng và thiết lập quyền `superuser` (siêu người dùng) cho tài khoản đó.
+- `Profile`:
+  - Chọn `Desktop` làm profile và `Hyprland` làm môi trường desktop.
+  - Chọn trình điều khiển `Graphics driver` phù hợp với card đồ họa (GPU) của bạn (ví dụ: Nvidia).
+  - Chọn `Greeter` (màn hình chào) như SSDM hoặc theo sở thích.
+- `Audio`: Bỏ qua tùy chọn Audio vì bạn sẽ cài đặt `Pulseaudio` sau.
+- `Additional packages`:
+  - Chọn `Yes` để cài đặt các gói bổ sung.
+  - Nhập tên gói: `pulseaudio`, `grub`, `efibootmgr`, `os-prober`, `neofetch`, `neovim`, `htop`, `thunar`
+  - Nhấn Enter để xác nhận tên gói.
+- `Network configuration`: Chọn `Use NetworkManager` để quản lý kết nối mạng.
+- `Timezone`: Chọn múi giờ cho vị trí của bạn (ví dụ: Asia/Ho_Chi_Minh).
+- Cuối cùng, chọn `Install` để bắt đầu quá trình cài đặt.
+
+Sau khi cài đặt, bạn cần cấu hình hệ thống để khởi động vào Arch Linux.
+
+```bash
+bootctl remove
+
+# Mount phân vùng EFI của Windows 11
+lsblk # Kiểm tra phân vùng EFI của Windows 11
+mkdir /mnt/win
+mount /dev/[drive_name] /mnt/win
+
+# Grub installation
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+Sau đó, cấu hình menu khởi động `grub`
+
+```bash
+nvim /etc/default/grub
+```
+
+Bỏ comment dòng lệnh sau trong file cấu hình:
+
+```bash title="/etc/default/grub"
+GRUB_DISABLE_OS_PROBER=false
+```
+
+Cập nhật độ phân giải GRUB
+
+```bash title="/etc/default/grub"
+GRUB_GFXMODE=1920x1080x32
+```
+
+Khởi động lại máy tính. Trong quá trình khởi động, bạn sẽ thấy menu boot của GRUB với tùy chọn Arch Linux.
+
+```bash
+exit
+reboot
+```
+
+Sau khi khởi động lại, nhấn tổ hợp phím `Win + Q` để mở `Terminal`
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+# Nhập mật khẩu root
+```
+
+Bạn có thể khởi động lại máy tính và có thể thấy Windows 11 trong menu boot.
+
+> Chúc mừng! Bạn đã cài đặt thành công Arch Linux với Hyprland OS trên máy tính của mình. Sau đó, tùy chỉnh hệ thống.
+
+## Thiết lập
+
+Tắt thông báo cảnh báo trong file cấu hình Hyprland
+
+```bash title="~/.config/hypr/hyprland.conf"
+nvim ~/.config/hypr/hyprland.conf
+# Xóa dòng autogenerated = 1 để tắt thông báo cảnh báo
+```
+
+Cài đặt các gói phụ thuộc
+
+### Cài đặt gói AUR trước:
+
+```bash
+sudo pacman -Syu
+
+sudo pacman -S --needed git base-devel
+git clone https://aur.archlinux.org/yay.git ~/yay
+cd ~/yay
+makepkg -si
+rm -rf ~/yay
+```
+
+### Cài đặt các gói sau:
+
+```bash
+sudo pacman -S zsh swayidle hyprpaper p7zip wofi pavucontrol thunar gvfs pulseaudio
+sudo yay -S swaylock-effects lazygit floorp-bin wlogout nwg-look
+```
+
+> Nếu font tiếng Nhật/Trung/Hàn không hiển thị chính xác
+
+```bash
+sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji
+```
+
+Cài đặt `Oh My Zsh` để tùy chỉnh terminal
+
+```bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+> Cài đặt các plugin cho Oh My Zsh
+
+```bash
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+```
+
+> Tùy chọn: Cài đặt `miniconda3` cho Python và `nvm` cho môi trường phát triển Node.js
+
+```bash title="Cài đặt miniconda3"
+mkdir -p ~/.miniconda3
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/.miniconda3/miniconda.sh
+bash ~/.miniconda3/miniconda.sh -b -u -p ~/.miniconda3
+rm -rf ~/.miniconda3/miniconda.sh
+~/.miniconda3/bin/conda init zsh
+```
+
+```bash title="Cài đặt nvm"
+yay -S nvm
+
+# Cài đặt phiên bản LTS mới nhất của Node.js
+nvm install --lts
+
+# Thiết lập phiên bản mặc định của Node.js
+nvm alias default lts
+
+# Kiểm tra phiên bản Node.js
+node -v
+
+# Tùy chọn: Cài đặt `bun`
+npm install -g bun
+```
+
+> Đừng quên cấu hình khóa SSH cho git trước khi làm bước tiếp theo
+
+Clone kho lưu trữ `dotfiles` để tùy chỉnh hệ thống
+
+```bash
+git clone git@github.com:tiesen243/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+```
+
+### Tùy chỉnh hệ thống
+
+1. Thay đổi nội dung của `~/.config/hypr/hyprland.conf` thành:
+
+```bash title="~/.config/hypr/hyprland.conf"
+source = ~/dotfiles/hypr/hyprland.conf
+```
+
+2. Thay đổi nội dung của ~/.config/kitty/kitty.conf thành:
+
+```bash title="~/.config/kitty/kitty.conf"
+include ~/dotfiles/kitty/kitty.conf
+```
+
+3. Sao chép thư mục `~/dotfiles/custom` vào `~/.oh-my-zsh/custom`
+
+```bash
+cp ~/dotfiles/custom/plugins/zsh-syntax-highlighting.sh .oh-my-zsh/custom/plugins/zsh-syntax-highlighting.zsh
+cp ~/dotfiles/custom/themes ~/.oh-my-zsh/custom
+```
+
+3. Thay đổi nội dung của ~/.zshrc thành:
+
+```bash title="~/.zshrc"
+source ~/dotfiles/.zshrc
+```
+
+### Thay đổi giao diện và hình nền
+
+1. Thay đổi theme:
+
+```bash
+cp -r ~/dotfiles/.fonts ~/
+cp -r ~/dotfiles/.icons ~/
+cp -r ~/dotfiles/.themes ~/
+```
+
+Mở `nwg-look` để thay đổi theme.
+
+2. Thay đổi hình nền:
+
+```bash title="~/.config/hypr/hyprpaper.conf"
+preload = ~/path/to/wallpaper
+wallpaper = ,~/path/to/wallpaper
+```
+
+## Phím tắt
+
+- `Win + Enter`: Mở terminal (kitty)
+- `Win + B`: Mở trình duyệt (floorp) # Nếu bạn muốn sử dụng trình duyệt khác, bạn có thể thay đổi lệnh trong file `~/dotfiles/hypr/keymap.conf`
+- `Win + E`: Mở trình quản lý file (thunar)
+- `Win + Space`: Mở menu ứng dụng (wofi)
+- `Win + A`: Mở kiểm soát âm thanh (pavucontrol)
+- `Win + H/J/K/L`: Di chuyển tiêu điểm sang trái/dưới/trên/phải
+- `Win + Shift + H/J/K/L`: Di chuyển cửa sổ sang trái/dưới/trên/phải
+- `Win + Q`: Đóng cửa sổ
+- `Win + Shift + Q`: Mở menu đăng xuất (wlogout)
+- `Win + [1-9]`: Chuyển đến vùng làm việc [1-9]
+- `Win + Shift + [1-9]`: Di chuyển cửa sổ đến vùng làm việc [1-9]
+- `Win + W`: Mở vùng làm việc ẩn
+- `Win + Shift + W`: Di chuyển cửa sổ đến vùng làm việc ẩn
+- Các phím tắt khác trong file ~/dotfiles/hypr/keymap.conf
+
+## Kết luận
+
+Trong hướng dẫn này, bạn đã tìm hiểu cách cài đặt Arch Linux với Hyprland OS trên máy tính của mình. Bạn cũng đã học cách thiết lập hệ thống và tùy chỉnh theo ý thích. Hy vọng hướng dẫn này hữu ích với bạn và chúc bạn may mắn với hệ thống Arch Linux mới. Nếu bạn có any questions (bất kỳ câu hỏi nào) hoặc cần thêm trợ giúp, xin vui lòng hỏi. Cảm ơn đã đọc!
+
+Tài liệu: [Hyprland](https://hyprland.com/)

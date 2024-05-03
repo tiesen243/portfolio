@@ -1,0 +1,414 @@
+---
+title: Next.js + Elysia Started
+description: Create a full-stack application with Next.js and ElysiaJS
+image: /images/blog/next-elysia.png
+date: 2024-04-07
+tags:
+  - nextjs
+  - elysiajs
+  - prisma
+  - tailwindcss
+  - swr
+---
+
+## Table of Contents
+
+1. [Introduction](#introduction)
+2. [Installation](#installation)
+3. [Backend](#backend)
+4. [Fontend](#fontend)
+5. [Reference](#reference)
+
+## Introduction
+
+Hello everynyan!
+Today, we're diving into the world of full-stack web development using Next.js and Elysia.js, two powerful frameworks that streamline frontend and backend development, respectively.
+
+## Installation
+
+```bash
+bun create next-app --example https://github.com/tiesen243/next-elysia [your-app-name]
+cd [your-app-name]
+```
+
+Next step, update your enviroment variables
+
+> If you want to add other variables, remember to add it to `env.mjs` to validate it
+
+```bash title=".env"
+DATABASE_URL=""
+```
+
+> In this project, i'm use MongoDb for Database, if you use other database, remember to change provider in `prisma/schema.prisma` and change Id fields
+
+Then, push schema to your database
+
+```bash
+bun run db:format
+bun run db:migrate
+bun run db:push
+```
+
+Finaly, run your development server
+
+```bash
+bun dev
+```
+
+## Backend
+
+Make your route model at `server/models/*.ts` and import to your route
+
+Define your route at `server/routes/*.ts` and update this route to `server/elysia.ts`
+
+> Note: in this example, i'm use `post` route
+
+```ts title="server/models/post.model.ts"
+import Elysia, { t } from 'elysia'
+
+const createPost = t.Object({
+  content: t.String({ minLength: 4, error: 'Content must be at least 4 characters' }),
+})
+
+const deletePost = t.Object({
+  id: t.String({ minLength: 4, error: 'ID must be at least 4 characters' }),
+})
+
+export const postModel = new Elysia({ name: 'Model.Post' }).model({ createPost, deletePost })
+```
+
+Create your new route
+
+```ts title="server/routes/post.route.ts"
+import Elysia from 'elysia'
+
+import { context } from '@/server/plugins'
+import { postModel } from '@/server/models/post.model'
+
+export const postRoute = new Elysia({ name: 'Route.Post', prefix: '/post' })
+  .use(context)
+  .use(postModel)
+
+  .get('/getAll', async ({ db, error }) => {
+    const posts = await db.post.findMany({
+      include: { author: { select: { id: true, name: true } } },
+      orderBy: { createdAt: 'desc' },
+    })
+    if (!posts) return error(404, { message: 'No posts found' })
+    return posts
+  })
+
+  .onBeforeHandle({ as: 'scoped' }, ({ session, user, error }) => {
+    if (!session || !user) return error(401, { message: 'Unauthorized' })
+  })
+
+  .post(
+    '/create',
+    async ({ db, body: { content }, user, error }) => {
+      const newPost = await db.post.create({
+        data: { content, author: { connect: { id: user?.id } } },
+      })
+      if (!newPost) return error(500, { message: 'Failed to create post' })
+      return { message: 'Post created successfully' }
+    },
+    { body: 'createPost' },
+  )
+
+  .delete(
+    '/del',
+    async ({ db, body: { id }, error }) => {
+      const post = await db.post.findUnique({ where: { id } })
+      if (!post) return error(404, { message: 'Post not found' })
+      await db.post.delete({ where: { id } })
+      return { message: 'Post deleted successfully' }
+    },
+    { body: 'deletePost' },
+  )
+```
+
+Add this route to app
+
+```ts title="server/elysia.ts"
+import { Elysia } from 'elysia'
+
+import { postRoute } from '@/server/routes/post.route'
+
+export const app = new Elysia({ prefix: '/api/elysia' })
+  /* ... */
+  .use(postRoute)
+/* ... */
+```
+
+## Fontend
+
+Now, use your api endpoint with `swr` and `@elysiajs/eden` for example:
+
+> In this example, i'm use `api.post` for post route
+
+Create hook for post to get all post, create post and delete post
+
+```ts title="lib/hooks/post.ts"
+import useSWR from 'swr'
+import useSWRMutation from 'swr/mutation'
+
+import { api } from '@/lib/api'
+
+export const usePost = () => {
+  const {
+    data: posts,
+    error: getError,
+    isLoading,
+    mutate,
+  } = useSWR('posts', async () => {
+    const { data, error } = await api.post.getAll.get()
+    if (error) throw error.value
+    return data
+  })
+
+  const {
+    trigger: create,
+    isMutating,
+    error: createError,
+  } = useSWRMutation<unknown, Error, string, FormData>('createPost', async (_, { arg }) => {
+    const content = String(arg.get('content'))
+    const { data, error } = await api.post.create.post({ content })
+    if (error) throw error.value
+    mutate()
+    return data
+  })
+
+  const { trigger: del } = useSWRMutation<unknown, Error, string, { id: string }>(
+    'deletePost',
+    async (_, { arg: { id } }) => {
+      const { data, error } = await api.post.del.delete({ id })
+      if (error) throw error.value
+      mutate()
+      return data
+    },
+  )
+
+  return {
+    /* get posts */
+    posts,
+    getError,
+    isLoading,
+
+    /* create post */
+    create,
+    isMutating,
+    createError,
+
+    /* delete post */
+    del,
+  }
+}
+```
+
+Then, use it in your app
+
+```tsx title="components/post-list.tsx"
+'use client'
+
+import { Loader2Icon, XIcon } from 'lucide-react'
+
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { usePost } from '@/lib/hooks'
+import { Button } from '@/components/ui/button'
+
+export const PostList: React.FC<{ user?: string }> = ({ user }) => {
+  const { posts, isLoading, getError, del } = usePost()
+
+  if (isLoading) return <Loader2Icon className="mx-auto animate-spin" />
+  if (getError || !posts)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    return <p className="text-center text-destructive">Error: {getError?.message}</p>
+
+  return (
+    <section className="mx-auto mb-4 max-w-screen-md space-y-4">
+      {posts.map((post) => (
+        <Card key={post.id}>
+          {post.author.id === user && (
+            <Button
+              onClick={() => del({ id: post.id })}
+              className="absolute right-2 top-2 z-10"
+              variant="ghost"
+              size="icon"
+            >
+              <XIcon />
+            </Button>
+          )}
+          <CardHeader>
+            <CardDescription>{post.author.name}</CardDescription>
+            <CardTitle>{post.content}</CardTitle>
+          </CardHeader>
+        </Card>
+      ))}
+    </section>
+  )
+}
+```
+
+Create a form to create post
+
+```tsx title="components/create-post.tsx"
+'use client'
+
+import { SendHorizonalIcon } from 'lucide-react'
+import { useRef } from 'react'
+
+import { Button } from '@/components/ui/button'
+import { Card, CardFooter, CardHeader } from '@/components/ui/card'
+import { FormField } from '@/components/ui/form-field'
+import { usePost } from '@/lib/hooks'
+
+export const CreatePost: React.FC = () => {
+  const { create, isMutating, createError } = usePost()
+  const formRef = useRef<HTMLFormElement>(null)
+
+  const action = (fd: FormData) => {
+    create(fd)
+    formRef.current?.reset()
+  }
+  return (
+    <Card className="mx-auto mb-4 max-w-screen-md">
+      <form ref={formRef} action={action}>
+        <CardHeader className="flex-row items-center gap-2 space-y-0">
+          <FormField name="content" placeholder="What are you thinking?" className="flex-grow" />
+          <Button variant="ghost" size="icon" isLoading={isMutating}>
+            <SendHorizonalIcon />
+          </Button>
+        </CardHeader>
+        <CardFooter>
+          {createError && <p className="text-destructive">{createError.fieldErrors?.content}</p>}
+        </CardFooter>
+      </form>
+    </Card>
+  )
+}
+```
+
+And, use it in your page
+
+```tsx title="app/page.tsx"
+import type { NextPage } from 'next'
+
+import { auth } from '@/server/auth'
+import { PostList } from '@/components/post-list'
+import { CreatePost } from '@/components/create-post'
+
+const Page: NextPage = async () => {
+  const { user } = await auth()
+
+  return (
+    <main className="container">
+      {user && <CreatePost />}
+      <PostList userId={user.id} />
+    </main>
+  )
+}
+```
+
+### Notes
+
+1. `trigger` function form `swr/mutation` will make `isMutating` state always `false` if you use it in `async` function or `promise` function, so you should use it in normal function
+
+```ts
+const action = () => trigger() // not work
+
+const action = async () => {
+  await trigger() // not work
+}
+
+const action = () => {
+  trigger() // work
+}
+```
+
+2. If you want to use `api` in `react server component` with protected route, you should manully pass `cookie` to `headers` option in your api call. This is the example:
+
+```tsx title="app/server/page.tsx"
+import type { NextPage } from 'next'
+import { cookies } from 'next/headers'
+
+import { Button } from '@/components/ui/button'
+import { FormField } from '@/components/ui/form-field'
+
+const Page: NextPage = () => {
+  const create = async (formData: FormData) => {
+    'use server'
+    const content = String(formData.get('content'))
+    await api.post.create.post({ content }, { headers: { Cookie: cookies().toString() } })
+    revalidatePath('/server')
+  }
+  return (
+    <form action={create} className="space-y-4">
+      <FormField name="content" label="Content" />
+      <Button type="submit" className="w-full">
+        Create Post
+      </Button>
+    </form>
+  )
+}
+```
+
+> Note: I don't know why this only work in local but not in deployed app on Vercel
+
+3. Middleware example:
+
+```ts title="middleware.ts"
+import { NextRequest, NextResponse } from 'next/server'
+
+export const middleware = async (req: NextRequest) => {
+  const session = req.cookies.get('auth_session')
+  if (!session) return NextResponse.redirect(new URL('/auth/login', req.url))
+}
+
+export const config = {
+  matcher: ['/server'],
+}
+```
+
+> If you want to use role-based middleware, you should pass `user` to cookie in sign in route and pass it to `middleware` function
+
+```ts title="server/routes/user.route.ts"
+/* ... */
+  .post(
+    '/sign-in',
+    async ({ body: { email, password }, error }) => {
+      /* ... */
+      cookies().set('role', user.role, options)
+      /* ... */
+      return { message: 'User signed in successfully' }
+    },
+    { body: 'signIn' },
+  )
+/* ... */
+```
+
+```ts title="middleware.ts"
+export const middleware = async (req: NextRequest) => {
+  /* ... */
+  const role = req.cookies.get('role')
+  if (/* check role */) {
+    /* do something */
+  }
+  /* ... */
+}
+```
+
+## Reference
+
+### Documents
+
+- Next.js: [nextjs.org](https://nextjs.org/)
+- ElysiaJS: [elysiajs.com](https://elysiajs.com/)
+- SWR: [swr.vercel.app](https://swr.vercel.app/)
+
+### Try it now!!!
+
+1. Fork my repository: [here](https://github.com/tiesen243/next-elysia/)
+2. Demo web app: [here](https://next-elysia.vercel.app/)
+
+<div align="center">
+  <b>Thanks for reading, hope you like this</b>
+</div>
