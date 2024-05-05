@@ -59,6 +59,16 @@ export const ContactForm: React.FC = () => {
         <card.CardDescription className="mt-8">
           I&apos;m currently open to new opportunities, my inbox is always open. Whether you have a
           question or just want to say hi, I&apos;ll try my best to get back to you!
+          <br /> Send me a message using the form below or directly at{' '}
+          <a
+            href={`mailto:${siteConfig.email}`}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="underline-offset-4 hover:underline"
+          >
+            {siteConfig.email}
+          </a>
+          .
         </card.CardDescription>
       </card.CardHeader>
 
