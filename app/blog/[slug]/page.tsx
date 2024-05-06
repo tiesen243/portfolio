@@ -42,6 +42,7 @@ export const generateMetadata = async (
 const Page: NextPage<Props> = async ({ params: { slug }, searchParams: { lang } }) => {
   const { content, meta } = await getPost(lang, `${slug}.mdx`)
   if (!meta.title) return notFound()
+  const isEn = lang === 'en' || lang === undefined
 
   return (
     <>
@@ -51,17 +52,17 @@ const Page: NextPage<Props> = async ({ params: { slug }, searchParams: { lang } 
           items={[
             { name: '~', href: '/#about' },
             { name: 'Blog', href: `/blog?lang=${lang}` },
-            { name: meta.title, href: `/blog/${slug}?lang=${slug}` },
+            { name: meta.title, href: `/blog/${slug}?lang=${lang}` },
           ]}
         />
 
         {meta.hasMultipleLang && (
           <Typography
             variant="link"
-            href={`/blog/${slug}?lang=${lang === 'en' ? 'vi' : 'en'}`}
+            href={`/blog/${slug}?lang=${isEn ? 'vi' : 'en'}`}
             className="text-muted-foreground hover:text-foreground"
           >
-            {lang === 'en' ? 'Tiếng Việt' : 'English'}
+            {isEn ? 'Tiếng Việt' : 'English'}
           </Typography>
         )}
       </div>
