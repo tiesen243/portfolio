@@ -10,7 +10,8 @@ import { getPost, getPosts } from '@/content'
 import { baseUrl } from '@/lib/site'
 
 interface Props {
-  params: { lang: 'en' | 'vi'; slug: string }
+  params: { slug: string }
+  searchParams: { lang: 'en' | 'vi' }
 }
 
 export const generateStaticParams = async () => {
@@ -18,16 +19,15 @@ export const generateStaticParams = async () => {
   const vi = await getPosts('vi')
 
   return [
-    ...en.map((post) => ({ lang: 'en', slug: post.slug })),
-    ...vi.map((post) => ({ lang: 'vi', slug: post.slug })),
+    ...en.map((post) => ({ slug: `${post.slug}?lang=en` })),
+    ...vi.map((post) => ({ slug: `${post.slug}?lang=vi` })),
   ]
 }
 
 export const generateMetadata = async (
-  { params }: Props,
+  { params: { slug }, searchParams: { lang } }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> => {
-  const { lang, slug } = params
   const { meta } = await getPost(lang, `${slug}.mdx`)
 
   const previousImages = (await parent).openGraph?.images ?? []
@@ -38,14 +38,13 @@ export const generateMetadata = async (
     keywords: meta.tags,
     openGraph: {
       images: [meta.image, ...previousImages],
-      url: `${baseUrl}/blog/${lang}/${params.slug}`,
+      url: `${baseUrl}/blog/${slug}?lang=${lang}`,
     },
-    alternates: { canonical: `${baseUrl}/blog/${lang}/${params.slug}` },
+    alternates: { canonical: `${baseUrl}/blog/${lang}/${slug}` },
   }
 }
 
-const Page: NextPage<Props> = async ({ params }) => {
-  const { lang, slug } = params
+const Page: NextPage<Props> = async ({ params: { slug }, searchParams: { lang } }) => {
   const { content, meta } = await getPost(lang, `${slug}.mdx`)
   if (!meta.title) return notFound()
 
@@ -56,15 +55,15 @@ const Page: NextPage<Props> = async ({ params }) => {
           className="top list-none"
           items={[
             { name: '~', href: '/#about' },
-            { name: 'Blog', href: `/blog/${lang}` },
-            { name: meta.title, href: `/blog/${lang}/${slug}` },
+            { name: 'Blog', href: `/blog?lang=${lang}` },
+            { name: meta.title, href: `/blog/${slug}?lang=${slug}` },
           ]}
         />
 
         {meta.hasMultipleLang && (
           <Typography
             variant="link"
-            href={`/blog/${lang === 'en' ? 'vi' : 'en'}/${slug}`}
+            href={`/blog/${slug}?lang=${lang === 'en' ? 'vi' : 'en'}`}
             className="text-muted-foreground hover:text-foreground"
           >
             {lang === 'en' ? 'Tiếng Việt' : 'English'}

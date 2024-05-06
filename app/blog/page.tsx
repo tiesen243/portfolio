@@ -13,15 +13,14 @@ const desc = {
 }
 
 interface Props {
-  params: { lang: 'en' | 'vi' }
+  searchParams: { lang: 'en' | 'vi' }
 }
 
-export const generateStaticParams = () => [{ lang: 'en' }, { lang: 'vi' }]
-
 export const generateMetadata = async (
-  { params: { lang } }: Props,
+  { searchParams }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> => {
+  const lang = searchParams.lang ?? 'en'
   const previousImages = (await parent).openGraph?.images ?? []
   return {
     title: 'Blog',
@@ -34,8 +33,8 @@ export const generateMetadata = async (
   }
 }
 
-const Page: NextPage<Props> = async ({ params }) => {
-  const posts = await getPosts(params.lang)
+const Page: NextPage<Props> = async ({ searchParams }) => {
+  const posts = await getPosts(searchParams.lang ?? 'en')
   const tabs = [
     { id: 'en', label: 'English' },
     { id: 'vi', label: 'Vietnamese' },
@@ -46,14 +45,14 @@ const Page: NextPage<Props> = async ({ params }) => {
       <BreadCrumbs
         items={[
           { name: '~', href: '/#about' },
-          { name: 'Blog', href: `/blog/${params.lang}` },
+          { name: 'Blog', href: `/blog?lang=${searchParams.lang}` },
         ]}
       />
 
-      <Tabs defaultValue={params.lang} className="mb-4">
+      <Tabs defaultValue={searchParams.lang ?? 'en'} className="mb-4">
         <TabsList className="bg-transparent">
           {tabs.map((tab) => (
-            <Link key={tab.id} href={`/blog/${tab.id}`} passHref>
+            <Link key={tab.id} href={`/blog?lang=${tab.id}`} passHref>
               <TabsTrigger
                 value={tab.id}
                 className="rounded-none border-b-2 border-primary/0 transition-all data-[state=active]:border-primary"
@@ -67,7 +66,7 @@ const Page: NextPage<Props> = async ({ params }) => {
 
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
-          <BlogCard key={post.title} {...post} lang={params.lang} />
+          <BlogCard key={post.title} {...post} lang={searchParams.lang} />
         ))}
       </section>
     </>

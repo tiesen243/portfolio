@@ -9,16 +9,8 @@ export default {
   },
   experimental: {
     serverComponentsExternalPackages: ['shiki'],
+    typedRoutes: true,
   },
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
-  redirects: async () => {
-    return [
-      {
-        source: '/blog',
-        destination: '/blog/en',
-        permanent: true,
-      },
-    ]
-  },
 }

@@ -223,11 +223,11 @@ rm -rf ~/yay
 ### Cài đặt các gói sau:
 
 ```bash
-sudo pacman -S zsh swayidle hyprpaper p7zip wofi pavucontrol thunar gvfs pulseaudio
-sudo yay -S swaylock-effects lazygit floorp-bin wlogout nwg-look
+sudo pacman -S zsh swayidle hyprpaper p7zip wofi pavucontrol thunar gvfs nwg-look brightnessctl playerctl fastfetch btop cliphist wl-clipboard xfce4-settings grim slurp
+sudo yay -S swaylock-effects lazygit floorp-bin wlogout hyprpicker-git
 ```
 
-> Nếu font tiếng Nhật/Trung/Hàn không hiển thị chính xác
+Nếu font tiếng Nhật/Trung/Hàn không hiển thị chính xác
 
 ```bash
 sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji
@@ -239,14 +239,36 @@ Cài đặt `Oh My Zsh` để tùy chỉnh terminal
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-> Cài đặt các plugin cho Oh My Zsh
+Cài đặt các plugin cho Oh My Zsh
 
 ```bash
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
-> Tùy chọn: Cài đặt `miniconda3` cho Python và `nvm` cho môi trường phát triển Node.js
+Nếu bạn sử dụng `Nvidia`, bạn cần cài đặt driver Nvidia
+
+```bash
+sudo pacman -S nvidia nvidia-utils
+```
+
+Sau đó, thêm dòng lệnh sau vào cuối file `/etc/default/grub`
+
+```bash title="/etc/default/grub"
+GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet nvidia_drm.modeset=1"
+
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+Sau đó, thêm dòng lệnh sau vào cuối file `/etc/mkinitcpio.conf`
+
+```bash title="/etc/mkinitcpio.conf"
+MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
+
+sudo mkinitcpio -P
+```
+
+Tùy chọn: Cài đặt `miniconda3` cho Python và `nvm` cho môi trường phát triển Node.js
 
 ```bash title="Cài đặt miniconda3"
 mkdir -p ~/.miniconda3
@@ -262,9 +284,6 @@ yay -S nvm
 # Cài đặt phiên bản LTS mới nhất của Node.js
 nvm install --lts
 
-# Thiết lập phiên bản mặc định của Node.js
-nvm alias default lts
-
 # Kiểm tra phiên bản Node.js
 node -v
 
@@ -278,7 +297,6 @@ Clone kho lưu trữ `dotfiles` để tùy chỉnh hệ thống
 
 ```bash
 git clone git@github.com:tiesen243/dotfiles.git ~/dotfiles
-cd ~/dotfiles
 ```
 
 ### Tùy chỉnh hệ thống
@@ -295,14 +313,13 @@ source = ~/dotfiles/hypr/hyprland.conf
 include ~/dotfiles/kitty/kitty.conf
 ```
 
-3. Sao chép thư mục `~/dotfiles/custom` vào `~/.oh-my-zsh/custom`
+3. Sao chép thư mục `~/dotfiles/zsh-theme` vào `~/.oh-my-zsh/custom/themes`
 
 ```bash
-cp ~/dotfiles/custom/plugins/zsh-syntax-highlighting.sh .oh-my-zsh/custom/plugins/zsh-syntax-highlighting.zsh
-cp ~/dotfiles/custom/themes ~/.oh-my-zsh/custom
+cp -r ~/dotfiles/zsh-theme/* ~/.oh-my-zsh/custom/themes
 ```
 
-3. Thay đổi nội dung của ~/.zshrc thành:
+Sau đó, thay đổi nội dung của ~/.zshrc thành:
 
 ```bash title="~/.zshrc"
 source ~/dotfiles/.zshrc

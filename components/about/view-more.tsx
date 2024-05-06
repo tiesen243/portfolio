@@ -4,7 +4,7 @@ import Link from 'next/link'
 export const ViewMore: React.FC = () => (
   <section className="grid grid-cols-1 gap-4 text-xl font-bold capitalize md:grid-cols-2">
     {['projects', 'blog'].map((tab) => (
-      <Link href={`/${tab}`} key={tab} className="group flex items-center">
+      <Link href={`/${tab as 'projects' | 'blog'}`} key={tab} className="group flex items-center">
         {tab}
 
         <div className="ml-2 h-[2px] flex-grow">

@@ -219,11 +219,11 @@ rm -rf ~/yay
 ### Second, install the following packages:
 
 ```bash
-sudo pacman -S zsh swayidle hyprpaper p7zip wofi pavucontrol thunar gvfs pulseaudio
-sudo yay -S swaylock-effects lazygit floorp-bin wlogout nwg-look
+sudo pacman -S zsh swayidle hyprpaper p7zip wofi pavucontrol thunar gvfs nwg-look brightnessctl playerctl fastfetch btop cliphist wl-clipboard xfce4-settings grim slurp
+sudo yay -S swaylock-effects lazygit floorp-bin wlogout hyprpicker-git
 ```
 
-> If Jappanese/Chinese/Korean font not display correctly
+If Jappanese/Chinese/Korean font not display correctly
 
 ```bash
 sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji
@@ -235,14 +235,36 @@ Install `Oh My Zsh` to customize the terminal.
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-> Then, install oh-my-zsh plugins
+Then, install oh-my-zsh plugins
 
 ```bash
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
-> Optional: Install `miniconda3` for python and `nvm` for nodejs development environment
+If you using `Nvidia` GPU, you can install the following packages
+
+```bash
+sudo pacman -S nvidia-dkms nvidia-utils
+```
+
+Then, add this line to end of `/etc/default/grub`
+
+```bash title="/etc/default/grub"
+GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet nvidia_drm.modeset=1"
+
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+Then, add this line to end of `/etc/mkinitcpio.conf`
+
+```bash title="/etc/mkinitcpio.conf"
+MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
+
+sudo mkinitcpio -P
+```
+
+Optional: Install `miniconda3` for python and `nvm` for nodejs development environment
 
 ```bash title="Install miniconda3"
 mkdir -p ~/.miniconda3
@@ -258,9 +280,6 @@ yay -S nvm
 # Install the latest LTS version of nodejs
 nvm install --lts
 
-# Set the default version of nodejs
-nvm alias default lts
-
 # Check the version of nodejs
 node -v
 
@@ -274,7 +293,6 @@ Next, clone my `dotfiles` repository to customize the system.
 
 ```bash
 git clone git@github.com:tiesen243/dotfiles.git ~/dotfiles
-cd ~/dotfiles
 ```
 
 ### Customize the system
@@ -291,14 +309,13 @@ source = ~/dotfiles/hypr/hyprland.conf
 include ~/dotfiles/kitty/kitty.conf
 ```
 
-3. Copy folder `~/dotfiles/custom` to `~/.oh-my-zsh/custom`
+3. Copy folder `~/dotfiles/zsh-theme` to `~/.oh-my-zsh/custom/themes`
 
 ```bash
-cp ~/dotfiles/custom/plugins/zsh-syntax-highlighting.sh .oh-my-zsh/custom/plugins/zsh-syntax-highlighting.zsh
-cp ~/dotfiles/custom/themes ~/.oh-my-zsh/custom
+cp -r ~/dotfiles/zsh-theme/* ~/.oh-my-zsh/custom/themes
 ```
 
-4. Change the content of `~/.zshrc` to
+Then, change the content of `~/.zshrc` to
 
 ```bash title="~/.zshrc"
 source ~/dotfiles/.zshrc
@@ -321,6 +338,8 @@ Then, open `nwg-look` to change the theme.
 ```bash title="~/.config/hypr/hyprpaper.conf"
 preload = ~/path/to/wallpaper
 wallpaper = ,~/path/to/wallpaper
+
+# Log out and log in to see the changes
 ```
 
 3. If you need to use `obs` to record the screen, you can install the following packages
@@ -343,8 +362,8 @@ yay -S wlrobs
 - `Win + Shift + Q`: Open the logout menu (wlogout)
 - `Win + [1-9]`: Switch to the workspace [1-9]
 - `Win + Shift + [1-9]`: Move the window to the workspace [1-9]
-- `Win + W`: Open the hidden workspace
-- `Win + Shift + W`: Move the window to the hidden workspace
+- `Win + W`: Open the special workspace
+- `Win + Shift + W`: Move the window to the special workspace
 - And more key mapping in the `~/dotfiles/hypr/keymap.conf`
 
 ## Conclusion
