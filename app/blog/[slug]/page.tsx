@@ -15,13 +15,8 @@ interface Props {
 }
 
 export const generateStaticParams = async () => {
-  const en = await getPosts('en')
-  const vi = await getPosts('vi')
-
-  return [
-    ...en.map((post) => ({ slug: `${post.slug}?lang=en` })),
-    ...vi.map((post) => ({ slug: `${post.slug}?lang=vi` })),
-  ]
+  const posts = await getPosts()
+  return posts.map((post) => ({ slug: `${post.slug}` }))
 }
 
 export const generateMetadata = async (
