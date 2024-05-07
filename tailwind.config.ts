@@ -85,6 +85,10 @@ const config = {
           from: { backgroundPosition: '0 0' },
           to: { backgroundPosition: '-200% 0' },
         },
+        'up-down': {
+          '0%, 100%': { transform: 'translateY(10%)' },
+          '50%': { transform: 'translateY(-10%)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -92,6 +96,7 @@ const config = {
         'infinite-scroll': 'infinite-scroll 25s linear infinite',
         'infinite-scroll-reverse': 'infinite-scroll 25s linear infinite reverse',
         shimmer: 'shimmer 2s linear infinite',
+        'up-down': 'up-down 1s ease-in-out infinite',
       },
     },
   },

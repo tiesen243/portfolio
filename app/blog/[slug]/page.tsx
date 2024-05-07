@@ -81,7 +81,7 @@ const Page: NextPage<Props> = async ({ params: { slug }, searchParams: { lang } 
         ))}
       </section>
 
-      <article className="">
+      <article>
         <Image
           src={meta.image}
           width={1920}

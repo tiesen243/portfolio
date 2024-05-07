@@ -2,7 +2,6 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 
 import Footer from '@/components/footer'
-import Provider from '@/components/provider'
 import { fonts } from '@/lib/fonts'
 import { siteConfig } from '@/lib/site'
 import { cn } from '@/lib/utils'
@@ -19,10 +18,8 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
         fonts,
       )}
     >
-      <Provider>
-        <main className="container flex-grow">{children}</main>
-        <Footer />
-      </Provider>
+      <main className="container flex-grow">{children}</main>
+      <Footer />
 
       <SpeedInsights />
       <Analytics />

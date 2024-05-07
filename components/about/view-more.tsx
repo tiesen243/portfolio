@@ -10,7 +10,7 @@ export const ViewMore: React.FC = () => (
         <div className="ml-2 h-[2px] flex-grow">
           <div className="h-full w-0 bg-primary transition-all ease-linear group-hover:w-full" />
         </div>
-        <ChevronRightIcon className="-ml-2 text-foreground opacity-0 transition-opacity ease-linear group-hover:opacity-100" />
+        <ChevronRightIcon className="-ml-4 text-foreground opacity-0 transition-opacity ease-linear group-hover:opacity-100" />
       </Link>
     ))}
   </section>

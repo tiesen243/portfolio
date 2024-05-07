@@ -15,7 +15,7 @@ export const runtime = 'edge'
 export const GET = async (_: NextRequest, { params }: Props): Promise<ImageResponse> => {
   const dotBg = {
     backgroundImage:
-      'radial-gradient(circle at 25px 25px, lightgray 2%, transparent 0%), radial-gradient(circle at 75px 75px, lightgray 2%, transparent 0%)',
+      'radial-gradient(circle at 25px 25px, #2F3947 2%, transparent 0%), radial-gradient(circle at 75px 75px, #2F3947 2%, transparent 0%)',
     backgroundSize: '100px 100px',
   }
 
@@ -24,17 +24,18 @@ export const GET = async (_: NextRequest, { params }: Props): Promise<ImageRespo
 
   return new ImageResponse(
     (
-      <div tw="flex flex-col w-full h-full p-20 items-center justify-center bg-white" style={dotBg}>
-        <div tw="flex justify-between w-full items-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="https://raw.githubusercontent.com/tiesen243/portfolio/main/public/images/tiesen.png"
-            alt="Tiesen"
-            tw="w-2/3 aspect-video"
-          />
-        </div>
+      <div
+        tw="flex flex-col gap-4 w-full h-full text-white p-20 justify-center bg-[#131820]"
+        style={dotBg}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="https://raw.githubusercontent.com/tiesen243/portfolio/main/public/images/tiesen.png"
+          alt="Tiesen"
+          tw="w-3/4 aspect-video"
+        />
 
-        <div tw="flex-1 flex w-full items-end justify-between">
+        <div tw="flex w-full items-end justify-between">
           <div tw="flex flex-col items-start w-3/4 pr-4">
             <h2 tw="text-4xl capitalize">{title}</h2>
             <p tw="text-2xl mt-4">{description}</p>

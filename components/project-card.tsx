@@ -18,7 +18,7 @@ export interface Project {
 
 export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
   <card.Card key={project.id}>
-    <card.CardHeader className="group mb-2 aspect-video w-full space-y-0">
+    <card.CardHeader className="group aspect-video w-full space-y-0">
       <Image
         src={`/og?title=${project.name.replace(/-/g, ' ')}&desc=${project.description}`}
         alt={project.name}
@@ -48,7 +48,7 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
       </div>
     </card.CardHeader>
 
-    <card.CardContent className="space-y-1 pb-2">
+    <card.CardContent className="space-y-1 pb-2 pt-4">
       <card.CardTitle className="capitalize">{project.name.replace(/-/g, ' ')}</card.CardTitle>
       <card.CardDescription>{new Date(project.created_at).toDateString()}</card.CardDescription>
       <card.CardDescription>Language: {project.language}</card.CardDescription>
