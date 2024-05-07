@@ -5,7 +5,7 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/comp
 import type { PostMeta } from '@/content'
 
 export const BlogCard: React.FC<PostMeta & { lang: 'en' | 'vi' }> = (post) => (
-  <Link href={`/blog/${post.slug}?lang=${post.lang ?? 'en'}`} passHref>
+  <Link href={`/blog/${post.slug}/${post.lang ?? 'en'}`} passHref>
     <Card className="transition-colors ease-linear hover:bg-secondary">
       <CardHeader className="aspect-video w-full">
         <Image

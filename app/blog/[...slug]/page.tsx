@@ -10,19 +10,24 @@ import { getPost, getPosts } from '@/content'
 import { baseUrl } from '@/lib/site'
 
 interface Props {
-  params: { slug: string }
-  searchParams: { lang: 'en' | 'vi' }
+  params: { slug: [string, 'en' | 'vi'] }
 }
 
 export const generateStaticParams = async () => {
-  const posts = await getPosts()
-  return posts.map((post) => ({ slug: `${post.slug}` }))
+  const enPosts = await getPosts('en')
+  const viPosts = await getPosts('vi')
+
+  return [
+    ...enPosts.map((post) => ({ slug: [post.slug, 'en'] })),
+    ...viPosts.map((post) => ({ slug: [post.slug, 'vi'] })),
+  ]
 }
 
 export const generateMetadata = async (
-  { params: { slug }, searchParams: { lang } }: Props,
+  { params }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> => {
+  const [slug, lang] = params.slug
   const { meta } = await getPost(lang, `${slug}.mdx`)
 
   const previousImages = (await parent).openGraph?.images ?? []
@@ -33,13 +38,14 @@ export const generateMetadata = async (
     keywords: meta.tags,
     openGraph: {
       images: [meta.image, ...previousImages],
-      url: `${baseUrl}/blog/${slug}?lang=${lang}`,
+      url: `${baseUrl}/blog/${slug}/${lang}`,
     },
-    alternates: { canonical: `${baseUrl}/blog/${lang}/${slug}` },
+    alternates: { canonical: `${baseUrl}/blog/${slug}/${lang}` },
   }
 }
 
-const Page: NextPage<Props> = async ({ params: { slug }, searchParams: { lang } }) => {
+const Page: NextPage<Props> = async ({ params }) => {
+  const [slug, lang] = params.slug
   const { content, meta } = await getPost(lang, `${slug}.mdx`)
   if (!meta.title) return notFound()
   const isEn = lang === 'en' || lang === undefined
@@ -59,7 +65,7 @@ const Page: NextPage<Props> = async ({ params: { slug }, searchParams: { lang } 
         {meta.hasMultipleLang && (
           <Typography
             variant="link"
-            href={`/blog/${slug}?lang=${isEn ? 'vi' : 'en'}`}
+            href={`/blog/${slug}/${isEn ? 'vi' : 'en'}`}
             className="text-muted-foreground hover:text-foreground"
           >
             {isEn ? 'Tiếng Việt' : 'English'}
