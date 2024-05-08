@@ -14,15 +14,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date().toISOString(),
   }))
 
-  const posts = await getPosts()
-  const postRoutes = posts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}?lang=en`,
+  const enPosts = await getPosts('en')
+  const enPostRoutes = enPosts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}/en`,
+    lastModified: post.date.toISOString(),
+  }))
+
+  const viPosts = await getPosts('vi')
+  const viPostRoutes = viPosts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}/vi`,
     lastModified: post.date.toISOString(),
   }))
 
   let fetchedRoutes: Route[] = []
   try {
-    fetchedRoutes = (await Promise.all([postRoutes])).flat()
+    fetchedRoutes = (await Promise.all([enPostRoutes, viPostRoutes])).flat()
   } catch (error) {
     throw JSON.stringify(error, null, 2)
   }
