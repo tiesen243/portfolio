@@ -58,7 +58,7 @@ const Page: NextPage<Props> = async ({ params }) => {
           items={[
             { name: '~', href: '/#about' },
             { name: 'Blog', href: `/blog?lang=${lang}` },
-            { name: meta.title, href: `/blog/${slug}?lang=${lang}` },
+            { name: meta.title, href: `/blog/${slug}?lang=${lang ?? 'en'}` },
           ]}
         />
 
