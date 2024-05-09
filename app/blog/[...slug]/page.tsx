@@ -18,6 +18,7 @@ export const generateStaticParams = async () => {
   const viPosts = await getPosts('vi')
 
   return [
+    ...enPosts.map((post) => ({ slug: [post.slug] })),
     ...enPosts.map((post) => ({ slug: [post.slug, 'en'] })),
     ...viPosts.map((post) => ({ slug: [post.slug, 'vi'] })),
   ]
@@ -38,9 +39,9 @@ export const generateMetadata = async (
     keywords: meta.tags,
     openGraph: {
       images: [meta.image, ...previousImages],
-      url: `${baseUrl}/blog/${slug}/${lang}`,
+      url: `${baseUrl}/blog/${slug}/${lang ?? 'en'}`,
     },
-    alternates: { canonical: `${baseUrl}/blog/${slug}/${lang}` },
+    alternates: { canonical: `${baseUrl}/blog/${slug}/${lang ?? 'en'}` },
   }
 }
 
@@ -57,7 +58,7 @@ const Page: NextPage<Props> = async ({ params }) => {
           className="top list-none"
           items={[
             { name: '~', href: '/#about' },
-            { name: 'Blog', href: `/blog?lang=${lang}` },
+            { name: 'Blog', href: `/blog?lang=${lang ?? 'en'}` },
             { name: meta.title, href: `/blog/${slug}?lang=${lang ?? 'en'}` },
           ]}
         />
