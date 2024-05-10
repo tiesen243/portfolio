@@ -261,6 +261,28 @@ const Page: NextPage = async () => {
 }
 ```
 
+## Notes: 
+
+If you want to use `middleware`:
+
+```ts title="app/page.tsx"
+import type { NextPage } from 'next'
+import { redirect } from 'next/navigation'
+
+import { auth } from '@/server/auth'
+
+const Page: NextPage = async () => {
+  const session = await auth()
+  if (!session && !session.user) redirect('/login')
+
+  return (
+    <main className="container">
+      Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
+    </main>
+  )
+}
+```
+
 ## Reference
 
 ### Documents
