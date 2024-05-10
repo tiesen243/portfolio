@@ -16,7 +16,7 @@ const Page: NextPage = () => {
         size="lg"
         asChild
       >
-        <Link href="/">Go back home</Link>
+        <Link href="/">Take me home</Link>
       </Button>
     </div>
   )
