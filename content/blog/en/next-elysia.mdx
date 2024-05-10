@@ -141,111 +141,64 @@ export const app = new Elysia({ prefix: '/api/elysia' })
 
 ## Fontend
 
-Now, use your api endpoint with `swr` and `@elysiajs/eden` for example:
 
 > In this example, i'm use `api.post` for post route
 
-Create hook for post to get all post, create post and delete post
+```tsx title="components/delete-post.tsx"
+'use client'
 
-```ts title="lib/hooks/post.ts"
-import useSWR from 'swr'
-import useSWRMutation from 'swr/mutation'
+import { XIcon } from 'lucide-react'
 
+import { Button } from '@/components/ui/button'
 import { api } from '@/lib/api'
+import { revalidate } from '@/lib/revalidate'
 
-export const usePost = () => {
-  const {
-    data: posts,
-    error: getError,
-    isLoading,
-    mutate,
-  } = useSWR('posts', async () => {
-    const { data, error } = await api.post.getAll.get()
-    if (error) throw error.value
-    return data
-  })
-
-  const {
-    trigger: create,
-    isMutating,
-    error: createError,
-  } = useSWRMutation<unknown, Error, string, FormData>('createPost', async (_, { arg }) => {
-    const content = String(arg.get('content'))
-    const { data, error } = await api.post.create.post({ content })
-    if (error) throw error.value
-    mutate()
-    return data
-  })
-
-  const { trigger: del } = useSWRMutation<unknown, Error, string, { id: string }>(
-    'deletePost',
-    async (_, { arg: { id } }) => {
-      const { data, error } = await api.post.del.delete({ id })
-      if (error) throw error.value
-      mutate()
-      return data
-    },
-  )
-
-  return {
-    /* get posts */
-    posts,
-    getError,
-    isLoading,
-
-    /* create post */
-    create,
-    isMutating,
-    createError,
-
-    /* delete post */
-    del,
+export const DeletePost: React.FC<{ postId: string }> = ({ postId }) => {
+  const handleClick = async () => {
+    await api.post.del.delete({ id: postId })
+    revalidate('posts')
   }
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      className="absolute right-2 top-2 z-10"
+      onClick={handleClick}
+    >
+      <XIcon size={24} />
+    </Button>
+  )
 }
 ```
 
-Then, use it in your app
-
 ```tsx title="components/post-list.tsx"
-'use client'
 
-import { Loader2Icon, XIcon } from 'lucide-react'
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { api } from '@/lib/api'
+import { DeletePost } from './delete-post'
 
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { usePost } from '@/lib/hooks'
-import { Button } from '@/components/ui/button'
+export const PostList: React.FC<{ userId?: string }> = async ({ userId }) => {
+  const { data, error } = await api.post.getAll.get({ fetch: { next: { tags: ['posts'] } } })
 
-export const PostList: React.FC<{ user?: string }> = ({ user }) => {
-  const { posts, isLoading, getError, del } = usePost()
-
-  if (isLoading) return <Loader2Icon className="mx-auto animate-spin" />
-  if (getError || !posts)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    return <p className="text-center text-destructive">Error: {getError?.message}</p>
+  if (error || !data) return <div>{error.value.message ?? 'Unknow error'}</div>
 
   return (
-    <section className="mx-auto mb-4 max-w-screen-md space-y-4">
-      {posts.map((post) => (
+    <div className="container mb-4 max-w-screen-md space-y-4">
+      {data.map((post) => (
         <Card key={post.id}>
-          {post.author.id === user && (
-            <Button
-              onClick={() => del({ id: post.id })}
-              className="absolute right-2 top-2 z-10"
-              variant="ghost"
-              size="icon"
-            >
-              <XIcon />
-            </Button>
-          )}
+          {userId === post.author.id && <DeletePost postId={post.id} />}
           <CardHeader>
             <CardDescription>{post.author.name}</CardDescription>
-            <CardTitle>{post.content}</CardTitle>
           </CardHeader>
+          <CardFooter>
+            <CardTitle>{post.content}</CardTitle>
+          </CardFooter>
         </Card>
       ))}
-    </section>
+    </div>
   )
 }
+
 ```
 
 Create a form to create post
@@ -253,36 +206,36 @@ Create a form to create post
 ```tsx title="components/create-post.tsx"
 'use client'
 
+import { useRef, useTransition } from 'react'
+import { toast } from 'sonner'
 import { SendHorizonalIcon } from 'lucide-react'
-import { useRef } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { Card, CardFooter, CardHeader } from '@/components/ui/card'
 import { FormField } from '@/components/ui/form-field'
-import { usePost } from '@/lib/hooks'
+import { api } from '@/lib/api'
+import { revalidate } from '@/lib/revalidate'
 
 export const CreatePost: React.FC = () => {
-  const { create, isMutating, createError } = usePost()
   const formRef = useRef<HTMLFormElement>(null)
-
-  const action = (fd: FormData) => {
-    create(fd)
-    formRef.current?.reset()
-  }
+  const [isPending, startTransition] = useTransition()
+  const action = (fd: FormData) =>
+    startTransition(async () => {
+      const { error } = await api.post.create.post({ content: String(fd.get('content')) })
+      if (error) toast.error(error.value.message ?? 'Unknow error')
+      else revalidate('posts')
+      formRef.current?.reset()
+    })
   return (
-    <Card className="mx-auto mb-4 max-w-screen-md">
-      <form ref={formRef} action={action}>
-        <CardHeader className="flex-row items-center gap-2 space-y-0">
-          <FormField name="content" placeholder="What are you thinking?" className="flex-grow" />
-          <Button variant="ghost" size="icon" isLoading={isMutating}>
-            <SendHorizonalIcon />
-          </Button>
-        </CardHeader>
-        <CardFooter>
-          {createError && <p className="text-destructive">{createError.fieldErrors?.content}</p>}
-        </CardFooter>
-      </form>
-    </Card>
+    <form
+      ref={formRef}
+      action={action}
+      className="container mb-4 flex max-w-screen-md items-center gap-4"
+    >
+      <FormField name="content" placeholder="What's on your mind?" className="w-full" />
+      <Button variant="ghost" size="icon" isLoading={isPending}>
+        <SendHorizonalIcon />
+      </Button>
+    </form>
   )
 }
 ```
@@ -297,102 +250,14 @@ import { PostList } from '@/components/post-list'
 import { CreatePost } from '@/components/create-post'
 
 const Page: NextPage = async () => {
-  const { user } = await auth()
+  const session = await auth()
 
   return (
     <main className="container">
-      {user && <CreatePost />}
-      <PostList userId={user.id} />
+      {session && session.user && <CreatePost />}
+      <PostList userId={session.user?.id} />
     </main>
   )
-}
-```
-
-### Notes
-
-1. `trigger` function form `swr/mutation` will make `isMutating` state always `false` if you use it in `async` function or `promise` function, so you should use it in normal function
-
-```ts
-const action = () => trigger() // not work
-
-const action = async () => {
-  await trigger() // not work
-}
-
-const action = () => {
-  trigger() // work
-}
-```
-
-2. If you want to use `api` in `react server component` with protected route, you should manully pass `cookie` to `headers` option in your api call. This is the example:
-
-```tsx title="app/server/page.tsx"
-import type { NextPage } from 'next'
-import { cookies } from 'next/headers'
-
-import { Button } from '@/components/ui/button'
-import { FormField } from '@/components/ui/form-field'
-
-const Page: NextPage = () => {
-  const create = async (formData: FormData) => {
-    'use server'
-    const content = String(formData.get('content'))
-    await api.post.create.post({ content }, { headers: { Cookie: cookies().toString() } })
-    revalidatePath('/server')
-  }
-  return (
-    <form action={create} className="space-y-4">
-      <FormField name="content" label="Content" />
-      <Button type="submit" className="w-full">
-        Create Post
-      </Button>
-    </form>
-  )
-}
-```
-
-> Note: I don't know why this only work in local but not in deployed app on Vercel
-
-3. Middleware example:
-
-```ts title="middleware.ts"
-import { NextRequest, NextResponse } from 'next/server'
-
-export const middleware = async (req: NextRequest) => {
-  const session = req.cookies.get('auth_session')
-  if (!session) return NextResponse.redirect(new URL('/auth/login', req.url))
-}
-
-export const config = {
-  matcher: ['/server'],
-}
-```
-
-> If you want to use role-based middleware, you should pass `user` to cookie in sign in route and pass it to `middleware` function
-
-```ts title="server/routes/user.route.ts"
-/* ... */
-  .post(
-    '/sign-in',
-    async ({ body: { email, password }, error }) => {
-      /* ... */
-      cookies().set('role', user.role, options)
-      /* ... */
-      return { message: 'User signed in successfully' }
-    },
-    { body: 'signIn' },
-  )
-/* ... */
-```
-
-```ts title="middleware.ts"
-export const middleware = async (req: NextRequest) => {
-  /* ... */
-  const role = req.cookies.get('role')
-  if (/* check role */) {
-    /* do something */
-  }
-  /* ... */
 }
 ```
 
