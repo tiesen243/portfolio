@@ -12,15 +12,9 @@ export const viewport = siteConfig.viewport
 
 const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
   <html lang="en" suppressHydrationWarning>
-    <body
-      className={cn(
-        'flex min-h-dvh flex-col gap-4 bg-background font-sans text-foreground antialiased',
-        fonts,
-      )}
-    >
+    <body className={cn('font-sans', fonts)}>
       <main className="container flex-grow">{children}</main>
       <Footer />
-
       <SpeedInsights />
       <Analytics />
     </body>
