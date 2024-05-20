@@ -9,7 +9,6 @@ export default {
   },
   experimental: {
     serverComponentsExternalPackages: ['shiki'],
-    typedRoutes: true,
   },
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },

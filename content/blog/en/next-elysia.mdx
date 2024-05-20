@@ -2,7 +2,7 @@
 title: Next.js x Elysia Starter Kit
 description: Create a full-stack application with Next.js and ElysiaJS in minutes
 image: /images/blog/next-elysia.png
-date: 2024-05-10 
+date: 2024-05-10
 tags:
   - nextjs
   - elysiajs
@@ -140,7 +140,6 @@ export const app = new Elysia({ prefix: '/api/elysia' })
 
 ## Fontend
 
-
 > In this example, i'm use `api.post` for post route
 
 ```tsx title="components/delete-post.tsx"
@@ -171,7 +170,6 @@ export const DeletePost: React.FC<{ postId: string }> = ({ postId }) => {
 ```
 
 ```tsx title="components/post-list.tsx"
-
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { api } from '@/lib/api'
 import { DeletePost } from './delete-post'
@@ -197,7 +195,6 @@ export const PostList: React.FC<{ userId?: string }> = async ({ userId }) => {
     </div>
   )
 }
-
 ```
 
 Create a form to create post
@@ -260,7 +257,7 @@ const Page: NextPage = async () => {
 }
 ```
 
-## Notes: 
+## Notes:
 
 If you want to use `middleware`:
 
