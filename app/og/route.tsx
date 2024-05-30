@@ -25,14 +25,14 @@ export const GET = async (_: NextRequest, { params }: Props): Promise<ImageRespo
   return new ImageResponse(
     (
       <div
-        tw="flex flex-col gap-4 w-full h-full text-white p-20 justify-center bg-black"
+        tw="flex flex-col gap-4 w-full h-full text-white p-20 items-center justify-center bg-black"
         style={dotBg}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="https://raw.githubusercontent.com/tiesen243/portfolio/main/public/images/tiesen.png"
+          src="https://raw.githubusercontent.com/tiesen243/portfolio/main/public/imgs/tiesen.png"
           alt="Tiesen"
-          tw="w-3/4 mx-auto aspect-video"
+          tw="w-3/4 aspect-video"
         />
 
         <div tw="flex flex-col items-start w-full">
