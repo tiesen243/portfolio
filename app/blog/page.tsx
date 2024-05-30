@@ -1,9 +1,18 @@
-import type { NextPage } from 'next'
+import type { Metadata, NextPage } from 'next'
 
 import { PostCard } from '@/components/post-card'
-import { getPosts } from '@/contents'
-import { Breadcrumbs } from '@/components/ui/breadcrumbs'
 import { ScrollToTop } from '@/components/scroll-to-top'
+import { Breadcrumbs } from '@/components/ui/breadcrumbs'
+import { getPosts } from '@/contents'
+import { baseUrl } from '@/lib/site'
+
+const description = 'A collection of blog posts on various topics.'
+export const metadata: Metadata = {
+  title: 'Blog',
+  description,
+  openGraph: { images: `/og?title=Blog&desc=${description}`, url: `${baseUrl}/blog` },
+  alternates: { canonical: `${baseUrl}/blog` },
+}
 
 const Page: NextPage = async () => {
   const posts = await getPosts()
