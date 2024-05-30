@@ -1,6 +1,6 @@
-![logo](./public/imgs/tiesen.png)
-
 ## My Portfolio Website
+
+![logo](./public/imgs/tiesen.png)
 
 ## Getting Started
 
