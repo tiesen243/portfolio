@@ -1,27 +1,25 @@
 import type { Config } from 'tailwindcss'
 import { fontFamily } from 'tailwindcss/defaultTheme'
 
-/* Plugins */
 import animate from 'tailwindcss-animate'
 
 const config = {
   darkMode: ['class'],
-  content: ['./components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}', './content/**/*.{md,mdx,tsx}'],
+  content: ['./components/**/*.tsx', './app/**/*.tsx', './contents/**/*.{md,mdx}'],
   prefix: '',
   theme: {
     container: {
       center: true,
       padding: '2rem',
-      screens: {
-        '2xl': '1400px',
-      },
+      screens: { '2xl': '1400px' },
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-geist-sans)', ...fontFamily.sans],
-        mono: ['var(--font-geist-mono)', ...fontFamily.mono],
+        sans: ['var(--font-sans)', ...fontFamily.sans],
+        mono: ['var(--font-mono)', ...fontFamily.mono],
       },
       colors: {
+        code: 'hsl(var(--code))',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -62,8 +60,9 @@ const config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       backgroundImage: {
-        'gradient-yuki': 'linear-gradient(135deg, var(--from), var(--to))',
+        yuki: 'linear-gradient(135deg, var(--from), var(--to))',
       },
+
       keyframes: {
         'accordion-down': {
           from: { height: '0' },

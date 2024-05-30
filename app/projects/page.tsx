@@ -1,38 +1,30 @@
 import type { Metadata, NextPage } from 'next'
-
-import { type Project, ProjectCard } from '@/components/project-card'
-import { BreadCrumbs } from '@/components/ui/breadcrumb'
 import Image from 'next/image'
+
+import { ProjectCard } from '@/components/project-card'
 import { ScrollToTop } from '@/components/scroll-to-top'
+import { Breadcrumbs } from '@/components/ui/breadcrumbs'
+import { getProjects } from '@/lib/actions'
 import { baseUrl } from '@/lib/site'
 
-const desc =
+const description =
   'A showcase of my projects and works. I love to build things that make a difference. Check out my projects!'
 export const metadata: Metadata = {
   title: 'Projects',
-  description: desc,
-  openGraph: { images: `/og?title=Projects&desc=${desc}`, url: `${baseUrl}/projects` },
+  description,
+  openGraph: { images: `/og?title=Projects&desc=${description}`, url: `${baseUrl}/projects` },
   alternates: { canonical: `${baseUrl}/projects` },
 }
 
 const Page: NextPage = async () => {
-  const projects: Project[] = await fetch(process.env.PROJECTS_URL!, {
-    headers: { authorization: process.env.GITHUB_TOKEN! },
-    next: { revalidate: 60 * 60 },
-  })
-    .then((res) => res.json())
-    .then((p: Project[]) => p.filter((p) => p.topics.includes('showcase')))
-    .then((p) =>
-      p.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()),
-    )
-    .catch((_e) => [])
+  const projects = await getProjects()
 
   return (
     <>
-      <BreadCrumbs
+      <Breadcrumbs
         items={[
-          { name: '~', href: '/#about' },
-          { name: 'Projects', href: '/projects' },
+          { label: '~', href: '/#about' },
+          { label: 'Projects', href: '/projects' },
         ]}
       />
 
@@ -42,11 +34,13 @@ const Page: NextPage = async () => {
         ))}
       </section>
 
+      <hr className="my-4" />
+
       <section className="mt-4 space-y-4">
         {Array.from({ length: 5 }).map((_, i) => (
           <Image
             key={i}
-            src={`/images/design/${i + 1}.png`}
+            src={`/imgs/design/${i + 1}.png`}
             alt={`Design ${i + 1}`}
             className="rounded-lg object-cover shadow-lg"
             width={1920}

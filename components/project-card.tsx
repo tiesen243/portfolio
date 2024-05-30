@@ -52,7 +52,6 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
       <card.CardTitle className="capitalize">{project.name.replace(/-/g, ' ')}</card.CardTitle>
       <card.CardDescription>{new Date(project.created_at).toDateString()}</card.CardDescription>
       <card.CardDescription>Language: {project.language}</card.CardDescription>
-      <card.CardDescription className="line-clamp-1">{project.description}</card.CardDescription>
     </card.CardContent>
 
     <card.CardFooter className="topics mx-6 flex flex-nowrap gap-1 overflow-x-auto whitespace-nowrap px-0">

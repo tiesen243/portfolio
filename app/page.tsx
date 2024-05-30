@@ -1,14 +1,14 @@
 import type { NextPage } from 'next'
 
-import { About } from '@/components/about'
-import { Contact } from '@/components/contact'
-import { Home } from '@/components/home'
+import { AboutSection } from '@/components/landing/about-section'
+import { ContactSection } from '@/components/landing/contact-section'
+import { HomeSection } from '@/components/landing/home-section'
 
 const Page: NextPage = () => (
   <>
-    <Home />
-    <About />
-    <Contact />
+    <HomeSection />
+    <AboutSection />
+    <ContactSection />
   </>
 )
 

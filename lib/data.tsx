@@ -11,13 +11,15 @@ export const education = [
   },
 ]
 
+export const experiences = []
+
 export const skills = [
   'TypeScript',
   'Next.js',
   'TailwindCSS',
   'ElysiaJS',
-  'tRPC',
   'Prisma',
+  'MongoDB',
   'Python',
   'Numpy',
   'Pandas',
@@ -34,8 +36,8 @@ export const hobbies = [
 
 export interface Icon {
   label: string
-  color?: string
   icon: (props: LucideProps) => JSX.Element
+  color: string
 }
 
 export const softwares: Icon[] = [
@@ -71,6 +73,7 @@ export const softwares: Icon[] = [
   },
   {
     label: 'GitHub',
+    color: '#000',
     icon: (props: LucideProps) => (
       <svg {...props} role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <title>GitHub</title>
@@ -244,6 +247,7 @@ export const libraries: Icon[] = [
   },
   {
     label: 'Next.js',
+    color: '#000',
     icon: (props: LucideProps) => (
       <svg {...props} role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <title>Next.js</title>
@@ -273,20 +277,11 @@ export const libraries: Icon[] = [
   },
   {
     label: 'Shadcn/UI',
+    color: '#000',
     icon: (props: LucideProps) => (
       <svg {...props} role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <title>shadcn/ui</title>
         <path d="M22.219 11.784 11.784 22.219c-.407.407-.407 1.068 0 1.476.407.407 1.068.407 1.476 0L23.695 13.26c.407-.408.407-1.069 0-1.476-.408-.407-1.069-.407-1.476 0ZM20.132.305.305 20.132c-.407.407-.407 1.068 0 1.476.408.407 1.069.407 1.476 0L21.608 1.781c.407-.407.407-1.068 0-1.476-.408-.407-1.069-.407-1.476 0Z" />
-      </svg>
-    ),
-  },
-  {
-    label: 'tRPC',
-    color: '#2596BE',
-    icon: (props: LucideProps) => (
-      <svg {...props} role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <title>tRPC</title>
-        <path d="M24 12c0 6.62-5.38 12-12 12S0 18.62 0 12 5.38 0 12 0s12 5.38 12 12ZM1.21 12A10.78 10.78 0 0 0 12 22.79 10.78 10.78 0 0 0 22.79 12 10.78 10.78 0 0 0 12 1.21 10.78 10.78 0 0 0 1.21 12Zm10.915-6.086 2.162 1.248a.25.25 0 0 1 .125.217v1.103l2.473 1.428a.25.25 0 0 1 .125.217v2.355l.955.551a.25.25 0 0 1 .125.217v2.496a.25.25 0 0 1-.125.217l-2.162 1.248a.25.25 0 0 1-.25 0l-.956-.552-2.472 1.427a.25.25 0 0 1-.25 0l-2.472-1.427-.956.552a.25.25 0 0 1-.25 0l-2.162-1.248a.25.25 0 0 1-.125-.217V13.25a.25.25 0 0 1 .125-.217l.955-.551v-2.355a.25.25 0 0 1 .125-.217l2.473-1.428V7.38a.25.25 0 0 1 .125-.217l2.162-1.248a.25.25 0 0 1 .25 0Zm1.268 10.049a.25.25 0 0 1-.125-.217V13.25a.25.25 0 0 1 .125-.217l2.16-1.248a.25.25 0 0 1 .25 0l.707.408v-1.922l-2.098-1.21v.814a.25.25 0 0 1-.125.217l-2.162 1.248a.25.25 0 0 1-.25 0l-2.162-1.248a.25.25 0 0 1-.125-.217V9.06L7.49 10.271v1.922l.707-.408a.25.25 0 0 1 .25 0l2.16 1.248a.25.25 0 0 1 .125.217v2.496a.25.25 0 0 1-.125.217l-.705.408L12 17.582l2.098-1.211ZM10.088 9.73l1.662.96V8.766l-1.662-.955Zm3.824 0V7.811l-1.662.955v1.924ZM12 6.418l-1.66.96 1.66.954 1.66-.954Zm-5.59 9.184 1.66.958v-1.921l-1.66-.956Zm3.822 0v-1.92l-1.662.957v1.923Zm-1.91-3.311-1.662.96 1.661.955 1.66-.956Zm5.446 3.31 1.66.96v-1.922l-1.66-.956Zm3.822 0v-1.918l-1.662.956v1.922Zm-1.912-3.31-1.66.96 1.66.955 1.66-.956Z" />
       </svg>
     ),
   },
@@ -784,6 +779,7 @@ export const libraries: Icon[] = [
   },
   {
     label: 'Markdown',
+    color: '#000',
     icon: (props: LucideProps) => (
       <svg {...props} role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <title>Markdown</title>

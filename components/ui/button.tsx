@@ -34,21 +34,21 @@ const buttonVariants = cva(
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  asChild?: boolean
   isLoading?: boolean
+  asChild?: boolean
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ children, className, variant, size, asChild = false, isLoading = false, ...props }, ref) => {
+  ({ className, variant, size, isLoading = false, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button'
     return (
       <Comp
-        {...props}
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
-        disabled={isLoading || props.disabled}
+        disabled={isLoading}
+        {...props}
       >
-        {isLoading ? <Loader2Icon className="animate-spin" /> : children}
+        {isLoading ? <Loader2Icon className="animate-spin" /> : props.children}
       </Comp>
     )
   },

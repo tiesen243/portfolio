@@ -1,22 +1,19 @@
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/react'
+import { ThemeProvider } from 'next-themes'
 
-import Footer from '@/components/footer'
-import { fonts } from '@/lib/fonts'
+import { Footer } from '@/components/footer'
+import { font } from '@/lib/fonts'
 import { siteConfig } from '@/lib/site'
-import { cn } from '@/lib/utils'
 import './globals.css'
 
 export const metadata = siteConfig.meta
-export const viewport = siteConfig.viewport
 
 const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <html lang="en" suppressHydrationWarning>
-    <body className={cn('font-sans', fonts)}>
-      <main className="container flex-grow">{children}</main>
-      <Footer />
-      <SpeedInsights />
-      <Analytics />
+  <html lang="en" className="dark" suppressHydrationWarning>
+    <body className={`${font} flex flex-col gap-4`}>
+      <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
+        <main className="container flex-1">{children}</main>
+        <Footer />
+      </ThemeProvider>
     </body>
   </html>
 )

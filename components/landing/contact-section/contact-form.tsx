@@ -1,0 +1,97 @@
+'use client'
+
+import { useState, useTransition } from 'react'
+
+import { Button } from '@/components/ui/button'
+import * as card from '@/components/ui/card'
+import { siteConfig } from '@/lib/site'
+import { sendEmail } from '@/lib/actions'
+
+export const ContactForm: React.FC = () => {
+  const [isPending, startTransition] = useTransition()
+  const [state, setState] = useState<{
+    message?: string
+    success: boolean
+    error?: Record<string, string>
+  }>({ message: '', success: false, error: {} })
+
+  const send = (e: React.FormEvent<HTMLFormElement>) =>
+    startTransition(async () => {
+      const form = e.currentTarget
+      e.preventDefault()
+      const res = await sendEmail(new FormData(form))
+      setState(res)
+      form.reset()
+    })
+
+  return (
+    <card.Card className="grid grid-cols-1 border md:grid-cols-2">
+      <card.CardHeader className="flex-col items-start">
+        <card.CardTitle className="text-2xl font-bold">
+          Let&apos;s work together! <span className="text-primary">👋</span>
+        </card.CardTitle>
+
+        <card.CardDescription className="mt-8">
+          I&apos;m currently open to new opportunities, my inbox is always open. Whether you have a
+          question or just want to say hi, I&apos;ll try my best to get back to you!
+          <br /> Send me a message using the form below or directly at{' '}
+          <a
+            href={`mailto:${siteConfig.email}`}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="underline-offset-4 hover:underline"
+          >
+            {siteConfig.email}
+          </a>
+          .
+        </card.CardDescription>
+      </card.CardHeader>
+
+      <form className="mt-8" onSubmit={send}>
+        <card.CardContent id="contact-form" className="space-y-4">
+          <div>
+            <input
+              name="email"
+              type="email"
+              placeholder="yuki@gmail.com"
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            />
+            <span className="text-destructive">{state.error?.reply_to}</span>
+          </div>
+
+          <div>
+            <input
+              name="subject"
+              placeholder="What's do you want to talk about?"
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            />
+            <span className="text-destructive">{state.error?.subject}</span>
+          </div>
+
+          <div>
+            <textarea
+              name="message"
+              placeholder="Write your message here..."
+              className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            />
+            <span className="text-destructive">{state.error?.message}</span>
+          </div>
+
+          <input type="hidden" name="target" value={siteConfig.email} />
+        </card.CardContent>
+
+        <card.CardFooter className="flex-col items-start gap-4">
+          {state.message && (
+            <p className={state.success ? 'text-foreground' : 'text-destructive'}>
+              {state.message}
+            </p>
+          )}
+
+          <Button type="submit" className="w-full" isLoading={isPending}>
+            Send
+          </Button>
+        </card.CardFooter>
+      </form>
+    </card.Card>
+  )
+}
