@@ -19,7 +19,6 @@ const config = {
         mono: ['var(--font-mono)', ...fontFamily.mono],
       },
       colors: {
-        code: 'hsl(var(--code))',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

@@ -32,7 +32,7 @@ export function Codeblock(props: CodeblockProps) {
         aria-label="Copy to Clipboard"
         data-theme={theme}
         onClick={copyToClipboard}
-        className="absolute right-2 top-2 z-20 h-8 w-8 cursor-pointer text-white"
+        className="absolute right-2 top-2 z-20 h-8 w-8 cursor-pointer text-primary"
       >
         <div className="relative h-full w-full p-1">
           <Copy className={cn('absolute h-6 w-6 p-0 transition-all', copied && 'scale-0')} />
@@ -41,7 +41,8 @@ export function Codeblock(props: CodeblockProps) {
           />
         </div>
       </button>
-      <pre ref={ref} className="overflow-x-auto rounded-lg p-4" {...rest}>
+
+      <pre ref={ref} className="overflow-x-auto rounded-b-lg p-4" {...rest}>
         {children}
       </pre>
     </>

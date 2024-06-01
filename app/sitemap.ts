@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 
 import { baseUrl } from '@/lib/site'
-import { getPosts } from '@/contents'
+import { getPosts } from '@/content'
 
 interface Route {
   url: string

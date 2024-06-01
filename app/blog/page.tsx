@@ -3,7 +3,7 @@ import type { Metadata, NextPage } from 'next'
 import { PostCard } from '@/components/post-card'
 import { ScrollToTop } from '@/components/scroll-to-top'
 import { Breadcrumbs } from '@/components/ui/breadcrumbs'
-import { getPosts } from '@/contents'
+import { getPosts } from '@/content'
 import { baseUrl } from '@/lib/site'
 
 const description = 'A collection of blog posts on various topics.'

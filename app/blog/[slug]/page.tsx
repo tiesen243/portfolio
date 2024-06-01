@@ -3,7 +3,7 @@ import type { Metadata, NextPage, ResolvingMetadata } from 'next'
 import { PostHeader } from '@/components/post-header'
 import { ScrollToTop } from '@/components/scroll-to-top'
 import { Breadcrumbs } from '@/components/ui/breadcrumbs'
-import { getPost, getPosts } from '@/contents'
+import { getPost, getPosts } from '@/content'
 import { baseUrl } from '@/lib/site'
 
 interface Props {

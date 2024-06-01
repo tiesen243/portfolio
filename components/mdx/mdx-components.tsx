@@ -57,9 +57,17 @@ export const MDXComponents = (): TMDXComponents => {
       />
     ),
 
-    figure: (props) => <figure {...props} className="my-4 rounded-lg bg-code shadow-lg" />,
+    figure: (props) => (
+      <figure
+        {...props}
+        className="my-4 rounded-lg border [&:not(:has(figcaption))>pre]:rounded-t-lg"
+      />
+    ),
     figcaption: (props) => (
-      <figcaption {...props} className="rounded-t-lg bg-gray-900 p-2 font-medium text-white" />
+      <figcaption
+        {...props}
+        className="rounded-t-lg bg-secondary p-2 font-medium text-secondary-foreground"
+      />
     ),
     pre: (props) => <Codeblock {...props} />,
     code: (props) => (

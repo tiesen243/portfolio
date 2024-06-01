@@ -21,14 +21,19 @@ const root = process.cwd()
 const revalidate = 1
 
 export const getPost = async (slug: string) => {
-  const source = fs.readFileSync(`${root}/contents/posts/${slug}.mdx`, 'utf8').toString()
+  const source = fs.readFileSync(`${root}/content/posts/${slug}.mdx`, 'utf8').toString()
   const { frontmatter, content } = await compileMDX<Post['meta']>({
     source,
     options: {
       parseFrontmatter: true,
       mdxOptions: {
         remarkPlugins: [],
-        rehypePlugins: [[rehypePrettyCode, { theme: 'dracula' }]],
+        rehypePlugins: [
+          [
+            rehypePrettyCode,
+            { theme: { light: 'github-light-default', dark: 'github-dark-default' }, grid: true },
+          ],
+        ],
       },
     },
     components: MDXComponents(),
@@ -39,7 +44,7 @@ export const getPost = async (slug: string) => {
 
 export const getPosts = cache(
   async () => {
-    const files = fs.readdirSync(`${root}/contents/posts`)
+    const files = fs.readdirSync(`${root}/content/posts`)
     const posts = await Promise.all(
       files.map(async (file) => {
         const slug = file.replace(/\.mdx$/, '')
