@@ -13,12 +13,13 @@ export const baseUrl =
   process.env.NODE_ENV === 'production' ? 'https://tiesen.id.vn' : 'http://localhost:3000'
 
 export const description =
-  "I'm a weeb developer who loves to build things. I enjoy working with TypeScript, Next.js, and ElysiaJS. I'm also a fan of anime, manga, and light novels."
+  "I'm a weeb developer who loves to build many stuff. I enjoy working with TypeScript, Next.js, and ElysiaJS. I'm also a fan of anime, manga, and light novels."
 
 interface SiteConfig {
   meta: Metadata
   viewport: Viewport
   email: string
+  cv: string
   socials: { label: string; href: string; icon: LucideIcon }[]
   navLinks: { label: string; url: string }[]
 }
@@ -61,6 +62,7 @@ export const siteConfig: SiteConfig = {
     userScalable: false,
   },
   email: 'ttien56906@gmail.com',
+  cv: 'https://cv.viblo.asia/preview-cv/ffadfe47-0926-484a-81a2-3186f2601416',
 
   socials: [
     {

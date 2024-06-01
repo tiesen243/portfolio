@@ -5,7 +5,7 @@ import type { Project } from '@/components/project-card'
 export const getProjects = async () => {
   const projects: Project[] = await fetch(process.env.PROJECTS_URL!, {
     headers: { authorization: process.env.GITHUB_TOKEN! },
-    next: { revalidate: 60 * 60 },
+    next: { revalidate: 1 },
   })
     .then((res) => res.json())
     .then((p: Project[]) => p.filter((p) => p.topics.includes('showcase')))

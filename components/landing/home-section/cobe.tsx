@@ -8,7 +8,7 @@ export const Cobe: React.FC = () => {
 
   useEffect(() => {
     let phi = 0
-    const size = window.innerWidth > 768 ? 1000 : 520
+    const size = window.innerWidth > 1024 ? 1000 : 500
 
     const globe = createGlobe(canvasRef.current!, {
       devicePixelRatio: 2,
@@ -24,7 +24,7 @@ export const Cobe: React.FC = () => {
       baseColor: [0.3, 0.3, 0.3],
       markerColor: [0.1, 0.8, 1],
       glowColor: [1, 1, 1],
-      markers: [{ location: [10.796307, 106.693962], size: 0.02 }],
+      markers: [{ location: [10.796307, 106.693962], size: 0.04 }],
       onRender: (state) => {
         state.phi = phi
         phi += 0.01
@@ -38,7 +38,7 @@ export const Cobe: React.FC = () => {
 
   return (
     <div className="grid h-dvh w-full place-items-center">
-      <canvas ref={canvasRef} className="aspect-square size-[520px] max-w-full md:size-[1000px]" />
+      <canvas ref={canvasRef} className={`aspect-square size-[500px] lg:size-[1000px]`} />
     </div>
   )
 }
