@@ -31,7 +31,10 @@ export const getPost = async (slug: string) => {
         rehypePlugins: [
           [
             rehypePrettyCode,
-            { theme: { light: 'github-light-default', dark: 'github-dark-default' }, grid: true },
+            {
+              theme: { light: 'github-light-default', dark: 'github-dark-default' },
+              keepBackground: false,
+            },
           ],
         ],
       },
