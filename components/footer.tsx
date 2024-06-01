@@ -33,7 +33,7 @@ export const Footer: React.FC = () => (
     <hr className="my-4" />
     <div className="container">
       <p className="text-center">
-        &copy; CopyRight {new Date().getFullYear()} | Tiesen. All rights reserved.
+        &copy; Copyright {new Date().getFullYear()} | Tiesen. All rights reserved.
       </p>
     </div>
   </footer>

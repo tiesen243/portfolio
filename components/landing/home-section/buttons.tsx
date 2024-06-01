@@ -12,9 +12,7 @@ export const Buttons: React.FC = () => (
       className="animate-shimmer bg-[linear-gradient(110deg,var(--from),45%,var(--to),55%,var(--from))] bg-[length:200%_100%]"
       asChild
     >
-      <Link href="/cv.pdf" target="_blank" rel="noopener noreferrer">
-        My CV
-      </Link>
+      <Link href="/cv">My CV</Link>
     </Button>
   </div>
 )
