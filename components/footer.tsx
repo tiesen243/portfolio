@@ -11,7 +11,7 @@ export const Footer: React.FC = () => (
         <div className="flex h-fit items-center gap-2">
           <div className="rounded-lg border bg-background p-2">
             <div className="size-6">
-              <Image src="/imgs/logo.svg" alt="logo" className="invert" fill />
+              <Image src="/imgs/logo.svg" alt="logo" className="dark:invert" fill />
             </div>
           </div>
 
