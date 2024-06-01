@@ -19,7 +19,6 @@ interface SiteConfig {
   meta: Metadata
   viewport: Viewport
   email: string
-  cv: string
   socials: { label: string; href: string; icon: LucideIcon }[]
   navLinks: { label: string; url: string }[]
 }
@@ -61,8 +60,8 @@ export const siteConfig: SiteConfig = {
     maximumScale: 1,
     userScalable: false,
   },
+
   email: 'ttien56906@gmail.com',
-  cv: 'https://cv.viblo.asia/preview-cv/ffadfe47-0926-484a-81a2-3186f2601416',
 
   socials: [
     {
