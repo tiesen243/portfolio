@@ -37,7 +37,7 @@ export const siteConfig: SiteConfig = {
       locale: 'vi_VN',
       url: baseUrl,
       siteName: 'Tiesen',
-      images: `/og?title=Welcome to my portfolio&desc=${description}`,
+      images: `/api/og?title=Welcome to my portfolio&desc=${description}`,
     },
     twitter: {
       card: 'summary_large_image',

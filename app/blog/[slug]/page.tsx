@@ -32,6 +32,10 @@ export const generateMetadata = async (
 
 const Page: NextPage<Props> = async ({ params }) => {
   const { meta, content } = await getPost(params.slug)
+  const view = await fetch(`${baseUrl}/api/view-count/${params.slug}?theme=no`, {
+    cache: 'no-store',
+  }).then((res) => res.text())
+
   return (
     <>
       <Breadcrumbs
@@ -43,7 +47,7 @@ const Page: NextPage<Props> = async ({ params }) => {
       />
 
       <article>
-        <PostHeader meta={meta} />
+        <PostHeader meta={meta} view={view} />
 
         <hr className="my-4" />
 
