@@ -59,3 +59,13 @@ export const sendEmail = async (formData: FormData) => {
     else return { success: false, message: 'An error occurred', error: {} }
   }
 }
+
+export const getViews = async (slug: string) => {
+  const views = await fetch(`${process.env.API}/api/view-count/${slug}?theme=no`, {
+    cache: 'no-store',
+  })
+    .then((res) => res.text())
+    .catch((_e) => '0')
+
+  return views
+}

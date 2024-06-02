@@ -2,13 +2,14 @@ import Image from 'next/image'
 
 import { Badge } from '@/components/ui/badge'
 import type { Post } from '@/content'
+import { View } from './view'
 
-export const PostHeader: React.FC<{ meta: Post['meta']; view: string }> = ({ meta, view }) => (
+export const PostHeader: React.FC<{ meta: Post['meta']; slug: string }> = ({ meta, slug }) => (
   <>
     <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight md:text-6xl">{meta.title}</h1>
 
     <p className="my-4 text-sm text-muted-foreground">
-      {new Date(meta.date).toDateString()} • {view} views
+      {new Date(meta.date).toDateString()} • <View slug={slug} />
     </p>
     <p>{meta.description}</p>
 
