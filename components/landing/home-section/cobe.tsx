@@ -37,7 +37,7 @@ export const Cobe: React.FC = () => {
   }, [])
 
   return (
-    <div className="absolute inset-0 hidden h-full w-full place-items-center dark:grid">
+    <div className="invisible absolute inset-0 grid h-full w-full place-items-center dark:visible">
       <canvas ref={canvasRef} className="size-[500px] md:size-[700px] lg:size-[1000px]" />
     </div>
   )
