@@ -1,11 +1,11 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 
 import { Button } from '@/components/ui/button'
 import * as card from '@/components/ui/card'
-import { siteConfig } from '@/lib/site'
 import { sendEmail } from '@/lib/actions'
+import { siteConfig } from '@/lib/site'
 
 export const ContactForm: React.FC = () => {
   const [isPending, startTransition] = useTransition()
@@ -21,8 +21,15 @@ export const ContactForm: React.FC = () => {
       e.preventDefault()
       const res = await sendEmail(new FormData(form))
       setState(res)
-      form.reset()
+      if (res.success) form.reset()
     })
+
+  useEffect(() => {
+    if (state.success) {
+      const timer = setTimeout(() => setState({ ...state, success: false }), 2000)
+      return () => clearTimeout(timer)
+    }
+  }, [state])
 
   return (
     <card.Card className="grid grid-cols-1 border md:grid-cols-2">
@@ -81,14 +88,8 @@ export const ContactForm: React.FC = () => {
         </card.CardContent>
 
         <card.CardFooter className="flex-col items-start gap-4">
-          {state.message && (
-            <p className={state.success ? 'text-foreground' : 'text-destructive'}>
-              {state.message}
-            </p>
-          )}
-
           <Button type="submit" className="w-full" isLoading={isPending}>
-            Send
+            {state.success ? 'Email sent!' : 'Send Message'}
           </Button>
         </card.CardFooter>
       </form>

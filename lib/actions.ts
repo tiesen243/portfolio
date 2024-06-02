@@ -18,7 +18,7 @@ export const getProjects = async () => {
 }
 
 export const sendEmail = async (formData: FormData) => {
-  if (!process.env.EMAIL_API)
+  if (!process.env.API)
     return {
       success: false,
       message: 'Email API not set',
@@ -31,7 +31,7 @@ export const sendEmail = async (formData: FormData) => {
     const res: {
       error?: Record<string, string>
       message?: string
-    } = await fetch(process.env.EMAIL_API, {
+    } = await fetch(`${process.env.API}/api/send-email`, {
       method: 'POST',
       body: JSON.stringify({
         from: 'Contact Form',

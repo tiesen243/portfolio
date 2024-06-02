@@ -12,7 +12,7 @@ const description =
 export const metadata: Metadata = {
   title: 'Projects',
   description,
-  openGraph: { images: `/api/og?title=Projects&desc=${description}`, url: `${baseUrl}/projects` },
+  openGraph: { images: `/og?title=Projects&desc=${description}`, url: `${baseUrl}/projects` },
   alternates: { canonical: `${baseUrl}/projects` },
 }
 

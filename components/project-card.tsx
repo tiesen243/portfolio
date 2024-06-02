@@ -20,7 +20,7 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
   <card.Card key={project.id}>
     <card.CardHeader className="group aspect-video w-full space-y-0">
       <Image
-        src={`/api/og?title=${project.name.replace(/-/g, ' ')}&desc=${project.description}`}
+        src={`/og?title=${project.name.replace(/-/g, ' ')}&desc=${project.description}`}
         alt={project.name}
         className="rounded-t-lg object-cover"
         fill
