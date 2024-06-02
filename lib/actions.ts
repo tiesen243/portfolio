@@ -31,7 +31,7 @@ export const sendEmail = async (formData: FormData) => {
     const res: {
       error?: Record<string, string>
       message?: string
-    } = await fetch(`${process.env.API}/api/send-email`, {
+    } = await fetch(`${process.env.API}/api/send-mail`, {
       method: 'POST',
       body: JSON.stringify({
         from: 'Contact Form',
