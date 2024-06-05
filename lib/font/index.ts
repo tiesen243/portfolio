@@ -11,4 +11,4 @@ const geistMono = localFont({
   preload: true,
 })
 
-export const font = `${geistSans.variable} ${geistMono.variable} font-sans`
+export const font = `${geistSans.variable} ${geistMono.variable}`
