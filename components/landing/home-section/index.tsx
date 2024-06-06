@@ -3,11 +3,9 @@ import Image from 'next/image'
 
 import { description } from '@/lib/site'
 import { Buttons } from './buttons'
-import { Cobe } from './cobe'
 
 export const HomeSection: React.FC = () => (
   <section id="home" className="min-h-dvh">
-    <Cobe />
     <div className="absolute inset-0 grid h-full w-full place-items-center">
       <Image
         src="/imgs/tiesen.png"
