@@ -12,11 +12,11 @@ export const HomeSection: React.FC = () => (
         alt="Tiesen"
         width={1800}
         height={800}
-        className="w-full object-cover drop-shadow-lg md:w-3/4"
+        className="w-full object-cover drop-shadow-lg md:w-5/6"
       />
     </div>
 
-    <div className="absolute inset-0 flex flex-col items-center justify-end gap-4 pb-16">
+    <div className="absolute inset-0 flex flex-col items-center justify-end gap-4 pb-8">
       <p className="max-w-screen-md text-center text-lg font-medium leading-7 drop-shadow-lg md:text-2xl">
         {description}
       </p>

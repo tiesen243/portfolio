@@ -39,6 +39,7 @@ export const sendEmail = async (formData: FormData) => {
         reply_to: inp.email,
         subject: inp.subject,
         message: inp.message,
+        api_key: process.env.API_KEY ?? 'dsadas',
       }),
     }).then((res) => res.json())
 

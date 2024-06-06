@@ -88,6 +88,9 @@ export const ContactForm: React.FC = () => {
         </card.CardContent>
 
         <card.CardFooter className="flex-col items-start gap-4">
+          {state.error && typeof state.error === 'string' && (
+            <p className="text-destructive">{state.error}</p>
+          )}
           <Button type="submit" className="w-full" isLoading={isPending}>
             {state.success ? 'Email sent!' : 'Send Message'}
           </Button>
