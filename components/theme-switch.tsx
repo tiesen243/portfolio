@@ -14,10 +14,19 @@ export const ThemeSwitch: React.FC = () => {
   return (
     <Tabs defaultValue={theme}>
       <TabsList>
-        <TabsTrigger value="light" onClick={() => setTheme('light')}>
+        <TabsTrigger
+          value="light"
+          onClick={() => setTheme('light')}
+          aria-label="Switch to light theme"
+        >
           Light
         </TabsTrigger>
-        <TabsTrigger value="dark" onClick={() => setTheme('dark')}>
+
+        <TabsTrigger
+          value="dark"
+          onClick={() => setTheme('dark')}
+          aria-label="Switch to dark theme"
+        >
           Dark
         </TabsTrigger>
       </TabsList>

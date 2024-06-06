@@ -1,5 +1,3 @@
-import { Analytics } from '@vercel/analytics/next'
-import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ThemeProvider } from 'next-themes'
 
 import { Footer } from '@/components/footer'
@@ -16,9 +14,6 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
         <main className="container flex-1">{children}</main>
         <Footer />
       </ThemeProvider>
-
-      <Analytics />
-      <SpeedInsights />
     </body>
   </html>
 )

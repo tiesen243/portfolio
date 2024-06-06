@@ -25,6 +25,7 @@ export const AboutSection: React.FC = () => (
         className="aspect-square w-full rounded-lg md:col-span-4"
       >
         <source src="/imgs/yuki.webm" type="video/webm" />
+        <track kind="captions" />
       </video>
     </section>
 
