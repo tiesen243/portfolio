@@ -1,3 +1,5 @@
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ThemeProvider } from 'next-themes'
 
 import { Footer } from '@/components/footer'
@@ -6,6 +8,7 @@ import { siteConfig } from '@/lib/site'
 import './globals.css'
 
 export const metadata = siteConfig.meta
+export const viewport = siteConfig.viewport
 
 const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
   <html lang="en" className="dark" suppressHydrationWarning>
@@ -14,6 +17,9 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
         <main className="container flex-1">{children}</main>
         <Footer />
       </ThemeProvider>
+
+      <Analytics />
+      <SpeedInsights />
     </body>
   </html>
 )
