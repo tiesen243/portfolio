@@ -6,6 +6,7 @@ date: 2024-04-10
 tags:
   - archlinux
   - hyprland
+  - kitty
 hasMultipleLang: true
 ---
 
@@ -118,7 +119,6 @@ mkfs.ext4 /dev/[drive_name] # Home partition >= 40G
 # Mount the partitions to the system
 mount --mkdir /dev/[drive_name] /mnt/archinstall # Home partition (>= 40G)
 mount --mkdir /dev/[drive_name] /mnt/archinstall/boot # EFI partition (1G)
-
 ```
 
 Run `archinstall` script to start the installation. In archinstall script, you can choose the following options:
@@ -219,8 +219,8 @@ rm -rf ~/yay
 ### Second, install the following packages:
 
 ```bash
-sudo pacman -S zsh swayidle hyprpaper p7zip wofi pavucontrol thunar gvfs nwg-look brightnessctl playerctl fastfetch btop cliphist wl-clipboard xfce4-settings grim slurp
-sudo yay -S swaylock-effects lazygit floorp-bin wlogout hyprpicker-git
+sudo pacman -S zsh swayidle hyprpaper p7zip wofi pavucontrol thunar gvfs brightnessctl playerctl fastfetch btop cliphist wl-clipboard xfce4-settings grim slurp lsd
+sudo yay -S swaylock-effects lazygit floorp-bin wlogout hyprpicker-git nwg-look
 ```
 
 If Jappanese/Chinese/Korean font not display correctly
@@ -303,16 +303,16 @@ git clone git@github.com:tiesen243/dotfiles.git ~/dotfiles
 source = ~/dotfiles/hypr/hyprland.conf
 ```
 
-2. Copy folder `~/dotfiles/zsh-theme` to `~/.oh-my-zsh/custom/themes`
+2. Copy folder `~/dotfiles/zsh/theme` to `~/.oh-my-zsh/custom/themes`
 
 ```bash
-cp -r ~/dotfiles/zsh-theme/* ~/.oh-my-zsh/custom/themes
+cp -r ~/dotfiles/zsh/theme/* ~/.oh-my-zsh/custom/themes
 ```
 
 Then, change the content of `~/.zshrc` to
 
-```bash title="~/.zshrc"
-source ~/dotfiles/.zshrc
+```bash
+source ~/dotfiles/zsh/config.zsh
 ```
 
 ### Change theme and wallpaper
@@ -358,7 +358,7 @@ yay -S wlrobs
 - `Win + Shift + [1-9]`: Move the window to the workspace [1-9]
 - `Win + W`: Open the special workspace
 - `Win + Shift + W`: Move the window to the special workspace
-- And more key mapping in the `~/dotfiles/hypr/keymap.conf`
+- And more: `~/dotfiles/hypr/keymap.conf`
 
 ## Conclusion
 
