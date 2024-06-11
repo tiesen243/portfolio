@@ -1,10 +1,11 @@
 'use server'
 
 import type { Project } from '@/components/project-card'
+import { env } from '@/env'
 
 export const getProjects = async () => {
-  const projects: Project[] = await fetch(process.env.PROJECTS_URL!, {
-    headers: { authorization: process.env.GITHUB_TOKEN! },
+  const projects: Project[] = await fetch(env.PROJECT_URL, {
+    headers: { authorization: env.GITHUB_TOKEN },
     next: { revalidate: 1 },
   })
     .then((res) => res.json())
@@ -28,10 +29,7 @@ export const sendEmail = async (formData: FormData) => {
   try {
     const inp = Object.fromEntries(formData)
 
-    const res: {
-      error?: Record<string, string>
-      message?: string
-    } = await fetch(`${process.env.API}/api/send-mail`, {
+    const res = await fetch(`${env.API_URL}/send-mail`, {
       method: 'POST',
       body: JSON.stringify({
         from: 'Contact Form',
@@ -39,9 +37,9 @@ export const sendEmail = async (formData: FormData) => {
         reply_to: inp.email,
         subject: inp.subject,
         message: inp.message,
-        api_key: process.env.API_KEY ?? 'dsadas',
+        api_key: env.API_KEY,
       }),
-    }).then((res) => res.json())
+    }).then((res) => res.json() as { error?: Record<string, string>; message?: string })
 
     if (res.error)
       return {
@@ -62,9 +60,7 @@ export const sendEmail = async (formData: FormData) => {
 }
 
 export const getViews = async (slug: string) => {
-  const views = await fetch(`${process.env.API}/api/view-count/${slug}?theme=no`, {
-    cache: 'no-store',
-  })
+  const views = await fetch(`${env.API_URL}/view-count/${slug}?theme=no`, { cache: 'no-store' })
     .then((res) => res.text())
     .catch((_e) => '0')
 

@@ -20,7 +20,9 @@ export interface Post {
 const root = process.cwd()
 const revalidate = 1
 
-export const getPost = async (slug: string) => {
+export const getPost = async (
+  slug: string,
+): Promise<{ meta: Post['meta']; content: React.ReactElement }> => {
   const source = fs.readFileSync(`${root}/content/posts/${slug}.mdx`, 'utf8').toString()
   const { frontmatter, content } = await compileMDX<Post['meta']>({
     source,
@@ -46,7 +48,7 @@ export const getPost = async (slug: string) => {
 }
 
 export const getPosts = cache(
-  async () => {
+  async (): Promise<Post[]> => {
     const files = fs.readdirSync(`${root}/content/posts`)
     const posts = await Promise.all(
       files.map(async (file) => {

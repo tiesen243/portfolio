@@ -25,7 +25,10 @@ export const generateMetadata = async (
   return {
     title: meta.title,
     description: meta.description,
-    openGraph: { images: [meta.image, ...previousImages], url: `${baseUrl}/blog/${params.slug}` },
+    openGraph: {
+      images: [meta.image, ...previousImages],
+      url: `${baseUrl}/blog/${params.slug}`,
+    },
     alternates: { canonical: `${baseUrl}/blog/${params.slug}` },
   }
 }

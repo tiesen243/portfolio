@@ -32,7 +32,10 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
             href={project.homepage}
             target="_blank"
             rel="noopener noreferrer"
-            className={buttonVariants({ variant: 'ghost', className: 'h-14 w-14' })}
+            className={buttonVariants({
+              variant: 'ghost',
+              className: 'h-14 w-14',
+            })}
           >
             <LinkIcon size={32} />
           </a>
@@ -41,7 +44,10 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
           href={project.html_url}
           target="_blank"
           rel="noopener noreferrer"
-          className={buttonVariants({ variant: 'ghost', className: 'h-14 w-14' })}
+          className={buttonVariants({
+            variant: 'ghost',
+            className: 'h-14 w-14',
+          })}
         >
           <GithubIcon size={32} />
         </a>

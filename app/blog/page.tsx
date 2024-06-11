@@ -10,7 +10,10 @@ const description = 'A collection of blog posts on various topics.'
 export const metadata: Metadata = {
   title: 'Blog',
   description,
-  openGraph: { images: `/og?title=Blog&desc=${description}`, url: `${baseUrl}/blog` },
+  openGraph: {
+    images: `/og?title=Blog&desc=${description}`,
+    url: `${baseUrl}/blog`,
+  },
   alternates: { canonical: `${baseUrl}/blog` },
 }
 
