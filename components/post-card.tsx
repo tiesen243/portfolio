@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import type { Post } from '@/contents'
+import type { Post } from '@/content'
 
 export const PostCard: React.FC<{ post: Post }> = ({ post }) => (
   <Link href={`/blog/${post.slug}`} passHref>

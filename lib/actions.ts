@@ -19,13 +19,6 @@ export const getProjects = async () => {
 }
 
 export const sendEmail = async (formData: FormData) => {
-  if (!process.env.API)
-    return {
-      success: false,
-      message: 'Email API not set',
-      error: {},
-    }
-
   try {
     const inp = Object.fromEntries(formData)
 
