@@ -5,12 +5,12 @@ import * as tabs from '@/components/ui/tabs'
 import { education, hobbies, skills } from '@/lib/data'
 
 export const Infomations: React.FC = () => (
-  <tabs.Tabs defaultValue={tabsContents[0].id} className="overflow-auto">
+  <tabs.Tabs defaultValue={tabsContents[0]?.id} className="overflow-auto">
     {tabsContents.map((tab) => (
       <tabs.TabsList key={tab.id} className="bg-transparent">
         <tabs.TabsTrigger
           value={tab.id}
-          className="rounded-none border-b-2 border-primary/0 transition-all data-[state=active]:border-primary"
+          className="rounded-none border-b-2 border-primary/0 transition-all data-[state=active]:border-[var(--to)] data-[state=active]:text-[var(--to)]"
           aria-label={`Switch to ${tab.id}`}
         >
           {tab.label}

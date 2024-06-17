@@ -17,3 +17,20 @@ export const Socials: React.FC = () => (
     ))}
   </ul>
 )
+
+export const Works: React.FC = () => (
+  <ul className="flex flex-col gap-2">
+    {siteConfig.contact.map((c) => (
+      <li key={c.label} className="flex items-center gap-2">
+        <div className="aspect-square rounded bg-secondary p-2">
+          <c.icon className="text-[var(--to)]" />
+        </div>
+
+        <div>
+          <h3 className="font-medium">{c.label}</h3>
+          <p className="text-muted-foreground">{c.value}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+)

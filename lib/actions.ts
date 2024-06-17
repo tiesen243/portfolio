@@ -20,32 +20,18 @@ export const getProjects = async () => {
 
 export const sendEmail = async (formData: FormData) => {
   try {
-    const inp = Object.fromEntries(formData)
-
     const res = await fetch(`${env.API_URL}/send-mail`, {
       method: 'POST',
       body: JSON.stringify({
+        ...Object.fromEntries(formData),
         from: 'Contact Form',
-        to: inp.target,
-        reply_to: inp.email,
-        subject: inp.subject,
-        message: inp.message,
         api_key: env.API_KEY,
       }),
     }).then((res) => res.json() as { error?: Record<string, string>; message?: string })
 
-    if (res.error)
-      return {
-        success: false,
-        message: '',
-        error: res.error,
-      }
+    if (res.error) return { success: false, message: '', error: res.error }
 
-    return {
-      success: true,
-      message: res.message,
-      error: {},
-    }
+    return { success: true, message: res.message, error: {} }
   } catch (e) {
     if (e instanceof Error) return { success: false, message: e.message, error: {} }
     else return { success: false, message: 'An error occurred', error: {} }
