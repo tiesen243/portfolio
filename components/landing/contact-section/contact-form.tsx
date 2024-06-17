@@ -3,7 +3,14 @@
 import { useEffect, useState, useTransition } from 'react'
 
 import { Button } from '@/components/ui/button'
-import * as card from '@/components/ui/card'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card'
 import { sendEmail } from '@/lib/actions'
 import { siteConfig } from '@/lib/site'
 
@@ -32,30 +39,35 @@ export const ContactForm: React.FC = () => {
   }, [state])
 
   return (
-    <card.Card className="grid grid-cols-1 border md:grid-cols-2">
-      <card.CardHeader className="flex-col items-start">
-        <card.CardTitle className="text-2xl font-bold">
+    <Card className="grid grid-cols-1 border md:grid-cols-2">
+      <CardHeader className="flex-col items-start">
+        <CardTitle className="text-2xl font-bold">
           Let&apos;s work together! <span className="text-primary">👋</span>
-        </card.CardTitle>
+        </CardTitle>
 
-        <card.CardDescription className="mt-8">
+        <CardDescription className="mt-8">
           I&apos;m currently open to new opportunities, my inbox is always open. Whether you have a
           question or just want to say hi, I&apos;ll try my best to get back to you!
-          <br /> Send me a message using the form below or directly at{' '}
-          <a
-            href={`mailto:${siteConfig.email}`}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="underline-offset-4 hover:underline"
-          >
-            {siteConfig.email}
-          </a>
-          .
-        </card.CardDescription>
-      </card.CardHeader>
+        </CardDescription>
+
+        <ul className="flex flex-col gap-2">
+          {siteConfig.contact.map((c) => (
+            <li key={c.label} className="flex items-center gap-2">
+              <div className="aspect-square rounded bg-secondary p-2">
+                <c.icon className="text-[var(--to)]" />
+              </div>
+
+              <div>
+                <h3 className="font-medium">{c.label}</h3>
+                <p className="text-muted-foreground">{c.value}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </CardHeader>
 
       <form className="mt-8" onSubmit={send}>
-        <card.CardContent id="contact-form" className="space-y-4">
+        <CardContent id="contact-form" className="space-y-4">
           <div>
             <input
               name="email"
@@ -85,17 +97,17 @@ export const ContactForm: React.FC = () => {
           </div>
 
           <input type="hidden" name="target" value={siteConfig.email} />
-        </card.CardContent>
+        </CardContent>
 
-        <card.CardFooter className="flex-col items-start gap-4">
+        <CardFooter className="flex-col items-start gap-4">
           {state.error && typeof state.error === 'string' && (
             <p className="text-destructive">{state.error}</p>
           )}
           <Button type="submit" className="w-full" isLoading={isPending}>
             {state.success ? 'Email sent!' : 'Send Message'}
           </Button>
-        </card.CardFooter>
+        </CardFooter>
       </form>
-    </card.Card>
+    </Card>
   )
 }

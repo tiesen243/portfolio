@@ -5,6 +5,7 @@ import { ScrollToTop } from '@/components/scroll-to-top'
 import { Breadcrumbs } from '@/components/ui/breadcrumbs'
 import { getPost, getPosts } from '@/content'
 import { baseUrl } from '@/lib/site'
+import { getViews } from '@/lib/actions'
 
 interface Props {
   params: { slug: string }
@@ -35,6 +36,8 @@ export const generateMetadata = async (
 
 const Page: NextPage<Props> = async ({ params }) => {
   const { meta, content } = await getPost(params.slug)
+  const views = await getViews(params.slug)
+
   return (
     <>
       <Breadcrumbs
@@ -46,7 +49,7 @@ const Page: NextPage<Props> = async ({ params }) => {
       />
 
       <article>
-        <PostHeader meta={meta} slug={params.slug} />
+        <PostHeader meta={meta} views={views} />
 
         <hr className="my-4" />
 
