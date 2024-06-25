@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 
 import { Button } from '@/components/ui/button'
-import Image from 'next/image'
 
 const Page: NextPage = () => (
   <div className="flex h-[65dvh] flex-col items-center justify-center gap-4">
