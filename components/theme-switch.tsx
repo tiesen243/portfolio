@@ -1,35 +1,23 @@
 'use client'
 
+import { MoonIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { Tabs, TabsList, TabsTrigger } from './ui/tabs'
-import React from 'react'
+import { useEffect, useState } from 'react'
+
+import { Button } from '@/components/ui/button'
 
 export const ThemeSwitch: React.FC = () => {
   const { theme, setTheme } = useTheme()
 
-  const [isMounted, setIsMounted] = React.useState<boolean>(false)
-  React.useEffect(() => setIsMounted(true), [])
+  const [isMounted, setIsMounted] = useState<boolean>(false)
+  useEffect(() => setIsMounted(true), [])
   if (!isMounted) return null
 
-  return (
-    <Tabs defaultValue={theme}>
-      <TabsList>
-        <TabsTrigger
-          value="light"
-          onClick={() => setTheme('light')}
-          aria-label="Switch to light theme"
-        >
-          Light
-        </TabsTrigger>
+  const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark')
 
-        <TabsTrigger
-          value="dark"
-          onClick={() => setTheme('dark')}
-          aria-label="Switch to dark theme"
-        >
-          Dark
-        </TabsTrigger>
-      </TabsList>
-    </Tabs>
+  return (
+    <Button variant="ghost" size="icon" onClick={toggleTheme}>
+      {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+    </Button>
   )
 }

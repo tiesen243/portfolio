@@ -4,13 +4,17 @@ import Link from 'next/link'
 export const ViewMore: React.FC = () => (
   <div className="grid grid-cols-1 gap-4 text-xl font-bold capitalize md:grid-cols-2">
     {['projects', 'blog'].map((tab) => (
-      <Link href={`/${tab as 'projects' | 'blog'}`} key={tab} className="group flex items-center">
+      <Link
+        href={`/${tab as 'projects' | 'blog'}`}
+        key={tab}
+        className="group flex items-center text-yuki"
+      >
         {tab}
 
         <div className="ml-2 h-[2px] flex-grow">
-          <div className="h-full w-0 bg-primary transition-all ease-linear group-hover:w-full" />
+          <div className="h-full w-0 bg-yuki transition-all ease-linear group-hover:w-full" />
         </div>
-        <ChevronRightIcon className="-ml-4 text-foreground opacity-0 transition-opacity ease-linear group-hover:opacity-100" />
+        <ChevronRightIcon className="-ml-4 text-yuki opacity-0 transition-opacity ease-linear group-hover:opacity-100" />
       </Link>
     ))}
   </div>

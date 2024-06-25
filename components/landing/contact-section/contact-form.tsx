@@ -66,13 +66,22 @@ export const ContactForm: React.FC = () => {
               <span className="text-destructive">{state.error?.[field.name]}</span>
             </div>
           ))}
+
+          <div className="space-y-2">
+            <textarea
+              name="message"
+              placeholder="Your message..."
+              className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            />
+            <span className="text-destructive">{state.error?.message}</span>
+          </div>
         </CardContent>
 
         <CardFooter className="flex-col items-start gap-4">
           {state.error && typeof state.error === 'string' && (
             <p className="text-destructive">{state.error}</p>
           )}
-          <Button type="submit" className="w-full" isLoading={isPending}>
+          <Button type="submit" className="w-full bg-yuki text-white" isLoading={isPending}>
             {state.success ? 'Email sent!' : 'Send Message'}
           </Button>
         </CardFooter>
@@ -84,6 +93,5 @@ export const ContactForm: React.FC = () => {
 const fields = [
   { name: 'reply_to', type: 'email', placeholder: 'yuki@gmail.com' },
   { name: 'subject', type: 'text', placeholder: "What's do you want to talk about?" },
-  { name: 'message', type: 'text', placeholder: 'Write your message here...' },
   { name: 'to', type: 'hidden', value: siteConfig.contact[1]?.value },
 ]

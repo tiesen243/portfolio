@@ -1,28 +1,17 @@
-import {
-  LucideIcon,
-  PhoneIcon,
-  MailIcon,
-  MapPinIcon,
-  GithubIcon,
-  LinkedinIcon,
-  FacebookIcon,
-  TwitterIcon,
-  YoutubeIcon,
-  CoffeeIcon,
-} from 'lucide-react'
+import * as icons from 'lucide-react'
 import type { Metadata, Viewport } from 'next'
 
 export const baseUrl =
   process.env.NODE_ENV === 'production' ? 'https://tiesen.id.vn' : 'http://localhost:3000'
 
 export const description =
-  "I'm a weeb developer who loves to build many stuff. I enjoy working with TypeScript, Next.js, and ElysiaJS. I'm also a fan of anime, manga, and light novels."
+  "I'm a weeb developer who loves to build many stuff. I enjoy working with TypeScript, Next.js, tRPC, and ElysiaJS. I'm also a fan of anime, manga, and light novels."
 
 interface SiteConfig {
   meta: Metadata
   viewport: Viewport
-  contact: { label: string; value: string; icon: LucideIcon }[]
-  socials: { label: string; href: string; icon: LucideIcon }[]
+  contact: { label: string; value: string; icon: icons.LucideIcon }[]
+  socials: { label: string; href: string; icon: icons.LucideIcon }[]
   navLinks: { label: string; url: string }[]
 }
 
@@ -62,37 +51,37 @@ export const siteConfig: SiteConfig = {
   },
 
   contact: [
-    { label: 'Phone', value: '+84 905 252 8844', icon: PhoneIcon },
-    { label: 'Email', value: 'ttien56906@gmail.com', icon: MailIcon },
-    { label: 'Address', value: 'Sai Gon, Vietnam', icon: MapPinIcon },
+    { label: 'Phone', value: '+84 905 252 8844', icon: icons.PhoneIcon },
+    { label: 'Email', value: 'ttien56906@gmail.com', icon: icons.MailIcon },
+    { label: 'Address', value: 'Sai Gon, Vietnam', icon: icons.MapPinIcon },
   ],
 
   socials: [
-    { label: 'Github', href: 'https://github.com/tiesen243', icon: GithubIcon },
+    { label: 'Github', href: 'https://github.com/tiesen243', icon: icons.GithubIcon },
     {
       label: 'Linkedin',
       href: 'https://www.linkedin.com/in/tiesen243/',
-      icon: LinkedinIcon,
+      icon: icons.LinkedinIcon,
     },
     {
       label: 'Facebook',
       href: 'https://www.facebook.com/tiesen243/',
-      icon: FacebookIcon,
+      icon: icons.FacebookIcon,
     },
     {
       label: 'Twitter',
       href: 'https://twitter.com/tiesen243',
-      icon: TwitterIcon,
+      icon: icons.TwitterIcon,
     },
     {
       label: 'Youtube',
       href: 'https://www.youtube.com/@tiesen243',
-      icon: YoutubeIcon,
+      icon: icons.YoutubeIcon,
     },
     {
-      label: 'Support me',
-      href: 'https://me.momo.vn/tiesen243',
-      icon: CoffeeIcon,
+      label: 'More',
+      href: 'https://gravatar.com/tiesen243',
+      icon: icons.ListCollapseIcon,
     },
   ],
 

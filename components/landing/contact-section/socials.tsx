@@ -7,7 +7,7 @@ export const Socials: React.FC = () => (
       <li key={social.label} className="group">
         <a href={social.href} target="_blank" rel="noopener noreferrer">
           <Card className="transition-all ease-linear group-hover:bg-secondary">
-            <CardHeader className="flex-row items-center justify-center gap-2 font-bold group-hover:text-[var(--to)] ">
+            <CardHeader className="flex-row items-center justify-center gap-2 space-y-0 font-bold group-hover:text-yuki">
               <social.icon className="" />
               <span>{social.label}</span>
             </CardHeader>
@@ -23,7 +23,7 @@ export const Works: React.FC = () => (
     {siteConfig.contact.map((c) => (
       <li key={c.label} className="flex items-center gap-2">
         <div className="aspect-square rounded bg-secondary p-2">
-          <c.icon className="text-[var(--to)]" />
+          <c.icon className="text-yuki" />
         </div>
 
         <div>

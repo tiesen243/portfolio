@@ -52,6 +52,7 @@ const config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        yuki: 'var(--yuki)',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -59,7 +60,7 @@ const config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       backgroundImage: {
-        yuki: 'linear-gradient(135deg, var(--from), var(--to))',
+        yuki: 'linear-gradient(45deg, var(--from), var(--to))',
       },
 
       keyframes: {
