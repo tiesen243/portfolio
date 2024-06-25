@@ -47,7 +47,7 @@ export const siteConfig: SiteConfig = {
     width: 'device-width',
     initialScale: 1,
     maximumScale: 6,
-    userScalable: false,
+    userScalable: true,
   },
 
   contact: [
