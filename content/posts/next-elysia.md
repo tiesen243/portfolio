@@ -4,10 +4,8 @@ description: Create a full-stack application with Next.js and ElysiaJS in minute
 image: /imgs/blog/next-elysia.png
 date: 2024-05-10
 tags:
-  - nextjs
-  - elysiajs
-  - prisma
-  - tailwindcss
+  - Next.js
+  - Full Stack
 ---
 
 ## Table of Contents
@@ -38,7 +36,7 @@ Next step, update your enviroment variables
 DATABASE_URL=""
 ```
 
-> In this project, i'm use MongoDb for Database, if you use other database, remember to change provider in `prisma/schema.prisma` and change Id fields
+> In this project, i'm use MongoDB for Database, if you use other database, remember to change provider in `prisma/schema.prisma` and change Id fields
 
 Then, push schema to your database
 

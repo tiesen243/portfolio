@@ -4,10 +4,8 @@ description: Setup Hyprland OS base on Arch Linux with easy steps.
 image: /imgs/blog/hyprland.png
 date: 2024-04-10
 tags:
-  - archlinux
-  - hyprland
-  - kitty
-hasMultipleLang: true
+  - Linux
+  - Hyprland
 ---
 
 ## Table of Contents

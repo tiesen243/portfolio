@@ -18,7 +18,7 @@ export const Socials: React.FC = () => (
   </ul>
 )
 
-export const Works: React.FC = () => (
+export const ContactInfo: React.FC = () => (
   <ul className="flex flex-col gap-2">
     {siteConfig.contact.map((c) => (
       <li key={c.label} className="flex items-center gap-2">

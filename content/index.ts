@@ -23,7 +23,7 @@ const revalidate = 1
 export const getPost = async (
   slug: string,
 ): Promise<{ meta: Post['meta']; content: React.ReactElement }> => {
-  const source = fs.readFileSync(`${root}/content/posts/${slug}.mdx`, 'utf8').toString()
+  const source = fs.readFileSync(`${root}/content/posts/${slug}.md`, 'utf8').toString()
   const { frontmatter, content } = await compileMDX<Post['meta']>({
     source,
     options: {
@@ -52,7 +52,7 @@ export const getPosts = cache(
     const files = fs.readdirSync(`${root}/content/posts`)
     const posts = await Promise.all(
       files.map(async (file) => {
-        const slug = file.replace(/\.mdx$/, '')
+        const slug = file.replace(/\.md$/, '')
         const { meta } = await getPost(slug)
         return { slug, meta }
       }),

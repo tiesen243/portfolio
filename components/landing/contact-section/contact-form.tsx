@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/card'
 import { sendEmail } from '@/lib/actions'
 import { siteConfig } from '@/lib/site'
-import { Works } from './socials'
+import { ContactInfo } from './socials'
 
 export const ContactForm: React.FC = () => {
   const [isPending, startTransition] = useTransition()
@@ -43,16 +43,14 @@ export const ContactForm: React.FC = () => {
   return (
     <Card className="grid grid-cols-1 border md:grid-cols-2">
       <CardHeader className="flex-col items-start">
-        <CardTitle>
-          Let&apos;s work together! <span className="text-primary">👋</span>
-        </CardTitle>
+        <CardTitle>Get in Touch</CardTitle>
 
         <CardDescription>
-          I&apos;m currently open to new opportunities, my inbox is always open. Whether you have a
-          question or just want to say hi, I&apos;ll try my best to get back to you!
+          I&apos;m always excited to connect with new people and discuss potential collaborations or
+          projects. Feel free to reach out using the form below.
         </CardDescription>
 
-        <Works />
+        <ContactInfo />
       </CardHeader>
 
       <form className="mt-8" onSubmit={send}>

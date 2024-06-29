@@ -5,7 +5,10 @@ import { description } from '@/lib/site'
 import { Buttons } from './buttons'
 
 export const HomeSection: React.FC = () => (
-  <section id="home" className="flex min-h-dvh flex-col items-center justify-center gap-8">
+  <section
+    id="home"
+    className="flex min-h-dvh flex-col items-center justify-center gap-16 md:gap-8"
+  >
     <Image
       src="/imgs/tiesen.png"
       alt="Tiesen"
@@ -20,6 +23,6 @@ export const HomeSection: React.FC = () => (
 
     <Buttons />
 
-    <ChevronsDownIcon className="mt-8 animate-up-down" />
+    <ChevronsDownIcon className="absolute bottom-8 animate-up-down" />
   </section>
 )

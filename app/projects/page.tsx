@@ -31,6 +31,12 @@ const Page: NextPage = async () => {
         ]}
       />
 
+      <h1 className="text-4xl font-bold">Projects</h1>
+
+      <p className="mb-4 mt-2 text-lg text-muted-foreground">
+        Here are some of my recent projects that showcase my skills and experience.
+      </p>
+
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {projects.map((project) => (
           <ProjectCard key={project.id} project={project} />
