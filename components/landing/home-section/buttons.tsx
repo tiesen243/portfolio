@@ -12,7 +12,9 @@ export const Buttons: React.FC = () => (
     </Button>
 
     <Button variant="outline" asChild>
-      <Link href="/cv">My CV</Link>
+      <Link href="/cv.pdf" target="_blank" rel="noopener noreferrer" download="cv.pdf">
+        Download CV
+      </Link>
     </Button>
   </div>
 )
