@@ -53,7 +53,7 @@ export const ContactForm: React.FC = () => {
         <ContactInfo />
       </CardHeader>
 
-      <form className="mt-8" onSubmit={send}>
+      <form className="md:mt-8" onSubmit={send}>
         <CardContent id="contact-form" className="space-y-4">
           {fields.map((field) => (
             <div className="space-y-2" key={field.name}>
