@@ -64,36 +64,17 @@ const config = {
       },
 
       keyframes: {
-        'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
-        },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
-        },
-        'infinite-scroll': {
-          from: { transform: 'translateX(0)' },
-          to: { transform: 'translateX(-100%)' },
-        },
-        'infinite-scroll-reverse': {
-          from: { transform: 'translateX(-100%)' },
-          to: { transform: 'translateX(0)' },
-        },
-        shimmer: {
-          from: { backgroundPosition: '0 0' },
-          to: { backgroundPosition: '-200% 0' },
-        },
+        marquee: { to: { transform: 'translateX(-50%)' } },
+        'marquee-reverse': { to: { transform: 'translateX(-50%)' } },
+        shimmer: { from: { backgroundPosition: '0 0' }, to: { backgroundPosition: '-200% 0' } },
         'up-down': {
           '0%, 100%': { transform: 'translateY(10%)' },
           '50%': { transform: 'translateY(-10%)' },
         },
       },
       animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
-        'infinite-scroll': 'infinite-scroll 25s linear infinite',
-        'infinite-scroll-reverse': 'infinite-scroll 25s linear infinite reverse',
+        marquee: 'marquee var(--duration, 30s) linear infinite',
+        'marquee-reverse': 'marquee-reverse var(--duration, 30s) linear infinite reverse',
         shimmer: 'shimmer 2s linear infinite',
         'up-down': 'up-down 1s ease-in-out infinite',
       },

@@ -23,7 +23,9 @@ export const PostHeader: React.FC<{ meta: Post['meta']; views: string }> = ({ me
       alt={meta.title}
       width={1920}
       height={1080}
-      className="rounded-lg shadow-lg"
+      className="rounded-lg drop-shadow-lg"
     />
+
+    <hr className="mx-auto my-4 w-11/12 rounded-full" />
   </>
 )

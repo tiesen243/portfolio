@@ -12,10 +12,7 @@ const description =
 export const metadata: Metadata = {
   title: 'Projects',
   description,
-  openGraph: {
-    images: `/og?title=Projects&desc=${description}`,
-    url: `${baseUrl}/projects`,
-  },
+  openGraph: { images: `/og?title=Projects&desc=${description}`, url: `${baseUrl}/projects` },
   alternates: { canonical: `${baseUrl}/projects` },
 }
 
@@ -32,20 +29,17 @@ const Page: NextPage = async () => {
       />
 
       <h1 className="text-4xl font-bold">Projects</h1>
+      <p className="mb-4 mt-2 text-lg text-muted-foreground">{description}</p>
 
-      <p className="mb-4 mt-2 text-lg text-muted-foreground">
-        Here are some of my recent projects that showcase my skills and experience.
-      </p>
-
-      <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {projects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
       </section>
 
-      <hr className="my-4" />
+      <hr className="mx-auto my-4 w-11/12 rounded-full" />
 
-      <section className="mt-4 space-y-4">
+      <section className="space-y-4">
         {Array.from({ length: 5 }).map((_, i) => (
           <Image
             key={i}

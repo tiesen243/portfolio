@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 export const Buttons: React.FC = () => (
-  <div className="grid grid-cols-2 gap-8 *:text-xl *:font-bold *:transition-transform *:ease-linear hover:*:scale-105">
+  <div className="grid grid-cols-2 gap-8  *:font-bold sm:*:text-lg">
     <Button
       className="animate-shimmer bg-[linear-gradient(110deg,var(--from),45%,var(--to),55%,var(--from))] bg-[length:200%_100%] text-white"
       asChild

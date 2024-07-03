@@ -6,7 +6,7 @@ import { env } from '@/env'
 export const getProjects = async () => {
   const projects: Project[] = await fetch(env.PROJECT_URL, {
     headers: { authorization: env.GITHUB_TOKEN },
-    next: { revalidate: 1 },
+    next: { revalidate: 60 },
   })
     .then((res) => res.json())
     .then((p: Project[]) => p.filter((p) => p.topics.includes('showcase')))

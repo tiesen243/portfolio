@@ -1,41 +1,39 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Badge } from '@/components/ui/badge'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardDescription, CardTitle } from '@/components/ui/card'
 import type { Post } from '@/content'
+import { Badge } from './ui/badge'
 
-export const PostCard: React.FC<{ post: Post }> = ({ post }) => (
-  <Link href={`/blog/${post.slug}`} passHref>
-    <Card className="flex h-full flex-col hover:bg-secondary">
-      <CardHeader className="space-y-0 p-0 pb-6">
+export const PostCard: React.FC<{ post: Post }> = ({ post }) => {
+  return (
+    <Link href={`/blog/${post.slug}`} passHref>
+      <Card className="group aspect-video">
         <Image
           src={post.meta.image}
           alt={post.slug}
-          width={1200}
-          height={630}
-          className="aspect-video rounded-t-lg object-cover"
+          className="aspect-video rounded-lg object-cover drop-shadow-lg"
+          fill
         />
-      </CardHeader>
 
-      <CardContent className="flex-1">
-        <CardTitle>{post.meta.title}</CardTitle>
-        <CardDescription>{new Date(post.meta.date).toDateString()}</CardDescription>
-        <CardDescription className="line-clamp-1">{post.meta.description}</CardDescription>
-      </CardContent>
+        <div className="absolute bottom-0 left-0 z-10 w-fit rounded-lg p-4">
+          <CardTitle className="rounded-lg bg-white/20 px-4 py-2 text-white backdrop-blur-xl">
+            <span className="line-clamp-1">{post.meta.title}</span>
+          </CardTitle>
+        </div>
 
-      <CardFooter className="gap-1 overflow-x-auto">
-        {post.meta.tags.map((tag) => (
-          <Badge key={tag}>{tag}</Badge>
-        ))}
-      </CardFooter>
-    </Card>
-  </Link>
-)
+        <div className="absolute inset-0 z-10 flex h-full w-full flex-col justify-between rounded-lg bg-background/40 p-4 opacity-0 backdrop-blur-xl transition-opacity group-hover:opacity-100">
+          <CardDescription>{post.meta.description}</CardDescription>
+
+          <div>
+            {post.meta.tags.map((tag) => (
+              <Badge key={tag} className="mr-2">
+                {tag}
+              </Badge>
+            ))}
+          </div>
+        </div>
+      </Card>
+    </Link>
+  )
+}

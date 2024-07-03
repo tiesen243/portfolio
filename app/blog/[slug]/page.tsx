@@ -48,13 +48,9 @@ const Page: NextPage<Props> = async ({ params }) => {
         ]}
       />
 
-      <article>
-        <PostHeader meta={meta} views={views} />
+      <PostHeader meta={meta} views={views} />
 
-        <hr className="my-4" />
-
-        {content}
-      </article>
+      <article>{content}</article>
 
       <ScrollToTop />
     </>

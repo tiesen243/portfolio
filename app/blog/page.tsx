@@ -48,8 +48,9 @@ const Page: NextPage<Props> = async ({ searchParams }) => {
       />
 
       <h1 className="text-4xl font-bold">Blog</h1>
+      <p className="mt-2 text-lg text-muted-foreground">{description}</p>
 
-      <ul className="mt-4 flex flex-wrap gap-2">
+      <ul className="my-4 flex flex-wrap gap-2">
         {tags.map((tag) => (
           <li
             key={tag}
@@ -63,7 +64,7 @@ const Page: NextPage<Props> = async ({ searchParams }) => {
         ))}
       </ul>
 
-      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {renderPosts.map((post) => (
           <PostCard key={post.slug} post={post} />
         ))}

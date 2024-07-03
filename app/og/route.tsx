@@ -25,7 +25,7 @@ export const GET = async (_: NextRequest, { params }: Props): Promise<ImageRespo
   return new ImageResponse(
     (
       <div
-        tw="flex flex-col w-full h-full text-white p-20 items-center justify-center bg-black"
+        tw="w-full h-full px-20 py-28 flex flex-col items-center justify-center bg-black text-white"
         style={dotBg}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -35,15 +35,12 @@ export const GET = async (_: NextRequest, { params }: Props): Promise<ImageRespo
           tw="w-3/4 aspect-video"
         />
 
-        <div tw="flex flex-col items-start w-full">
+        <div tw="mt-12 flex flex-col items-start w-full">
           <h2 tw="text-4xl capitalize">{title}</h2>
-          <p tw="text-2xl mt-4">{description}</p>
+          <p tw="text-2xl mt-2">{description}</p>
         </div>
       </div>
     ),
-    {
-      width: 1200,
-      height: 630,
-    },
+    { width: 1200, height: 630 },
   )
 }

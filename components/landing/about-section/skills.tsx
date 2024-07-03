@@ -1,32 +1,26 @@
-import { type Icon, softwares, libraries } from '@/lib/data'
+import { Marquee } from '@/components/ui/marquee'
+import { type Icon, libraries, softwares } from '@/lib/data'
 import { cn } from '@/lib/utils'
 
-export const Skills: React.FC = () =>
-  [softwares, libraries].map((data, i) => (
-    <div
-      key={i}
-      className="inline-flex w-full flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]"
-    >
-      {Array.from({ length: 2 }).map((_, j) => (
-        <ul
-          key={j}
-          className={cn(
-            'flex items-center justify-center md:justify-start [&_img]:max-w-none [&_li]:mx-2',
-            i === 0 ? 'animate-infinite-scroll' : 'animate-infinite-scroll-reverse',
-          )}
-          aria-hidden={j > 0}
-        >
-          {data.map((d, idx) => (
-            <Item key={idx} {...d} />
-          ))}
-        </ul>
+export const Skills: React.FC = () => (
+  <>
+    <Marquee>
+      {softwares.map((item) => (
+        <Item key={item.label} item={item} />
       ))}
-    </div>
-  ))
+    </Marquee>
 
-const Item: React.FC<Icon> = (data) => (
-  <li className="flex basis-auto select-none items-center gap-2 rounded-lg bg-secondary/80 px-4 py-2 shadow-lg hover:bg-secondary">
-    <data.icon className={`h-8 w-8 ${data.color === '#000' && 'dark:invert'}`} fill={data.color} />
-    <span className="whitespace-nowrap text-xl font-bold">{data.label}</span>
+    <Marquee isReverse>
+      {libraries.map((item) => (
+        <Item key={item.label} item={item} />
+      ))}
+    </Marquee>
+  </>
+)
+
+const Item: React.FC<{ item: Icon }> = ({ item }) => (
+  <li className="relative flex h-full w-fit items-center justify-start gap-4 rounded-lg px-4 py-2 hover:bg-accent">
+    <item.icon fill={item.color} className={cn('w-10', item.color === '#000' && 'dark:invert')} />
+    <span className="whitespace-nowrap text-lg font-bold">{item.label}</span>
   </li>
 )
