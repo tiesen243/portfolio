@@ -10,12 +10,11 @@ export const AboutSection: React.FC = () => (
           About Me
         </h1>
 
-        <p className="text-2xl font-medium leading-7 md:text-3xl">
+        <p className="text-lg font-medium leading-7 md:text-3xl">
           I am a full stack web developer with a passion for creating interactive and responsive web
-          applications.
-          <br /> I have experience working with TypeScript, Next.js, TailwindCSS, ElysiaJS, Prisma,
-          MongoDb and more... Sometime I also work with Machine Learning. I am a quick learner and I
-          am always looking to expand my knowledge and skill set.
+          applications. I have experience working with TypeScript, Next.js, TailwindCSS, ElysiaJS,
+          Prisma, MongoDb and more... Sometime I also work with Machine Learning. I am a quick
+          learner and I am always looking to expand my knowledge and skill set.
         </p>
       </article>
 
