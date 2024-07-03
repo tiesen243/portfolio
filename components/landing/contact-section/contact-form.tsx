@@ -43,7 +43,7 @@ export const ContactForm: React.FC = () => {
   return (
     <Card className="grid grid-cols-1 border md:grid-cols-2">
       <CardHeader className="flex-col items-start">
-        <CardTitle>Get in Touch</CardTitle>
+        <h2 className="text-2xl font-semibold leading-none tracking-tight">Get in Touch</h2>
 
         <CardDescription>
           I&apos;m always excited to connect with new people and discuss potential collaborations or
