@@ -3,7 +3,7 @@ import { Skills } from './skills'
 import { ViewMore } from './view-more'
 
 export const AboutSection: React.FC = () => (
-  <section id="about" className="min-h-dvh space-y-4 pt-4">
+  <section id="about" className="container min-h-dvh space-y-4 pt-4">
     <section className="col-span-1 grid gap-8 md:grid-cols-12">
       <article className="md:col-span-8">
         <h1 className="w-fit bg-yuki bg-clip-text text-6xl font-extrabold text-transparent">

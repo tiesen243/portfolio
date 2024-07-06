@@ -7,7 +7,7 @@ import { Buttons } from './buttons'
 export const HomeSection: React.FC = () => (
   <section
     id="home"
-    className="flex min-h-dvh flex-col items-center justify-center gap-16 md:gap-8"
+    className="flex min-h-dvh flex-col items-center justify-center gap-16 px-8 md:gap-8"
   >
     <div className="h-72 w-full">
       <Image

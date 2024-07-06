@@ -39,7 +39,7 @@ const Page: NextPage<Props> = async ({ searchParams }) => {
   })
 
   return (
-    <>
+    <main className="container mb-4 flex-1">
       <Breadcrumbs
         items={[
           { label: '~', href: '/' },
@@ -70,7 +70,7 @@ const Page: NextPage<Props> = async ({ searchParams }) => {
         ))}
       </div>
       <ScrollToTop />
-    </>
+    </main>
   )
 }
 

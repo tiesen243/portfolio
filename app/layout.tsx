@@ -12,9 +12,9 @@ export const viewport = siteConfig.viewport
 
 const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
   <html lang="en" className="dark" suppressHydrationWarning>
-    <body className={`${font} flex flex-col gap-4 font-sans`}>
+    <body className={`${font} flex flex-col font-sans`}>
       <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
-        <main className="container flex-1">{children}</main>
+        {children}
         <Footer />
       </ThemeProvider>
 

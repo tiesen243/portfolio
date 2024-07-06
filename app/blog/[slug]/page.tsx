@@ -39,7 +39,7 @@ const Page: NextPage<Props> = async ({ params }) => {
   const views = await getViews(params.slug)
 
   return (
-    <>
+    <main className="container mb-4 flex-1">
       <Breadcrumbs
         items={[
           { label: '~', href: '/' },
@@ -53,7 +53,7 @@ const Page: NextPage<Props> = async ({ params }) => {
       <article>{content}</article>
 
       <ScrollToTop />
-    </>
+    </main>
   )
 }
 

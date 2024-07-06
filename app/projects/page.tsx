@@ -20,7 +20,7 @@ const Page: NextPage = async () => {
   const projects = await getProjects()
 
   return (
-    <>
+    <main className="container mb-4 flex-1">
       <Breadcrumbs
         items={[
           { label: '~', href: '/#about' },
@@ -53,7 +53,7 @@ const Page: NextPage = async () => {
       </section>
 
       <ScrollToTop />
-    </>
+    </main>
   )
 }
 
