@@ -22,7 +22,6 @@ export const CTASection: React.FC = () => {
       const res = await sendEmail(new FormData(form))
       setState(res)
       if (res.success) form.reset()
-      console.log(res)
     })
 
   useEffect(() => {
@@ -33,7 +32,7 @@ export const CTASection: React.FC = () => {
   }, [state])
 
   return (
-    <section id="cta" className="mt-24 w-screen rounded-none border-none bg-secondary px-0">
+    <section id="cta" className="mt-12 w-screen bg-secondary">
       <div className="container grid grid-cols-1 md:grid-cols-2">
         <div className="flex flex-col items-start py-6">
           <h2 className="text-2xl font-semibold leading-none tracking-tight">Get in Touch</h2>
@@ -66,6 +65,7 @@ export const CTASection: React.FC = () => {
               />
               <small className="text-red-500">{state.error?.message}</small>
             </fieldset>
+            <input type="hidden" name="to" value={siteConfig.contact[1]?.value} />
           </div>
 
           <div className="flex flex-col items-start gap-4 px-0 pb-6">
@@ -85,5 +85,4 @@ export const CTASection: React.FC = () => {
 const fields = [
   { name: 'reply_to', type: 'email', placeholder: 'yukikaze@gmail.com' },
   { name: 'subject', type: 'text', placeholder: "What's do you want to talk about?" },
-  { name: 'to', type: 'hidden', value: siteConfig.contact[1]?.value },
 ]

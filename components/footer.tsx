@@ -6,9 +6,9 @@ import { ThemeSwitch } from './theme-switch'
 
 export const Footer: React.FC = () => (
   <footer className="border-t py-12 lg:py-16">
-    <div className="container flex flex-col items-start justify-between gap-4 pb-8 md:flex-row md:items-center">
-      <Link href="/" className="flex items-center gap-2 text-lg font-bold">
-        <div className="size-12 rounded-lg border-2 p-2">
+    <div className="container grid grid-cols-1 gap-4 pb-8 md:grid-cols-3">
+      <Link href="/" className="flex items-center gap-2 place-self-start text-xl font-bold">
+        <div className="size-10 rounded-lg border-2 p-2">
           <Image
             src="/imgs/logo.svg"
             alt="Tiesen"
@@ -20,7 +20,7 @@ export const Footer: React.FC = () => (
         Tiesen
       </Link>
 
-      <nav className="space-x-4">
+      <nav className="flex flex-1 items-center justify-center gap-4 place-self-center">
         {siteConfig.navLinks.map((link, idx) => (
           <Link
             key={idx}
@@ -32,14 +32,22 @@ export const Footer: React.FC = () => (
         ))}
       </nav>
 
-      <ul className="flex items-center gap-4">
+      <ul className="flex w-full items-center justify-start gap-4 place-self-end md:w-fit">
         {siteConfig.socials.map((social) => (
-          <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer">
+          <a
+            key={social.label}
+            href={social.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors ease-linear hover:text-yuki"
+          >
             <social.icon />
           </a>
         ))}
 
-        <ThemeSwitch />
+        <div className="flex flex-1 justify-end">
+          <ThemeSwitch />
+        </div>
       </ul>
     </div>
 
