@@ -88,7 +88,6 @@ export const siteConfig: SiteConfig = {
   navLinks: [
     { label: 'Home', url: '/#home' },
     { label: 'About', url: '/#about' },
-    { label: 'Contact', url: '/#contact' },
     { label: 'Projects', url: '/projects' },
     { label: 'Blog', url: '/blog' },
   ],
