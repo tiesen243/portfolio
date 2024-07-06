@@ -7,10 +7,10 @@ export const AboutSection: React.FC = () => (
     <section className="col-span-1 grid gap-8 md:grid-cols-12">
       <article className="md:col-span-8">
         <h1 className="w-fit bg-yuki bg-clip-text text-6xl font-extrabold text-transparent">
-          About Me
+          Tran Tien
         </h1>
 
-        <p className="text-lg font-medium leading-7 md:text-3xl">
+        <p className="mt-4 text-lg font-medium leading-7 md:text-3xl">
           I am a full stack web developer with a passion for creating interactive and responsive web
           applications. I have experience working with TypeScript, Next.js, TailwindCSS, ElysiaJS,
           Prisma, MongoDb and more... Sometime I also work with Machine Learning. I am a quick

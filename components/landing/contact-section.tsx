@@ -8,9 +8,9 @@ export const ContactSection: React.FC = () => (
       {siteConfig.socials.map((social) => (
         <li key={social.label} className="group">
           <a href={social.href} target="_blank" rel="noopener noreferrer">
-            <Card className="transition-all ease-linear group-hover:bg-secondary">
+            <Card className="transition-colors ease-linear group-hover:bg-secondary">
               <CardHeader className="flex-row items-center justify-center gap-2 space-y-0 font-bold group-hover:text-yuki">
-                <social.icon className="" />
+                <social.icon />
                 <span>{social.label}</span>
               </CardHeader>
             </Card>
