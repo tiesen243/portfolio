@@ -33,7 +33,7 @@ export const Footer: React.FC = () => (
       </nav>
 
       <ul className="flex items-center gap-4">
-        {siteConfig.socials.slice(0, -1).map((social) => (
+        {siteConfig.socials.map((social) => (
           <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer">
             <social.icon />
           </a>
