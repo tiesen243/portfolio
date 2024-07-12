@@ -20,7 +20,7 @@ export const Footer: React.FC = () => (
         Tiesen
       </Link>
 
-      <nav className="flex flex-1 items-center justify-center gap-4 place-self-center">
+      <nav className="flex flex-1 items-center justify-start gap-4 place-self-center md:justify-center ">
         {siteConfig.navLinks.map((link, idx) => (
           <Link
             key={idx}
