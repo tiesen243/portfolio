@@ -1,20 +1,12 @@
 ---
 title: Next.js x Elysia Starter Kit
 description: Create a full-stack application with Next.js and ElysiaJS in minutes
-image: /imgs/blog/next-elysia.png
+image: /blog/next-elysia.png
 date: 2024-05-10
 tags:
   - Next.js
   - Full Stack
 ---
-
-## Table of Contents
-
-1. [Introduction](#introduction)
-2. [Installation](#installation)
-3. [Backend](#backend)
-4. [Fontend](#fontend)
-5. [Reference](#reference)
 
 ## Introduction
 
@@ -60,6 +52,8 @@ Define your route at `server/routes/*.ts` and update this route to `server/elysi
 
 > Note: in this example, i'm use `post` route
 
+### Create a new model for route
+
 ```ts title="server/models/post.model.ts"
 import Elysia, { t } from 'elysia'
 
@@ -74,7 +68,7 @@ const deletePost = t.Object({
 export const postModel = new Elysia({ name: 'Model.Post' }).model({ createPost, deletePost })
 ```
 
-Create your new route
+### Create a new route
 
 ```ts title="server/routes/post.route.ts"
 import Elysia from 'elysia'
@@ -123,7 +117,7 @@ export const postRoute = new Elysia({ name: 'Route.Post', prefix: '/post' })
   )
 ```
 
-Add this route to app
+### Add this route to app
 
 ```ts title="server/elysia.ts"
 import { Elysia } from 'elysia'
@@ -138,64 +132,7 @@ export const app = new Elysia({ prefix: '/api/elysia' })
 
 ## Fontend
 
-> In this example, i'm use `api.post` for post route
-
-```tsx title="components/delete-post.tsx"
-'use client'
-
-import { XIcon } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
-import { api } from '@/lib/api'
-import { revalidate } from '@/lib/revalidate'
-
-export const DeletePost: React.FC<{ postId: string }> = ({ postId }) => {
-  const handleClick = async () => {
-    await api.post.del.delete({ id: postId })
-    revalidate('posts')
-  }
-  return (
-    <Button
-      variant="ghost"
-      size="icon"
-      className="absolute right-2 top-2 z-10"
-      onClick={handleClick}
-    >
-      <XIcon size={24} />
-    </Button>
-  )
-}
-```
-
-```tsx title="components/post-list.tsx"
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { api } from '@/lib/api'
-import { DeletePost } from './delete-post'
-
-export const PostList: React.FC<{ userId?: string }> = async ({ userId }) => {
-  const { data, error } = await api.post.getAll.get({ fetch: { next: { tags: ['posts'] } } })
-
-  if (error || !data) return <div>{error.value.message ?? 'Unknow error'}</div>
-
-  return (
-    <div className="container mb-4 max-w-screen-md space-y-4">
-      {data.map((post) => (
-        <Card key={post.id}>
-          {userId === post.author.id && <DeletePost postId={post.id} />}
-          <CardHeader>
-            <CardDescription>{post.author.name}</CardDescription>
-          </CardHeader>
-          <CardFooter>
-            <CardTitle>{post.content}</CardTitle>
-          </CardFooter>
-        </Card>
-      ))}
-    </div>
-  )
-}
-```
-
-Create a form to create post
+### Create a form to create post
 
 ```tsx title="components/create-post.tsx"
 'use client'
@@ -234,28 +171,66 @@ export const CreatePost: React.FC = () => {
 }
 ```
 
-And, use it in your page
+### Create a delete post component
 
-```tsx title="app/page.tsx"
-import type { NextPage } from 'next'
+```tsx title="components/delete-post.tsx"
+'use client'
 
-import { auth } from '@/server/auth'
-import { PostList } from '@/components/post-list'
-import { CreatePost } from '@/components/create-post'
+import { XIcon } from 'lucide-react'
 
-const Page: NextPage = async () => {
-  const session = await auth()
+import { Button } from '@/components/ui/button'
+import { api } from '@/lib/api'
+import { revalidate } from '@/lib/revalidate'
 
+export const DeletePost: React.FC<{ postId: string }> = ({ postId }) => {
+  const handleClick = async () => {
+    await api.post.del.delete({ id: postId })
+    revalidate('posts')
+  }
   return (
-    <main className="container">
-      {session && session.user && <CreatePost />}
-      <PostList userId={session.user?.id} />
-    </main>
+    <Button
+      variant="ghost"
+      size="icon"
+      className="absolute right-2 top-2 z-10"
+      onClick={handleClick}
+    >
+      <XIcon size={24} />
+    </Button>
   )
 }
 ```
 
-## Notes:
+### Create a post list component
+
+```tsx title="components/post-list.tsx"
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { api } from '@/lib/api'
+import { DeletePost } from './delete-post'
+
+export const PostList: React.FC<{ userId?: string }> = async ({ userId }) => {
+  const { data, error } = await api.post.getAll.get({ fetch: { next: { tags: ['posts'] } } })
+
+  if (error || !data) return <div>{error.value.message ?? 'Unknow error'}</div>
+
+  return (
+    <div className="container mb-4 max-w-screen-md space-y-4">
+      {data.map((post) => (
+        <Card key={post.id}>
+          {userId === post.author.id && <DeletePost postId={post.id} />}
+          <CardHeader>
+            <CardDescription>{post.author.name}</CardDescription>
+          </CardHeader>
+          <CardFooter>
+            <CardTitle>{post.content}</CardTitle>
+          </CardFooter>
+        </Card>
+      ))}
+    </div>
+  )
+}
+```
+
+## Notes
 
 If you want to use `middleware`:
 
@@ -279,12 +254,10 @@ const Page: NextPage = async () => {
 
 ## Reference
 
-### Documents
-
 - Next.js: [nextjs.org](https://nextjs.org/)
 - ElysiaJS: [elysiajs.com](https://elysiajs.com/)
 
-### Try it now!!!
+**Try it now!!!**
 
 1. Fork my repository: [here](https://github.com/tiesen243/next-elysia/)
 2. Demo web app: [here](https://next-elysia.vercel.app/)

@@ -18,7 +18,7 @@ export interface Project {
 export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
   <card.Card key={project.id} className="group aspect-video">
     <Image
-      src={`/og?title=${project.name.replace(/-/g, ' ')}&desc=${project.description}`}
+      src={`/api/og?title=${project.name.replace(/-/g, ' ')}&desc=${project.description}`}
       alt={project.name}
       className="aspect-video rounded-lg object-cover drop-shadow-lg"
       fill

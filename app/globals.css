@@ -103,20 +103,4 @@
   ::-webkit-scrollbar-thumb {
     @apply rounded-full bg-ring;
   }
-
-  /* Code */
-  code {
-    counter-reset: line;
-  }
-  code > [data-line]::before {
-    counter-increment: line;
-    content: counter(line);
-
-    @apply float-left mr-4 w-4 text-right text-muted-foreground;
-  }
-
-  code[data-theme*=' '],
-  code[data-theme*=' '] span {
-    @apply bg-[var(--shiki-light-bg)] text-[var(--shiki-light)] dark:bg-[var(--shiki-dark-bg)] dark:text-[var(--shiki-dark)];
-  }
 }

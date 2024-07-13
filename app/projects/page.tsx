@@ -3,7 +3,6 @@ import Image from 'next/image'
 
 import { ProjectCard } from '@/components/project-card'
 import { ScrollToTop } from '@/components/scroll-to-top'
-import { Breadcrumbs } from '@/components/ui/breadcrumbs'
 import { getProjects } from '@/lib/actions'
 import { baseUrl } from '@/lib/site'
 
@@ -12,7 +11,7 @@ const description =
 export const metadata: Metadata = {
   title: 'Projects',
   description,
-  openGraph: { images: `/og?title=Projects&desc=${description}`, url: `${baseUrl}/projects` },
+  openGraph: { images: `/api/og?title=Projects&desc=${description}`, url: `${baseUrl}/projects` },
   alternates: { canonical: `${baseUrl}/projects` },
 }
 
@@ -20,14 +19,7 @@ const Page: NextPage = async () => {
   const projects = await getProjects()
 
   return (
-    <main className="container mb-4 flex-1">
-      <Breadcrumbs
-        items={[
-          { label: '~', href: '/#about' },
-          { label: 'Projects', href: '/projects' },
-        ]}
-      />
-
+    <main className="container my-4 flex-1">
       <h1 className="text-4xl font-bold">Projects</h1>
       <p className="mb-4 mt-2 text-lg text-muted-foreground">{description}</p>
 
@@ -42,7 +34,7 @@ const Page: NextPage = async () => {
       <section className="space-y-4">
         {Array.from({ length: 5 }).map((_, i) => (
           <Image
-            key={i}
+            key={`design-${i + 1}`}
             src={`/imgs/design/${i + 1}.png`}
             alt={`Design ${i + 1}`}
             className="rounded-lg object-cover shadow-lg"

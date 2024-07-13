@@ -4,12 +4,15 @@
  */
 await import('./env.js')
 
+import createMDX from 'fumadocs-mdx/config'
+
+const withMdx = createMDX({})
+
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
-  experimental: { serverComponentsExternalPackages: ['shiki'] },
 }
 
-export default config
+export default withMdx(config)

@@ -1,5 +1,4 @@
 import type { LucideProps } from 'lucide-react'
-import { cn } from './utils'
 
 export const education = [
   {

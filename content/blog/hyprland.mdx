@@ -1,20 +1,12 @@
 ---
 title: Hyprland
 description: Setup Hyprland OS base on Arch Linux with easy steps.
-image: /imgs/blog/hyprland.png
+image: /blog/hyprland.png
 date: 2024-04-10
 tags:
   - Linux
   - Hyprland
 ---
-
-## Table of Contents
-
-1. [Introduction](#introduction)
-2. [Installation](#installation)
-3. [Set up](#set-up)
-4. [Key mapping](#key-mapping)
-5. [Conclusion](#conclusion)
 
 ## Introduction
 
@@ -238,28 +230,6 @@ Then, install oh-my-zsh plugins
 ```bash
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-```
-
-If you using `Nvidia` GPU, you can install the following packages
-
-```bash
-sudo pacman -S nvidia-dkms nvidia-utils
-```
-
-Then, add this line to end of `/etc/default/grub`
-
-```bash title="/etc/default/grub"
-GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet nvidia_drm.modeset=1"
-
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-Then, add this line to end of `/etc/mkinitcpio.conf`
-
-```bash title="/etc/mkinitcpio.conf"
-MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
-
-sudo mkinitcpio -P
 ```
 
 Optional: Install `miniconda3` for python and `nvm` for nodejs development environment

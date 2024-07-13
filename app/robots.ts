@@ -1,9 +1,9 @@
 import { baseUrl } from '@/lib/site'
 
-export default function robots() {
-  return {
-    rules: [{ userAgent: '*' }],
-    sitemap: `${baseUrl}/sitemap.xml`,
-    host: baseUrl,
-  }
-}
+const robots = () => ({
+  rules: [{ userAgent: '*' }],
+  sitemap: `${baseUrl}/sitemap.xml`,
+  host: baseUrl,
+})
+
+export default robots
