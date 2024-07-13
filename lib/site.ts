@@ -2,7 +2,7 @@ import * as icons from 'lucide-react'
 import type { Metadata, Viewport } from 'next'
 
 export const baseUrl =
-  process.env.NODE_ENV === 'production' ? 'https://tiesen.id.vn' : 'http://localhost:3000'
+  process.env.NODE_ENV === 'production' ? 'https://www.tiesen.id.vn' : 'http://localhost:3000'
 
 export const description =
   "I'm a weeb developer who loves to build many stuff. I enjoy working with TypeScript, Next.js, tRPC, and ElysiaJS. I'm also a fan of anime, manga, and light novels."
