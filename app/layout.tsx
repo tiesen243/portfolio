@@ -1,3 +1,5 @@
+import './globals.css'
+
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ThemeProvider } from 'next-themes'
@@ -5,7 +7,6 @@ import { ThemeProvider } from 'next-themes'
 import { Footer } from '@/components/footer'
 import { font } from '@/lib/font'
 import { siteConfig } from '@/lib/site'
-import './globals.css'
 
 export const metadata = siteConfig.meta
 export const viewport = siteConfig.viewport
