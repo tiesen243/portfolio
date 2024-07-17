@@ -4,8 +4,8 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
 import { getPage, getPages } from '@/content'
-import { baseUrl } from '@/lib/site'
 import { env } from '@/env'
+import { baseUrl } from '@/lib/site'
 
 interface Props {
   params: { slug?: string[] }
