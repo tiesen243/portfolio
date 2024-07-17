@@ -54,7 +54,9 @@ export const Footer: React.FC = () => (
     <hr className="border-1 mx-auto w-4/5" />
 
     <div className="container flex items-center justify-center pt-8">
-      <p>&copy; {new Date().getFullYear()} Tiesen. All rights reserved.</p>
+      <p className="text-muted-foreground">
+        &copy; {new Date().getFullYear()} Tiesen | All rights reserved.
+      </p>
     </div>
   </footer>
 )

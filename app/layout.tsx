@@ -4,7 +4,6 @@ import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ThemeProvider } from 'next-themes'
 
-import { Footer } from '@/components/footer'
 import { font } from '@/lib/font'
 import { siteConfig } from '@/lib/site'
 
@@ -16,7 +15,6 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
     <body className={`${font} flex flex-col font-sans`}>
       <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
         {children}
-        <Footer />
       </ThemeProvider>
 
       <Analytics />

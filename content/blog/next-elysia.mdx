@@ -2,7 +2,7 @@
 title: Next.js x Elysia Starter Kit
 description: Create a full-stack application with Next.js and ElysiaJS in minutes
 image: /blog/next-elysia.png
-date: 2024-05-10
+date: 2024-07-17
 tags:
   - Next.js
   - Full Stack
@@ -26,6 +26,8 @@ Next step, update your enviroment variables
 
 ```bash title=".env"
 DATABASE_URL=""
+# Only use in production
+NEXT_PUBLIC_API_URL=""
 ```
 
 > In this project, i'm use MongoDB for Database, if you use other database, remember to change provider in `prisma/schema.prisma` and change Id fields
@@ -34,7 +36,6 @@ Then, push schema to your database
 
 ```bash
 bun run db:format
-bun run db:migrate
 bun run db:push
 ```
 
@@ -54,147 +55,160 @@ Define your route at `server/routes/*.ts` and update this route to `server/elysi
 
 ### Create a new model for route
 
-```ts title="server/models/post.model.ts"
+```ts title="server/validates/post.ts"
 import Elysia, { t } from 'elysia'
 
-const createPost = t.Object({
-  content: t.String({ minLength: 4, error: 'Content must be at least 4 characters' }),
+const createPostSchema = t.Object({
+  content: t.String(),
 })
 
-const deletePost = t.Object({
-  id: t.String({ minLength: 4, error: 'ID must be at least 4 characters' }),
-})
-
-export const postModel = new Elysia({ name: 'Model.Post' }).model({ createPost, deletePost })
+export const postSchema = new Elysia({ name: 'post.schema' }).model({ createPostSchema })
 ```
 
 ### Create a new route
 
-```ts title="server/routes/post.route.ts"
-import Elysia from 'elysia'
+```ts title="server/routers/post.ts"
+import { createElysia } from '../elysia'
+import { postSchema } from '../validates/post'
 
-import { context } from '@/server/plugins'
-import { postModel } from '@/server/models/post.model'
+export const postRouter = createElysia({ prefix: '/post' })
+  .use(postSchema)
 
-export const postRoute = new Elysia({ name: 'Route.Post', prefix: '/post' })
-  .use(context)
-  .use(postModel)
-
-  .get('/getAll', async ({ db, error }) => {
+  .get('/getPosts', async ({ db, error }) => {
     const posts = await db.post.findMany({
-      include: { author: { select: { id: true, name: true } } },
+      include: { author: true },
       orderBy: { createdAt: 'desc' },
     })
-    if (!posts) return error(404, { message: 'No posts found' })
+    if (!posts) return error('Internal Server Error', 'Failed to fetch posts.')
     return posts
-  })
-
-  .onBeforeHandle({ as: 'scoped' }, ({ session, user, error }) => {
-    if (!session || !user) return error(401, { message: 'Unauthorized' })
   })
 
   .post(
     '/create',
-    async ({ db, body: { content }, user, error }) => {
+    async ({ user, db, body, error }) => {
+      if (!user) return error('Unauthorized', 'You must be logged in to create a post.')
+
       const newPost = await db.post.create({
-        data: { content, author: { connect: { id: user?.id } } },
+        data: {
+          ...body,
+          author: { connect: { id: user?.id } },
+        },
       })
-      if (!newPost) return error(500, { message: 'Failed to create post' })
-      return { message: 'Post created successfully' }
+      if (!newPost) return error('Internal Server Error', 'Failed to create post.')
+      return newPost
     },
-    { body: 'createPost' },
+    { body: 'createPostSchema' },
   )
 
-  .delete(
-    '/del',
-    async ({ db, body: { id }, error }) => {
-      const post = await db.post.findUnique({ where: { id } })
-      if (!post) return error(404, { message: 'Post not found' })
-      await db.post.delete({ where: { id } })
-      return { message: 'Post deleted successfully' }
-    },
-    { body: 'deletePost' },
-  )
+  .delete('/deletePost/:id', async ({ user, db, params, error }) => {
+    if (!user) return error('Unauthorized', 'You must be logged in to delete a post.')
+
+    const post = await db.post.findUnique({ where: { id: params.id } })
+    if (!post) return error('Not Found', 'Post not found.')
+
+    if (post.authorId !== user.id)
+      return error('Forbidden', 'You do not have permission to delete this post.')
+
+    await db.post.delete({ where: { id: params.id } })
+
+    return { message: 'Post deleted successfully.' }
+  })
 ```
 
 ### Add this route to app
 
-```ts title="server/elysia.ts"
-import { Elysia } from 'elysia'
+```ts title="server/root.ts"
+import { createElysia } from '@/server/elysia'
 
-import { postRoute } from '@/server/routes/post.route'
+import { authRouter } from '@/server/routers/auth'
+import { postRouter } from '@/server/routers/post'
 
-export const app = new Elysia({ prefix: '/api/elysia' })
-  /* ... */
-  .use(postRoute)
-/* ... */
+export const appRouter = createElysia({ prefix: '/api' })
+  /* Other routes */
+  .use(postRouter)
+  .compile()
+
+export type App = typeof appRouter
 ```
 
 ## Fontend
 
 ### Create a form to create post
 
-```tsx title="components/create-post.tsx"
+```tsx title="components/post/create-form.tsx"
 'use client'
 
-import { useRef, useTransition } from 'react'
-import { toast } from 'sonner'
+import { useMutation } from '@tanstack/react-query'
 import { SendHorizonalIcon } from 'lucide-react'
+import { useRef } from 'react'
+import { z } from 'zod'
 
+import { FormField } from '@/components/form-field'
 import { Button } from '@/components/ui/button'
-import { FormField } from '@/components/ui/form-field'
+import { revalidate } from '@/server/actions'
+import { useAuth } from '@/lib/auth'
 import { api } from '@/lib/api'
-import { revalidate } from '@/lib/revalidate'
 
-export const CreatePost: React.FC = () => {
+export const CreatePostForm: React.FC = () => {
+  const { isAuthed } = useAuth()
   const formRef = useRef<HTMLFormElement>(null)
-  const [isPending, startTransition] = useTransition()
-  const action = (fd: FormData) =>
-    startTransition(async () => {
-      const { error } = await api.post.create.post({ content: String(fd.get('content')) })
-      if (error) toast.error(error.value.message ?? 'Unknow error')
-      else revalidate('posts')
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (formData: FormData) => {
+      const parsed = schema.safeParse(Object.fromEntries(formData))
+      if (!parsed.success) throw parsed.error.flatten().fieldErrors
+      await api.post.create.post(parsed.data)
+      revalidate({ tag: 'posts' })
       formRef.current?.reset()
-    })
+    },
+  })
+
+  if (!isAuthed) return null
+
   return (
-    <form
-      ref={formRef}
-      action={action}
-      className="container mb-4 flex max-w-screen-md items-center gap-4"
-    >
-      <FormField name="content" placeholder="What's on your mind?" className="w-full" />
+    <form action={mutate} ref={formRef} className="container flex max-w-screen-md gap-2">
+      <FormField
+        name="content"
+        placeholder="What are you thinking?"
+        className="flex-1"
+        disabled={isPending}
+      />
       <Button variant="ghost" size="icon" isLoading={isPending}>
         <SendHorizonalIcon />
       </Button>
     </form>
   )
 }
+
+const schema = z.object({
+  content: z.string().min(4, 'Content must be at least 4 characters long'),
+})
 ```
 
 ### Create a delete post component
 
-```tsx title="components/delete-post.tsx"
+```tsx title="components/post/delete-btn.tsx"
 'use client'
 
 import { XIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
+import { revalidate } from '@/server/actions'
+import { useAuth } from '@/lib/auth'
 import { api } from '@/lib/api'
-import { revalidate } from '@/lib/revalidate'
 
-export const DeletePost: React.FC<{ postId: string }> = ({ postId }) => {
-  const handleClick = async () => {
-    await api.post.del.delete({ id: postId })
-    revalidate('posts')
+export const DeleteBtn: React.FC<{ id: string }> = ({ id }) => {
+  const { isAuthed } = useAuth()
+
+  const handleDelete = async () => {
+    await api.post.deletePost({ id }).delete()
+    revalidate({ tag: 'posts' })
   }
+
+  if (!isAuthed) return null
+
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      className="absolute right-2 top-2 z-10"
-      onClick={handleClick}
-    >
-      <XIcon size={24} />
+    <Button variant="ghost" size="icon" onClick={handleDelete} className="absolute right-2 top-2">
+      <XIcon />
     </Button>
   )
 }
@@ -203,53 +217,43 @@ export const DeletePost: React.FC<{ postId: string }> = ({ postId }) => {
 ### Create a post list component
 
 ```tsx title="components/post-list.tsx"
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { api } from '@/lib/api'
-import { DeletePost } from './delete-post'
-
-export const PostList: React.FC<{ userId?: string }> = async ({ userId }) => {
-  const { data, error } = await api.post.getAll.get({ fetch: { next: { tags: ['posts'] } } })
-
-  if (error || !data) return <div>{error.value.message ?? 'Unknow error'}</div>
-
-  return (
-    <div className="container mb-4 max-w-screen-md space-y-4">
-      {data.map((post) => (
-        <Card key={post.id}>
-          {userId === post.author.id && <DeletePost postId={post.id} />}
-          <CardHeader>
-            <CardDescription>{post.author.name}</CardDescription>
-          </CardHeader>
-          <CardFooter>
-            <CardTitle>{post.content}</CardTitle>
-          </CardFooter>
-        </Card>
-      ))}
-    </div>
-  )
-}
-```
-
-## Notes
-
-If you want to use `middleware`:
-
-```ts title="app/page.tsx"
 import type { NextPage } from 'next'
-import { redirect } from 'next/navigation'
 
-import { auth } from '@/server/auth'
+import { CreatePostForm } from '@/components/post/create-form'
+import { DeleteBtn } from '@/components/post/delete-btn'
+import { api } from '@/lib/api'
 
-const Page: NextPage = async () => {
-  const session = await auth()
-  if (!session && !session.user) redirect('/login')
+interface Post {
+  id: string
+  content: string
+  author: {
+    name: string
+  }
+}
+
+const Page: React.FC = async ({ userId }) => {
+  const { data: posts } = (await api.post.getPosts.get({
+    fetch: { next: { tags: ['posts'] } },
+  })) as { data: Post[] }
 
   return (
-    <main className="container">
-      Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
-    </main>
+    <>
+      <CreatePostForm />
+
+      <section className="container my-4 grid max-w-screen-md grid-cols-1 gap-4 md:grid-cols-2">
+        {posts?.map((post) => (
+          <article key={post.id} className="rounded-md border p-4">
+            <p className="text-xl font-bold">{post.content}</p>
+            <small className="text-muted-foreground">by {post.author.name}</small>
+            <DeleteBtn id={post.id} />
+          </article>
+        ))}
+      </section>
+    </>
   )
 }
+
+export default Page
 ```
 
 ## Reference

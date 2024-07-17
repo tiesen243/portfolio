@@ -16,14 +16,10 @@ const Page: NextPage = () => {
   const blogs = getPages()
 
   return (
-    <main className="container">
-      <h1 className="mt-4 text-3xl font-bold">Blog</h1>
-
-      <section className="my-4 grid grid-cols-1 gap-4 md:grid-cols-3">
-        {blogs.map((blog) => (
-          <BlogCard key={blog.url} blog={blog} />
-        ))}
-      </section>
+    <main className="container my-4 grid grid-cols-1 gap-4 md:grid-cols-3">
+      {blogs.map((blog) => (
+        <BlogCard key={blog.url} blog={blog} />
+      ))}
     </main>
   )
 }

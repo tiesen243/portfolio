@@ -22,7 +22,7 @@ export const BlogCard: React.FC<Props> = async ({ blog }) => {
   }).then((res) => res.text())
 
   return (
-    <Link href={blog.url} className="rounded-lg shadow-lg hover:bg-secondary">
+    <Link href={blog.url} className="h-fit rounded-lg shadow-lg hover:bg-secondary">
       <div className="aspect-video w-full">
         <Image src={blog.data.image} alt={blog.url} className="rounded-t-lg object-cover" fill />
       </div>
