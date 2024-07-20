@@ -29,8 +29,13 @@ export const siteConfig: SiteConfig = {
       locale: 'vi_VN',
       url: baseUrl,
       siteName: 'Tiesen',
-      images: '/og',
+      images: { url: '/og', alt: 'Tiesen', width: 1200, height: 630 },
+      username: 'tiesen243',
+      firstName: 'Tiến',
+      lastName: 'Trần',
+      emails: 'ttien56906@gmail.com',
     },
+
     twitter: { card: 'summary_large_image', creator: '@tiesen243' },
     icons: {
       icon: '/favicon.ico',
