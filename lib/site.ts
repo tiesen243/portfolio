@@ -38,7 +38,6 @@ export const siteConfig: SiteConfig = {
       apple: '/apple-touch-icon.png',
     },
     alternates: { canonical: baseUrl },
-    other: { 'facebook-domain-verification': '4z0hms093ej56zmhuz6t9cmxojr7mb' },
   },
   viewport: {
     themeColor: [
