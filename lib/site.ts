@@ -43,7 +43,7 @@ export const siteConfig: SiteConfig = {
       apple: '/apple-touch-icon.png',
     },
     alternates: { canonical: baseUrl },
-    other: { 'fb:app_id': '3924890344451383' },
+    other: { 'fb:app_id': '1487319841904346' },
   },
   viewport: {
     themeColor: [
