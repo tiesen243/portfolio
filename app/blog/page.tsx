@@ -2,14 +2,14 @@ import type { NextPage } from 'next'
 
 import { BlogCard } from '@/components/blog-card'
 import { getPages } from '@/content'
-import { baseUrl } from '@/lib/site'
+import { getBaseUrl } from '@/lib/site'
 
 const description = 'A collection of my blog posts from various topics'
 export const metadata = {
   title: 'Blog',
   description,
-  openGraph: { images: `/og?title=Blog&desc=${description}`, url: `${baseUrl}/blog` },
-  alternates: { canonical: `${baseUrl}/projects` },
+  openGraph: { images: `/og?title=Blog&desc=${description}`, url: `${getBaseUrl()}/blog` },
+  alternates: { canonical: `${getBaseUrl()}/projects` },
 }
 
 const Page: NextPage = () => {

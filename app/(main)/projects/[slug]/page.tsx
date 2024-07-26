@@ -1,7 +1,7 @@
 import type { NextPage, ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
 
-import { baseUrl } from '@/lib/site'
+import { getBaseUrl } from '@/lib/site'
 
 interface Props {
   params: { slug: string }
@@ -20,8 +20,12 @@ export const generateMetadata = async ({ params }: Props, parent: ResolvingMetad
     title: project.name,
     description: project.description,
     keywords: [...project.stack, ...previousKeywords],
-    openGraph: { images: [`/og?title=${project.name}&desc=${project.preview}`, ...previousImages] },
-    alternates: { canonical: `${baseUrl}/projects/${project.slug}` },
+    openGraph: {
+      type: 'article',
+      url: `${getBaseUrl()}/projects/${project.slug}`,
+      images: [`/og?title=${project.name}&desc=${project.preview}`, ...previousImages],
+    },
+    alternates: { canonical: `${getBaseUrl()}/projects/${project.slug}` },
   }
 }
 

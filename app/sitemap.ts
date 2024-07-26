@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 
-import { baseUrl } from '@/lib/site'
 import { getPages } from '@/content'
+import { getBaseUrl } from '@/lib/site'
 
 interface Route {
   url: string
@@ -10,12 +10,12 @@ interface Route {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const routesMap = ['', 'projects', 'blog'].map((route) => ({
-    url: `${baseUrl}/${route}`,
+    url: `${getBaseUrl()}/${route}`,
     lastModified: new Date().toISOString(),
   }))
 
   const blogRoutes = getPages().map((page) => ({
-    url: `${baseUrl}/${page.url}`,
+    url: `${getBaseUrl()}/${page.url}`,
     lastModified: page.data.date.toISOString(),
   }))
 

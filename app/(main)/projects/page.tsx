@@ -3,15 +3,15 @@ import Image from 'next/image'
 
 import { ProjectCard } from '@/components/project-card'
 import { ScrollToTop } from '@/components/scroll-to-top'
-import { baseUrl } from '@/lib/site'
+import { getBaseUrl } from '@/lib/site'
 
 const description =
   'A showcase of my projects and works. I love to build things that make a difference. Check out my projects!'
 export const metadata: Metadata = {
   title: 'Projects',
   description,
-  openGraph: { images: `/og?title=Projects&desc=${description}`, url: `${baseUrl}/projects` },
-  alternates: { canonical: `${baseUrl}/projects` },
+  openGraph: { images: `/og?title=Projects&desc=${description}`, url: `${getBaseUrl()}/projects` },
+  alternates: { canonical: `${getBaseUrl()}/projects` },
 }
 
 const Page: NextPage = async () => {

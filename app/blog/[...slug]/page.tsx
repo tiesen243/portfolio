@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 
 import { getPage, getPages } from '@/content'
 import { env } from '@/env'
-import { baseUrl } from '@/lib/site'
+import { getBaseUrl } from '@/lib/site'
 
 interface Props {
   params: { slug?: string[] }
@@ -20,8 +20,12 @@ export const generateMetadata = async ({ params }: Props, parent: ResolvingMetad
   return {
     title: blog.data.title,
     description: blog.data.description,
-    openGraph: { images: [blog.data.image, ...previousImages] },
-    alternates: { canonical: `${baseUrl}/${blog.url}` },
+    openGraph: {
+      type: 'article',
+      url: `${getBaseUrl()}/${blog.url}`,
+      images: [blog.data.image, ...previousImages],
+    },
+    alternates: { canonical: `${getBaseUrl()}/${blog.url}` },
   }
 }
 

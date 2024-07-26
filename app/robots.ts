@@ -1,9 +1,9 @@
-import { baseUrl } from '@/lib/site'
+import { getBaseUrl } from '@/lib/site'
 
 const robots = () => ({
   rules: [{ userAgent: '*' }],
-  sitemap: `${baseUrl}/sitemap.xml`,
-  host: baseUrl,
+  sitemap: `${getBaseUrl()}/sitemap.xml`,
+  host: getBaseUrl(),
 })
 
 export default robots

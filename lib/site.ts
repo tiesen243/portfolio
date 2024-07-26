@@ -1,8 +1,13 @@
 import * as icons from 'lucide-react'
 import type { Metadata, Viewport } from 'next'
 
-export const baseUrl =
-  process.env.NODE_ENV === 'production' ? 'https://www.tiesen.id.vn' : 'http://localhost:3000'
+export const getBaseUrl = () => {
+  if (typeof window !== 'undefined') return window.location.origin
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL)
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`
+  return `http://localhost:${process.env.PORT ?? 3000}`
+}
 
 export const description =
   "I'm a weeb developer who loves to build many stuff. I enjoy working with TypeScript, Next.js, tRPC, and ElysiaJS. I'm also a fan of anime, manga, and light novels."
@@ -17,17 +22,17 @@ interface SiteConfig {
 
 export const siteConfig: SiteConfig = {
   meta: {
-    metadataBase: new URL(baseUrl),
+    metadataBase: new URL(getBaseUrl()),
     title: { default: 'Tiesen', template: '%s | Tiesen' },
     description,
-    authors: { name: 'Tiesen', url: baseUrl },
+    authors: { name: 'Tiesen', url: getBaseUrl() },
     creator: '@tiesen243',
     keywords: ['tiesen', 'tiesen243', 'tiesen 243', 'Trần Tiến', 'Tran Tien', 'portfolio', 'blog'],
     applicationName: 'Tiesen',
     openGraph: {
       type: 'profile',
       locale: 'vi_VN',
-      url: baseUrl,
+      url: getBaseUrl(),
       siteName: 'Tiesen',
       images: { url: '/og', alt: 'Tiesen', width: 1200, height: 630 },
       username: 'tiesen243',
@@ -42,7 +47,7 @@ export const siteConfig: SiteConfig = {
       shortcut: '/favicon-16x16.png',
       apple: '/apple-touch-icon.png',
     },
-    alternates: { canonical: baseUrl },
+    alternates: { canonical: getBaseUrl() },
     other: { 'fb:app_id': '987048873100386' },
   },
   viewport: {
