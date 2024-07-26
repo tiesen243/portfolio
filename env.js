@@ -8,8 +8,6 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.enum(['development', 'test', 'production']),
-    PROJECT_URL: z.string().url(),
-    GITHUB_TOKEN: z.string(),
     API_URL: z.string().url(),
     API_KEY: z.string(),
   },
@@ -29,8 +27,6 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
-    PROJECT_URL: process.env.PROJECT_URL,
-    GITHUB_TOKEN: process.env.GITHUB_TOKEN,
     API_URL: process.env.API_URL,
     API_KEY: process.env.API_KEY,
   },

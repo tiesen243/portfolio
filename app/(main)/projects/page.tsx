@@ -3,7 +3,6 @@ import Image from 'next/image'
 
 import { ProjectCard } from '@/components/project-card'
 import { ScrollToTop } from '@/components/scroll-to-top'
-import { getProjects } from '@/lib/actions'
 import { baseUrl } from '@/lib/site'
 
 const description =
@@ -16,16 +15,16 @@ export const metadata: Metadata = {
 }
 
 const Page: NextPage = async () => {
-  const projects = await getProjects()
+  const projects = await import('@/lib/data.json').then((data) => data.projects)
 
   return (
     <main className="container my-4 flex-1">
       <h1 className="text-4xl font-bold">Projects</h1>
       <p className="mb-4 mt-2 text-lg text-muted-foreground">{description}</p>
 
-      <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
+          <ProjectCard key={project.slug} project={project} />
         ))}
       </section>
 

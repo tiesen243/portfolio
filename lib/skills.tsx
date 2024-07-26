@@ -1,38 +1,5 @@
 import type { LucideProps } from 'lucide-react'
 
-export const education = [
-  {
-    id: '1',
-    time: '2022 - present',
-    school: 'Industrial University of Ho Chi Minh City',
-    major: 'Computer Engineering Technology',
-    gpa: null,
-  },
-]
-
-export const experiences = []
-
-export const skills = [
-  'TypeScript',
-  'Next.js',
-  'Remix',
-  'TailwindCSS',
-  'tRPC',
-  'ElysiaJS',
-  'Prisma',
-  'MongoDB',
-  'Python',
-  'Numpy',
-  'Pandas',
-  'Matplotlib',
-]
-
-export const hobbies = [
-  'Watching anime',
-  'Reading manga and light novel',
-  'Playing some gacha game',
-]
-
 export interface Icon {
   label: string
   icon: (props: LucideProps) => JSX.Element

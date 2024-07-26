@@ -1,22 +1,6 @@
 'use server'
 
-import type { Project } from '@/components/project-card'
 import { env } from '@/env'
-
-export const getProjects = async () => {
-  const projects: Project[] = await fetch(env.PROJECT_URL, {
-    headers: { authorization: env.GITHUB_TOKEN },
-    next: { revalidate: 60 },
-  })
-    .then((res) => res.json())
-    .then((p: Project[]) => p.filter((p) => p.topics.includes('showcase')))
-    .then((p) =>
-      p.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()),
-    )
-    .catch((_e) => [])
-
-  return projects
-}
 
 export const sendEmail = async (formData: FormData) => {
   try {

@@ -1,0 +1,84 @@
+import type { NextPage, ResolvingMetadata } from 'next'
+import { notFound } from 'next/navigation'
+
+import { baseUrl } from '@/lib/site'
+
+interface Props {
+  params: { slug: string }
+}
+
+export const generateMetadata = async ({ params }: Props, parent: ResolvingMetadata) => {
+  const projects = await import('@/lib/data.json').then((data) => data.projects)
+  const project = projects.find((p) => p.slug === params.slug)
+
+  if (!project) return notFound()
+
+  const previousImages = (await parent).openGraph?.images ?? []
+  const previousKeywords = (await parent).keywords ?? []
+
+  return {
+    title: project.name,
+    description: project.description,
+    keywords: [...project.stack, ...previousKeywords],
+    openGraph: { images: [`/og?title=${project.name}&desc=${project.preview}`, ...previousImages] },
+    alternates: { canonical: `${baseUrl}/projects/${project.slug}` },
+  }
+}
+
+const Page: NextPage<Props> = async ({ params }) => {
+  const projects = await import('@/lib/data.json').then((data) => data.projects)
+  const project = projects.find((p) => p.slug === params.slug)
+  if (!project) return notFound()
+
+  return (
+    <main className="container my-4 flex-1">
+      <h1 className="text-4xl font-bold">{project.name}</h1>
+
+      <ul className="mt-4 flex items-center gap-2 whitespace-nowrap">
+        {project.stack.map((tag) => (
+          <li
+            key={tag}
+            className="inline-block rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground"
+          >
+            {tag}
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-4 space-x-4">
+        <a
+          href={project.repo}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline"
+        >
+          View Source
+        </a>
+
+        {project.demo && (
+          <a
+            href={project.demo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline"
+          >
+            View Demo
+          </a>
+        )}
+      </div>
+
+      <hr className="my-4" />
+
+      <p className="text-lg">{project.description}</p>
+    </main>
+  )
+}
+
+export default Page
+
+export async function generateStaticParams() {
+  const projects = await import('@/lib/data.json').then((data) => data.projects)
+  return projects.map((project) => ({
+    slug: project.slug,
+  }))
+}
