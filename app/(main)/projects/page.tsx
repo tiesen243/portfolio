@@ -31,10 +31,10 @@ const Page: NextPage = async () => {
       <hr className="mx-auto my-4 w-11/12 rounded-full" />
 
       <section className="space-y-4">
-        {Array.from({ length: 5 }).map((_, i) => (
+        {Array.from({ length: 4 }).map((_, i) => (
           <Image
             key={`design-${i + 1}`}
-            src={`/imgs/design/${i + 1}.png`}
+            src={`/design/${i + 1}.png`}
             alt={`Design ${i + 1}`}
             className="rounded-lg object-cover shadow-lg"
             width={1920}
