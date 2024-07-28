@@ -9,14 +9,14 @@ export const metadata = {
   title: 'Blog',
   description,
   openGraph: { images: `/og?title=Blog&desc=${description}`, url: `${getBaseUrl()}/blog` },
-  alternates: { canonical: `${getBaseUrl()}/projects` },
+  alternates: { canonical: `${getBaseUrl()}/blog` },
 }
 
 const Page: NextPage = () => {
   const blogs = getPages()
 
   return (
-    <main className="container my-4 grid grid-cols-1 gap-4 md:grid-cols-3">
+    <main className="container my-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       {blogs.map((blog) => (
         <BlogCard key={blog.url} blog={blog} />
       ))}

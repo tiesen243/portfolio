@@ -1,12 +1,21 @@
 import { DocsLayout, type DocsLayoutProps } from 'fumadocs-ui/layout'
 import { RootProvider } from 'fumadocs-ui/provider'
+import Image from 'next/image'
+import Link from 'next/link'
 
 import { ScrollToTop } from '@/components/scroll-to-top'
 import { pageTree } from '@/content'
-import Link from 'next/link'
 
 const docsOptions: DocsLayoutProps = {
-  nav: { title: 'Blog | Tiesen', url: '/blog' },
+  nav: {
+    title: (
+      <div className="flex gap-2">
+        <Image src="/imgs/logo.svg" alt="Tiesen" width={28} height={28} className="dark:invert" />
+        <span className="text-lg font-bold">Blog | Tiesen</span>
+      </div>
+    ),
+    url: '/blog',
+  },
   sidebar: {
     footer: <Link href="/">&copy; {new Date().getFullYear()} Tiesen</Link>,
   },
