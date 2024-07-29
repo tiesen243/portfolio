@@ -34,7 +34,6 @@ export const siteConfig: SiteConfig = {
       locale: 'vi_VN',
       url: getBaseUrl(),
       siteName: 'Tiesen',
-      images: { url: '/og', alt: 'Tiesen', width: 1200, height: 630 },
       username: 'tiesen243',
       firstName: 'Tiến',
       lastName: 'Trần',
