@@ -11,7 +11,7 @@ export const Footer: React.FC = () => (
         <div className="size-12 rounded-lg border p-2">
           <Image
             src="/imgs/logo.svg"
-            alt="Tiesen"
+            alt="logo"
             width={32}
             height={32}
             className="object-cover dark:invert"
@@ -32,13 +32,14 @@ export const Footer: React.FC = () => (
         ))}
       </nav>
 
-      <ul className="flex w-full items-center justify-start gap-4 place-self-end md:w-fit">
+      <section className="flex w-full items-center justify-start gap-4 place-self-end md:w-fit">
         {siteConfig.socials.map((social) => (
           <a
             key={social.label}
             href={social.href}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label={`Follow me on ${social.label}`}
             className="transition-opacity ease-linear hover:opacity-50"
           >
             <social.icon />
@@ -48,7 +49,7 @@ export const Footer: React.FC = () => (
         <div className="flex flex-1 justify-end">
           <ThemeSwitch />
         </div>
-      </ul>
+      </section>
     </div>
 
     <hr />

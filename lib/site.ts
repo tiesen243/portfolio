@@ -88,7 +88,7 @@ export const siteConfig: SiteConfig = {
       icon: icons.YoutubeIcon,
     },
     {
-      label: 'Other socials',
+      label: 'Gravatar',
       href: 'https://gravatar.com/tiesen243',
       icon: icons.ListCollapseIcon,
     },
