@@ -16,14 +16,19 @@ export const generateMetadata = async ({ params }: Props, parent: ResolvingMetad
   if (!blog) return notFound()
 
   const previousImages = (await parent).openGraph?.images ?? []
+  const images = [
+    blog.data.image,
+    `/og?title=${blog.data.title}&desc=${blog.data.description}`,
+    ...previousImages,
+  ]
 
   return {
     title: blog.data.title,
     description: blog.data.description,
     openGraph: {
+      images,
       type: 'article',
       url: `${getBaseUrl()}/${blog.url}`,
-      images: [blog.data.image, ...previousImages],
     },
     alternates: { canonical: `${getBaseUrl()}/${blog.url}` },
   }

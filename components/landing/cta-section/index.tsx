@@ -72,7 +72,7 @@ export const CTASection: React.FC = () => {
             {state.error && typeof state.error === 'string' && (
               <p className="text-destructive">{state.error}</p>
             )}
-            <Button type="submit" className="w-full bg-yuki text-white" isLoading={isPending}>
+            <Button type="submit" className="w-full" isLoading={isPending}>
               {state.success ? 'Email sent!' : 'Send Message'}
             </Button>
           </div>

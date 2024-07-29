@@ -5,7 +5,7 @@ export const ContactInfo: React.FC = () => (
     {siteConfig.contact.map((c) => (
       <li key={c.label} className="flex items-center gap-2">
         <div className="aspect-square rounded-lg bg-primary/10 p-2">
-          <c.icon className="text-yuki" />
+          <c.icon />
         </div>
 
         <div>

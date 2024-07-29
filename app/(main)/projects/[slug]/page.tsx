@@ -2,6 +2,7 @@ import type { NextPage, ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { getBaseUrl } from '@/lib/site'
+import Image from 'next/image'
 
 interface Props {
   params: { slug: string }
@@ -42,7 +43,7 @@ const Page: NextPage<Props> = async ({ params }) => {
         {project.stack.map((tag) => (
           <li
             key={tag}
-            className="inline-block rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground"
+            className="inline-block cursor-default rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground hover:bg-primary/80"
           >
             {tag}
           </li>

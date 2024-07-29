@@ -59,17 +59,12 @@ const config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
-        yuki: 'var(--yuki)',
       },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
-      backgroundImage: {
-        yuki: 'linear-gradient(45deg, var(--from), var(--to))',
-      },
-
       keyframes: {
         marquee: { to: { transform: 'translateX(-50%)' } },
         'marquee-reverse': { to: { transform: 'translateX(-50%)' } },

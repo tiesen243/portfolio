@@ -31,7 +31,7 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
         {project.stack.map((tech) => (
           <li
             key={tech}
-            className="inline-block whitespace-nowrap rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground"
+            className="inline-block whitespace-nowrap rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground hover:bg-primary/80"
           >
             {tech}
           </li>

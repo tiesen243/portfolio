@@ -9,14 +9,13 @@ export const HomeSection: React.FC = () => (
     id="home"
     className="flex min-h-dvh flex-col items-center justify-center gap-16 px-8 md:gap-8"
   >
-    <div className="h-72 w-full">
-      <Image
-        src="/imgs/tiesen.png"
-        alt="Tiesen"
-        className="object-scale-down drop-shadow-lg"
-        fill
-      />
-    </div>
+    <Image
+      src="/imgs/tiesen.png"
+      alt="Tiesen"
+      className="w-1/2 object-cover"
+      width={2500}
+      height={400}
+    />
 
     <p className="max-w-screen-md text-center text-lg font-medium leading-7 drop-shadow-lg md:text-2xl">
       {description}

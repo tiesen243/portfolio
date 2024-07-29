@@ -83,7 +83,7 @@ export const Infomations: React.FC = async () => {
         <tabs.TabsList key={tab.id} className="bg-transparent">
           <tabs.TabsTrigger
             value={tab.id}
-            className="rounded-none border-b-2 border-primary/0 transition-all data-[state=active]:border-yuki data-[state=active]:text-yuki"
+            className="rounded-none border-b-2 border-primary/0 transition-all data-[state=active]:border-primary data-[state=active]:text-primary"
             aria-label={`Switch to ${tab.id}`}
           >
             {tab.label}

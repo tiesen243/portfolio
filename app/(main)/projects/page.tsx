@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 
 const Page: NextPage = async () => {
   const projects = await import('@/lib/data.json').then((data) => data.projects)
+  const designs = await import('@/lib/data.json').then((data) => data.designs)
 
   return (
     <main className="container my-4 flex-1">
@@ -31,14 +32,14 @@ const Page: NextPage = async () => {
       <hr className="mx-auto my-4 w-11/12 rounded-full" />
 
       <section className="space-y-4">
-        {Array.from({ length: 5 }).map((_, i) => (
+        {designs.map(({ name, src }) => (
           <Image
-            key={`design-${i + 1}`}
-            src={`/design/${i + 1}.png`}
-            alt={`Design ${i + 1}`}
+            key={name}
+            src={src}
+            alt={name}
             className="rounded-lg object-cover shadow-lg"
-            width={1920}
-            height={1080}
+            width={3000}
+            height={1000}
           />
         ))}
       </section>

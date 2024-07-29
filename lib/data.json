@@ -28,6 +28,7 @@
     "Matplotlib"
   ],
   "hobbies": ["Watching anime", "Reading manga and light novel", "Playing some gacha game"],
+
   "projects": [
     {
       "slug": "yuki",
@@ -72,6 +73,24 @@
       "description": "Our digit recognition app, built from scratch using Python and NumPy, offers a powerful solution for recognizing handwritten digits. The app utilizes a Convolutional Neural Network (CNN), a deep learning algorithm known for its effectiveness in image classification tasks. Trained on the MNIST dataset, a large database of handwritten digits, the app has honed its ability to accurately identify digits from 0-9. This application showcases the power of machine learning in practical applications, turning complex data into understandable and usable information. In essence, our digit recognition app is a testament to the capabilities of modern AI technology.",
       "stack": ["Python", "NumPy"],
       "repo": "https://github.com/tiesen243/digit-recognition"
+    }
+  ],
+  "designs": [
+    {
+      "name": "Golden Glow",
+      "src": "/design/goldenglow.png"
+    },
+    {
+      "name": "Lin",
+      "src": "/design/lin.png"
+    },
+    {
+      "name": "Tiesen v1",
+      "src": "/design/tiesen-v1.png"
+    },
+    {
+      "name": "Tiesen v2",
+      "src": "/design/tiesen-v2.png"
     }
   ]
 }

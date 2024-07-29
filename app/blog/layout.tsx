@@ -5,6 +5,15 @@ import Link from 'next/link'
 
 import { ScrollToTop } from '@/components/scroll-to-top'
 import { pageTree } from '@/content'
+import { getBaseUrl } from '@/lib/site'
+
+const description = 'A collection of my blog posts from various topics'
+export const metadata = {
+  title: 'Blog',
+  description,
+  openGraph: { images: `/og?title=Blog&desc=${description}`, url: `${getBaseUrl()}/blog` },
+  alternates: { canonical: `${getBaseUrl()}/blog` },
+}
 
 const docsOptions: DocsLayoutProps = {
   nav: {

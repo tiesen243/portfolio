@@ -8,7 +8,7 @@ export const Footer: React.FC = () => (
   <footer className="border-t py-12 lg:py-16">
     <div className="container grid grid-cols-1 gap-4 pb-8 md:grid-cols-3">
       <Link href="/" className="flex items-center gap-2 place-self-start text-xl font-bold">
-        <div className="size-10 rounded-lg border-2 p-2">
+        <div className="size-12 rounded-lg border p-2">
           <Image
             src="/imgs/logo.svg"
             alt="Tiesen"
@@ -39,7 +39,7 @@ export const Footer: React.FC = () => (
             href={social.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="transition-colors ease-linear hover:text-yuki"
+            className="transition-opacity ease-linear hover:opacity-50"
           >
             <social.icon />
           </a>
@@ -51,7 +51,7 @@ export const Footer: React.FC = () => (
       </ul>
     </div>
 
-    <hr className="border-1 mx-auto w-4/5" />
+    <hr />
 
     <div className="container flex items-center justify-center pt-8">
       <p className="text-muted-foreground">
