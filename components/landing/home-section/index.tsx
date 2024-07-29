@@ -12,7 +12,7 @@ export const HomeSection: React.FC = () => (
     <Image
       src="/imgs/tiesen.png"
       alt="Tiesen"
-      className="w-1/2 object-cover"
+      className="w-full object-cover md:w-3/4"
       width={2500}
       height={400}
     />
