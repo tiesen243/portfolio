@@ -55,7 +55,7 @@ const Page: NextPage<Props> = async ({ params: { slug } }) => {
           {page.data.tags.map((tag) => (
             <li
               key={tag}
-              className="inline-block whitespace-nowrap rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground hover:bg-primary/80"
+              className="inline-block cursor-pointer whitespace-nowrap rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground hover:bg-primary/80"
             >
               {tag}
             </li>
