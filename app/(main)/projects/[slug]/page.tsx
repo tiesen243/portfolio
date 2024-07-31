@@ -2,7 +2,6 @@ import type { NextPage, ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { getBaseUrl } from '@/lib/site'
-import Image from 'next/image'
 
 interface Props {
   params: { slug: string }
@@ -18,7 +17,7 @@ export const generateMetadata = async ({ params }: Props, parent: ResolvingMetad
   const previousKeywords = (await parent).keywords ?? []
 
   return {
-    title: project.name,
+    title: `${project.name} - Projects`,
     description: project.description,
     keywords: [...project.stack, ...previousKeywords],
     openGraph: {

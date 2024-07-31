@@ -1,14 +1,14 @@
+import { EyeIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
 import { CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { env } from '@/env'
-import { EyeIcon } from 'lucide-react'
 
 interface Props {
   blog: {
     url: string
-    data: { image: string; date: Date; title: string; description?: string }
+    data: { image: string; date: Date; title: string; description?: string; tags: string[] }
   }
 }
 
@@ -30,6 +30,17 @@ export const BlogCard: React.FC<Props> = async ({ blog }) => {
         <CardDescription>{blog.data.date.toDateString()}</CardDescription>
         <CardTitle>{blog.data.title}</CardTitle>
         <CardDescription className="line-clamp-1">{blog.data.description}</CardDescription>
+
+        <ul className="my-0 flex list-none gap-2">
+          {blog.data.tags.map((tag) => (
+            <li
+              key={tag}
+              className="rounded-lg bg-primary px-2 py-1 text-sm text-primary-foreground"
+            >
+              {tag}
+            </li>
+          ))}
+        </ul>
       </CardHeader>
     </Link>
   )

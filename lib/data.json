@@ -34,7 +34,7 @@
       "slug": "yuki",
       "name": "Yuki",
       "preview": "A full-stack e-commerce platform for selling and buying products.",
-      "description": "Our e-commerce website, built on Next.js, tRPC, Prisma, Lucia-auth, and Uploadthing, offers a seamless shopping experience. With a responsive interface, efficient APIs, and secure authentication, it provides a user-friendly platform for all your shopping needs. The website handles large volumes of data, ensuring high performance. It also manages product images effectively for accurate representation. Notably, it sends emails to users for sign-up confirmation, password reset, account deletion, and order confirmation. In essence, our website is a comprehensive, one-stop-shop for a smooth and enjoyable shopping journey.",
+      "description": "Our e-commerce website, built on Next.js, tRPC, Prisma, Lucia, and Uploadthing, offers a seamless shopping experience. With a responsive interface, efficient APIs, and secure authentication, it provides a user-friendly platform for all your shopping needs. The website handles large volumes of data, ensuring high performance. It also manages product images effectively for accurate representation. Notably, it sends emails to users for sign-up confirmation, password reset, account deletion, and order confirmation. In essence, our website is a comprehensive, one-stop-shop for a smooth and enjoyable shopping journey.",
       "stack": ["Next.js", "tRPC", "Prisma", "Lucia", "Uploadthing", "Tailwind CSS"],
       "repo": "https://github.com/tiesen243/yuki",
       "demo": "https://yuki.tiesen.id.vn"

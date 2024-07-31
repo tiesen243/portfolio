@@ -1,7 +1,8 @@
-import { map } from '@/.map'
-import { createMDXSource, defaultSchemas } from 'fumadocs-mdx'
 import { loader } from 'fumadocs-core/source'
+import { createMDXSource, defaultSchemas } from 'fumadocs-mdx'
 import { z } from 'zod'
+
+import { map } from '@/.map'
 
 const frontmatter = defaultSchemas.frontmatter.extend({
   title: z.string(),

@@ -7,5 +7,6 @@ export const { GET } = createSearchAPI('advanced', {
     structuredData: page.data.exports.structuredData,
     id: page.url,
     url: page.url,
+    tags: page.data.tags,
   })),
 })

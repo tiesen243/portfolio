@@ -48,10 +48,20 @@ const Page: NextPage<Props> = async ({ params: { slug } }) => {
     <DocsPage toc={page.data.exports.toc} full={page.data.full}>
       <DocsBody>
         <h1 className="mb-2">{page.data.title}</h1>
-        <p className="mt-2 text-muted-foreground">
+        <p className="mb-0 mt-2 text-muted-foreground">
           {page.data.date.toDateString()} • {views} views
         </p>
-        <p>{page.data.description}</p>
+        <ul className="my-0 flex list-none gap-2">
+          {page.data.tags.map((tag) => (
+            <li
+              key={tag}
+              className="rounded-lg bg-primary px-2 py-1 text-sm text-primary-foreground"
+            >
+              {tag}
+            </li>
+          ))}
+        </ul>
+        <p className="mt-0">{page.data.description}</p>
         <Image
           src={page.data.image}
           alt={page.url}

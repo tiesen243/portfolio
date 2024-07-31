@@ -66,8 +66,8 @@ export const postSchema = new Elysia({ name: 'post.schema' }).model({ createPost
 ### Create a new route
 
 ```ts title="server/routers/post.ts"
-import { createElysia } from '../elysia'
-import { postSchema } from '../validates/post'
+import { createElysia } from '@/server/elysia'
+import { postSchema } from '@/server/validates/post'
 
 export const postRouter = createElysia({ prefix: '/post' })
   .use(postSchema)
