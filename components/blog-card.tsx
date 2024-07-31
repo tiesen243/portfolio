@@ -35,7 +35,7 @@ export const BlogCard: React.FC<Props> = async ({ blog }) => {
           {blog.data.tags.map((tag) => (
             <li
               key={tag}
-              className="rounded-lg bg-primary px-2 py-1 text-sm text-primary-foreground"
+              className="inline-block whitespace-nowrap rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground hover:bg-primary/80"
             >
               {tag}
             </li>
