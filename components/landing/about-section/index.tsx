@@ -11,7 +11,7 @@ export const AboutSection: React.FC = () => (
         </h1>
 
         <p className="mt-4 text-lg font-medium leading-7 md:text-3xl">
-          I am a full stack web developer with a passion for creating interactive and responsive web
+          I am a web developer with a passion for creating interactive and responsive web
           applications. I have experience working with TypeScript, Next.js, TailwindCSS, tRPC,
           ElysiaJS, Prisma, MongoDb and more... Sometime I also work with Machine Learning. I am a
           quick learner and I am always looking to expand my knowledge and skill set.

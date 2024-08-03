@@ -14,7 +14,10 @@ export interface Project {
 }
 
 export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
-  <Link href={`/projects/${project.slug}`} className="rounded-lg border hover:bg-secondary">
+  <Link
+    href={`/projects/${project.slug}`}
+    className="rounded-lg border shadow-lg hover:bg-secondary"
+  >
     <div className="aspect-video w-full">
       <Image
         src={`/og?title=${project.name}&desc=${project.preview}`}

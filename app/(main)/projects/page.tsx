@@ -15,8 +15,10 @@ export const metadata: Metadata = {
 }
 
 const Page: NextPage = async () => {
-  const projects = await import('@/lib/data.json').then((data) => data.projects)
-  const designs = await import('@/lib/data.json').then((data) => data.designs)
+  const [projects, designs] = await Promise.all([
+    import('@/lib/data.json').then((data) => data.projects),
+    import('@/lib/data.json').then((data) => data.designs),
+  ])
 
   return (
     <main className="container my-4 flex-1">
@@ -37,7 +39,7 @@ const Page: NextPage = async () => {
             key={name}
             src={src}
             alt={name}
-            className="rounded-lg object-cover shadow-lg"
+            className="h-auto w-full rounded-lg object-cover shadow-lg"
             width={3000}
             height={1000}
           />
