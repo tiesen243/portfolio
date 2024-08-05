@@ -2,7 +2,7 @@ import type { Metadata, NextPage } from 'next'
 import Image from 'next/image'
 
 import { ProjectCard } from '@/components/project-card'
-import { ScrollToTop } from '@/components/scroll-to-top'
+import { designs, projects } from '@/lib/data'
 import { getBaseUrl } from '@/lib/site'
 
 const description =
@@ -14,41 +14,32 @@ export const metadata: Metadata = {
   alternates: { canonical: `${getBaseUrl()}/projects` },
 }
 
-const Page: NextPage = async () => {
-  const [projects, designs] = await Promise.all([
-    import('@/lib/data.json').then((data) => data.projects),
-    import('@/lib/data.json').then((data) => data.designs),
-  ])
+const Page: NextPage = async () => (
+  <main className="container my-4 flex-1">
+    <h1 className="text-4xl font-bold">Projects</h1>
+    <p className="mb-4 mt-2 text-lg text-muted-foreground">{description}</p>
 
-  return (
-    <main className="container my-4 flex-1">
-      <h1 className="text-4xl font-bold">Projects</h1>
-      <p className="mb-4 mt-2 text-lg text-muted-foreground">{description}</p>
+    <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+      {projects.map((project) => (
+        <ProjectCard key={project.slug} project={project} />
+      ))}
+    </section>
 
-      <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {projects.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
-        ))}
-      </section>
+    <hr className="mx-auto my-4 w-11/12 rounded-full" />
 
-      <hr className="mx-auto my-4 w-11/12 rounded-full" />
-
-      <section className="space-y-4">
-        {designs.map(({ name, src }) => (
-          <Image
-            key={name}
-            src={src}
-            alt={name}
-            className="h-auto w-full rounded-lg object-cover shadow-lg"
-            width={3000}
-            height={1000}
-          />
-        ))}
-      </section>
-
-      <ScrollToTop />
-    </main>
-  )
-}
+    <section className="space-y-4">
+      {designs.map(({ name, src }) => (
+        <Image
+          key={name}
+          src={src}
+          alt={name}
+          className="h-auto w-full rounded-lg object-cover shadow-lg"
+          width={3000}
+          height={1000}
+        />
+      ))}
+    </section>
+  </main>
+)
 
 export default Page

@@ -1,5 +1,5 @@
 import { Marquee } from '@/components/ui/marquee'
-import { type Icon, libraries, softwares } from '@/lib/skills'
+import { type Icon, libraries, softwares } from '@/lib/data'
 import { cn } from '@/lib/utils'
 
 export const Skills: React.FC = () => (

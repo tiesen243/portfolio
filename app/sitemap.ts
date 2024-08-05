@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 
 import { getPages } from '@/content'
+import { projects } from '@/lib/data'
 import { getBaseUrl } from '@/lib/site'
 import { getLastModifiedTime } from '@/lib/utils'
 
@@ -10,7 +11,6 @@ interface Route {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const projects = await import('@/lib/data.json').then((data) => data.projects)
   const routesMap = ['', 'projects', 'blog'].map((route) => ({
     url: `${getBaseUrl()}/${route}`,
     lastModified: new Date().toISOString(),

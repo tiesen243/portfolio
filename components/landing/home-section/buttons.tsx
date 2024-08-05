@@ -9,7 +9,7 @@ export const Buttons: React.FC = () => (
       className="animate-shimmer bg-[linear-gradient(110deg,hsl(var(--primary)),45%,hsl(var(--muted-foreground)),55%,hsl(var(--primary)))] bg-[length:200%_100%] transition-colors"
       asChild
     >
-      <Link href="/#cta">Contact Me</Link>
+      <Link href="/#contact">Contact Me</Link>
     </Button>
 
     <Button size="lg" variant="outline" asChild>

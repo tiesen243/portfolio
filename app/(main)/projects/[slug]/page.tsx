@@ -2,13 +2,13 @@ import type { NextPage, ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { getBaseUrl } from '@/lib/site'
+import { projects } from '@/lib/data'
 
 interface Props {
   params: { slug: string }
 }
 
 export const generateMetadata = async ({ params }: Props, parent: ResolvingMetadata) => {
-  const projects = await import('@/lib/data.json').then((data) => data.projects)
   const project = projects.find((p) => p.slug === params.slug)
 
   if (!project) return notFound()
@@ -30,7 +30,6 @@ export const generateMetadata = async ({ params }: Props, parent: ResolvingMetad
 }
 
 const Page: NextPage<Props> = async ({ params }) => {
-  const projects = await import('@/lib/data.json').then((data) => data.projects)
   const project = projects.find((p) => p.slug === params.slug)
   if (!project) return notFound()
 
@@ -80,9 +79,7 @@ const Page: NextPage<Props> = async ({ params }) => {
 
 export default Page
 
-export async function generateStaticParams() {
-  const projects = await import('@/lib/data.json').then((data) => data.projects)
-  return projects.map((project) => ({
+export const generateStaticParams = async () =>
+  projects.map((project) => ({
     slug: project.slug,
   }))
-}
