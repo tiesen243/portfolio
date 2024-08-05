@@ -4,15 +4,18 @@ import Link from 'next/link'
 
 import { CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { env } from '@/env'
+import { getLastModifiedTime } from '@/lib/utils'
 
 interface Props {
   blog: {
     url: string
     data: { image: string; date: Date; title: string; description?: string; tags: string[] }
+    file: { path: string }
   }
 }
 
 export const BlogCard: React.FC<Props> = async ({ blog }) => {
+  const lastModified = await getLastModifiedTime(blog.file.path).then((time) => new Date(time))
   const views = await fetch(`${env.API_URL}/view-count/${blog.url.split('/').pop()}?theme=no`).then(
     (res) => res.text(),
   )
@@ -27,7 +30,7 @@ export const BlogCard: React.FC<Props> = async ({ blog }) => {
       </div>
 
       <CardHeader>
-        <CardDescription>{blog.data.date.toDateString()}</CardDescription>
+        <CardDescription>{lastModified.toDateString()}</CardDescription>
         <CardTitle>{blog.data.title}</CardTitle>
         <CardDescription className="line-clamp-1">{blog.data.description}</CardDescription>
 

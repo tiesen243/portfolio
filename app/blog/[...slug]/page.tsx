@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation'
 import { getPage, getPages } from '@/content'
 import { env } from '@/env'
 import { getBaseUrl } from '@/lib/site'
+import { getLastModifiedTime } from '@/lib/utils'
 
 interface Props {
   params: { slug?: string[] }
@@ -35,24 +36,25 @@ export const generateMetadata = async ({ params }: Props, parent: ResolvingMetad
 }
 
 const Page: NextPage<Props> = async ({ params: { slug } }) => {
-  const page = getPage(slug)
-  if (!page) return notFound()
+  const blog = getPage(slug)
+  if (!blog) return notFound()
 
-  const views = await fetch(`${env.API_URL}/view-count/${page.url.split('/').pop()}?theme=no`, {
+  const lastModified = await getLastModifiedTime(blog.file.path).then((time) => new Date(time))
+  const views = await fetch(`${env.API_URL}/view-count/${blog.url.split('/').pop()}?theme=no`, {
     cache: 'no-store',
   }).then((res) => res.text())
 
-  const MDX = page.data.exports.default
+  const MDX = blog.data.exports.default
 
   return (
-    <DocsPage toc={page.data.exports.toc} full={page.data.full}>
+    <DocsPage toc={blog.data.exports.toc} full={blog.data.full}>
       <DocsBody>
-        <h1 className="mb-2">{page.data.title}</h1>
+        <h1 className="mb-2">{blog.data.title}</h1>
         <p className="mb-0 mt-2 text-muted-foreground">
-          {page.data.date.toDateString()} • {views} views
+          {lastModified.toDateString()} • {views} views
         </p>
         <ul className="my-0 flex list-none gap-2">
-          {page.data.tags.map((tag) => (
+          {blog.data.tags.map((tag) => (
             <li
               key={tag}
               className="inline-block cursor-pointer whitespace-nowrap rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground hover:bg-primary/80"
@@ -61,10 +63,10 @@ const Page: NextPage<Props> = async ({ params: { slug } }) => {
             </li>
           ))}
         </ul>
-        <p className="mt-0">{page.data.description}</p>
+        <p className="mt-0">{blog.data.description}</p>
         <Image
-          src={page.data.image}
-          alt={page.url}
+          src={blog.data.image}
+          alt={blog.url}
           width={1920}
           height={1080}
           className="rounded-lg object-cover shadow-lg"

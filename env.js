@@ -10,6 +10,7 @@ export const env = createEnv({
     NODE_ENV: z.enum(['development', 'test', 'production']),
     API_URL: z.string().url(),
     API_KEY: z.string(),
+    GIT_TOKEN: z.string(),
   },
 
   /**
@@ -29,6 +30,7 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     API_URL: process.env.API_URL,
     API_KEY: process.env.API_KEY,
+    GIT_TOKEN: process.env.GIT_TOKEN,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

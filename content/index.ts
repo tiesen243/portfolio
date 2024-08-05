@@ -8,7 +8,6 @@ const frontmatter = defaultSchemas.frontmatter.extend({
   title: z.string(),
   description: z.string().optional(),
   image: z.string(),
-  date: z.date(),
   tags: z.array(z.string()),
 })
 

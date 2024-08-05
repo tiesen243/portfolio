@@ -2,7 +2,6 @@
 title: Hyprland
 description: Setup Hyprland OS base on Arch Linux with easy steps.
 image: /blog/hyprland.png
-date: 2024-04-10
 tags:
   - Linux
   - Hyprland
@@ -206,20 +205,22 @@ makepkg -si
 rm -rf ~/yay
 ```
 
-### Second, install the following packages:
+### Second, set up the system
+
+1. Install necessary packages
 
 ```bash
-sudo pacman -S zsh swayidle hyprpaper p7zip wofi pavucontrol thunar gvfs brightnessctl playerctl fastfetch btop cliphist wl-clipboard xfce4-settings grim slurp lsd
-sudo yay -S swaylock-effects lazygit floorp-bin wlogout hyprpicker-git nwg-look
+sudo pacman -S zsh hypridle hyprpaper hyprlock p7zip wofi pavucontrol gvfs brightnessctl playerctl fastfetch btop cliphist wl-clipboard grim slurp lsd cowsay
+sudo yay -S lazygit floorp-bin wlogout hyprpicker nwg-look yazi
 ```
 
-If Jappanese/Chinese/Korean font not display correctly
+2. If Jappanese/Chinese/Korean font not display correctly
 
 ```bash
 sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji
 ```
 
-Install `Oh My Zsh` to customize the terminal.
+3. Install `Oh My Zsh` to customize the terminal.
 
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -232,27 +233,41 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
-Optional: Install `miniconda3` for python and `nvm` for nodejs development environment
+Copy folder `~/dotfiles/zsh/theme` to `~/.oh-my-zsh/custom/themes`
 
-```bash title="Install miniconda3"
+```bash
+cp -r ~/dotfiles/zsh/themes ~/.oh-my-zsh/custom
+```
+
+Then, change the content of `~/.zshrc` to
+
+```bash
+source ~/dotfiles/zsh/config.zsh
+```
+
+4. Optional: Install `miniconda3` for python and `nvm` for nodejs development environment
+
+````bash title="Install miniconda3"
+```bash
 mkdir -p ~/.miniconda3
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/.miniconda3/miniconda.sh
 bash ~/.miniconda3/miniconda.sh -b -u -p ~/.miniconda3
 rm -rf ~/.miniconda3/miniconda.sh
 ~/.miniconda3/bin/conda init zsh
-```
+````
 
 ```bash title="Install nvm"
-yay -S nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+```
 
-# Install the latest LTS version of nodejs
-nvm install --lts
+- If you use `bun` for default node package manager, add this block to the end of `~/.zshrc`
 
-# Check the version of nodejs
-node -v
-
-# Optional: Install `bun`
-npm install -g bun
+```bash title="~/.zshrc"
+# >>> bun initialize >>>
+if [ -d "$HOME/.bun/bin" ]; then
+    export PATH="$HOME/.bun/bin:$PATH"
+fi
+# <<< nvm initialize <<<
 ```
 
 > Remember to config git ssh key before doing the next step
@@ -265,22 +280,10 @@ git clone git@github.com:tiesen243/dotfiles.git ~/dotfiles
 
 ### Customize the system
 
-1. Change the content of `~/.config/hypr/hyprland.conf` to
+Change the content of `~/.config/hypr/hyprland.conf` to
 
 ```bash title="~/.config/hypr/hyprland.conf"
 source = ~/dotfiles/hypr/hyprland.conf
-```
-
-2. Copy folder `~/dotfiles/zsh/theme` to `~/.oh-my-zsh/custom/themes`
-
-```bash
-cp -r ~/dotfiles/zsh/theme/* ~/.oh-my-zsh/custom/themes
-```
-
-Then, change the content of `~/.zshrc` to
-
-```bash
-source ~/dotfiles/zsh/config.zsh
 ```
 
 ### Change theme and wallpaper

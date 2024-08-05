@@ -2,7 +2,6 @@
 title: Next.js x Elysia Starter Kit
 description: Create a full-stack application with Next.js and ElysiaJS in minutes
 image: /blog/next-elysia.png
-date: 2024-07-17
 tags:
   - Next.js
   - Full Stack
@@ -15,33 +14,91 @@ Today, we're diving into the world of full-stack web development using Next.js a
 
 ## Installation
 
-```bash
-bun create next-app --example https://github.com/tiesen243/next-elysia [your-app-name]
+<Tabs items={["npm","yarn","pnpm","bun"]}>
+ 
+  ```bash tab="npm"
+  npx create-next-app@latest --example https://github.com/tiesen243/next-elysia [your-app-name]
+  cd [your-app-name]
+  ```
+
+```bash tab="yarn"
+yarn create next-app@latest --example https://github.com/tiesen243/next-elysia [your-app-name]
 cd [your-app-name]
 ```
 
+```bash tab="pnpm"
+pnpm create next-app@latest --example https://github.com/tiesen243/next-elysia [your-app-name]
+cd [your-app-name]
+```
+
+```bash tab="bun"
+bun create next-app@latest --example https://github.com/tiesen243/next-elysia [your-app-name]
+cd [your-app-name]
+```
+
+</Tabs>
+
 Next step, update your enviroment variables
+
+> Note: you can run your postgresql database with docker by this command
+
+```bash
+docker run --name next-elysia -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres
+```
+
+```bash title=".env"
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/next-elysia"
+```
 
 > If you want to add other variables, remember to add it to `env.mjs` to validate it
 
-```bash title=".env"
-DATABASE_URL=""
-```
-
-> In this project, i'm use MongoDB for Database, if you use other database, remember to change provider in `prisma/schema.prisma` and change Id fields
-
 Then, push schema to your database
 
-```bash
-bun run db:format
-bun run db:push
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+
+```bash tab="npm"
+npm run db:format
+npm run db:push
 ```
+
+```bash tab="yarn"
+yarn db:format
+yarn db:push
+```
+
+```bash tab="pnpm"
+pnpm db:format
+pnpm db:push
+```
+
+```bash tab="bun"
+bun db:format
+bun db:push
+```
+
+</Tabs>
 
 Finaly, run your development server
 
-```bash
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+
+```bash tab="npm"
+npm run dev
+```
+
+```bash tab="yarn"
+yarn dev
+```
+
+```bash tab="pnpm"
+pnpm dev
+```
+
+```bash tab="bun"
 bun dev
 ```
+
+</Tabs>
 
 ## Backend
 
@@ -53,7 +110,7 @@ Define your route at `server/routes/*.ts` and update this route to `server/elysi
 
 ### Create a new model for route
 
-```ts title="server/validates/post.ts"
+```ts title="server/api/validates/post.ts"
 import Elysia, { t } from 'elysia'
 
 const createPostSchema = t.Object({
@@ -65,9 +122,9 @@ export const postSchema = new Elysia({ name: 'post.schema' }).model({ createPost
 
 ### Create a new route
 
-```ts title="server/routers/post.ts"
-import { createElysia } from '@/server/elysia'
-import { postSchema } from '@/server/validates/post'
+```ts title="server/api/routers/post.ts"
+import { createElysia } from '@/server/api/elysia'
+import { postSchema } from '@/server/api/validates/post'
 
 export const postRouter = createElysia({ prefix: '/post' })
   .use(postSchema)
@@ -78,6 +135,7 @@ export const postRouter = createElysia({ prefix: '/post' })
       orderBy: { createdAt: 'desc' },
     })
     if (!posts) return error('Internal Server Error', 'Failed to fetch posts.')
+
     return posts
   })
 
@@ -93,7 +151,8 @@ export const postRouter = createElysia({ prefix: '/post' })
         },
       })
       if (!newPost) return error('Internal Server Error', 'Failed to create post.')
-      return newPost
+
+      return { success: true }
     },
     { body: 'createPostSchema' },
   )
@@ -109,17 +168,16 @@ export const postRouter = createElysia({ prefix: '/post' })
 
     await db.post.delete({ where: { id: params.id } })
 
-    return { message: 'Post deleted successfully.' }
+    return { success: true }
   })
 ```
 
 ### Add this route to app
 
-```ts title="server/root.ts"
-import { createElysia } from '@/server/elysia'
+```ts title="server/api/root.ts"
+import { createElysia } from '@/server/api/elysia'
 
-import { authRouter } from '@/server/routers/auth'
-import { postRouter } from '@/server/routers/post'
+import { postRouter } from '@/server/api/routers/post'
 
 export const appRouter = createElysia({ prefix: '/api' })
   /* Other routes */
@@ -136,50 +194,54 @@ export type App = typeof appRouter
 ```tsx title="components/post/create-form.tsx"
 'use client'
 
-import { useMutation } from '@tanstack/react-query'
-import { SendHorizonalIcon } from 'lucide-react'
-import { useRef } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { FormField } from '@/components/form-field'
+import { Form, FormField } from '@/components/ui/form'
+import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { revalidate } from '@/server/actions'
-import { useAuth } from '@/lib/auth'
+import { useSession } from '@/lib/session'
 import { api } from '@/lib/api'
 
 export const CreatePostForm: React.FC = () => {
-  const { isAuthed } = useAuth()
-  const formRef = useRef<HTMLFormElement>(null)
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (formData: FormData) => {
-      const parsed = schema.safeParse(Object.fromEntries(formData))
-      if (!parsed.success) throw parsed.error.flatten().fieldErrors
-      await api.post.create.post(parsed.data)
-      revalidate({ tag: 'posts' })
-      formRef.current?.reset()
-    },
-  })
+  const { isAuthed } = useSession()
+  const form = useForm<FormValues>({ resolver })
 
   if (!isAuthed) return null
 
+  const handleSubmit = form.handleSubmit(async (data) => {
+    await api.post.create.post(data)
+    revalidate({ path: '/' })
+    form.reset()
+  })
+
   return (
-    <form action={mutate} ref={formRef} className="container flex max-w-screen-md gap-2">
+    <Form onSubmit={handleSubmit} className="mx-auto max-w-screen-md">
       <FormField
+        register={form.register}
         name="content"
-        placeholder="What are you thinking?"
-        className="flex-1"
-        disabled={isPending}
-      />
-      <Button variant="ghost" size="icon" isLoading={isPending}>
-        <SendHorizonalIcon />
+        error={form.formState.errors.content}
+        disabled={form.formState.isSubmitting}
+        asChild
+      >
+        <Textarea placeholder="What are you thinking about?" />
+      </FormField>
+      <Button className="w-32 self-end" isLoading={form.formState.isSubmitting}>
+        Post
       </Button>
-    </form>
+    </Form>
   )
 }
 
 const schema = z.object({
   content: z.string().min(4, 'Content must be at least 4 characters long'),
 })
+
+type FormValues = z.infer<typeof schema>
+
+const resolver = zodResolver(schema)
 ```
 
 ### Create a delete post component
@@ -191,62 +253,55 @@ import { XIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { revalidate } from '@/server/actions'
-import { useAuth } from '@/lib/auth'
+import { useSession } from '@/lib/session'
 import { api } from '@/lib/api'
 
-export const DeleteBtn: React.FC<{ id: string }> = ({ id }) => {
-  const { isAuthed } = useAuth()
+export const DeleteBtn: React.FC<{ id: string; uid: string }> = ({ id, uid }) => {
+  const { isAuthed, user } = useSession()
+  if (!isAuthed) return null
+  if (user.id !== uid) return null
 
   const handleDelete = async () => {
     await api.post.deletePost({ id }).delete()
-    revalidate({ tag: 'posts' })
+    revalidate({ path: '/' })
   }
 
-  if (!isAuthed) return null
-
   return (
-    <Button variant="ghost" size="icon" onClick={handleDelete} className="absolute right-2 top-2">
+    <Button variant="ghost" size="icon" onClick={handleDelete}>
       <XIcon />
     </Button>
   )
 }
 ```
 
-### Create a post list component
+### Add this component to your page
 
-```tsx title="components/post-list.tsx"
+```tsx title="app/page.tsx"
+import type { Post, User } from '@prisma/client'
 import type { NextPage } from 'next'
 
 import { CreatePostForm } from '@/components/post/create-form'
 import { DeleteBtn } from '@/components/post/delete-btn'
 import { api } from '@/lib/api'
 
-interface Post {
-  id: string
-  content: string
-  author: {
-    name: string
-  }
-}
+type TPost = Post & { author: User }
 
-const Page: React.FC = async ({ userId }) => {
-  const { data: posts } = (await api.post.getPosts.get({
-    fetch: { next: { tags: ['posts'] } },
-  })) as { data: Post[] }
+const Page: NextPage = async () => {
+  const posts = await api.post.getPosts.get().then((res) => res.data as TPost[])
 
   return (
     <>
       <CreatePostForm />
 
-      <section className="container my-4 grid max-w-screen-md grid-cols-1 gap-4 md:grid-cols-2">
-        {posts?.map((post) => (
-          <article key={post.id} className="rounded-md border p-4">
-            <p className="text-xl font-bold">{post.content}</p>
-            <small className="text-muted-foreground">by {post.author.name}</small>
-            <DeleteBtn id={post.id} />
-          </article>
+      <ul className="mx-auto mt-4 grid max-w-screen-md grid-cols-3 gap-4">
+        {posts.map((post) => (
+          <li key={post.id} className="flex items-center justify-between rounded-lg border p-4">
+            <p>{post.content}</p>
+
+            <DeleteBtn id={post.id} uid={post.author.id} />
+          </li>
         ))}
-      </section>
+      </ul>
     </>
   )
 }
@@ -258,11 +313,7 @@ export default Page
 
 - Next.js: [nextjs.org](https://nextjs.org/)
 - ElysiaJS: [elysiajs.com](https://elysiajs.com/)
-
-**Try it now!!!**
-
-1. Fork my repository: [here](https://github.com/tiesen243/next-elysia/)
-2. Demo web app: [here](https://next-elysia.vercel.app/)
+- React Hook Form: [react-hook-form.com](https://react-hook-form.com/)
 
 <div align="center">
   <b>Thanks for reading, hope you like this</b>

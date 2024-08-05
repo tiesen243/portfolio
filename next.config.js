@@ -4,9 +4,16 @@
  */
 await import('./env.js')
 
+/* MDX configuration */
 import createMDX from 'fumadocs-mdx/config'
+import { remarkInstall } from 'fumadocs-docgen'
 
-const withMdx = createMDX({})
+const withMdx = createMDX({
+  mdxOptions: {
+    lastModifiedTime: 'git',
+    remarkPlugins: [remarkInstall],
+  },
+})
 
 /** @type {import("next").NextConfig} */
 const config = {
