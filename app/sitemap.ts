@@ -1,9 +1,8 @@
 import type { MetadataRoute } from 'next'
 
-import { getPages } from '@/content'
 import { projects } from '@/lib/data'
+import { getLastModifiedTime, getPages } from '@/lib/mdx'
 import { getBaseUrl } from '@/lib/site'
-import { getLastModifiedTime } from '@/lib/utils'
 
 interface Route {
   url: string

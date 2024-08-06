@@ -66,7 +66,11 @@ export const siteConfig: SiteConfig = {
   ],
 
   socials: [
-    { label: 'Github', href: 'https://github.com/tiesen243', icon: icons.GithubIcon },
+    {
+      label: 'Github',
+      href: 'https://github.com/tiesen243',
+      icon: icons.GithubIcon,
+    },
     {
       label: 'Linkedin',
       href: 'https://www.linkedin.com/in/tiesen243/',
@@ -95,8 +99,9 @@ export const siteConfig: SiteConfig = {
   ],
 
   navLinks: [
-    { label: 'Home', url: '/#home' },
+    { label: 'Home', url: '/#hero' },
     { label: 'About', url: '/#about' },
+    { label: 'Contact', url: '/#contact' },
     { label: 'Projects', url: '/projects' },
     { label: 'Blog', url: '/blog' },
   ],

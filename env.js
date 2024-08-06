@@ -31,6 +31,7 @@ export const env = createEnv({
     API_URL: process.env.API_URL,
     API_KEY: process.env.API_KEY,
     GIT_TOKEN: process.env.GIT_TOKEN,
+    // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

@@ -11,7 +11,7 @@ export const ThemeSwitch: React.FC = () => {
 
   const [isMounted, setIsMounted] = useState<boolean>(false)
   useEffect(() => setIsMounted(true), [])
-  if (!isMounted) return <Button variant="ghost" size="icon" isLoading />
+  if (!isMounted) return <Button variant="ghost" size="icon" />
 
   const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark')
 

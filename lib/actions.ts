@@ -1,6 +1,7 @@
 'use server'
 
 import { env } from '@/env'
+import { siteConfig } from './site'
 
 export const sendEmail = async (formData: FormData) => {
   try {
@@ -9,6 +10,7 @@ export const sendEmail = async (formData: FormData) => {
       body: JSON.stringify({
         ...Object.fromEntries(formData),
         from: 'Contact Form',
+        to: siteConfig.contact[1]?.value,
         api_key: env.API_KEY,
       }),
     }).then((res) => res.json() as { error?: Record<string, string>; message?: string })

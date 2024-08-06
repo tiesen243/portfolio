@@ -1,11 +1,21 @@
+import { getPages } from '@/lib/mdx'
 import type { NextPage } from 'next'
-import Link from 'next/link'
 
-import { BlogCard } from '@/components/blog-card'
-import { getPages } from '@/content'
+import { BlogCard } from './_components/blog-card'
+import { Nav } from './_components/nav'
+import { getBaseUrl } from '@/lib/site'
 
 interface Props {
   searchParams: { tag?: string }
+}
+
+const description =
+  'A collection of my thoughts, ideas, and experiences. I love to write about things that matter. Check out my blogs!'
+export const metadata = {
+  title: 'Blog | Tiesen',
+  description,
+  openGraph: { images: `/api/og?title=Blog&desc=${description}`, url: `${getBaseUrl()}/blog` },
+  alternates: { canonical: `${getBaseUrl()}/blog` },
 }
 
 const Page: NextPage<Props> = ({ searchParams }) => {
@@ -18,26 +28,9 @@ const Page: NextPage<Props> = ({ searchParams }) => {
 
   return (
     <main className="container my-4">
-      <nav className="mb-4 flex gap-4">
-        <Link
-          href="/blog"
-          className={searchParams.tag ? 'text-muted-foreground hover:underline' : ''}
-        >
-          All
-        </Link>
+      <Nav tags={tags} currentTag={searchParams.tag} />
 
-        {tags.map((tag) => (
-          <Link
-            key={tag}
-            href={`/blog?tag=${tag}`}
-            className={searchParams.tag === tag ? '' : 'text-muted-foreground hover:underline'}
-          >
-            {tag}
-          </Link>
-        ))}
-      </nav>
-
-      <section className=" grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {renderBlogs.map((blog) => (
           <BlogCard key={blog.url} blog={blog} />
         ))}

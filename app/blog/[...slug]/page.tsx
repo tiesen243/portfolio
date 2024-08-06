@@ -1,12 +1,12 @@
+import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
 import { DocsBody, DocsPage } from 'fumadocs-ui/page'
 import type { NextPage, ResolvingMetadata } from 'next'
-import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
-import { getPage, getPages } from '@/content'
+import { Badges } from '@/components/ui/badges'
 import { env } from '@/env'
+import { getLastModifiedTime, getPage, getPages } from '@/lib/mdx'
 import { getBaseUrl } from '@/lib/site'
-import { getLastModifiedTime } from '@/lib/utils'
 
 interface Props {
   params: { slug?: string[] }
@@ -19,18 +19,15 @@ export const generateMetadata = async ({ params }: Props, parent: ResolvingMetad
   const previousImages = (await parent).openGraph?.images ?? []
   const images = [
     blog.data.image,
-    `/og?title=${blog.data.title}&desc=${blog.data.description}`,
+    `/api/og?title=${blog.data.title}&desc=${blog.data.description}`,
     ...previousImages,
   ]
 
   return {
     title: blog.data.title,
     description: blog.data.description,
-    openGraph: {
-      images,
-      type: 'article',
-      url: `${getBaseUrl()}/${blog.url}`,
-    },
+    keywords: blog.data.tags,
+    openGraph: { images, type: 'article', url: `${getBaseUrl()}/${blog.url}` },
     alternates: { canonical: `${getBaseUrl()}/${blog.url}` },
   }
 }
@@ -53,18 +50,12 @@ const Page: NextPage<Props> = async ({ params: { slug } }) => {
         <p className="mb-0 mt-2 text-muted-foreground">
           {lastModified.toDateString()} • {views} views
         </p>
-        <ul className="my-0 flex list-none gap-2">
-          {blog.data.tags.map((tag) => (
-            <li
-              key={tag}
-              className="inline-block cursor-pointer whitespace-nowrap rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground hover:bg-primary/80"
-            >
-              {tag}
-            </li>
-          ))}
-        </ul>
+
+        <Badges items={blog.data.tags} className="my-0" />
+
         <p className="mt-0">{blog.data.description}</p>
-        <Image
+
+        <ImageZoom
           src={blog.data.image}
           alt={blog.url}
           width={1920}

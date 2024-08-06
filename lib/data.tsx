@@ -58,16 +58,6 @@ export const projects = [
     demo: 'https://egg-community.vercel.app',
   },
   {
-    slug: 'yukit',
-    name: 'Yukit',
-    preview: 'A full-stack application for managing tasks.',
-    description:
-      'Our task manager application, built on Next.js, tRPC, Prisma, Clerk, and Framer Motion, offers a comprehensive and dynamic solution for managing tasks. The Next.js frontend provides a responsive and user-friendly interface, while Framer Motion adds engaging animations for a more interactive user experience. The backend, powered by tRPC, ensures efficient data handling for seamless task operations. Prisma, our database ORM, guarantees smooth data transactions, enabling you to create, update, and delete tasks with ease. Clerk, our authentication solution, ensures secure access to your tasks, providing a safe environment for your data. In essence, our task manager application is a robust, secure, and visually engaging platform for all your task management needs.',
-    stack: ['Next.js', 'tRPC', 'Prisma', 'Tailwind CSS', 'Clerk', 'Framer Motion'],
-    repo: 'https://github.com/tiesen243/yukit',
-    demo: 'https://yukit.vercel.app',
-  },
-  {
     slug: 'portfolio',
     name: 'Portfolio',
     preview: 'A portfolio website built with Next.js, Tailwind CSS.',
@@ -95,7 +85,7 @@ export const designs = [
   },
   {
     name: 'Lin',
-    src: '/design/lin.png',
+    src: '/design/lin-yushia.png',
   },
   {
     name: 'Tiesen v1',

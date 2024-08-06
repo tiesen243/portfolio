@@ -1,29 +1,22 @@
 import type { Config } from 'tailwindcss'
 import { fontFamily } from 'tailwindcss/defaultTheme'
-
 import { createPreset } from 'fumadocs-ui/tailwind-plugin'
-import animate from 'tailwindcss-animate'
 
 const config = {
   darkMode: ['class'],
+  presets: [createPreset()],
   content: [
-    './app/**/*.tsx',
-    './components/**/*.tsx',
-    './content/**/*.{md,mdx}',
-    './mdx-components.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
     './node_modules/fumadocs-ui/dist/**/*.js',
   ],
   prefix: '',
   theme: {
-    container: {
-      center: true,
-      padding: '2rem',
-      screens: { '2xl': '1400px' },
-    },
+    container: { center: true, padding: '2rem', screens: { '2xl': '1400px' } },
     extend: {
       fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans],
-        mono: ['var(--font-mono)', ...fontFamily.mono],
+        sans: ['var(--font-geist-sans)', ...fontFamily.sans],
+        mono: ['var(--font-geist-mono)', ...fontFamily.mono],
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -68,22 +61,21 @@ const config = {
       keyframes: {
         marquee: { to: { transform: 'translateX(-50%)' } },
         'marquee-reverse': { to: { transform: 'translateX(-50%)' } },
-        shimmer: { from: { backgroundPosition: '0 0' }, to: { backgroundPosition: '-200% 0' } },
         'up-down': {
           '0%, 100%': { transform: 'translateY(10%)' },
           '50%': { transform: 'translateY(-10%)' },
         },
+        shimmer: { from: { backgroundPosition: '0 0' }, to: { backgroundPosition: '-200% 0' } },
       },
       animation: {
         marquee: 'marquee var(--duration, 30s) linear infinite',
         'marquee-reverse': 'marquee-reverse var(--duration, 30s) linear infinite reverse',
-        shimmer: 'shimmer 2s linear infinite',
         'up-down': 'up-down 1s ease-in-out infinite',
+        shimmer: 'shimmer 2s linear infinite',
       },
     },
   },
-  plugins: [animate],
-  presets: [createPreset()],
+  plugins: [require('tailwindcss-animate')],
 } satisfies Config
 
 export default config

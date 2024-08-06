@@ -1,13 +1,7 @@
 import { getBaseUrl } from '@/lib/site'
 
 const robots = () => ({
-  rules: [
-    { userAgent: '*' },
-    {
-      userAgent: ['Googlebot', 'Bingbot', 'Slurp', 'DuckDuckBot', 'Baiduspider', 'YandexBot'],
-      disallow: ['/cv.pdf'],
-    },
-  ],
+  rules: [{ userAgent: '*' }],
   sitemap: `${getBaseUrl()}/sitemap.xml`,
   host: getBaseUrl(),
 })
