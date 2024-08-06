@@ -1,0 +1,120 @@
+---
+title: 'Server Action in Next.js'
+description: 'Basic example of server action in Next.js'
+image: '/api/og?title=Server%20Action%20in%20Next.js&desc=Basic%20example%20of%20server%20action%20in%20Next.js'
+tags:
+  - Next.js
+---
+
+## Introduction
+
+Hello everynyan! Today, we're going to learn how to use server action in Next.js, a powerful combination that makes form handling a breeze.
+
+## Setup
+
+1. First, let's create a new Next.js app. I use the [React Hook Form](/blog/react-hook-form) which i have built in the previous blog post.
+2. Install the required dependencies:
+
+```package-install
+-d prisma
+```
+
+```package-install
+@prisma/client lucia @lucia-auth/adapter-prisma
+```
+
+3. Create new postgres database and table with the following schema:
+
+```prisma title="schema.prisma"
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(cuid()) @db.Text
+  email    String @unique
+  name     String @db.Text
+  password String @db.Text
+
+  sessions Session[]
+  posts    Post[]
+}
+
+model Session {
+  id        String   @id @db.Text
+  expiresAt DateTime
+
+  user   User   @relation(references: [id], fields: [userId], onDelete: Cascade)
+  userId String @db.Text
+}
+
+model Post {
+  id        String   @id @default(cuid()) @db.Text
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String @db.Text
+}
+```
+
+4. Start the `postgresql` server by running the following command:
+
+```bash
+docker run --name postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres
+```
+
+Then add the following environment variables to your `.env` file:
+
+```bash
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
+```
+
+Next, add following scripts to your `package.json` file:
+
+```json title="package.json
+{
+  "scripts": {
+    ...
+    "db:generate": "prisma migrate dev",
+    "db:migrate": "prisma migrate deploy",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "postinstall": "prisma generate"
+  }
+}
+```
+
+Then run the following command to push the schema to the database:
+
+<Tabs items={["npm","yarn","pnpm","bun"]}>
+
+```bash tab="npm"
+npx prisma format
+npm run db:push
+```
+
+```bash tab="yarn"
+yarn prisma format
+yarn db:push
+```
+
+```bash tab="pnpm"
+pnpx prisma format
+pnpm db:push
+```
+
+```bash tab="bun"
+bun prisma format
+bun db:push
+```
+
+</Tabs>
