@@ -36,7 +36,9 @@ const Page: NextPage<Props> = async ({ params: { slug } }) => {
   const blog = getPage(slug)
   if (!blog) return notFound()
 
-  const lastModified = await getLastModifiedTime(blog.file.path).then((time) => new Date(time))
+  const lastModified = await getLastModifiedTime(blog.file.path).then((time) =>
+    new Date(time).toLocaleDateString('en-US', opts),
+  )
   const views = await fetch(`${env.API_URL}/view-count/${blog.url.split('/').pop()}?theme=no`, {
     cache: 'no-store',
   }).then((res) => res.text())
@@ -48,7 +50,7 @@ const Page: NextPage<Props> = async ({ params: { slug } }) => {
       <DocsBody>
         <h1 className="mb-2">{blog.data.title}</h1>
         <p className="mb-0 mt-2 text-muted-foreground">
-          {lastModified.toDateString()} • {views} views
+          {lastModified} • {views} views
         </p>
 
         <Badges items={blog.data.tags} className="my-0" />
@@ -72,6 +74,17 @@ const Page: NextPage<Props> = async ({ params: { slug } }) => {
 }
 
 export default Page
+
+const opts: Intl.DateTimeFormatOptions = {
+  timeZone: 'Asia/Ho_Chi_Minh',
+  year: 'numeric',
+  month: 'long',
+  day: '2-digit',
+  hour12: false,
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+}
 
 export const generateStaticParams = async () =>
   getPages().map((page) => ({
