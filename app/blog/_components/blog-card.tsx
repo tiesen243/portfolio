@@ -21,14 +21,14 @@ export const BlogCard: React.FC<{ blog: Blog }> = async ({ blog }) => {
     <Link
       key={blog.url}
       href={blog.url}
-      className="rounded-b-lg border bg-card shadow-md hover:bg-secondary"
+      className="rounded-lg border bg-card shadow-md hover:bg-secondary"
     >
       <Image
         src={blog.data.image}
         alt={blog.data.title}
         width={1200}
         height={630}
-        className="aspect-video object-cover"
+        className="aspect-video rounded-t-lg object-cover"
       />
 
       <div className="flex flex-col gap-1 p-4">
