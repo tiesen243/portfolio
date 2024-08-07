@@ -11,13 +11,13 @@ export const HeroSection: React.FC = () => (
     <Image
       src="/images/tiesen.png"
       alt="Tiesen"
-      className="w-10/12 max-w-screen-lg object-cover"
+      className="w-full max-w-screen-lg object-cover"
       width={2500}
       height={400}
     />
 
     <p className="mb-6 text-center text-lg md:text-xl">
-      A <b>Weeb Devalopor</b> who loves to create interactive and responsive web applications.
+      A <b>Weeb Devalopor</b> who love to code and watch anime.
     </p>
 
     <div className="grid grid-cols-2 place-items-center gap-4">
