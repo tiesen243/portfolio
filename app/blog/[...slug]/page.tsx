@@ -47,25 +47,22 @@ const Page: NextPage<Props> = async ({ params: { slug } }) => {
 
   return (
     <DocsPage toc={blog.data.exports.toc} full={blog.data.full}>
-      <DocsBody>
-        <h1 className="mb-2">{blog.data.title}</h1>
-        <p className="mb-0 mt-2 text-muted-foreground">
+      <DocsBody className="prose-neutral dark:prose-invert prose-headings:mb-4 prose-p:my-2">
+        <h1>{blog.data.title}</h1>
+        <p className="text-muted-foreground">
           {lastModified} • {views} views
         </p>
-
+        <p>{blog.data.description}</p>
         <Badges items={blog.data.tags} className="my-0" />
-
-        <p className="mt-0">{blog.data.description}</p>
-
         <ImageZoom
           src={blog.data.image}
           alt={blog.url}
           width={1920}
           height={1080}
-          className="rounded-lg object-cover shadow-lg"
+          className="mb-0 mt-1 rounded-lg object-cover shadow-lg"
         />
 
-        <hr />
+        <hr className="mb-4 mt-6" />
 
         <MDX />
       </DocsBody>

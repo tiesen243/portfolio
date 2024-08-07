@@ -36,35 +36,37 @@ const Page: NextPage<Props> = async ({ params }) => {
 
   return (
     <main className="container my-4 flex-1">
-      <h1 className="text-4xl font-bold">{project.name}</h1>
+      <article className="prose prose-neutral dark:prose-invert prose-headings:mb-4 prose-p:my-2">
+        <h1>{project.name}</h1>
 
-      <Badges items={project.stack} className="mt-4" />
+        <Badges items={project.stack} className="mt-4" />
 
-      <div className="mt-4 space-x-4">
-        <a
-          href={project.repo}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:underline"
-        >
-          View Source
-        </a>
-
-        {project.demo && (
+        <div className="mt-4 space-x-4">
           <a
-            href={project.demo}
+            href={project.repo}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:underline"
           >
-            View Demo
+            View Source
           </a>
-        )}
-      </div>
 
-      <hr className="my-4" />
+          {project.demo && (
+            <a
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              View Demo
+            </a>
+          )}
+        </div>
 
-      <p className="text-lg">{project.description}</p>
+        <hr className="my-4" />
+
+        <p className="text-lg">{project.description}</p>
+      </article>
     </main>
   )
 }

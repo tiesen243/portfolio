@@ -10,7 +10,7 @@ export const Nav: React.FC<{ tags: string[]; currentTag?: string }> = ({ tags, c
       <Link
         key={tag}
         href={`/blog?tag=${tag}`}
-        className={currentTag ? '' : 'text-muted-foreground hover:underline'}
+        className={currentTag === tag ? '' : 'text-muted-foreground hover:underline'}
       >
         {tag}
       </Link>
