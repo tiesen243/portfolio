@@ -30,7 +30,7 @@ export const GET = async (_: NextRequest, { params }: Props): Promise<ImageRespo
         <img alt="Tiesen" src={`${getBaseUrl()}/images/logo.svg`} style={style} />
 
         <div tw="w-2/3 flex flex-col">
-          <h2 tw="text-6xl capitalize">{title}</h2>
+          <h2 tw="text-4xl capitalize">{title}</h2>
           <p tw="text-2xl">{description}</p>
         </div>
       </div>
