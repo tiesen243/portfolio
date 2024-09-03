@@ -9,7 +9,7 @@ const Button = dynamic(() => import('@/components/ui/button').then((mod) => mod.
 
 export const ContactForm: React.FC = () => {
   const [isPending, startTransition] = useTransition()
-  const [formState, setFormState] = useState<State>({ success: false, message: '' })
+  const [formState, setFormState] = useState<State>({ success: false, error: {} })
 
   const action = (formData: FormData) =>
     startTransition(async () => {
@@ -19,7 +19,7 @@ export const ContactForm: React.FC = () => {
 
   useEffect(() => {
     if (formState.success) {
-      const timer = setTimeout(() => setFormState({ success: false, message: '' }), 2000)
+      const timer = setTimeout(() => setFormState({ success: false }), 2000)
       return () => clearTimeout(timer)
     }
   }, [formState.success])
