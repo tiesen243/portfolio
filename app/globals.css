@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --radius: 0.5rem;
+    --code: 213 94% 35%;
+
+    code[data-theme*=' '],
+    code[data-theme*=' '] span {
+      color: var(--shiki-light);
+      background-color: var(--shiki-light-bg);
+    }
+  }
+
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --code: 208 100% 74%;
+
+    code[data-theme*=' '],
+    code[data-theme*=' '] span {
+      color: var(--shiki-dark);
+      background-color: var(--shiki-dark-bg);
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply relative box-border border-border selection:bg-foreground selection:text-background;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply min-h-dvh bg-background text-foreground antialiased;
+  }
+
+  /* prettier-ignore  */
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-balance;
+  }
+  p {
+    @apply text-pretty;
+  }
+  pre {
+    @apply rounded-lg border;
+  }
+
+  /* code line numbers */
+
+  code {
+    counter-reset: line;
+    @apply font-mono;
+  }
+
+  code > [data-line]::before {
+    counter-increment: line;
+    content: counter(line);
+    @apply mr-8 inline-block w-4 text-right text-muted-foreground;
+  }
+
+  code[data-line-numbers-max-digits='2'] > [data-line]::before {
+    @apply w-8;
+  }
+
+  code[data-line-numbers-max-digits='3'] > [data-line]::before {
+    @apply w-12;
+  }
+
+  /* code title */
+
+  [data-rehype-pretty-code-title] {
+    @apply rounded-t-lg bg-secondary px-3 py-2 text-sm font-semibold text-secondary-foreground;
+  }
+  figure[data-rehype-pretty-code-figure]:has(> [data-rehype-pretty-code-title]) pre {
+    @apply !rounded-t-none;
+  }
+  figure[data-rehype-pretty-code-figure]:has(> [data-rehype-pretty-code-title]) button {
+    @apply top-4;
+  }
+
+  /* code wrapper */
+  figure {
+    @apply mb-6 mt-1;
+  }
+  pre,
+  code,
+  figure {
+    @apply overflow-x-auto;
+  }
+}
