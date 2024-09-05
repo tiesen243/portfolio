@@ -83,7 +83,7 @@ const socials = [
   },
   {
     label: 'Facebook',
-    href: 'https://www.facebook.com/tiesen.nanoda.243/',
+    href: 'https://www.facebook.com/tiesen243.tsx/',
     icon: lucideReact.FacebookIcon,
   },
   {
