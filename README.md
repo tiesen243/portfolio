@@ -33,13 +33,10 @@ pnpm install
 bun install
 ```
 
-3. Create a `.env` file in the root of the project and add the following environment variables:
+3. Create a `.env` file:
 
 ```bash
-RESEND_KEY=
-
-NEXT_PUBLIC_SANITY_DATASET=
-NEXT_PUBLIC_SANITY_PROJECT_ID=
+cp .env.example .env
 ```
 
 4. Start the development server:
@@ -64,4 +61,4 @@ bun dev
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE.md).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
