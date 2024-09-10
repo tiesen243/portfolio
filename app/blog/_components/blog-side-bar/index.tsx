@@ -14,7 +14,7 @@ export const BlogSideBar: React.FC<Props> = ({ post }) => (
 )
 
 export const MobileBlogSideBar: React.FC<Props> = ({ post }) => (
-  <header className="fixed z-50 w-svw select-none border-b bg-background/70 py-2 shadow-lg backdrop-blur-xl xl:hidden">
+  <header className="sticky inset-0 z-50 w-svw select-none border-b bg-background/70 py-2 shadow-lg backdrop-blur-xl xl:hidden">
     <details className="container flex flex-col gap-2">
       <summary className="cursor-pointer list-none text-xl font-medium">Table of Contents</summary>
 

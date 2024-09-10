@@ -17,7 +17,7 @@ const Page: NextPage<Props> = async ({ params }) => {
       <BlogSideBar post={post} />
       <MobileBlogSideBar post={post} />
 
-      <article className="container prose prose-lg prose-neutral max-w-screen-lg pb-4 pt-12 dark:prose-invert xl:pt-4">
+      <article className="container prose prose-lg prose-neutral max-w-screen-lg py-4 dark:prose-invert">
         <h1 className="mb-0">{post.meta.title}</h1>
 
         <span className="text-muted-foreground">
