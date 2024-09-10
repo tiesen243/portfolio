@@ -1,0 +1,229 @@
+---
+title: Building Efficient Forms with React Hook Form and Next.js
+description: Learn how to use React Hook Form with Next.js, a powerful combination that makes form handling a breeze. We'll cover the basics of setting up a Next.js app, creating forms with React Hook Form, and handling form submissions.
+publishedAt: 2024-08-05
+tags:
+  - Next.js
+---
+
+## Introduction
+
+Hello everynyan! Today, we're going to learn how to use React Hook Form with Next.js, a powerful combination that makes form handling a breeze.
+
+## Setup
+
+1. First, let's create a new Next.js app (i use T3-App template for this example):
+
+```bash
+bun create t3-app@latest
+```
+
+2. Next, install `react-hook-form`:
+
+```bash
+bun add react-hook-form zod @hookform/resolvers
+```
+
+3. Thirdly, let's add some components form `shadcn/ui`:
+
+```bash
+bunx --bun shadcn@latest init
+bunx --bun shadcn@latest add input textarea label button sonner
+```
+
+> Remember to add `Toaster` component to your `layout.tsx` file.
+
+4. Finally, let's create a new form component in `components/ui/form.tsx`:
+
+```tsx title="Form component"
+import { forwardRef } from 'react'
+
+import { cn } from '@/lib/utils'
+
+type FormProps = React.FormHTMLAttributes<HTMLFormElement>
+
+export const Form = forwardRef<HTMLFormElement, FormProps>(({ className = '', ...props }, ref) => (
+  <form {...props} ref={ref} className={cn('flex flex-col gap-4', className)} />
+))
+Form.displayName = 'Form'
+```
+
+```tsx title="FormField component"
+import { Slot } from '@radix-ui/react-slot'
+import { useId } from 'react'
+import { Controller, type FieldValues, type Path, type UseFormReturn } from 'react-hook-form'
+
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { cn } from '@/lib/utils'
+
+interface FormFieldProps<T extends FieldValues = FieldValues>
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'name' | 'onChange' | 'onBlur'> {
+  name: Path<T>
+  control: UseFormReturn<T>['control']
+  label?: string
+  description?: string
+  asChild?: boolean
+  classes?: {
+    root?: string
+    label?: string
+    input?: string
+    description?: string
+    message?: string
+  }
+}
+
+export const FormField = <T extends FieldValues>({
+  name,
+  control,
+  label = '',
+  description = '',
+  asChild = false,
+  classes = {},
+  ...props
+}: FormFieldProps<T>): React.ReactElement => {
+  const id = useId()
+
+  const ids = {
+    field: `${id}-form-field`,
+    description: `${id}-form-field-description`,
+    message: `${id}-form-field-message`,
+  }
+
+  const Comp = asChild ? Slot : Input
+
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field, fieldState: { error }, formState: { isSubmitting } }) => (
+        <fieldset
+          name={field.name}
+          disabled={isSubmitting}
+          className={cn('space-y-2', classes.root)}
+        >
+          {label && (
+            <Label htmlFor={ids.field} className={cn(error && 'text-destructive', classes.label)}>
+              {label}
+            </Label>
+          )}
+
+          <Comp
+            {...field}
+            {...props}
+            id={ids.field}
+            className={cn(
+              error && 'border-destructive focus-visible:outline-destructive',
+              classes.input,
+            )}
+            aria-describedby={error ? `${ids.description} ${ids.message}` : ids.description}
+            aria-invalid={!!error}
+          />
+
+          {description && (
+            <p
+              id={ids.description}
+              className={cn('text-sm text-muted-foreground', classes.description)}
+            >
+              {description}
+            </p>
+          )}
+
+          {error && (
+            <small id={ids.message} className={cn('text-destructive', classes.message)}>
+              {error.message}
+            </small>
+          )}
+        </fieldset>
+      )}
+    />
+  )
+}
+```
+
+# Usage
+
+1. Create a form schema:
+
+```ts
+import { z } from 'zod'
+
+const schema = z
+  .object({
+    name: z.string().min(1, 'Name is required'),
+    email: z.string().email(),
+    password: z
+      .string()
+      .regex(
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/,
+        'Password must contain at least 8 characters, including uppercase, lowercase, number, and special character.',
+      ),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ['confirmPassword'],
+    message: 'Passwords do not match',
+  })
+
+type FormValues = z.infer<typeof schema>
+```
+
+2. Define the form's fields:
+
+```ts
+const fields = [
+  { name: 'name' as const, label: 'Name', type: 'text' },
+  { name: 'email' as const, label: 'Email', type: 'email' },
+  { name: 'password' as const, label: 'Password', type: 'password' },
+  { name: 'confirmPassword' as const, label: 'Confirm Password', type: 'password' },
+]
+```
+
+3. Create the form component:
+
+```tsx title="components/signup-form.tsx"
+'use client'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+
+import { Button } from '@/components/ui/button'
+import { Form, FormField } from '@/components/ui/form'
+
+export const SignupForm: React.FC = () => {
+  const form = useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema) })
+
+  const handleSubmit = form.handleSubmit(async (data) => {
+    /* Call your API here */
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+
+    toast.success('Account created!', {
+      description: <pre>{JSON.stringify(data, null, 2)}</pre>,
+    })
+  })
+
+  return (
+    <Form className="w-full max-w-screen-md" onSubmit={handleSubmit}>
+      {fields.map((field) => (
+        <FormField key={field.name} control={form.control} {...field} />
+      ))}
+
+      <Button isLoading={form.formState.isSubmitting}>Register</Button>
+    </Form>
+  )
+}
+```
+
+## Conclusion
+
+And that's it! We've successfully created a form using React Hook Form with Next.js. This powerful combination makes form handling a breeze, and with the help of `zod` for schema validation, we can ensure that our data is always correct. I hope you found this tutorial helpful, and I'll see you in the next one!
+
+Repository: [tiesen243/rhf](https://github.com/tiesen243/rhf)
+
+## References
+
+- Next.js: [nextjs.org](https://nextjs.org)
+- React Hook Form: [react-hook-form.com](https://react-hook-form.com)
+- Zod: [zod.dev](https://zod.dev)

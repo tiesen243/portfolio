@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-import { getPosts } from '@/lib/actions/post'
+import { getPosts } from '@/lib/actions/mdx'
 import { projects } from '@/lib/data'
 import { getBaseUrl } from '@/lib/utils'
 
@@ -18,7 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const blogRoutes = await Promise.all(
     await getPosts().then((posts) =>
       posts.map(async (post) => ({
-        url: `${getBaseUrl()}/blog/${post.slug.current}`,
+        url: `${getBaseUrl()}/blog/${post.slug}`,
         lastModified: new Date(post.publishedAt).toISOString(),
       })),
     ),

@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
 
-import { getPosts } from '@/lib/actions/post'
+import { BlogCard } from '@/app/blog/_components/blog-card'
+import { Filters } from '@/app/blog/_components/filters'
+import { getPosts } from '@/lib/actions/mdx'
 import { seo } from '@/lib/seo'
-import { BlogCard } from './_components/blog-card'
-import { Filters } from './_components/filters'
 
 interface Props {
   searchParams: { tag: string }
@@ -18,10 +18,10 @@ export const metadata = seo({
 
 const Page: NextPage<Props> = async ({ searchParams }) => {
   const posts = await getPosts()
-  const tags = [...new Set(posts.map((blog) => blog.categories.map((c) => c.title)).flat())]
+  const tags = [...new Set(posts.map((blog) => blog.tags).flat())]
 
   const filteredPosts = searchParams.tag
-    ? posts.filter((post) => post.categories.some((c) => c.title === searchParams.tag))
+    ? posts.filter((post) => post.tags.some((c) => c === searchParams.tag))
     : posts
 
   return (
@@ -30,7 +30,7 @@ const Page: NextPage<Props> = async ({ searchParams }) => {
 
       <section className="mt-4 grid flex-1 grid-cols-1 gap-4 md:grid-cols-3">
         {filteredPosts.map((post) => (
-          <BlogCard key={post._id} blog={post} />
+          <BlogCard key={post.slug} blog={post} />
         ))}
       </section>
     </main>

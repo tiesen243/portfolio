@@ -36,7 +36,7 @@ export const components: MDXComponents = {
   figure: CodeBlock,
 }
 
-const createId = (str: string) => {
+export const createId = (str: string) => {
   return str
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
