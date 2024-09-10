@@ -11,7 +11,6 @@ const config = {
   typescript: { ignoreBuildErrors: true },
   transpilePackages: ['next-mdx-remote'],
   experimental: { serverComponentsExternalPackages: ['shiki', 'picocolors'] },
-  images: { remotePatterns: [{ protocol: 'https', hostname: 'cdn.sanity.io' }] },
 }
 
 export default config

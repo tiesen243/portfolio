@@ -5,7 +5,10 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 export const HeroSection: React.FC = () => (
-  <section id="hero" className="container flex min-h-dvh flex-col items-center justify-center">
+  <section
+    id="hero"
+    className="container flex min-h-dvh flex-col items-center justify-center overflow-x-hidden"
+  >
     <div className="pointer-events-none relative flex place-items-center before:absolute before:h-[700px] before:w-[140px] before:translate-x-1 before:translate-y-[-10px] before:rotate-[-32deg] before:rounded-full before:bg-gradient-to-r before:from-[#0141ff] before:to-[#60c5ff] before:opacity-30 before:blur-[100px] before:content-[''] lg:before:h-[700px] lg:before:w-[240px] lg:before:translate-x-[-100px]" />
 
     <Image
