@@ -192,7 +192,7 @@ Go to hypr config file to disable warning message.
 
 Get started to install dependencies for the system.
 
-### First, intall the AUR packages.
+### Intall the AUR packages.
 
 ```bash
 sudo pacman -Syu
@@ -204,7 +204,7 @@ makepkg -si
 rm -rf ~/yay
 ```
 
-### Second, set up the system
+### Install necessary packages
 
 1. Install necessary packages
 
@@ -277,15 +277,13 @@ git clone git@github.com:tiesen243/dotfiles.git ~/dotfiles
 
 ### Customize the system
 
-Change the content of `~/.config/hypr/hyprland.conf` to
+1. Change the content of `~/.config/hypr/hyprland.conf` to
 
 ```bash title="~/.config/hypr/hyprland.conf"
 source = ~/dotfiles/hypr/hyprland.conf
 ```
 
-### Change theme and wallpaper
-
-1. Change Themes
+2. Change theme
 
 ```bash
 cp -r ~/dotfiles/.fonts ~/
@@ -295,14 +293,14 @@ cp -r ~/dotfiles/.themes ~/
 
 Then, open `nwg-look` to change the theme.
 
-2. Change wallpaper
+3. Change wallpaper
 
 ```bash title="~/dotfiles/hypr/hyprpaper.conf"
 preload = ~/path/to/wallpaper
 wallpaper = ,~/path/to/wallpaper
 ```
 
-Or just change file in `~/dotfiles/assets/background.png`
+Or just change file in `~/dotfiles/assets/_background.png`
 
 **Notes:**
 
