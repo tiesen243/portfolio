@@ -2,10 +2,9 @@ import type { NextPage, ResolvingMetadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
-import { BlogToc } from '@/app/blog/_components/blog-toc'
 import { Badge } from '@/components/ui/badge'
 
-import { getPost, getPosts } from '@/lib/actions/mdx'
+import { getPost, getPosts } from '@/lib/post'
 import { seo } from '@/lib/seo'
 
 const Page: NextPage<Props> = async ({ params }) => {
@@ -13,37 +12,33 @@ const Page: NextPage<Props> = async ({ params }) => {
   if (!post) return notFound()
 
   return (
-    <>
-      <BlogToc toc={post.toc} />
+    <article className="container prose prose-lg prose-neutral py-4 dark:prose-invert prose-pre:bg-transparent">
+      <h1 className="mb-0">{post.meta.title}</h1>
 
-      <article className="container prose prose-lg prose-neutral py-4 dark:prose-invert prose-pre:bg-transparent">
-        <h1 className="mb-0">{post.meta.title}</h1>
+      <span className="text-muted-foreground">
+        {new Date(post.meta.publishedAt).toDateString()}
+      </span>
 
-        <span className="text-muted-foreground">
-          {new Date(post.meta.publishedAt).toDateString()}
-        </span>
+      <p className="mt-0">{post.meta.description}</p>
 
-        <p className="mt-0">{post.meta.description}</p>
+      <ul className="m-0 flex list-none gap-x-2 p-0">
+        {post.meta.tags.map((tag, idx) => (
+          <Badge key={idx}>{tag}</Badge>
+        ))}
+      </ul>
 
-        <ul className="m-0 flex list-none gap-x-2 p-0">
-          {post.meta.tags.map((tag, idx) => (
-            <Badge key={idx}>{tag}</Badge>
-          ))}
-        </ul>
+      <Image
+        src={post.meta.image!}
+        alt={post.meta.slug}
+        width={1200}
+        height={630}
+        className="rounded-lg object-cover shadow-lg"
+      />
 
-        <Image
-          src={post.meta.image!}
-          alt={post.meta.slug}
-          width={1200}
-          height={630}
-          className="rounded-lg object-cover shadow-lg"
-        />
+      <hr />
 
-        <hr />
-
-        {post.content}
-      </article>
-    </>
+      {post.content}
+    </article>
   )
 }
 

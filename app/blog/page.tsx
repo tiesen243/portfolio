@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 
 import { BlogCard } from '@/app/blog/_components/blog-card'
 import { Filters } from '@/app/blog/_components/filters'
-import { getPosts } from '@/lib/actions/mdx'
+import { getPosts } from '@/lib/post'
 import { seo } from '@/lib/seo'
 
 interface Props {

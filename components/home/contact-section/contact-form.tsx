@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic'
 import { useEffect, useState, useTransition } from 'react'
 
-import { sendEmail, type State } from '@/lib/actions/email'
+import { sendEmail, type State } from '@/lib/send-email'
 
 const Button = dynamic(() => import('@/components/ui/button').then((mod) => mod.Button))
 

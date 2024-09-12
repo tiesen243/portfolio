@@ -1,11 +1,9 @@
-'use server'
-
 import fs from 'fs/promises'
 import { compileMDX } from 'next-mdx-remote/rsc'
 import rehypePrettyCode, { type Options } from 'rehype-pretty-code'
+import { z } from 'zod'
 
 import { components } from '@/components/mdx'
-import { z } from 'zod'
 
 const root = process.cwd()
 
@@ -17,15 +15,9 @@ const frontmatterSchema = z.object({
   tags: z.array(z.string()).default([]),
 })
 
-interface Toc {
-  level: number
-  title: string
-  toc?: Toc[]
-}
 export interface Post {
   meta: z.infer<typeof frontmatterSchema> & { slug: string }
   content: React.ReactElement
-  toc: Toc[]
 }
 
 export const getPost = async ({ slug }: { slug: string }): Promise<Post | null> => {
@@ -49,9 +41,8 @@ export const getPost = async ({ slug }: { slug: string }): Promise<Post | null> 
 
     const parsed = frontmatterSchema.parse(frontmatter)
     const image = parsed.image ?? `/og?title=${parsed.title}&desc=${parsed.description}`
-    const toc = extractHeaders(source)
 
-    return { content, meta: { ...parsed, image, slug }, toc }
+    return { content, meta: { ...parsed, image, slug } }
   } catch {
     return null
   }
@@ -62,33 +53,12 @@ export const getPosts = async (): Promise<Post['meta'][]> => {
 
   const posts = await Promise.all(
     files.map(async (file) => {
-      const slug = file.replace(/\.mdx$/, '')
-      const post = await getPost({ slug })
-      if (!post) return null
+      const post = await getPost({ slug: file.replace(/\.mdx$/, '') })
+      if (!post) return
       return post.meta
     }),
   )
 
-  // @ts-expect-error - Filter out null values
+  // @ts-expect-error - filter out null values
   return posts.sort((a, b) => (new Date(a.publishedAt) > new Date(b.publishedAt) ? -1 : 1))
-}
-
-function extractHeaders(markdownContent: string) {
-  const headerRegex = /#{2,6}.+/g
-
-  const toc = Array.from(markdownContent.matchAll(headerRegex)).reduce((acc, match) => {
-    const level = match[0].match(/#/g)!.length
-    const title = match[0].replace(/#/g, '').trim()
-
-    if (level === 2) {
-      acc.push({ level, title, toc: [] })
-    } else {
-      const last = acc[acc.length - 1]
-      last?.toc.push({ level, title })
-    }
-
-    return acc
-  }, [] as Toc[])
-
-  return toc
 }

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-import { getPosts } from '@/lib/actions/mdx'
+import { getPosts } from '@/lib/post'
 import { projects } from '@/lib/data'
 import { getBaseUrl } from '@/lib/utils'
 
