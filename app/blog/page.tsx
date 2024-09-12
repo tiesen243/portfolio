@@ -28,7 +28,7 @@ const Page: NextPage<Props> = async ({ searchParams }) => {
     <main className="container flex-1 py-4">
       <Filters tags={tags} currentTag={searchParams.tag} />
 
-      <section className="mt-4 grid flex-1 grid-cols-1 gap-4 md:grid-cols-3">
+      <section className="mt-4 grid flex-1 grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {filteredPosts.map((post) => (
           <BlogCard key={post.slug} blog={post} />
         ))}

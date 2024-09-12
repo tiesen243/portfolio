@@ -2,7 +2,7 @@ import type { NextPage, ResolvingMetadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
-import { BlogSideBar, MobileBlogSideBar } from '@/app/blog/_components/blog-side-bar'
+import { BlogToc } from '@/app/blog/_components/blog-toc'
 import { Badge } from '@/components/ui/badge'
 
 import { getPost, getPosts } from '@/lib/actions/mdx'
@@ -14,10 +14,9 @@ const Page: NextPage<Props> = async ({ params }) => {
 
   return (
     <>
-      <BlogSideBar post={post} />
-      <MobileBlogSideBar post={post} />
+      <BlogToc toc={post.toc} />
 
-      <article className="container prose prose-lg prose-neutral max-w-screen-lg py-4 dark:prose-invert">
+      <article className="container prose prose-lg prose-neutral py-4 dark:prose-invert prose-pre:bg-transparent">
         <h1 className="mb-0">{post.meta.title}</h1>
 
         <span className="text-muted-foreground">
