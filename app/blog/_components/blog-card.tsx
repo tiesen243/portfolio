@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { Badge } from '@/components/ui/badge'
-import type { Post } from '@/lib/actions/mdx'
+import type { Post } from '@/lib/post'
 
 export const BlogCard: React.FC<{ blog: Post['meta'] }> = ({ blog }) => (
   <Link

@@ -12,7 +12,7 @@ const Page: NextPage<Props> = async ({ params }) => {
   if (!post) return notFound()
 
   return (
-    <article className="container prose prose-lg prose-neutral py-4 dark:prose-invert prose-pre:bg-transparent">
+    <article className="container prose prose-lg prose-neutral max-w-screen-lg flex-1 py-4 dark:prose-invert prose-pre:bg-transparent">
       <h1 className="mb-0">{post.meta.title}</h1>
 
       <span className="text-muted-foreground">
