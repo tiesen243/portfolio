@@ -38,7 +38,7 @@ export const projects = [
     name: 'Yuki',
     preview: 'A full-stack e-commerce platform for selling and buying products.',
     description:
-      'Our e-commerce website, built on Next.js, tRPC, Prisma, Lucia, and Uploadthing, offers a seamless shopping experience. With a responsive interface, efficient APIs, and secure authentication, it provides a user-friendly platform for all your shopping needs. The website handles large volumes of data, ensuring high performance. It also manages product images effectively for accurate representation. Notably, it sends emails to users for sign-up confirmation, password reset, account deletion, and order confirmation. In essence, our website is a comprehensive, one-stop-shop for a smooth and enjoyable shopping journey.',
+      'Yuki is a full-stack e-commerce platform built with Next.js, Prisma, and tRPC. It is a modern, fast, and secure platform that allows you to create your own e-commerce store with ease. ',
     stack: ['Next.js', 'tRPC', 'Prisma', 'Lucia', 'Uploadthing', 'Tailwind CSS'],
     repo: 'https://github.com/tiesen243/yuki',
     demo: 'https://yuki.tiesen.id.vn',
@@ -59,7 +59,7 @@ export const projects = [
     preview: 'A portfolio website built with Next.js, Tailwind CSS.',
     description:
       'Our portfolio website, built on Next.js and Fumadocs, offers a comprehensive platform to showcase my skills, projects, and blog posts. The Next.js frontend ensures a responsive and user-friendly interface, providing a seamless browsing experience. Fumadocs, our blogging solution, allows for the creation and management of blog posts, enabling me to share my thoughts and insights effectively. The website serves as a digital portfolio, displaying my personal information and a collection of my projects, providing a snapshot of my capabilities. In essence, our portfolio website is a dynamic, engaging, and informative platform for showcasing my professional journey.',
-    stack: ['Next.js', 'Tailwind CSS', 'Fumadocs'],
+    stack: ['Next.js', 'Tailwind CSS', 'MDX'],
     repo: 'https://github.com/tiesen243/portfolio',
     demo: 'https://tiesen.id.vn',
   },
