@@ -20,17 +20,14 @@
     --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
+    --success: 142.1 70.6% 45.3%;
+    --success-foreground: 0 0% 98%;
+    --warning: 37.7 92.1% 50.2%;
+    --warning-foreground: 0 0% 98%;
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
     --radius: 0.5rem;
-    --code: 213 94% 35%;
-
-    code[data-theme*=' '],
-    code[data-theme*=' '] span {
-      color: var(--shiki-light);
-      background-color: var(--shiki-light-bg);
-    }
   }
 
   .dark {
@@ -50,30 +47,19 @@
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
+    --success: 143.8 61.2% 20.2%;
+    --success-foreground: 0 0% 98%;
+    --warning: 21.7 77.8% 26.5%;
+    --warning-foreground: 0 0% 98%;
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
-    --code: 208 100% 74%;
-
-    code[data-theme*=' '],
-    code[data-theme*=' '] span {
-      color: var(--shiki-dark);
-      background-color: var(--shiki-dark-bg);
-    }
   }
 }
 
 @layer base {
   * {
-    @apply relative box-border border-border selection:bg-foreground selection:text-background;
-  }
-
-  html {
-    @apply scroll-smooth;
-  }
-
-  body {
-    @apply min-h-dvh bg-background text-foreground antialiased;
+    @apply relative box-border border-border underline-offset-4 selection:bg-foreground selection:text-background;
   }
 
   /* prettier-ignore  */
@@ -83,50 +69,15 @@
   p {
     @apply text-pretty;
   }
-  pre {
-    @apply rounded-lg border;
-  }
 
-  /* code line numbers */
-
-  code {
-    counter-reset: line;
-    @apply font-mono;
+  ::-webkit-scrollbar {
+    width: 0.25rem;
+    height: 0.25rem;
   }
-
-  code > [data-line]::before {
-    counter-increment: line;
-    content: counter(line);
-    @apply mr-8 inline-block w-4 text-right text-muted-foreground;
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
   }
-
-  code[data-line-numbers-max-digits='2'] > [data-line]::before {
-    @apply w-8;
-  }
-
-  code[data-line-numbers-max-digits='3'] > [data-line]::before {
-    @apply w-12;
-  }
-
-  /* code title */
-
-  [data-rehype-pretty-code-title] {
-    @apply rounded-t-lg bg-secondary px-3 py-2 text-sm font-semibold text-secondary-foreground;
-  }
-  figure[data-rehype-pretty-code-figure]:has(> [data-rehype-pretty-code-title]) pre {
-    @apply !rounded-t-none;
-  }
-  figure[data-rehype-pretty-code-figure]:has(> [data-rehype-pretty-code-title]) button {
-    @apply top-4;
-  }
-
-  /* code wrapper */
-  figure {
-    @apply mb-6 mt-1;
-  }
-  pre,
-  code,
-  figure {
-    @apply overflow-x-auto;
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-ring;
   }
 }
