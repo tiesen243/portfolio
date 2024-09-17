@@ -1,5 +1,6 @@
 import '@/app/globals.css'
 
+import { Analytics } from '@vercel/analytics/next'
 import { RootProvider } from 'fumadocs-ui/provider'
 import { GeistSans } from 'geist/font/sans'
 
@@ -28,6 +29,8 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
         {children}
         <Footer />
       </RootProvider>
+
+      <Analytics />
     </body>
   </html>
 )
