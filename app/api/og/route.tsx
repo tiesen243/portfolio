@@ -30,7 +30,7 @@ export const GET = async (
         ) : (
           <>
             <div tw="flex flex-col justify-center text-white">
-              <h1 tw="text-6xl font-bold">{title}</h1>
+              <h1 tw="max-w-[550px] text-6xl font-bold">{title}</h1>
 
               <p tw="max-w-[600px] mt-4 text-2xl">{description}</p>
             </div>

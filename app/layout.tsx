@@ -3,6 +3,8 @@ import '@/app/globals.css'
 import { RootProvider } from 'fumadocs-ui/provider'
 import { GeistSans } from 'geist/font/sans'
 
+import { Footer } from '@/components/footer'
+
 import { seo } from '@/lib/seo'
 import { cn } from '@/lib/utils'
 
@@ -12,7 +14,7 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
   <html lang="en" suppressHydrationWarning>
     <body
       className={cn(
-        'min-h-dvh bg-background font-sans text-foreground antialiased',
+        'flex min-h-dvh flex-col bg-background font-sans text-foreground antialiased',
         GeistSans.variable,
       )}
     >
@@ -24,6 +26,7 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
         }}
       >
         {children}
+        <Footer />
       </RootProvider>
     </body>
   </html>
