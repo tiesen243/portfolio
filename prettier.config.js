@@ -22,7 +22,7 @@ const config = {
     '_components/(.*)$',
     '',
     '<TYPES>^(@/(.+))$',
-    '^(@/server|@/emails|@/hooks|@/lib|@)(/.*)$',
+    '^@/.',
     '^[..]',
     '^[.]',
   ],

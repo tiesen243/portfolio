@@ -1,0 +1,500 @@
+---
+title: Understanding Server Actions in Next.js
+description: Learn how to improve your Next.js application's performance and user experience by utilizing server actions. This guide provides clear explanations and practical examples.
+publishedAt: 2024-08-10
+tags:
+  - Next.js
+---
+
+## Introduction
+
+Hello everyone, in this blog post, we will learn how to use server action in Next.js. Server action is a powerful feature in Next.js that allows you to create server-side logic that can be called from the client-side. This is useful for handling form submissions, authentication, and other server-side tasks.
+
+In this blog post, we will create a simple authentication system using server action in Next.js. We will use the [Lucia](https://lucia-auth.com/) library for authentication and [Prisma](https://www.prisma.io) for database access.
+
+## Setup
+
+1. First, let's create a new Next.js app. I use the [App](/blog/react-hook-form) which i have built in the previous blog post.
+2. Install the required dependencies:
+
+```bash
+bun add -d prisma
+```
+
+```bash
+bun add @prisma/client lucia @lucia-auth/adapter-prisma
+```
+
+3. Create new postgres database and table with the following schema:
+
+```prisma title="schema.prisma"
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(cuid()) @db.Text
+  email    String @unique
+  name     String @db.Text
+  password String @db.Text
+
+  sessions Session[]
+}
+
+model Session {
+  id        String   @id @db.Text
+  expiresAt DateTime
+
+  user   User   @relation(references: [id], fields: [userId], onDelete: Cascade)
+  userId String @db.Text
+}
+```
+
+4. Start the `postgresql` server by running the following command:
+
+```bash
+docker run --name postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres
+```
+
+Then add the following environment variables to your `.env` file:
+
+```bash
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
+```
+
+Next, add following scripts to your `package.json` file:
+
+```json title="package.json
+{
+  "scripts": {
+    ...
+    "db:generate": "prisma migrate dev",
+    "db:migrate": "prisma migrate deploy",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "postinstall": "prisma generate"
+  }
+}
+```
+
+Then run the following command to push the schema to the database:
+
+```bash
+bun prisma format
+bun db:push
+```
+
+## Setting up authentication with Lucia
+
+First, let's create a new configuration file for Lucia:
+
+```ts title="server/auth/lucia.ts"
+import type { User } from '@prisma/client'
+import { PrismaAdapter } from '@lucia-auth/adapter-prisma'
+import { Lucia } from 'lucia'
+
+import { env } from '@/env'
+import { db } from '@/server/db'
+
+const adapter = new PrismaAdapter(db.session, db.user)
+
+export const lucia = new Lucia(adapter, {
+  sessionCookie: { expires: false, attributes: { secure: env.NODE_ENV === 'production' } },
+  getUserAttributes: (attr) => attr,
+})
+
+declare module 'lucia' {
+  interface Register {
+    Lucia: typeof lucia
+    DatabaseUserAttributes: User
+  }
+}
+```
+
+Next, let's create a new `auth` function to get the current user:
+
+```ts title="server/auth/uncached-auth.ts"
+import 'server-only'
+
+import type { Session, User } from '@prisma/client'
+import { cookies } from 'next/headers'
+
+import { lucia } from '@/server/auth/lucia'
+
+type Auth = { user: User; session: Session } | { user: null; session: null }
+
+export const uncachedAuth = async (): Promise<Auth> => {
+  const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null
+  if (!sessionId)
+    return {
+      user: null,
+      session: null,
+    }
+
+  const result = await lucia.validateSession(sessionId)
+
+  try {
+    if (result.session?.fresh) {
+      const sessionCookie = lucia.createSessionCookie(result.session.id)
+      cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
+    }
+    if (!result.session) {
+      const sessionCookie = lucia.createBlankSessionCookie()
+      cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
+    }
+  } catch {}
+  return result
+}
+```
+
+```ts title="server/auth.ts"
+import 'server-only'
+
+import { cache } from 'react'
+
+import { uncachedAuth } from '@/server/auth/uncached-auth'
+
+export const auth = cache(uncachedAuth)
+```
+
+Finally, create a `SessionProvider` to get the current user in client-side:
+
+```ts title="lib/session.tsx"
+'use client'
+
+import type { Session, User } from '@prisma/client'
+import { createContext, useContext } from 'react'
+
+type SessionContext =
+  | {
+      isAuth: false
+      session: null
+      user: null
+    }
+  | {
+      isAuth: true
+      session: Session
+      user: Omit<User, 'password'>
+    }
+
+const sessionContext = createContext<SessionContext>({} as SessionContext)
+
+export const SessionProvider: React.FC<{
+  children: React.ReactNode
+  user: User | null
+  session: Session | null
+}> = ({ children, user, session }) => {
+  const isAuth = !!user && !!session
+
+  return (
+    <sessionContext.Provider
+      value={isAuth ? { isAuth, user, session } : { isAuth, user: null, session: null }}
+    >
+      {children}
+    </sessionContext.Provider>
+  )
+}
+
+export const useSession = () => {
+  const context = useContext(sessionContext)
+  if (context === undefined) throw new Error('useSession must be used within a SessionProvider')
+  return context
+}
+```
+
+Then, add the `SessionProvider` to your `layout.tsx` file:
+
+```tsx title="app/layout.tsx"
+import { SessionProvider } from '@/lib/session'
+import { auth } from '@/server/auth'
+
+const RootLayout: React.FC<React.PropsWithChildren> = async ({ children }) => {
+  const { user, session } = await auth()
+
+  return (
+    <html lang="en">
+      <body>
+        <SessionProvider user={user} session={session}>
+          {children}
+        </SessionProvider>
+      </body>
+    </html>
+  )
+}
+
+export default RootLayout
+```
+
+## Creating a server action
+
+Now, let's create a new server action to handle `sign up`, `sign in`, and `sign out`:
+
+```ts title="server/actions/auth.ts"
+'use server'
+
+import { cookies } from 'next/headers'
+import { Scrypt } from 'lucia'
+
+import { auth } from '@/server/auth'
+import { lucia } from '@/server/auth/lucia'
+import { db } from '@/server/db'
+
+interface SignUpArgs {
+  name: string
+  email: string
+  password: string
+}
+
+export const signUp = async (args: SignUpArgs) => {
+  const isExist = await db.user.findUnique({ where: { email: args.email } })
+  if (isExist) throw new Error('User already existed')
+
+  const hash = await new Scrypt().hash(args.password)
+  const newUser = await db.user.create({
+    data: { ...args, password: hash },
+  })
+
+  if (!newUser) throw new Error('Failed to sign up')
+  return { message: 'Signed in successfully' }
+}
+
+export const signIn = async (args: Omit<SignUpArgs, 'name'>) => {
+  const user = await db.user.findUnique({ where: { email: args.email } })
+  if (!user) throw new Error('User not found')
+
+  const isValid = await new Scrypt().verify(user.password, args.password)
+  if (!isValid) throw new Error('Password is incorrect')
+
+  let sessionCookie
+  try {
+    const session = await lucia.createSession(user.id, {})
+    sessionCookie = lucia.createSessionCookie(session.id)
+  } catch (error) {
+    sessionCookie = lucia.createBlankSessionCookie()
+    throw new Error('Failed to create session')
+  }
+
+  cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
+
+  return { message: 'Signed in successfully' }
+}
+
+export const signOut = async () => {
+  const { session } = await auth()
+  if (!session) throw new Error('You are not signed in')
+
+  await lucia.invalidateSession(session.id)
+  const sessionCookie = lucia.createBlankSessionCookie()
+  cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
+
+  return { message: 'Signed out successfully' }
+}
+```
+
+## Using server action in Next.js
+
+Now, let's create a new sign up form components:
+
+```tsx title="components/auth/sign-up-form.tsx"
+'use client'
+
+import { useRouter } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+
+import { Button } from '@/components/ui/button'
+import { Form, FormField } from '@/components/ui/form'
+
+import { signUp } from '@/server/actions/auth'
+
+export const SignUpForm: React.FC = () => {
+  const router = useRouter()
+  const form = useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema) })
+
+  const handleSubmit = form.handleSubmit(async ({ confirmPassword: _, ...values }) => {
+    try {
+      const res = await signUp(values)
+      toast.success(res.message)
+      router.push('/sign-in')
+    } catch (e) {
+      if (e instanceof Error) toast.error(e.message)
+    }
+  })
+
+  const { errors, isSubmitting } = form.formState
+
+  return (
+    <Form onSubmit={handleSubmit} className="w-full max-w-screen-md">
+      {fields.map((field) => (
+        <FormField key={field.name} control={form.control} {...field} />
+      ))}
+
+      <Button isLoading={form.formState.isSubmitting}>Login</Button>
+    </Form>
+  )
+}
+
+const schema = z
+  .object({
+    name: z.string().min(1, 'Name is required'),
+    email: z.string().email(),
+    password: z
+      .string()
+      .regex(
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/,
+        'Password must contain at least 8 characters, including uppercase, lowercase, number, and special character.',
+      ),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ['confirmPassword'],
+    message: 'Passwords do not match',
+  })
+
+const fields = [
+  { name: 'name' as const, label: 'Name', type: 'text' },
+  { name: 'email' as const, label: 'Email', type: 'email' },
+  { name: 'password' as const, label: 'Password', type: 'password' },
+  { name: 'confirmPassword' as const, label: 'Confirm Password', type: 'password' },
+]
+```
+
+Then, add it to your `app/sign-up/page.tsx` file:
+
+```tsx title="app/sign-up/page.tsx"
+import type { NextPage } from 'next'
+
+import { SignUpForm } from '@/components/sign-up-form'
+
+const Page: NextPage = () => (
+  <>
+    <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">Sign Up</h1>
+    <SignUpForm />
+  </>
+)
+
+export default Page
+```
+
+Next, let's create a new sign in form components:
+
+```tsx title="components/auth/sign-in-form.tsx"
+'use client'
+
+import { useRouter } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+
+import { Button } from '@/components/ui/button'
+import { Form, FormField } from '@/components/ui/form'
+
+import { signIn } from '@/server/actions/auth'
+
+export const SignInForm: React.FC = () => {
+  const router = useRouter()
+  const form = useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema) })
+
+  const handleSubmit = form.handleSubmit(async (values) => {
+    try {
+      const res = await signIn(values)
+      toast.success(res.message)
+      router.push('/')
+      router.refresh()
+    } catch (e) {
+      if (e instanceof Error) toast.error(e.message)
+    }
+  })
+
+  const { errors, isSubmitting } = form.formState
+
+  return (
+    <Form onSubmit={handleSubmit} className="w-full max-w-screen-md">
+      {fields.map((field) => (
+        <FormField key={field.name} control={form.control} {...field} />
+      ))}
+
+      <Button isLoading={form.formState.isSubmitting}>Register</Button>
+    </Form>
+  )
+}
+
+const schema = z.object({
+  email: z.string().email(),
+  password: z
+    .string()
+    .regex(
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/,
+      'Password must contain at least 8 characters, including uppercase, lowercase, number, and special character.',
+    ),
+})
+
+const fields = [
+  { name: 'email' as const, label: 'Email', type: 'email' },
+  { name: 'password' as const, label: 'Password', type: 'password' },
+]
+```
+
+Then, add it to your `app/sign-in/page.tsx` file:
+
+```tsx title="app/sign-in/page.tsx"
+import type { NextPage } from 'next'
+
+import { SignInForm } from '@/components/sign-in-form'
+
+const Page: NextPage = () => (
+  <>
+    <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">Sign In</h1>
+    <SignInForm />
+  </>
+)
+
+export default Page
+```
+
+Finally, you can get a user's information by using the following component:
+
+```tsx
+'use client'
+
+import Link from 'next/link'
+
+import { useSession } from '@/lib/session'
+
+export const Component: React.FC = () => {
+  const { isAuth, user } = useSession()
+
+  if (!isAuth)
+    return (
+      <div className="flex items-center gap-2">
+        <Link href="/sign-in">Sign In</Link> | <Link href="/sign-up">Sign Up</Link>
+      </div>
+    )
+
+  return <div>{user.name}</div>
+}
+```
+
+## Conclusion
+
+In this blog post, we have learned how to use server action in Next.js. We have created a simple authentication system using server action in Next.js. We have used the Lucia library for authentication and Prisma for database access. We have created server actions to handle sign up, sign in, and sign out. We have also created sign up and sign in form components to interact with the server actions.
+
+I hope you find this blog post helpful. If you have any questions or feedback, feel free to leave a comment below. Thank you for reading!
+
+## References
+
+- Next.js: [nextjs.org](https://nextjs.org)
+- Prisma: [prisma.io](https://www.prisma.io)
+- Lucia: [lucia-auth.com](https://lucia-auth.com/)
+- Repository: [next-server-action](https://github.com/tiesen243/next-server-action/)

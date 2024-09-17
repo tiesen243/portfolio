@@ -11,9 +11,10 @@ interface Params {
 }
 
 export const seo = (params: Params): Metadata => {
-  const title = params.title ? `${params.title} | Create Yuki App` : 'Create Yuki App'
+  const title = params.title ? `${params.title} | Tiesen` : 'Tiesen'
   const description =
-    params.description ?? 'A Next.js template with TypeScript, Tailwind CSS, ESLint and Prettier'
+    params.description ??
+    "I'm a passionate weeb developer using Next.js to create engaging websites. Anime lover, inspired by Japanese culture. Let's build something amazing together!"
   const images = params.images ?? ['/api/og']
   const url = params.url ? `${getBaseUrl()}/${params.url}` : getBaseUrl()
 
@@ -21,10 +22,14 @@ export const seo = (params: Params): Metadata => {
     metadataBase: new URL(getBaseUrl()),
     title,
     description,
-    applicationName: 'Create Yuki App',
+    abstract: description,
+    category: 'Portfolio',
+    applicationName: 'Tiesen',
     alternates: { canonical: url },
-    openGraph: { url, images, type: 'website' },
-    twitter: { card: 'summary_large_image' },
-    icons: { icon: '/favicon.ico' },
+    authors: { name: 'Tran Tien', url: getBaseUrl() },
+    openGraph: { url, images, type: 'website', siteName: 'Tiesen' },
+    twitter: { card: 'summary_large_image', creatorId: '@tiesen243' },
+    keywords: ['Tiesen', 'tiesen243', 'Tran Tien', 'Trần Tiến', 'portfolio', 'developer', 'blog'],
+    icons: { icon: '/favicon.ico', shortcut: '/favicon-16x16.png', apple: '/apple-touch-icon.png' },
   }
 }

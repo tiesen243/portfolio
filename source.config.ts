@@ -1,17 +1,18 @@
 import { rehypeCodeDefaultOptions } from 'fumadocs-core/mdx-plugins'
 import { remarkInstall } from 'fumadocs-docgen'
-import { defineCollections, defineConfig, defineDocs, frontmatterSchema } from 'fumadocs-mdx/config'
+import { defineConfig, defineDocs, frontmatterSchema } from 'fumadocs-mdx/config'
 import { z } from 'zod'
 
-export const { docs, meta } = defineDocs()
-
-export const blog = defineCollections({
-  dir: 'content/blogs',
-  type: 'doc',
-  schema: frontmatterSchema.extend({
-    publishedAt: z.date(),
-    tags: z.array(z.string()),
-  }),
+export const { docs, meta } = defineDocs({
+  docs: {
+    type: 'doc',
+    dir: 'content/blogs',
+    schema: frontmatterSchema.extend({
+      image: z.string().url().optional(),
+      publishedAt: z.date(),
+      tags: z.array(z.string()),
+    }),
+  },
 })
 
 export default defineConfig({

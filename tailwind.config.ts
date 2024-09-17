@@ -5,7 +5,12 @@ import { fontFamily } from 'tailwindcss/defaultTheme'
 
 const config: Config = {
   darkMode: ['class'],
-  content: ['./components/**/*.tsx', './app/**/*.tsx', './node_modules/fumadocs-ui/dist/**/*.js'],
+  content: [
+    './components/**/*.tsx',
+    './app/**/*.tsx',
+    './content/**/*.mdx',
+    './node_modules/fumadocs-ui/dist/**/*.js',
+  ],
   presets: [createPreset()],
   theme: {
     extend: {
