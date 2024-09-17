@@ -7,8 +7,10 @@ import { Typography } from '../ui/typography'
 export const HeroSection: React.FC = () => (
   <section
     id="hero"
-    className="container flex min-h-dvh max-w-screen-lg flex-col items-center justify-center"
+    className="container flex min-h-dvh max-w-screen-lg flex-col items-center justify-center overflow-x-hidden"
   >
+    <div className="pointer-events-none relative flex place-items-center before:absolute before:h-[700px] before:w-[140px] before:translate-x-1 before:translate-y-[-10px] before:rotate-[-32deg] before:rounded-full before:bg-gradient-to-r before:from-[#AB1D1C] before:to-[#E18317] before:opacity-30 before:blur-[100px] before:content-[''] lg:before:h-[700px] lg:before:w-[240px] lg:before:translate-x-[-100px]" />
+
     <Image
       src="/images/tiesen.png"
       width={2500}
@@ -25,7 +27,6 @@ export const HeroSection: React.FC = () => (
       <span className="bg-[linear-gradient(135deg,#E18317,69%,hsl(var(--background)))] bg-clip-text text-transparent">
         anime
       </span>
-      .
     </Typography>
 
     <div className="mt-8 flex gap-6">

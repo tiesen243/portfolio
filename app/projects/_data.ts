@@ -1,5 +1,5 @@
 interface Project {
-  slug?: string
+  slug: string
   title: string
   preview: string
   description: string
@@ -43,6 +43,7 @@ export const projects: Project[] = [
     tags: ['Next.js', 'Tailwind CSS', 'ElysiaJS', 'Prisma', 'Cloudinary', 'Lucia', 'Resend'],
   },
   {
+    slug: 'digit-recognization',
     title: 'Digit Recognization',
     preview:
       'My digit recognition project uses a Convolutional Neural Network (CNN) to accurately identify handwritten digits.',

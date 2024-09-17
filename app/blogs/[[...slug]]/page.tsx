@@ -1,6 +1,5 @@
 import type { ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
-import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
 import defaultMdxComponents from 'fumadocs-ui/mdx'
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/page'
 
@@ -27,16 +26,6 @@ export default async function Page({ params }: Props) {
           </Badge>
         ))}
       </div>
-
-      <ImageZoom
-        src={
-          page.data.image ?? `/api/og?title=${page.data.title}&description=${page.data.description}`
-        }
-        alt={page.data.title}
-        width={1200}
-        height={630}
-        className="rounded-lg object-cover shadow-lg"
-      />
 
       <hr />
 

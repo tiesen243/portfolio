@@ -17,7 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const blogRoutes = source.getPages().map((page) => ({
     url: `${getBaseUrl()}${page.url}`,
-    lastModified: new Date(page.data.lastModified).toISOString(),
+    lastModified: new Date().toISOString(),
   }))
 
   // Fetch dynamic routes

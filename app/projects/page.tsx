@@ -1,18 +1,52 @@
-import React from 'react'
-import { Card, Cards } from 'fumadocs-ui/components/card'
+import Image from 'next/image'
+import Link from 'next/link'
+import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
 
-import { projects } from './_data'
+import { CardDescription, CardTitle } from '@/components/ui/card'
 
-const Page = () => {
-  return (
-    <main className="container">
-      <Cards>
-        {projects.map((project) => (
-          <Card key={project.slug} title={project.title} description={project.preview} />
-        ))}
-      </Cards>
-    </main>
-  )
-}
+import { designs, projects } from './_data'
+
+const Page = () => (
+  <main className="container flex-1 py-4">
+    <section className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+      <CardTitle className="md:col-span-3">Projects</CardTitle>
+
+      <CardDescription className="md:col-span-3">
+        Here are some of the projects I've worked on. Click on the images to learn more about each
+        project.
+      </CardDescription>
+
+      {projects.map((project) => (
+        <Link key={project.slug} href={`/projects/${project.slug}`}>
+          <Image
+            src={`/api/og?title=${project.title}&description=${project.preview}`}
+            alt={project.title}
+            width={1200}
+            height={630}
+            className="rounded-lg shadow-lg transition-all hover:brightness-150"
+          />
+        </Link>
+      ))}
+    </section>
+
+    <section className="flex flex-col gap-4">
+      <CardTitle>Designs</CardTitle>
+      <CardDescription>
+        Here are some of the designs I've created. Click on the images to view them in full size.
+      </CardDescription>
+
+      {designs.map((design) => (
+        <ImageZoom
+          key={design}
+          src={design}
+          alt="Design"
+          width={3000}
+          height={1000}
+          className="rounded-lg"
+        />
+      ))}
+    </section>
+  </main>
+)
 
 export default Page
