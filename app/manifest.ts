@@ -3,9 +3,9 @@ import type { MetadataRoute } from 'next'
 import { seo } from '@/lib/seo'
 
 const manifest = (): MetadataRoute.Manifest => ({
-  name: seo({}).applicationName!,
-  short_name: seo({}).applicationName!,
-  description: seo({}).description!,
+  name: seo({}).applicationName ?? '',
+  short_name: seo({}).applicationName ?? '',
+  description: seo({}).description ?? '',
   start_url: '/',
   display: 'standalone',
   background_color: '#ffffff',

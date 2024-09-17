@@ -1,7 +1,7 @@
 import '@/app/globals.css'
 
+import { RootProvider } from 'fumadocs-ui/provider'
 import { GeistSans } from 'geist/font/sans'
-import { ThemeProvider } from 'next-themes'
 
 import { seo } from '@/lib/seo'
 import { cn } from '@/lib/utils'
@@ -16,9 +16,15 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
         GeistSans.variable,
       )}
     >
-      <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
+      <RootProvider
+        theme={{
+          attribute: 'class',
+          defaultTheme: 'dark',
+          disableTransitionOnChange: true,
+        }}
+      >
         {children}
-      </ThemeProvider>
+      </RootProvider>
     </body>
   </html>
 )

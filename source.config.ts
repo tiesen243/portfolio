@@ -17,6 +17,7 @@ export const { docs, meta } = defineDocs({
 
 export default defineConfig({
   lastModifiedTime: 'git',
+  generateManifest: true,
   mdxOptions: {
     rehypeCodeOptions: {
       inline: 'tailing-curly-colon',
