@@ -61,7 +61,7 @@ const navLinks = [
   { label: 'About', url: '/#about' },
   { label: 'Contact', url: '/#contact' },
   { label: 'Projects', url: '/projects' },
-  { label: 'Blog', url: '/blog' },
+  { label: 'Blogs', url: '/blogs' },
 ]
 
 const socials = [

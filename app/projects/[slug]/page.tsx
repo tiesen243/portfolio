@@ -18,14 +18,14 @@ const Page: NextPage<Props> = ({ params }) => {
   if (!project) notFound()
 
   return (
-    <main className="container max-w-screen-lg flex-1 py-4">
-      <article className="prose">
+    <main className="container min-h-dvh max-w-screen-lg flex-1 py-4">
+      <article className="prose prose-lg prose-neutral dark:prose-invert">
         <h1>{project.title}</h1>
         <p className="mb-2">{project.description}</p>
 
         <div>
           {project.tags.map((tag) => (
-            <Badge key={tag} className="mr-2">
+            <Badge key={tag} variant="outline" className="mr-2 cursor-default">
               {tag}
             </Badge>
           ))}
