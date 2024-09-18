@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import { Download, Github } from 'lucide-react'
 
-import { Button } from '../ui/button'
-import { Typography } from '../ui/typography'
+import { Button } from '@/components/ui/button'
+import { Typography } from '@/components/ui/typography'
 
 export const HeroSection: React.FC = () => (
   <section
