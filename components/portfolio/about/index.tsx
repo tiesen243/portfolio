@@ -1,3 +1,5 @@
+import { Information } from './information'
+
 export const AboutSection: React.FC = () => (
   <section id="about" className="container min-h-dvh py-4">
     <div className="grid gap-4 md:grid-cols-2">
@@ -30,5 +32,7 @@ export const AboutSection: React.FC = () => (
         <source src="/images/yuki.webm" type="video/webm" />
       </video>
     </div>
+
+    <Information />
   </section>
 )
