@@ -1,5 +1,6 @@
 import Image from 'next/image'
-import { Download, Github } from 'lucide-react'
+import Link from 'next/link'
+import { Download, Phone } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
@@ -31,14 +32,14 @@ export const HeroSection: React.FC = () => (
 
     <div className="mt-8 flex gap-6">
       <Button variant="outline" asChild>
-        <a href="https://github.com/tiesen243" target="_blank" rel="noopener noreferrer">
-          <Github size={20} className="mr-2" /> Github
-        </a>
+        <Link href="/contact">
+          <Phone size={20} className="mr-2" /> Contact Me
+        </Link>
       </Button>
 
       <Button
         variant="outline"
-        className="animate-shimmer bg-[linear-gradient(110deg,hsl(var(--background)),45%,#AB1D1C,55%,hsl(var(--background)))] bg-[length:200%_100%]"
+        className="animate-shimmer bg-[linear-gradient(110deg,hsl(var(--background)),45%,#AB1D1C,55%,hsl(var(--background)))] bg-[length:200%_100%] transition-all ease-linear hover:brightness-125"
         asChild
       >
         <a href="/cv.pdf" download>

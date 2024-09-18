@@ -64,7 +64,7 @@ const navLinks = [
   { label: 'Blogs', url: '/blogs' },
 ]
 
-const socials = [
+export const socials = [
   {
     label: 'Github',
     href: 'https://github.com/tiesen243',
