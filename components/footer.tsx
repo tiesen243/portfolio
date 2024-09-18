@@ -59,7 +59,7 @@ export const Footer: React.FC = () => (
 const navLinks = [
   { label: 'Home', url: '/#hero' },
   { label: 'About', url: '/#about' },
-  { label: 'Contact', url: '/#contact' },
+  { label: 'Contact', url: '/contact' },
   { label: 'Projects', url: '/projects' },
   { label: 'Blogs', url: '/blogs' },
 ]
