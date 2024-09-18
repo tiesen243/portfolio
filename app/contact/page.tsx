@@ -3,6 +3,7 @@ import { Card, Cards } from 'fumadocs-ui/components/card'
 import { Mail, MapPin, Phone } from 'lucide-react'
 
 import { socials } from '@/components/footer'
+import { seo } from '@/lib/seo'
 import { ContactForm } from './_form'
 
 const Page: NextPage = () => (
@@ -48,3 +49,13 @@ const Page: NextPage = () => (
 )
 
 export default Page
+
+export const metadata = seo({
+  title: 'Contact',
+  description:
+    'Contact me for more information or partnership. I will get back to you as soon as possible.',
+  images: [
+    '/api/og?title=Contact&description=Contact%20me%20for%20more%20information%20or%20partnership.%20I%20will%20get%20back%20to%20you%20as%20soon%20as%20possible.',
+  ],
+  url: '/contact',
+})

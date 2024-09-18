@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 
 import { source } from '@/content/source'
 import { getBaseUrl } from '@/lib/utils'
+import { projects } from './projects/_data'
 
 interface Route {
   url: string
@@ -10,8 +11,13 @@ interface Route {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch static routes
-  const routesMap: Route[] = ['', 'project'].map((route) => ({
+  const routesMap: Route[] = ['', 'contact', 'project'].map((route) => ({
     url: `${getBaseUrl()}/${route}`,
+    lastModified: new Date().toISOString(),
+  }))
+
+  const projectRoutes = projects.map((project) => ({
+    url: `${getBaseUrl()}/project/${project.slug}`,
     lastModified: new Date().toISOString(),
   }))
 
@@ -23,7 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch dynamic routes
   let fetchedRoutes: Route[] = []
   try {
-    fetchedRoutes = (await Promise.all([blogRoutes])).flat()
+    fetchedRoutes = (await Promise.all([projectRoutes, blogRoutes])).flat()
   } catch (error) {
     if (error instanceof Error) throw new Error(`Error fetching dynamic routes: ${error.message}`)
   }
