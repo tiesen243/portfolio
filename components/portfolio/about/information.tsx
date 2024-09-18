@@ -73,21 +73,6 @@ const informations = [
     ),
   },
   {
-    id: 'hobbies',
-    title: 'Hobbies',
-    icon: Heart,
-    content: (
-      <article className="flex flex-col gap-2">
-        {hobbies.map((hobby) => (
-          <Typography key={hobby.id} level="h4" className="inline-flex gap-2">
-            <hobby.icon />
-            {hobby.title}
-          </Typography>
-        ))}
-      </article>
-    ),
-  },
-  {
     id: 'projects',
     title: 'Projects',
     icon: PanelsTopLeft,
@@ -131,6 +116,21 @@ const informations = [
             Where i write about my journey and everything i like
           </p>
         </Link>
+      </article>
+    ),
+  },
+  {
+    id: 'hobbies',
+    title: 'Hobbies',
+    icon: Heart,
+    content: (
+      <article className="flex flex-col gap-2">
+        {hobbies.map((hobby) => (
+          <Typography key={hobby.id} level="h4" className="inline-flex gap-2">
+            <hobby.icon />
+            {hobby.title}
+          </Typography>
+        ))}
       </article>
     ),
   },
