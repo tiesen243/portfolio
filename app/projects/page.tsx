@@ -2,18 +2,18 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
 
-import { CardDescription, CardTitle } from '@/components/ui/card'
 import { designs, projects } from './_data'
 
 const Page = () => (
   <main className="container flex-1 py-4">
     <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
-      <CardTitle className="md:col-span-3">Projects</CardTitle>
-
-      <CardDescription className="md:col-span-3">
-        Here are some of the projects I've worked on. Click on the images to learn more about each
-        project.
-      </CardDescription>
+      <article className="prose md:col-span-3">
+        <h1 className="mb-0">Programming Projects</h1>
+        <p>
+          Here are some of the projects I've worked on. Click on the images to learn more about each
+          project.
+        </p>
+      </article>
 
       {projects.map((project) => (
         <Link key={project.slug} href={`/projects/${project.slug}`}>
@@ -28,13 +28,13 @@ const Page = () => (
       ))}
     </section>
 
-    <hr className="my-6" />
-
-    <section className="flex flex-col gap-4">
-      <CardTitle>Designs</CardTitle>
-      <CardDescription>
-        Here are some of the designs I've created. Click on the images to view them in full size.
-      </CardDescription>
+    <section className="mt-8 flex flex-col gap-4">
+      <article className="prose">
+        <h1 className="mb-0">Designs</h1>
+        <p>
+          Here are some of the designs I've created. Click on the images to view them in full size.
+        </p>
+      </article>
 
       {designs.map((design) => (
         <ImageZoom

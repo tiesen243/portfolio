@@ -1,7 +1,7 @@
 import type { NextPage, ResolvingMetadata } from 'next'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
-import { Github, Globe2 } from 'lucide-react'
+import { ChevronLeft, Github, Globe2 } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -17,8 +17,12 @@ const Page: NextPage<Props> = ({ params }) => {
   if (!project) notFound()
 
   return (
-    <main className="container min-h-dvh max-w-screen-lg flex-1 py-4">
-      <article className="prose prose-lg prose-neutral dark:prose-invert">
+    <main className="container flex flex-1 flex-col py-4">
+      <Link href="/projects" className="mb-4 flex gap-2">
+        <ChevronLeft /> All Projects
+      </Link>
+
+      <article className="prose prose-lg prose-neutral flex-1 dark:prose-invert">
         <h1>{project.title}</h1>
         <p className="mb-2">{project.description}</p>
 
@@ -46,14 +50,6 @@ const Page: NextPage<Props> = ({ params }) => {
           </a>
         </Button>
       </div>
-
-      <ImageZoom
-        src={`/api/og?title=${project.title}&description=${project.preview}`}
-        alt={project.title}
-        width={1200}
-        height={630}
-        className="rounded-lg shadow-lg"
-      />
     </main>
   )
 }

@@ -27,6 +27,21 @@ export const hobbies = [
   { id: 4, title: 'Playing Games', icon: Gamepad },
 ]
 
+export const stuffs = [
+  {
+    id: 1,
+    title: 'Create Yuki App',
+    description: ' My Next template with next, eslint, prettier, tailwind config files and more.',
+    link: 'https://github.com/tiesen243/create-yuki-app',
+  },
+  {
+    id: 2,
+    title: 'Create Yuki Turbo',
+    description: 'Clean and typesafe starter monorepo using Turborepo along with Next.js and tRPC.',
+    link: 'https://github.com/tiesen243/create-yuki-turbo',
+  },
+]
+
 export const skills = [
   {
     id: 1,
