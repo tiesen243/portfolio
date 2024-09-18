@@ -1,12 +1,12 @@
 import '@/app/globals.css'
 
 import { Analytics } from '@vercel/analytics/next'
+import { cn } from 'fumadocs-ui/components/api'
 import { RootProvider } from 'fumadocs-ui/provider'
 import { GeistSans } from 'geist/font/sans'
 
 import { Footer } from '@/components/footer'
 import { seo } from '@/lib/seo'
-import { cn } from '@/lib/utils'
 
 export const metadata = seo({})
 
