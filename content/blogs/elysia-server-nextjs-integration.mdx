@@ -145,7 +145,6 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Form, FormField } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
-
 import { api } from '@/lib/api'
 import { useSession } from '@/lib/session'
 import { revalidate } from '@/server/actions'
@@ -197,7 +196,6 @@ const resolver = zodResolver(schema)
 import { XIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-
 import { api } from '@/lib/api'
 import { useSession } from '@/lib/session'
 import { revalidate } from '@/server/actions'
@@ -228,7 +226,6 @@ import type { NextPage } from 'next'
 
 import { CreatePostForm } from '@/components/post/create-form'
 import { DeleteBtn } from '@/components/post/delete-btn'
-
 import { api } from '@/lib/api'
 
 type TPost = Post & { author: User }

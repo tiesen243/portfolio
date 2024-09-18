@@ -5,7 +5,6 @@ import { Github, Globe2 } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-
 import { seo } from '@/lib/seo'
 import { projects } from '../_data'
 

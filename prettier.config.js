@@ -1,30 +1,38 @@
-/** @typedef {import('prettier').Config} PrettierConfig */
-/** @typedef {import('prettier-plugin-tailwindcss')} TailwindConfig */
-/** @typedef {import('@ianvs/prettier-plugin-sort-imports')} SortImportsConfig */
+/** @typedef {import("prettier").Config} PrettierConfig */
+/** @typedef {import("prettier-plugin-tailwindcss").PluginOptions} TailwindConfig */
+/** @typedef {import("@ianvs/prettier-plugin-sort-imports").PluginConfig} SortImportsConfig */
 
-/** @type {PrettierConfig | TailwindConfig | SortImportsConfig} */
+/** @type { PrettierConfig | SortImportsConfig | TailwindConfig } */
 const config = {
   semi: false,
   tabWidth: 2,
   printWidth: 100,
   singleQuote: true,
   trailingComma: 'all',
-  tailwindFunctions: ['cn', 'cva'],
+
   plugins: ['@ianvs/prettier-plugin-sort-imports', 'prettier-plugin-tailwindcss'],
-  importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy', 'moduleStringNames'],
+
+  // Tailwind
+  tailwindFunctions: ['cn', 'cva'],
+
+  // Sort Imports
+  importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
   importOrder: [
     '<TYPES>',
-    '^(next/(.+))$',
-    '^(react/(.+))$|^(react)$',
+    '^(next/(.*)$)|^(next$)',
+    '^(react/(.*)$)|^(react$)',
     '<THIRD_PARTY_MODULES>',
     '',
-    '^@/components/(.*)$',
-    '_components/(.*)$',
-    '',
-    '<TYPES>^(@/(.+))$',
-    '^@/.',
-    '^[..]',
-    '^[.]',
+    '<TYPES>^([.|..|@]/.*)$',
+    '^@/',
+    '^[../]',
+    '^[./]',
+  ],
+
+  // Others
+  overrides: [
+    { files: '*.json.hbs', options: { parser: 'json' } },
+    { files: '*.js.hbs', options: { parser: 'babel' } },
   ],
 }
 
