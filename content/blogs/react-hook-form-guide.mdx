@@ -12,24 +12,63 @@ Hello everynyan! Today, we're going to learn how to use React Hook Form with Nex
 
 ## Setup
 
-1. First, let's create a new Next.js app (i use T3-App template for this example):
+1. First, let's create a new Next.js app. You can use my pre-configured template by running the following command:
 
-```bash
-bun create t3-app@latest
-```
+<Tabs items={["npm", "yarn", "pnpm", "bun"]}>
+
+  <Tab value="npm">
+    ```bash
+    npm create next-app@latest --example https://github.com/tiesen243/create-yuki-app
+    ```
+  </Tab>
+
+  <Tab value="yarn">
+    ```bash
+    yarn create next-app@latest --example https://github.com/tiesen243/create-yuki-app
+    ```
+  </Tab>
+
+  <Tab value="pnpm">
+    ```bash
+    pnpm create next-app@latest --example https://github.com/tiesen243/create-yuki-app
+    ```
+  </Tab>
+
+  <Tab value="bun">
+  ```bash
+  bun create next-app@latest --example https://github.com/tiesen243/create-yuki-app
+  ```
+  </Tab>
+</Tabs>
 
 2. Next, install `react-hook-form`:
 
-```bash
-bun add react-hook-form zod @hookform/resolvers
+```package-install
+react-hook-form zod @hookform/resolvers
 ```
 
 3. Thirdly, let's add some components form `shadcn/ui`:
 
-```bash
-bunx --bun shadcn@latest init
-bunx --bun shadcn@latest add input textarea label button sonner
-```
+<Tabs items={["npm", "yarn", "pnpm", "bun"]}>
+
+  <Tab value="npm">
+    ```bash
+    npx shadcn@latest add input textarea label button sonner
+    ```
+  </Tab>
+
+  <Tab value="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest add input textarea label button sonner
+    ```
+  </Tab>
+
+  <Tab value="bun">
+  ```bash
+  bunx --bun shadcn@latest add input textarea label button sonner
+  ```
+  </Tab>
+</Tabs>
 
 > Remember to add `Toaster` component to your `layout.tsx` file.
 

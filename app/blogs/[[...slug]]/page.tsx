@@ -1,6 +1,7 @@
 import type { ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
 import defaultMdxComponents from 'fumadocs-ui/mdx'
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/page'
 
@@ -40,7 +41,7 @@ export default async function Page({ params }: Props) {
       <hr />
 
       <DocsBody>
-        <MDX components={{ ...defaultMdxComponents }} />
+        <MDX components={{ ...defaultMdxComponents, Tabs, Tab }} />
       </DocsBody>
     </DocsPage>
   )

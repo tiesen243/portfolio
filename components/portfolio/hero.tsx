@@ -17,7 +17,7 @@ export const HeroSection: React.FC = () => (
       width={2500}
       height={400}
       alt="tiesen"
-      className="object-cover drop-shadow-lg w-full h-auto"
+      className="h-auto w-full object-cover drop-shadow-lg"
     />
 
     <Typography level="h1" className="text-center">

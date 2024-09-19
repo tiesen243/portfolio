@@ -1,9 +1,10 @@
 ---
-title: Elysia Server Integration in Next.js
-description: Discover the benefits of using Elysia Server as your backend for Next.js applications. Explore various integration methods, including API calls, GraphQL queries, and WebSocket communication.
+title: ElysiaJS Integration in Next.js
+description: Discover the benefits of using ElysiaJS as your backend for Next.js applications. Explore various integration methods and typesafe api calls.
 publishedAt: 2024-07-24
 tags:
   - Next.js
+  - ElysiaJS
 ---
 
 ## Introduction
@@ -13,10 +14,32 @@ Today, we're diving into the world of full-stack web development using Next.js a
 
 ## Installation
 
-```bash
-bun create next-app@latest --example https://github.com/tiesen243/next-elysia [your-app-name]
-cd [your-app-name]
-```
+<Tabs items={["npm", "yarn", "pnpm", "bun"]}>
+
+  <Tab value="npm">
+    ```bash
+    npm create next-app@latest --example https://github.com/tiesen243/next-elysia [your-app-name]
+    ```
+  </Tab>
+
+  <Tab value="yarn">
+    ```bash
+    yarn create next-app@latest --example https://github.com/tiesen243/next-elysia [your-app-name]
+    ```
+  </Tab>
+
+  <Tab value="pnpm">
+    ```bash
+    pnpm create next-app@latest --example https://github.com/tiesen243/next-elysia [your-app-name]
+    ```
+  </Tab>
+
+  <Tab value="bun">
+  ```bash
+  bun create next-app@latest --example https://github.com/tiesen243/next-elysia [your-app-name]
+  ```
+  </Tab>
+</Tabs>
 
 Next step, update your enviroment variables
 
@@ -41,9 +64,32 @@ bun db:push
 
 Finally, run your development server
 
-```bash
-bun dev
-```
+<Tabs items={["npm", "yarn", "pnpm", "bun"]}>
+
+  <Tab value="npm">
+    ```bash
+    npm run dev
+    ```
+  </Tab>
+
+  <Tab value="yarn">
+    ```bash
+    yarn dev
+    ```
+  </Tab>
+
+  <Tab value="pnpm">
+    ```bash
+    pnpm dev
+    ```
+  </Tab>
+
+  <Tab value="bun">
+  ```bash
+  bun dev
+  ```
+  </Tab>
+</Tabs>
 
 ## Backend
 
@@ -257,9 +303,10 @@ export default Page
 
 That's it! You've successfully built a full-stack web app with Next.js and ElysiaJS. You've learned how to set up a Next.js app, create a backend with ElysiaJS, and connect the frontend to the backend. Now you can start building your own full-stack web apps with Next.js and ElysiaJS.
 
+- Repository: [tiesen243/next-elysia](https://github.com/tiesen243/next-elysia)
+
 ## Reference
 
 - Next.js: [nextjs.org](https://nextjs.org/)
 - ElysiaJS: [elysiajs.com](https://elysiajs.com/)
 - React Hook Form: [react-hook-form.com](https://react-hook-form.com/)
-- Repository: [tiesen243/next-elysia](https://github.com/tiesen243/next-elysia)
