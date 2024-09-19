@@ -9,7 +9,7 @@ const Page = () => (
   <main className="container flex-1 py-4">
     <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
       <article className="prose md:col-span-3">
-        <h1 className="mb-0">Programming Projects</h1>
+        <h1 className="mb-0">Projects</h1>
         <p>
           Here are some of the projects I've worked on. Click on the images to learn more about each
           project.

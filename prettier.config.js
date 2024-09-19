@@ -33,7 +33,6 @@ const config = {
   overrides: [
     { files: '*.json.hbs', options: { parser: 'json' } },
     { files: '*.js.hbs', options: { parser: 'babel' } },
-    { files: '*.mdx', options: { parser: 'markdown' } },
   ],
 }
 

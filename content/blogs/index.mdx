@@ -22,12 +22,14 @@ import { source } from '@/content/source'
     .getPages()
     .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime())
     .slice(0, 4)
-    .map(({url, data}) =>
-      <Card 
-        key={url} 
-        title={data.title} 
-        description={data.description.length > 40 ? `${data.description.slice(0, 40)}...` : data.description}
+    .map(({ url, data }) => (
+      <Card
+        key={url}
+        title={data.title}
+        description={
+          data.description.length > 40 ? `${data.description.slice(0, 40)}...` : data.description
+        }
         href={url}
-      /> 
-  )}
+      />
+    ))}
 </Cards>
