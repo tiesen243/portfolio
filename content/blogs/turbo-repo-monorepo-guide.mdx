@@ -89,24 +89,34 @@ You can enable remote caching on `vercel` to share caches between your team memb
 
 <Tabs items={["npm", "yarn", "pnpm", "bun"]}>
 
-{' '}
+  <Tab value="npm">
+  ```bash
+  npx turbo login
+  npx turbo link
+  ```
+  </Tab>
 
-<Tab value="npm">```bash npx turbo login npx turbo link ```</Tab>
+  <Tab value="yarn">
+  ```bash
+  yarn turbo login
+  yarn turbo link
+  ```
+  </Tab>
 
-{' '}
-
-<Tab value="yarn">```bash yarn turbo login yarn turbo link ```</Tab>
-
-{' '}
-
-<Tab value="pnpm">```bash pnpm dlx turbo login pnpm dlx turbo link ```</Tab>
+  <Tab value="pnpm">
+  ```bash
+  pnpm dlx turbo login
+  pnpm dlx turbo link
+  ```
+  </Tab>
 
   <Tab value="bun">
-    ```bash
-    bunx turbo login
-    bunx turbo link
-    ```
+  ```bash
+  bun turbo login
+  bun turbo link
+  ```
   </Tab>
+
 </Tabs>
 
 ### Workspaces
@@ -131,23 +141,30 @@ To create a new package in your Turborepo project, you can use the `ui-add` scri
 
 <Tabs items={["npm", "yarn", "pnpm", "bun"]}>
 
-{' '}
+  <Tab value="npm">
+  ```bash
+  npm run ui-add 
+  ```
+  </Tab>
 
-<Tab value="npm">```bash npm run ui-add ```</Tab>
+  <Tab value="yarn">
+  ```bash
+  yarn ui-add 
+  ```
+  </Tab>
 
-{' '}
-
-<Tab value="yarn">```bash yarn ui-add ```</Tab>
-
-{' '}
-
-<Tab value="pnpm">```bash pnpm run ui-add ```</Tab>
+  <Tab value="pnpm">
+  ```bash
+  pnpm run ui-add 
+  ```
+  </Tab>
 
   <Tab value="bun">
-    ```bash
-    bun ui-add
-    ```
+  ```bash
+  bun ui-add 
+  ```
   </Tab>
+
 </Tabs>
 
 2. When you want to add a new package:
@@ -156,23 +173,30 @@ To create a new package in your Turborepo project, you can use the following com
 
 <Tabs items={["npm", "yarn", "pnpm", "bun"]}>
 
-{' '}
+  <Tab value="npm">
+  ```bash
+  npx turbo gen init 
+  ```
+  </Tab>
 
-<Tab value="npm">```bash npx turbo gen init ```</Tab>
+  <Tab value="yarn">
+  ```bash
+  yarn turbo gen init 
+  ```
+  </Tab>
 
-{' '}
-
-<Tab value="yarn">```bash yarn turbo gen init ```</Tab>
-
-{' '}
-
-<Tab value="pnpm">```bash pnpm dlx turbo gen init ```</Tab>
+  <Tab value="pnpm">
+  ```bash
+  pnpm dlx turbo gen init 
+  ```
+  </Tab>
 
   <Tab value="bun">
-    ```bash
-    bun turbo gen init
-    ```
+  ```bash
+  bun turbo gen init 
+  ```
   </Tab>
+
 </Tabs>
 
 The generator sets up the package.json, tsconfig.json and a index.ts, as well as configures all the necessary configurations for tooling around your package such as formatting, linting and typechecking. When the package is created, you're ready to go build out the package.

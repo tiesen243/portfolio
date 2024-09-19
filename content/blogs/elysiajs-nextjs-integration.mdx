@@ -22,29 +22,40 @@ Today, we're diving into the world of full-stack web development using Next.js a
 
 <Tabs items={["npm", "yarn", "pnpm", "bun"]}>
 
-<Tab value="npm">
-  ```bash npm create next-app@latest --example https://github.com/tiesen243/create-yuki-app ```
-</Tab>
+  <Tab value="npm">
+  ```bash
+  npm create next-app@latest --example https://github.com/tiesen243/create-yuki-app
+  ```
+  </Tab>
 
-<Tab value="yarn">
-  ```bash yarn create next-app@latest --example https://github.com/tiesen243/create-yuki-app ```
-</Tab>
+  <Tab value="yarn">
+  ```bash
+  yarn create next-app@latest --example https://github.com/tiesen243/create-yuki-app
+  ```
+  </Tab>
 
-<Tab value="pnpm">
-  ```bash pnpm create next-app@latest --example https://github.com/tiesen243/create-yuki-app ```
-</Tab>
+  <Tab value="pnpm">
+  ```bash
+  pnpm create next-app@latest --example https://github.com/tiesen243/create-yuki-app
+  ```
+  </Tab>
 
   <Tab value="bun">
   ```bash
   bun create next-app@latest --example https://github.com/tiesen243/create-yuki-app
   ```
   </Tab>
+
 </Tabs>
 
 2. Install dependencies
 
 ```package-install
-elysia @elysiajs/eden superjson @tanstack/react-query
+-d prisma
+```
+
+```package-install
+@prisma/client elysia @elysiajs/eden superjson @tanstack/react-query
 ```
 
 3. Create a new model in `prisma/schema.prisma`
@@ -98,31 +109,6 @@ Then, push schema to your database
 ```bash
 bun db:push
 ```
-
-Finally, run your development server
-
-<Tabs items={["npm", "yarn", "pnpm", "bun"]}>
-
-{' '}
-
-<Tab value="npm">```bash npm run dev ```</Tab>
-
-{' '}
-
-<Tab value="yarn">```bash yarn dev ```</Tab>
-
-{' '}
-
-<Tab value="pnpm">```bash pnpm dev ```</Tab>
-
-  <Tab value="bun">
-  ```bash
-  bun dev
-  ```
-  </Tab>
-</Tabs>
-
-Open your browser and navigate to `http://localhost:3000` to see your Next.js application running.
 
 ## Backend Integration
 

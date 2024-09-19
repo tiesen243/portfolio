@@ -20,32 +20,30 @@ In this blog post, we will create a simple authentication system using server ac
 
 <Tabs items={['npm', 'yarn', 'pnpm', 'bun']}>
 
-{' '}
+  <Tab value="npm">
+  ```bash 
+  npm create next-app@latest next-safety-server-action --example https://github.com/tiesen243/create-yuki-app
+  ```
+  </Tab>
 
-<Tab value="npm">
-  ```bash npm create next-app@latest next-safety-server-action --example
-  https://github.com/tiesen243/create-yuki-app ```
-</Tab>
+  <Tab value="yarn">
+  ```bash
+  yarn create next-app@latest next-safety-server-action --example https://github.com/tiesen243/create-yuki-app
+  ```
+  </Tab>
 
-{' '}
-
-<Tab value="yarn">
-  ```bash yarn create next-app@latest next-safety-server-action --example
-  https://github.com/tiesen243/create-yuki-app ```
-</Tab>
-
-{' '}
-
-<Tab value="pnpm">
-  ```bash pnpm create next-app@latest next-safety-server-action --example
-  https://github.com/tiesen243/create-yuki-app ```
-</Tab>
+  <Tab value="pnpm">
+  ```bash
+  pnpm create next-app@latest next-safety-server-action --example https://github.com/tiesen243/create-yuki-app
+  ```
+  </Tab>
 
   <Tab value="bun">
   ```bash
   bun create next-app@latest next-safety-server-action --example https://github.com/tiesen243/create-yuki-app
   ```
   </Tab>
+
 </Tabs>
 
 2. Install the required dependencies:
@@ -109,8 +107,6 @@ Next, add following scripts to your `package.json` file:
 {
   "scripts": {
     ...
-    "db:generate": "prisma migrate dev",
-    "db:migrate": "prisma migrate deploy",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
     "postinstall": "prisma generate"
