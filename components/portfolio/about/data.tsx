@@ -40,6 +40,12 @@ export const stuffs = [
     description: 'Clean and typesafe starter monorepo using Turborepo along with Next.js and tRPC.',
     link: 'https://github.com/tiesen243/create-yuki-turbo',
   },
+  {
+    id: 3,
+    title: 'Create Yukie App',
+    description: 'A Full-Stack Application with Next.js and ElysiaJS using Prisma, Tanstack Query.',
+    link: 'https://github.com/tiesen243/create-yukie-app',
+  },
 ]
 
 export const skills = [

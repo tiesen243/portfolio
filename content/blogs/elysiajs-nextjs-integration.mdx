@@ -15,51 +15,93 @@ Today, we're diving into the world of full-stack web development using Next.js a
 
 ## Installation
 
+1. Create a new Next.js project, you can use my template by running this command:
+
+> In this template, I have already set up the project structure, environment variables, and some utility functions.
+Like: TypeScript, ESLint, Prettier, TailwindCSS, and more.
+
 <Tabs items={["npm", "yarn", "pnpm", "bun"]}>
 
   <Tab value="npm">
     ```bash
-    npm create next-app@latest --example https://github.com/tiesen243/next-elysia [your-app-name]
+    npm create next-app@latest --example https://github.com/tiesen243/create-yuki-app
     ```
   </Tab>
 
   <Tab value="yarn">
     ```bash
-    yarn create next-app@latest --example https://github.com/tiesen243/next-elysia [your-app-name]
+    yarn create next-app@latest --example https://github.com/tiesen243/create-yuki-app
     ```
   </Tab>
 
   <Tab value="pnpm">
     ```bash
-    pnpm create next-app@latest --example https://github.com/tiesen243/next-elysia [your-app-name]
+    pnpm create next-app@latest --example https://github.com/tiesen243/create-yuki-app
     ```
   </Tab>
 
   <Tab value="bun">
   ```bash
-  bun create next-app@latest --example https://github.com/tiesen243/next-elysia [your-app-name]
+  bun create next-app@latest --example https://github.com/tiesen243/create-yuki-app
   ```
   </Tab>
 </Tabs>
 
-Next step, update your enviroment variables
+2. Install dependencies
+
+```package-install
+elysia @elysiajs/eden superjson @tanstack/react-query
+```
+
+3. Create a new model in `prisma/schema.prisma`
+
+```prisma title="prisma/schema.prisma"
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+}
+```
 
 > Note: you can run your postgresql database with docker by this command
 
 ```bash
-docker run --name next-elysia -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres
+docker run --name yuki-db -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres
 ```
 
-```bash title=".env"
+```bash
+cp .env.example .env
+
+# .env
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/next-elysia"
 ```
 
-> If you want to add other variables, remember to add it to `env.mjs` to validate it
+> If you want to add other variables, remember to add it to `env.js` to validate it
+
+Next, add this script to your `package.json`
+
+```json title="package.json"
+{
+  "scripts": {
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "postinstall": "prisma generate"
+  }
+}
+```
 
 Then, push schema to your database
 
 ```bash
-bun db:format
 bun db:push
 ```
 
@@ -92,222 +134,282 @@ Finally, run your development server
   </Tab>
 </Tabs>
 
-## Backend
+Open your browser and navigate to `http://localhost:3000` to see your Next.js application running.
 
-Make your route model at `server/models/*.ts` and import to your route
+## Backend Integration
 
-Define your route at `server/routes/*.ts` and update this route to `server/elysia.ts`
+1. Create a Prisma service
 
-> Note: in this example, i am use `post` route
+To connect to the database, we need to create a Prisma service. This service will be used to interact with the database.
 
-### Create a new model for route
+```ts title="server/db.ts"
+import { PrismaClient } from '@prisma/client'
 
-```ts title="server/api/validates/post.ts"
-import Elysia, { t } from 'elysia'
+import { env } from '@/env'
 
-const createPostSchema = t.Object({
-  content: t.String(),
-})
+const createPrismaClient = () =>
+  new PrismaClient({
+    log: env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+  })
 
-export const postSchema = new Elysia({ name: 'post.schema' }).model({ createPostSchema })
+const globalForPrisma = globalThis as unknown as {
+  prisma: ReturnType<typeof createPrismaClient> | undefined
+}
+
+export const db = globalForPrisma.prisma ?? createPrismaClient()
+
+if (env.NODE_ENV !== 'production') globalForPrisma.prisma = db 
 ```
 
-### Create a new route
+2. Create a configuration file for ElysiaJS
 
-```ts title="server/api/routers/post.ts"
+```ts title="server/api/elysia.ts"
+import type { ElysiaConfig } from 'elysia'
+import Elysia from 'elysia'
+
+import { auth } from '@/server/auth'
+import { db } from '@/server/db'
+
+const createContext = new Elysia()
+  .derive(async () => {
+    const session = await auth()
+
+    return { db, session }
+  })
+  .as('plugin')
+
+const timmingMiddleware = new Elysia()
+  .state({ start: 0 })
+  .onBeforeHandle(({ store }) => (store.start = Date.now()))
+  .onAfterHandle(({ path, store: { start } }) =>
+    console.log(`[Elysia] ${path} took ${Date.now() - start}ms to execute`),
+  )
+  .as('plugin')
+
+export const createElysia = <P extends string, S extends boolean>(options?: ElysiaConfig<P, S>) =>
+  new Elysia({
+    ...options,
+    aot: true,
+  })
+    .use(createContext)
+    .use(timmingMiddleware)
+```
+
+3. Create a new API endpoint
+
+In this blog post, we will create a simple API endpoint to fetch latest posts and create a new post in the database.
+
+```ts title="server/api/routes/post.ts"
+import { t } from 'elysia'
+
 import { createElysia } from '@/server/api/elysia'
-import { postSchema } from '@/server/api/validates/post'
 
 export const postRouter = createElysia({ prefix: '/post' })
-  .use(postSchema)
-
-  .get('/getPosts', async ({ db, error }) => {
-    const posts = await db.post.findMany({
-      include: { author: true },
-      orderBy: { createdAt: 'desc' },
-    })
-    if (!posts) return error('Internal Server Error', 'Failed to fetch posts.')
-
-    return posts
+  .get('/latestPost', async ({ db }) => {
+    const post = await db.post.findFirst({ orderBy: { createdAt: 'desc' } })
+    return post ?? null
   })
 
   .post(
-    '/create',
-    async ({ user, db, body, error }) => {
-      if (!user) return error('Unauthorized', 'You must be logged in to create a post.')
+    '/createPost',
+    async ({ db, body: { content }, error }) => {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
 
-      const newPost = await db.post.create({
-        data: {
-          ...body,
-          author: { connect: { id: user?.id } },
-        },
-      })
-      if (!newPost) return error('Internal Server Error', 'Failed to create post.')
-
-      return { success: true }
+      const post = await db.post.create({ data: { content } })
+      return post
     },
-    { body: 'createPostSchema' },
+    { body: t.Object({ content: t.String() }) },
   )
-
-  .delete('/deletePost/:id', async ({ user, db, params, error }) => {
-    if (!user) return error('Unauthorized', 'You must be logged in to delete a post.')
-
-    const post = await db.post.findUnique({ where: { id: params.id } })
-    if (!post) return error('Not Found', 'Post not found.')
-
-    if (post.authorId !== user.id)
-      return error('Forbidden', 'You do not have permission to delete this post.')
-
-    await db.post.delete({ where: { id: params.id } })
-
-    return { success: true }
-  })
 ```
 
-### Add this route to app
+Then, add this route to your server
 
 ```ts title="server/api/root.ts"
 import { createElysia } from '@/server/api/elysia'
-import { postRouter } from '@/server/api/routers/post'
+import { postRouter } from '@/server/api/routes/post'
 
-export const appRouter = createElysia({ prefix: '/api' })
-  /* Other routes */
-  .use(postRouter)
-  .compile()
+export const appRouter = createElysia({ prefix: '/api/elysia' }).use(postRouter).compile()
 
-export type App = typeof appRouter
+export type AppRouter = typeof appRouter
 ```
 
-## Fontend
+4. Add the API endpoint to your Next.js application
 
-### Create a form to create post
+```tsx title="app/api/elysia/[[...slug]]/route.ts"
+import { appRouter } from '@/server/api/root'
 
-```tsx title="components/post/create-form.tsx"
+const handler = appRouter.handle
+
+export { handler as GET, handler as POST, handler as PUT, handler as DELETE }
+```
+
+## API Integration 
+ 
+In this section, we will create a function to interact with the API endpoints we created earlier on both the server and client sides. In client side, we will use `@tanstack/react-query` to cache the data.
+
+1. Create a server-side caller
+```ts title="lib/elysia/server.ts"
+import 'server-only'
+
+import { treaty } from '@elysiajs/eden'
+
+import { appRouter } from '@/server/api/root'
+
+export const api = treaty(appRouter).api.elysia
+```
+
+2. Create a client-side caller
+
+First, create a query client configuration for `@tanstack/react-query`
+
+```ts title="lib/elysia/query-client.ts"
+import { defaultShouldDehydrateQuery, QueryClient } from '@tanstack/react-query'
+import SuperJSON from 'superjson'
+
+export const createQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: {
+        // With SSR, we usually want to set some default staleTime
+        // above 0 to avoid refetching immediately on the client
+        staleTime: 30 * 1000,
+      },
+      dehydrate: {
+        serializeData: SuperJSON.serialize,
+        shouldDehydrateQuery: (query) =>
+          defaultShouldDehydrateQuery(query) || query.state.status === 'pending',
+      },
+      hydrate: {
+        deserializeData: SuperJSON.deserialize,
+      },
+    },
+  })
+```
+
+Then, create a client-side caller
+
+```tsx title="lib/elysia/react.tsx"
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import type { QueryClient } from '@tanstack/react-query'
+import { treaty } from '@elysiajs/eden'
+import { QueryClientProvider } from '@tanstack/react-query'
+
+import type { AppRouter } from '@/server/api/root'
+import { createQueryClient } from '@/lib/elysia/query-client'
+import { getBaseUrl } from '@/lib/utils'
+
+export const api = treaty<AppRouter>(getBaseUrl()).api.elysia
+
+let clientQueryClientSingleton: QueryClient | undefined = undefined
+const getQueryClient = () => {
+  if (typeof window === 'undefined') {
+    // Server: always make a new query client
+    return createQueryClient()
+  } else {
+    // Browser: use singleton pattern to keep the same query client
+    return (clientQueryClientSingleton ??= createQueryClient())
+  }
+}
+
+export const QueryProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+  const queryClient = getQueryClient()
+
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+}
+```
+
+3. Frontend Integration 
+
+Now, we can use the `api` object to interact with the API endpoints we created earlier. Here's an example of how to fetch the latest post and create a new post.
+
+```tsx title="app/_components/post.tsx"
+'use client'
+
+import type { Post as IPost } from '@prisma/client'
+import { useState } from 'react'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 import { Button } from '@/components/ui/button'
-import { Form, FormField } from '@/components/ui/form'
-import { Textarea } from '@/components/ui/textarea'
-import { api } from '@/lib/api'
-import { useSession } from '@/lib/session'
-import { revalidate } from '@/server/actions'
+import { Input } from '@/components/ui/input'
+import { api } from '@/lib/elysia/react'
 
-export const CreatePostForm: React.FC = () => {
-  const { isAuthed } = useSession()
-  const form = useForm<FormValues>({ resolver })
+export const Post: React.FC = () => {
+  const [content, setContent] = useState<string>('')
+  const { data: post, refetch } = useQuery({
+    queryKey: ['post', 'latest'],
+    queryFn: async () => {
+      const res = await api.post.latestPost.get()
+      return res.data as IPost
+    },
+  })
 
-  if (!isAuthed) return null
-
-  const handleSubmit = form.handleSubmit(async (data) => {
-    await api.post.create.post(data)
-    revalidate({ path: '/' })
-    form.reset()
+  const { mutate, isPending } = useMutation({
+    mutationKey: ['post', 'create'],
+    mutationFn: async () => {
+      await api.post.createPost.post({ content })
+    },
+    onSuccess: async () => {
+      await refetch()
+      setContent('')
+    },
   })
 
   return (
-    <Form onSubmit={handleSubmit} className="mx-auto max-w-screen-md">
-      <FormField
-        register={form.register}
-        name="content"
-        error={form.formState.errors.content}
-        disabled={form.formState.isSubmitting}
-        asChild
+    <div className="w-full max-w-xs space-y-4">
+      {post ? (
+        <p className="truncate">Most recent post: {post.content}</p>
+      ) : (
+        <p>You have no posts yet.</p>
+      )}
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          mutate()
+        }}
+        className="flex flex-col gap-2"
       >
-        <Textarea placeholder="What are you thinking about?" />
-      </FormField>
-      <Button className="w-32 self-end" isLoading={form.formState.isSubmitting}>
-        Post
-      </Button>
-    </Form>
-  )
-}
-
-const schema = z.object({
-  content: z.string().min(4, 'Content must be at least 4 characters long'),
-})
-
-type FormValues = z.infer<typeof schema>
-
-const resolver = zodResolver(schema)
-```
-
-### Create a delete post component
-
-```tsx title="components/post/delete-btn.tsx"
-'use client'
-
-import { XIcon } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
-import { api } from '@/lib/api'
-import { useSession } from '@/lib/session'
-import { revalidate } from '@/server/actions'
-
-export const DeleteBtn: React.FC<{ id: string; uid: string }> = ({ id, uid }) => {
-  const { isAuthed, user } = useSession()
-  if (!isAuthed) return null
-  if (user.id !== uid) return null
-
-  const handleDelete = async () => {
-    await api.post.deletePost({ id }).delete()
-    revalidate({ path: '/' })
-  }
-
-  return (
-    <Button variant="ghost" size="icon" onClick={handleDelete}>
-      <XIcon />
-    </Button>
+        <Input
+          name="content"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="What's on your mind?"
+          disabled={isPending}
+        />
+        <Button disabled={isPending}>{isPending ? 'Posting...' : 'Post'}</Button>
+      </form>
+    </div>
   )
 }
 ```
 
-### Add this component to your page
+Then, add this component to your page
 
 ```tsx title="app/page.tsx"
-import type { Post, User } from '@prisma/client'
 import type { NextPage } from 'next'
 
-import { CreatePostForm } from '@/components/post/create-form'
-import { DeleteBtn } from '@/components/post/delete-btn'
-import { api } from '@/lib/api'
+import { Post } from '@/app/_components/post'
 
-type TPost = Post & { author: User }
-
-const Page: NextPage = async () => {
-  const posts = await api.post.getPosts.get().then((res) => res.data as TPost[])
-
+const Home: NextPage = () => {
   return (
-    <>
-      <CreatePostForm />
-
-      <ul className="mx-auto mt-4 grid max-w-screen-md grid-cols-3 gap-4">
-        {posts.map((post) => (
-          <li key={post.id} className="flex items-center justify-between rounded-lg border p-4">
-            <p>{post.content}</p>
-
-            <DeleteBtn id={post.id} uid={post.author.id} />
-          </li>
-        ))}
-      </ul>
-    </>
+    <div className="flex items-center justify-center h-screen">
+      <Post />
+    </div>
   )
 }
-
-export default Page
 ```
 
 ## Conclusion
 
-That's it! You've successfully built a full-stack web app with Next.js and ElysiaJS. You've learned how to set up a Next.js app, create a backend with ElysiaJS, and connect the frontend to the backend. Now you can start building your own full-stack web apps with Next.js and ElysiaJS.
+In this blog post, we explored the benefits of using ElysiaJS as the backend for Next.js applications. We learned how to create a Prisma service, configure ElysiaJS, and create API endpoints to interact with the database. We also created a function to interact with the API endpoints on both the server and client sides. By following these steps, you can build powerful full-stack web applications with ease.
 
-Repository: [tiesen243/next-elysia](https://github.com/tiesen243/next-elysia)
+I hope you found this blog post helpful. If you have any questions or feedback, feel free to leave a comment below. Thank you for reading!
 
-## Reference
+Repository: [create-elynext-app](https://github.com/tiesen243/create-elynext-app)
 
-- Next.js: [nextjs.org](https://nextjs.org/)
-- ElysiaJS: [elysiajs.com](https://elysiajs.com/)
-- React Hook Form: [react-hook-form.com](https://react-hook-form.com/)
+## References
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [ElysiaJS Documentation](https://elysiajs.com/at-glance.html)
+- [Prisma Documentation](https://www.prisma.io/docs)

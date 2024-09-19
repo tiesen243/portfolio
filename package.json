@@ -8,7 +8,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "format": "prettier --write .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --check .",
+    "format:fix": "prettier --check . --write",
+    "typecheck": "tsc --noEmit",
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
