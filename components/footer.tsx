@@ -8,7 +8,7 @@ export const Footer: React.FC = () => (
       <Link href="/" className="flex items-center gap-2 place-self-start text-xl font-bold">
         <div className="size-10 rounded-lg border p-2">
           <Image
-            src="/images/logo.svg"
+            src="/assets/logo.svg"
             alt="logo"
             width={28}
             height={28}

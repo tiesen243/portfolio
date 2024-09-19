@@ -56,8 +56,8 @@ export const projects: Project[] = [
 ]
 
 export const designs = [
-  '/images/design/tiesen-v1.png',
-  '/images/design/goldenglow.png',
-  '/images/design/lin-yushia.png',
-  '/images/design/tiesen-v2.png',
+  '/assets/design/tiesen-v1.png',
+  '/assets/design/goldenglow.png',
+  '/assets/design/lin-yushia.png',
+  '/assets/design/tiesen-v2.png',
 ]

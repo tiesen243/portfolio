@@ -29,7 +29,7 @@ export const AboutSection: React.FC = () => (
       </article>
 
       <video autoPlay loop muted className="aspect-square w-full rounded-lg object-cover shadow-lg">
-        <source src="/images/yuki.webm" type="video/webm" />
+        <source src="/assets/yuki.webm" type="video/webm" />
       </video>
     </div>
 
