@@ -1,0 +1,217 @@
+---
+title: Setting Up a Monorepo with Turborepo
+description: Explore the key concepts of monorepo architecture and how Turborepo can enhance your development productivity. This in-depth guide will cover topics such as caching, workspaces, and dependency management.
+image: '/images/blog/turbo.png'
+publishedAt: 2024-09-19
+tags:
+  - Monorepo
+  - Turborepo
+  - Next.js
+  - tRPC
+  - Prisma
+  - Lucia
+---
+
+## Introduction
+
+Monorepos are a popular way to manage large codebases with multiple projects. They allow you to share code between projects, manage dependencies more easily, and improve the overall development experience. In this guide, we'll explore the key concepts of monorepo architecture and how Turborepo can enhance your development productivity.
+
+## What is a Monorepo?
+
+A monorepo is a single repository that contains multiple projects or packages. This can include frontend applications, backend services, shared libraries, and more. By consolidating all of your code into a single repository, you can more easily share code between projects, manage dependencies, and enforce consistent coding standards.
+
+## Why Use a Monorepo?
+
+There are several benefits to using a monorepo:
+
+- **Code Sharing**: With all of your code in a single repository, it's easy to share code between projects. This can help reduce duplication and improve code consistency.
+
+- **Dependency Management**: Monorepos make it easier to manage dependencies across multiple projects. You can ensure that all projects are using the same versions of dependencies and easily update them when needed.
+
+- **Consistent Tooling**: By standardizing your development environment and tooling across all projects, you can improve the overall development experience and reduce the risk of configuration drift.
+
+- **Improved Collaboration**: Monorepos encourage collaboration between teams by making it easier to share code and work on common projects.
+
+## Getting Started with Turborepo
+
+Turborepo is a tool that helps you manage monorepos more effectively. It provides a set of commands for working with monorepos, including caching, workspaces, and dependency management. Let's walk through how to get started with Turborepo.
+
+### Installation
+
+To get started with Turborepo, you can using my template:
+
+```bash
+npx create-turbo@latest -e https://github.com/tiesen243/create-yuki-turbo
+```
+
+This will create a new Turborepo project with a basic configuration and project structure.
+
+### Project Structure
+
+A typical Turborepo project will have the following structure:
+
+```text
+apps
+  └─ web
+      ├─ Next.js 14
+      ├─ React 18
+      ├─ Tailwind CSS
+      └─ E2E Typesafe API Server & Client
+packages
+  ├─ api
+  |   └─ tRPC v11 router definition
+  ├─ auth
+  |   └─ Authentication using Lucia & Arctic
+  ├─ db
+  |   └─ Typesafe db calls using Prisma
+  └─ ui
+      └─ Start of a UI package for the webapp using shadcn-ui
+tooling
+  ├─ eslint
+  |   └─ shared, fine-grained, eslint presets
+  ├─ prettier
+  |   └─ shared prettier configuration
+  ├─ tailwind
+  |   └─ shared tailwind configuration
+  └─ typescript
+      └─ shared tsconfig you can extend from
+```
+
+> In this template, we use `@yuki` as a placeholder for package names. As a user, you might want to replace it with your own organization or project name. You can use find-and-replace to change all the instances of `@yuki` to something like `@my-company` or `@project-name`.
+
+In this structure, the `apps` directory contains your frontend applications, the `packages` directory contains your shared libraries and services, and the `tooling` directory contains your shared tooling configurations. This structure helps you organize your codebase and manage dependencies more effectively.
+
+### Caching
+
+Turborepo provides a caching mechanism that can help speed up your development workflow. By caching dependencies and build artifacts, you can avoid unnecessary rebuilds and improve overall build times.
+
+You can enable remote caching on `vercel` to share caches between your team members. This can help reduce build times and improve collaboration. You can enable remote caching by running the following command:
+
+<Tabs items={["npm", "yarn", "pnpm", "bun"]}>
+
+  <Tab value="npm">
+    ```bash
+    npx turbo login
+    npx turbo link
+    ```
+  </Tab>
+
+  <Tab value="yarn">
+    ```bash
+    yarn turbo login
+    yarn turbo link
+    ```
+  </Tab>
+
+  <Tab value="pnpm">
+    ```bash
+    pnpm dlx turbo login
+    pnpm dlx turbo link
+    ```
+  </Tab>
+
+  <Tab value="bun">
+    ```bash
+    bunx turbo login
+    bunx turbo link
+    ```
+  </Tab>
+</Tabs>
+
+### Workspaces
+
+Turborepo uses workspaces to manage dependencies between projects. By defining workspaces in your `package.json` file, you can specify which projects depend on each other and ensure that all projects are using the same versions of dependencies.
+
+Here's an example of how to define workspaces in your `package.json` file:
+
+```json
+{
+  "workspaces": ["packages/*", "tooling/*", "apps/*"]
+}
+```
+
+This will tell Turborepo to treat the `packages`, `tooling`, and `apps` directories as workspaces.
+
+### Create a New Package
+
+1. When you want to add a new UI component:
+
+To create a new package in your Turborepo project, you can use the `ui-add` script to add a new UI component using the interactive shadcn/ui CLI. This will create a new component in the `packages/ui` directory with the necessary files and configurations.
+
+<Tabs items={["npm", "yarn", "pnpm", "bun"]}>
+
+  <Tab value="npm">
+    ```bash
+    npm run ui-add
+    ```
+  </Tab>
+
+  <Tab value="yarn">
+    ```bash
+    yarn ui-add
+    ```
+  </Tab>
+
+  <Tab value="pnpm">
+    ```bash
+    pnpm run ui-add
+    ```
+  </Tab>
+
+  <Tab value="bun">
+    ```bash
+    bun ui-add
+    ```
+  </Tab>
+</Tabs>
+
+2. When you want to add a new package:
+
+To create a new package in your Turborepo project, you can use the following command:
+
+<Tabs items={["npm", "yarn", "pnpm", "bun"]}>
+
+  <Tab value="npm">
+    ```bash
+    npx turbo gen init
+    ```
+  </Tab>
+
+  <Tab value="yarn">
+    ```bash
+    yarn turbo gen init
+    ```
+  </Tab>
+
+  <Tab value="pnpm">
+    ```bash
+    pnpm dlx turbo gen init
+    ```
+  </Tab>
+
+  <Tab value="bun">
+    ```bash
+    bun turbo gen init
+    ```
+  </Tab>
+</Tabs>
+
+The generator sets up the package.json, tsconfig.json and a index.ts, as well as configures all the necessary configurations for tooling around your package such as formatting, linting and typechecking. When the package is created, you're ready to go build out the package.
+
+## Conclusion
+
+In this guide, we've explored the key concepts of monorepo architecture and how Turborepo can enhance your development productivity. By using Turborepo, you can more easily manage dependencies, share code between projects, and improve collaboration between teams. If you're working on a large codebase with multiple projects, consider using a monorepo with Turborepo to streamline your development workflow.
+
+For more information on Turborepo, check out the [official documentation](https://turbo.build). Happy coding!
+
+Repository: [Create Yuki Turbo](https://github.com/tiesen243/create-yuki-turbo)
+
+## References:
+
+- [Turbo](https://turbo.build)
+- [Next.js](https://nextjs.org)
+- [tRPC](https://trpc.io)
+- [Prisma](https://prisma.io)
+- [Lucia](https://lucia-auth.com)
+- [Arctic](https://arctic.js.org)
+- [Shadcn UI](https://ui.shadcn.com)

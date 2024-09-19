@@ -8,7 +8,7 @@ export const { docs, meta } = defineDocs({
     type: 'doc',
     dir: 'content/blogs',
     schema: frontmatterSchema.extend({
-      image: z.string().url().optional(),
+      image: z.string().optional(),
       publishedAt: z.date(),
       tags: z.array(z.string()),
     }),
