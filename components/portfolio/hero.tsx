@@ -31,7 +31,7 @@ export const HeroSection: React.FC = () => (
     </Typography>
 
     <div className="mt-8 flex gap-6">
-      <Button variant="outline" className="ease-linear" asChild>
+      <Button asChild>
         <Link href="/contact">
           <Phone size={20} className="mr-2" /> Contact Me
         </Link>

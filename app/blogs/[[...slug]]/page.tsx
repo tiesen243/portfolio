@@ -17,6 +17,9 @@ export default async function Page({ params }: Props) {
 
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
+      <DocsDescription className="mb-0">
+        Published on {page.data.publishedAt.toDateString()}
+      </DocsDescription>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
 

@@ -1,9 +1,8 @@
 ---
 title: Welcome to My Blog
 description: Welcome to my personal blog where I explore a variety of topics and offer my unique perspective.
-publishedAt: 2024-08-10
+publishedAt: 2004-06-22
 tags: []
-icon: Home
 ---
 
 ## About Me
@@ -16,7 +15,19 @@ If you have any questions or comments, feel free to reach out to me at [Contact 
 
 ## Latest Posts
 
-Here are some of my latest posts:
+import { source } from '@/content/source'
 
-- [Post 1](/post-1)
-- [Post 2](/post-2)
+<Cards>
+  {source
+    .getPages()
+    .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime())
+    .slice(0, 4)
+    .map(({url, data}) =>
+      <Card 
+        key={url} 
+        title={data.title} 
+        description={data.description.length > 40 ? `${data.description.slice(0, 40)}...` : data.description}
+        href={url}
+      /> 
+  )}
+</Cards>

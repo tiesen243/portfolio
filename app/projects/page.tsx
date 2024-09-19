@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
 
+import { seo } from '@/lib/seo'
 import { designs, projects } from './_data'
 
 const Page = () => (
@@ -51,3 +52,12 @@ const Page = () => (
 )
 
 export default Page
+
+export const metadata = seo({
+  title: 'Projects',
+  description: "Here are some of the projects I've worked on.",
+  images: [
+    '/api/og?title=Projects&description=Here%20are%20some%20of%20the%20projects%20I%27ve%20worked%20on.',
+  ],
+  url: '/projects',
+})
