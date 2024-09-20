@@ -64,9 +64,13 @@ const config: Config = {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
       },
-      animation: { shimmer: 'shimmer 2s linear infinite' },
+      animation: { shimmer: 'shimmer 2s linear infinite', updown: 'updown 1s linear infinite' },
       keyframes: {
         shimmer: { from: { backgroundPosition: '0 0' }, to: { backgroundPosition: '-200% 0' } },
+        updown: {
+          '0%, 100%': { transform: 'translateY(10%)' },
+          '50%': { transform: 'translateY(-10%)' },
+        },
       },
     },
   },

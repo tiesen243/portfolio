@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Download, Phone } from 'lucide-react'
+import { ChevronsDown, Download, Phone } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
@@ -20,7 +20,7 @@ export const HeroSection: React.FC = () => (
       className="h-auto w-full object-cover drop-shadow-lg"
     />
 
-    <Typography level="h1" className="text-center">
+    <Typography level="h1" className="mt-8 text-center md:mt-0">
       <span className="bg-[linear-gradient(135deg,var(--yuki),69%,hsl(var(--secondary)))] bg-clip-text text-transparent">
         Weeb
       </span>{' '}
@@ -30,7 +30,7 @@ export const HeroSection: React.FC = () => (
       </span>
     </Typography>
 
-    <div className="mt-8 flex gap-6">
+    <div className="mt-16 flex items-center gap-6 md:mt-8">
       <Button asChild>
         <Link href="/contact">
           <Phone size={20} className="mr-2" /> Contact Me
@@ -47,5 +47,7 @@ export const HeroSection: React.FC = () => (
         </a>
       </Button>
     </div>
+
+    <ChevronsDown size={28} className="absolute bottom-4 animate-updown md:bottom-8" />
   </section>
 )
