@@ -12,9 +12,7 @@ interface Params {
 
 export const seo = (params: Params): Metadata => {
   const title = params.title ? `${params.title} | Tiesen` : 'Tiesen'
-  const description =
-    params.description ??
-    "I'm a passionate weeb developer using Next.js to create engaging websites. Anime lover, inspired by Japanese culture. Let's build something amazing together!"
+  const description = params.description ?? 'Weeb devalowopu with a love for all things anime'
   const images = params.images ?? ['/api/og?hero=true']
   const url = params.url ? `${getBaseUrl()}/${params.url}` : getBaseUrl()
 
