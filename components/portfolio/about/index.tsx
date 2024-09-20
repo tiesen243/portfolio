@@ -4,7 +4,9 @@ export const AboutSection: React.FC = () => (
   <section id="about" className="container min-h-dvh py-4">
     <div className="grid gap-4 md:grid-cols-2">
       <article className="prose prose-2xl prose-neutral dark:prose-invert">
-        <h2 className="border-b">About Me</h2>
+        <h2 className="w-fit border-b bg-[linear-gradient(135deg,var(--yuki),69%,var(--kaze))] bg-clip-text text-transparent">
+          About Me
+        </h2>
         <p className="md:text-3xl md:font-medium">
           I&apos;m Tran Tien, a weeb developer with a love for all things anime. I&apos;m passionate
           about creating software that makes a difference in the world. I&apos;m have experience in{' '}
@@ -28,7 +30,7 @@ export const AboutSection: React.FC = () => (
         </p>
       </article>
 
-      <video autoPlay loop muted className="aspect-square w-full rounded-lg object-cover shadow-lg">
+      <video autoPlay loop muted className="aspect-square w-full rounded-lg object-cover">
         <source src="/assets/yuki.webm" type="video/webm" />
       </video>
     </div>
