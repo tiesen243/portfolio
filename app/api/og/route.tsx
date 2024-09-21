@@ -26,7 +26,7 @@ export const GET = async (
       >
         {hero === 'true' ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={`${getBaseUrl()}/images/tiesen.png`} />
+          <img src={`${getBaseUrl()}/assets/tiesen.png`} />
         ) : (
           <>
             <div tw="flex flex-col justify-center text-white">
@@ -37,7 +37,7 @@ export const GET = async (
 
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`${getBaseUrl()}/images/logo.svg`}
+              src={`${getBaseUrl()}/assets/logo.svg`}
               alt="Logo"
               tw="w-2/5 ml-8"
               style={{ filter: 'invert(1)' }}
