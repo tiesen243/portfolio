@@ -50,7 +50,9 @@ const informations = [
               fill={skill.color}
               className={!skill.color ? 'dark:invert' : ''}
             />
-            <Typography level="h4">{skill.title}</Typography>
+            <Typography level="h4" className="whitespace-nowrap">
+              {skill.title}
+            </Typography>
           </div>
         ))}
       </article>
