@@ -8,12 +8,8 @@ export const runtime = 'edge'
 export const GET = async (
   _: Request,
   {
-    params: {
-      title = String(seo({}).title),
-      description = String(seo({}).description),
-      hero = 'false',
-    },
-  }: { params: { title?: string; description?: string; hero?: string } },
+    params: { title = String(seo({}).title), description = String(seo({}).description), uwu },
+  }: { params: { title?: string; description?: string; uwu?: string } },
 ) =>
   new ImageResponse(
     (
@@ -24,7 +20,7 @@ export const GET = async (
           backgroundSize: '100% 100%, 40px 40px, 40px 40px',
         }}
       >
-        {hero === 'true' ? (
+        {uwu !== undefined ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={`${getBaseUrl()}/assets/tiesen.png`}
