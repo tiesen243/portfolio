@@ -14,7 +14,7 @@ export const seo = (params: Params): Metadata => {
   const title = params.title ? `${params.title} | Tiesen` : 'Tiesen'
   const description = params.description ?? 'Weeb devalowopu with a love for all things anime'
   const images = params.images ?? ['/api/og?hero=true']
-  const url = params.url ? `${getBaseUrl()}/${params.url}` : getBaseUrl()
+  const url = params.url ? `${getBaseUrl()}${params.url}` : getBaseUrl()
 
   return {
     metadataBase: new URL(getBaseUrl()),

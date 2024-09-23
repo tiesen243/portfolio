@@ -26,7 +26,10 @@ export const GET = async (
       >
         {hero === 'true' ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={`${getBaseUrl()}/assets/tiesen.png`} />
+          <img
+            src={`${getBaseUrl()}/assets/tiesen.png`}
+            style={{ width: '100%', height: '100%' }}
+          />
         ) : (
           <>
             <div tw="flex flex-col justify-center text-white">
