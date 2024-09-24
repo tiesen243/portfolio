@@ -65,7 +65,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
     description: blog.data.description,
     url: blog.url,
     images: [
-      ...(blog.data.image ? [blog.data.image] : []),
+      blog.data.image ?? '',
       `/api/og?title=${blog.data.title}&description=${blog.data.description}`,
       ...previousImages,
     ],

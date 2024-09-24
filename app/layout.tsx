@@ -8,17 +8,11 @@ import { GeistSans } from 'geist/font/sans'
 import { Footer } from '@/components/footer'
 import { seo } from '@/lib/seo'
 
-export const metadata = seo({})
-
 const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
   <html lang="en" suppressHydrationWarning>
     <body className={cn('flex min-h-dvh flex-col font-sans', GeistSans.variable)}>
       <RootProvider
-        theme={{
-          attribute: 'class',
-          defaultTheme: 'dark',
-          disableTransitionOnChange: true,
-        }}
+        theme={{ attribute: 'class', defaultTheme: 'dark', disableTransitionOnChange: true }}
       >
         {children}
         <Footer />
@@ -30,3 +24,5 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
 )
 
 export default RootLayout
+
+export const metadata = seo({})
