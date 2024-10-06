@@ -43,7 +43,7 @@ export default async function Page({ params }: Props) {
 
       <hr />
 
-      <DocsBody>
+      <DocsBody className="prose-code:font-mono prose-pre:font-mono">
         <MDX components={{ ...defaultMdxComponents, Tabs, Tab }} />
       </DocsBody>
     </DocsPage>
