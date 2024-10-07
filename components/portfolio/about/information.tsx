@@ -102,22 +102,17 @@ const informations = [
     content: (
       <article className="flex flex-col gap-2">
         {stuffs.map((stuff) => (
-          <a key={stuff.id} href={stuff.link} target="_blank" rel="noopener noreferrer">
+          <Link
+            key={stuff.id}
+            href={stuff.link}
+            {...(stuff.isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
+          >
             <Typography level="h4" className="hover:underline">
               {stuff.title}
             </Typography>
             <p className="leading-7 text-muted-foreground">{stuff.description}</p>
-          </a>
+          </Link>
         ))}
-
-        <Link href="/blogs">
-          <Typography level="h4" className="hover:underline">
-            My blog
-          </Typography>
-          <p className="leading-7 text-muted-foreground">
-            Where i write about my journey and everything i like
-          </p>
-        </Link>
       </article>
     ),
   },

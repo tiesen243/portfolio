@@ -1,5 +1,4 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import { Card, Cards } from 'fumadocs-ui/components/card'
 import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
 
 import { seo } from '@/lib/seo'
@@ -7,30 +6,29 @@ import { designs, projects } from './_data'
 
 const Page = () => (
   <main className="container flex-1 py-4">
-    <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
-      <article className="prose md:col-span-3">
+    <section>
+      <article className="prose prose-neutral mb-4 dark:prose-invert">
         <h1 className="mb-0">Projects</h1>
         <p>
-          Here are some of the projects I've worked on. Click on the images to learn more about each
-          project.
+          Here are some of the projects I've worked on. Click on the cards to view more details. You
+          can also view my designs below.
         </p>
       </article>
 
-      {projects.map((project) => (
-        <Link key={project.slug} href={`/projects/${project.slug}`}>
-          <Image
-            src={`/api/og?title=${project.title}&description=${project.preview}`}
-            alt={project.title}
-            width={1200}
-            height={630}
-            className="rounded-lg shadow-lg transition-all hover:brightness-150"
+      <Cards>
+        {projects.map((project) => (
+          <Card
+            key={project.slug}
+            title={project.title}
+            description={project.preview}
+            href={`/projects/${project.slug}`}
           />
-        </Link>
-      ))}
+        ))}
+      </Cards>
     </section>
 
     <section className="mt-8 flex flex-col gap-4">
-      <article className="prose">
+      <article className="prose prose-neutral dark:prose-invert">
         <h1 className="mb-0">Designs</h1>
         <p>
           Here are some of the designs I've created. Click on the images to view them in full size.

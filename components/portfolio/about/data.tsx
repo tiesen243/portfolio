@@ -1,5 +1,7 @@
 import { BookOpen, Code, Gamepad, Tv } from 'lucide-react'
 
+import { getBaseUrl } from '@/lib/utils'
+
 export const education = [
   { id: 1, time: '2019 - 2022', school: 'Hoang Hoa Tham High School' },
   {
@@ -33,18 +35,21 @@ export const stuffs = [
     title: 'Create Yuki App',
     description: ' My Next template with next, eslint, prettier, tailwind config files and more.',
     link: 'https://github.com/tiesen243/create-yuki-app',
+    isExternal: true,
   },
   {
     id: 2,
     title: 'Create Yuki Turbo',
     description: 'Clean and typesafe starter monorepo using Turborepo along with Next.js and tRPC.',
     link: 'https://github.com/tiesen243/create-yuki-turbo',
+    isExternal: true,
   },
   {
     id: 3,
-    title: 'Create Yukie App',
-    description: 'A Full-Stack Application with Next.js and ElysiaJS using Prisma, Tanstack Query.',
-    link: 'https://github.com/tiesen243/create-yukie-app',
+    title: 'My Blog',
+    description: 'Where I write about my thoughts, experiences, and projects.',
+    link: getBaseUrl() + '/blogs',
+    isExternal: false,
   },
 ]
 

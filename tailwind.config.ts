@@ -75,6 +75,14 @@ const config: Config = {
           '50%': { transform: 'translateY(-10%)' },
         },
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            code: { color: 'var(--kaze)', fontFamily: 'var(--font-geist-mono)' },
+            a: { textDecoration: 'none', '&:hover': { textDecoration: 'underline' } },
+          },
+        },
+      },
     },
   },
   plugins: [animate],
