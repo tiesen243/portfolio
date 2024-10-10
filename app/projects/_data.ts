@@ -21,6 +21,17 @@ export const projects: Project[] = [
     tags: ['Next.js', 'Tailwind CSS', 'tRPC', 'Prisma', 'Uploadthing', 'Lucia', 'Arctic', 'Resend'],
   },
   {
+    slug: 'kazez',
+    title: 'Kazez',
+    preview:
+      'A anime streaming platform is a user-friendly website where fans can watch their favorite shows and movies.',
+    description:
+      'A anime streaming platform is a user-friendly website where fans can watch their favorite shows and movies. The platform offers a vast library of anime content, organized by genre, popularity, and release date. Users can create accounts to access personalized recommendations and track their viewing history. The platform supports video streaming with high-quality playback and subtitles. Additionally, users can interact with the community through comments and ratings, enhancing the overall viewing experience.',
+    link: 'https://kazez.vercel.app',
+    repo: 'https://github.com/tiesen243/kazez',
+    tags: ['Next.js', 'Comsumet API', 'Prisma', 'Server Action', 'Lucia', 'React Query'],
+  },
+  {
     slug: 'egg-community',
     title: 'Egg Community',
     preview:
