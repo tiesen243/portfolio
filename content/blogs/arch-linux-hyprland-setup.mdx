@@ -193,60 +193,66 @@ Go to hypr config file to disable warning message.
 
 Get started to install dependencies for the system.
 
-### Intall the AUR packages.
+### Install
+
+1. Clone this repository
 
 ```bash
-sudo pacman -Syu
+git clone git@github.com:tiesen243/dotfiles.git ~/dotfiles
+```
 
-sudo pacman -S --needed git base-devel
+2. Install `yay`
+
+```bash
+pacman -S --needed git base-devel
 git clone https://aur.archlinux.org/yay.git ~/yay
 cd ~/yay
 makepkg -si
 rm -rf ~/yay
 ```
 
-### Install necessary packages
-
-1. Install necessary packages
+3. Install all dependences
 
 ```bash
-yay -S zsh hypridle hyprpaper hyprlock p7zip wofi pavucontrol brightnessctl playerctl fastfetch btop cliphist wl-clipboard grim slurp lsd waybar bat floorp-bin wlogout hyprpicker nwg-look yazi
+yay -S zsh hyprpaper hyprpicker hypridle hyprlock wlogout wofi pavucontrol brightnessctl playerctl floorp-bin cliphist wl-clipboard grim slurp thunar gvfs lsd bat nwg-look p7zip fastfetch btop
 ```
 
-2. If Jappanese/Chinese/Korean font not display correctly
-
-```bash
-sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji
-```
-
-3. Install `Oh My Zsh` to customize the terminal.
+4. Install `oh-my-zsh`
 
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-Then, install oh-my-zsh plugins
+Next, link my custom zsh theme to `~/.oh-my-zsh/custom/themes`
+
+```bash
+ln -s ~/dotfiles/zsh/themes/yuki.zsh-theme ~/.oh-my-zsh/custom/themes/yuki.zsh-theme
+```
+
+Then, install zsh plugins
 
 ```bash
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
-Copy folder `~/dotfiles/zsh/theme` to `~/.oh-my-zsh/custom/themes`
+Final, change link to my custom zsh config
 
 ```bash
-cp -r ~/dotfiles/zsh/themes ~/.oh-my-zsh/custom
+ln -s ~/dotfiles/zsh/config.zsh ~/.zshrc
 ```
 
-Then, change the content of `~/.zshrc` to
+5. If Japanese/Chinese/Korean font not display correctly
 
 ```bash
-source ~/dotfiles/zsh/config.zsh
+yay -S noto-fonts noto-fonts-cjk noto-fonts-emoji
 ```
 
-4. Optional: Install `miniconda3` for python and `nvm` for nodejs development environment
+6. Optional: Install `miniconda3` for python and `nvm` for nodejs development environment
 
-```bash title="Install miniconda3"
+- Miniconda
+
+```bash
 mkdir -p ~/.miniconda3
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/.miniconda3/miniconda.sh
 bash ~/.miniconda3/miniconda.sh -b -u -p ~/.miniconda3
@@ -254,86 +260,52 @@ rm -rf ~/.miniconda3/miniconda.sh
 ~/.miniconda3/bin/conda init zsh
 ```
 
-```bash title="Install nvm"
+- NVM
+
+```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
 ```
 
-- If you use `bun` for default node package manager, add this block to the end of `~/.zshrc`
+- If you use `bun` for default node package manager, remember to add this to your `.zshrc`
 
-```bash title="~/.zshrc"
+```bash
 # >>> bun initialize >>>
 if [ -d "$HOME/.bun/bin" ]; then
     export PATH="$HOME/.bun/bin:$PATH"
 fi
-# <<< nvm initialize <<<
+# <<< bun initialize <<<
 ```
 
-> Remember to config git ssh key before doing the next step
-
-Next, clone my `dotfiles` repository to customize the system.
+7. Change content in `~/.config/hypr/hyprland.conf`
 
 ```bash
-git clone git@github.com:tiesen243/dotfiles.git ~/dotfiles
-```
-
-### Customize the system
-
-1. Change the content of `~/.config/hypr/hyprland.conf` to
-
-```bash title="~/.config/hypr/hyprland.conf"
 source = ~/dotfiles/hypr/hyprland.conf
 ```
 
-2. Change theme
+8. Change Themes
 
 ```bash
-cp -r ~/dotfiles/.fonts ~/
-cp -r ~/dotfiles/.icons ~/
-cp -r ~/dotfiles/.themes ~/
+cp -a ~/dotfiles/themes/. ~/
 ```
 
-Then, open `nwg-look` to change the theme.
+Then, you can change the themes by `nwg-look` command
 
-3. Change wallpaper
+9. Change Wallpaper in `~/dotfiles/hypr/hyprpaper.conf`
 
-```bash title="~/dotfiles/hypr/hyprpaper.conf"
+```bash
 preload = ~/path/to/wallpaper
 wallpaper = ,~/path/to/wallpaper
 ```
 
-Or just change file in `~/dotfiles/assets/_background.png`
+Or change file in `~/dotfiles/assets/_background.jpg`
 
-**Notes:**
+### Note:
 
-1. If you need to use `obs` to record the screen, you can install the following packages
-
-```bash
-sudo pacman -S obs-studio
-yay -S wlrobs
-```
-
-2. If time is not sync with windows, you can use the following command to sync the time
+- If you use `obs-studio`, you can install `wlrobs` dependency for screen recording
 
 ```bash
-sudo timedatectl set-local-rtc 1 --adjust-system-clock
+yay -S obs-studio wlrobs
 ```
-
-## Key mapping
-
-- `Win + Enter`: Open the terminal (kitty)
-- `Win + B`: Open the browser (floorp)
-- `Win + E`: Open the file manager (thunar)
-- `Win + Space`: Open the application menu (wofi)
-- `Win + A`: Open the audio control (pavucontrol)
-- `Win + H/J/K/L`: Move the focus to the left/down/up/right
-- `Win + Shift + H/J/K/L`: Move the window to the left/down/up/right
-- `Win + Q`: Close the window
-- `Win + Shift + Q`: Open the logout menu (wlogout)
-- `Win + [1-9]`: Switch to the workspace [1-9]
-- `Win + Shift + [1-9]`: Move the window to the workspace [1-9]
-- `Win + W`: Open the special workspace
-- `Win + Shift + W`: Move the window to the special workspace
-- And more: `~/dotfiles/hypr/keymap.conf`
 
 ## Conclusion
 
