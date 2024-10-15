@@ -1,5 +1,6 @@
 import type { ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
+import { Callout } from 'fumadocs-ui/components/callout'
 import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
 import defaultMdxComponents from 'fumadocs-ui/mdx'
@@ -44,7 +45,7 @@ export default async function Page({ params }: Props) {
       <hr />
 
       <DocsBody className="prose-code:font-mono prose-pre:font-mono">
-        <MDX components={{ ...defaultMdxComponents, Tabs, Tab }} />
+        <MDX components={{ ...defaultMdxComponents, Tabs, Tab, Callout }} />
       </DocsBody>
     </DocsPage>
   )
