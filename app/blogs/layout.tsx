@@ -1,4 +1,4 @@
-import { DocsLayout } from 'fumadocs-ui/layout'
+import { DocsLayout } from 'fumadocs-ui/layouts/docs'
 import { Home } from 'lucide-react'
 
 import { source } from '@/content/source'
