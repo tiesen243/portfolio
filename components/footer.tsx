@@ -13,6 +13,7 @@ export const Footer: React.FC = () => (
             width={28}
             height={28}
             className="object-cover dark:invert"
+            priority
           />
         </div>
         Tiesen

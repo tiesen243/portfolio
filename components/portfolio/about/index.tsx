@@ -7,32 +7,34 @@ export const AboutSection: React.FC = () => (
         <h2 className="w-fit border-b bg-[linear-gradient(135deg,var(--yuki),69%,var(--kaze))] bg-clip-text text-transparent">
           About Me
         </h2>
-        <p className="md:font-medium">
-          I&apos;m Tran Tien, a weeb developer with a love for all things anime. I&apos;m passionate
-          about creating software that makes a difference in the world. I&apos;m have experience in{' '}
-          <span className="bg-gradient-to-br from-[#AB1D1C] to-foreground bg-clip-text text-transparent">
+
+        <p>
+          I'm Tran Tien, a passionate developer currently honing my skills in{' '}
+          <span className="bg-gradient-to-br from-[var(--yuki)] to-foreground bg-clip-text text-transparent">
             Next.js
           </span>
-          ,{' '}
-          <span className="bg-gradient-to-br from-[#06B6D4] to-foreground bg-clip-text text-transparent">
-            Tailwind CSS
+          . My ultimate goal is to become a well-rounded{' '}
+          <span className="bg-gradient-to-br from-[var(--kaze)] to-foreground bg-clip-text text-transparent">
+            full-stack
+          </span>{' '}
+          developer.
+          <br /> I'm actively engaged in learning and expanding my knowledge base in both{' '}
+          <span className="bg-gradient-to-br from-[var(--yuki)] to-foreground bg-clip-text text-transparent">
+            Next.js
+          </span>{' '}
+          and{' '}
+          <span className="bg-gradient-to-br from-[var(--kaze)] to-foreground bg-clip-text text-transparent">
+            Machine Learning
           </span>
-          ,{' '}
-          <span className="bg-gradient-to-br from-[#2596BE] to-foreground bg-clip-text text-transparent">
-            tRPC
-          </span>
-          , and{' '}
-          <span className="bg-gradient-to-br from-[#3776AB] to-foreground bg-clip-text text-transparent">
-            Python
-          </span>
-          . I also enjoy learning new things.
+          . This combination is particularly exciting to me as it unlocks possibilities for creating
+          dynamic and intelligent web applications.
         </p>
 
         <ul>
           <li>
             Born on: <time dateTime="2004-06-22">June 22, 2004</time>
             {new Date().getDate() === 22 && new Date().getMonth() === 6 && (
-              <span className="animate-pulse text-[#AB1D1C]"> (kyou wa tanjoubi desu!)</span>
+              <span className="animate-pulse text-[var(--yuki)]"> (kyou wa tanjoubi desu!)</span>
             )}
           </li>
           <li>From: Vietnam</li>
