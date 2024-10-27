@@ -542,27 +542,26 @@ This code snippet loads the model architecture and the trained weights from the 
 
 You can create a simple web UI to interact with the image classifier. Here's a basic example using Flask:
 
-```python title="web.py"
-import io
+```python title="app.py"
+# Import libraries
+import cv2
 import flask
-import base64
 import flask_cors
+import numpy as np
 
-from PIL import Image
+from cnn import CNN
 from torch import nn, load
 from torchvision import transforms
 
-# Load the model
-# Following the previous code snippet to load the model
+# Load the model (in the previous section)
+model = ...
 
 # Initialize the Flask app
 app = flask.Flask(__name__)
 flask_cors.CORS(app)
-current_image = None
 
-# Define the image preprocessing pipeline using torchvision.transforms
+
 def preprocess_image(image):
-    # Define the image preprocessing pipeline
     preprocess = transforms.Compose(
         [
             transforms.ToTensor(),
@@ -570,86 +569,168 @@ def preprocess_image(image):
         ]
     )
 
-    # Open the image using PIL
-    image = Image.open(io.BytesIO(image))
+    image = cv2.imdecode(np.frombuffer(image.read(), np.uint8), cv2.IMREAD_GRAYSCALE) # Read the image
+    image = cv2.normalize(image, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX) # Normalize the image
+    image = cv2.resize(image, (28, 28)) # Resize the image to 28x28
 
-    # convert image to base64 and store it in the global variable
-    global current_image
-    buffered = io.BytesIO()
-    image.save(buffered, format="PNG")
-    current_image = base64.b64encode(buffered.getvalue()).decode("utf-8")
+    return preprocess(image).unsqueeze(0).to("cuda")
 
-    # Preprocess the image
-    return preprocess(image).unsqueeze(0)
 
-# Define the prediction route
 @app.route("/predict", methods=["POST"])
 def predict():
-    image = flask.request.files.get("file")
-    if image is None:
-        return flask.redirect(flask.url_for("index"))
+    image = flask.request.files.get("image")
+    image = preprocess_image(image)
 
-    image = preprocess_image(image.read()).to("cuda")
     prediction = model(image).argmax().item()
 
-    return flask.redirect(flask.url_for("index", prediction=prediction))
+    return flask.jsonify({"prediction": prediction})
 
-# Define the index route
-@app.route("/", methods=["GET"])
+
+@app.route("/")
 def index():
-    prediction = flask.request.args.get("prediction") or ""
-    global current_image
+    return flask.render_template("index.html")
 
-    return f"""
-    <!doctype html>
-    <html lang=en>
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <script src="https://cdn.tailwindcss.com"></script>
-            <title>CNN MNIST</title>
-        </head>
-        <body class="bg-black text-white min-h-dvh grid place-items-center">
-            <main class="container mx-auto flex flex-col gap-4 max-w-screen-md">
-                <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">Upload new File for Prediction</h1>
-
-                <form method=post enctype=multipart/form-data action=predict class="flex gap-4 items-center">
-                    <input type=file name=image class="flex h-10 w-full rounded-md border border-gray-500 bg-black px-3 py-2 text-sm ring-offset-black file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-white placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                    <button class="h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium bg-white text-black hover:bg-white/90 ring-offset-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0">
-                        Upload
-                    </button>
-                </form>
-
-                <div class="grid grid-cols-2 gap-4 place-items-center">
-                    {current_image and f"""
-                    <img src="data:image/png;base64,{current_image}" class="border border-white w-full rounded-lg" alt="Current Image">
-                    """ or ""}
-                    <h2 class="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 {current_image and "" or "col-start-2"}">Prediction: {prediction}</h2>
-                </div>
-            </main>
-        </body>
-    </html>
-"""
-
-# Run the Flask app
-def main():
-    app.run()
 
 if __name__ == "__main__":
-    main()
+    app.run()
 ```
 
-This code snippet defines a simple Flask app with two routes: `/` for the index page and `/predict` for making predictions. The index page allows users to upload an image for classification, and the prediction route processes the uploaded image and returns the predicted class.
+Then, create an HTML template for the web UI. I use Tailwind CSS for styling, so make sure to include the Tailwind CSS CDN in your HTML file.
 
-You can run the Flask app by executing the following command in your terminal:
+```html title="templates/index.html"
+<script src="https://cdn.tailwindcss.com"></script>
+```
+
+```html title="templates/index.html"
+<body class="bg-[#0a0a0a] text-[#fafafa]">
+  <div id="app">
+    <main class="container mx-auto my-20 max-w-screen-md px-8 text-center">
+      <h1 class="mb-6 text-4xl font-bold">Handwritten Digit Prediction</h1>
+
+      <div class="grid grid-cols-3 gap-4">
+        <canvas
+          ref="image"
+          class="col-span-2 aspect-square w-full rounded-lg border border-gray-300"
+        ></canvas>
+
+        <div class="grid grid-cols-2 gap-4">
+          <button
+            v-on:click="predict"
+            class="inline-flex h-9 items-center justify-center rounded-lg bg-[#fafafa] px-3 py-2 text-[#0a0a0a] transition-colors hover:bg-[#d4d4d4]"
+          >
+            Predict
+          </button>
+
+          <button
+            v-on:click="clear"
+            class="inline-flex h-9 items-center justify-center rounded-lg border border-[#404040] bg-[#0a0a0a] px-3 py-2 text-[#fafafa] hover:bg-[#404040]"
+          >
+            Clear
+          </button>
+
+          <p class="inline-flex gap-2 text-left text-2xl font-bold">
+            Prediction:
+            <span v-text="prediction" class="font-normal"></span>
+          </p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="../static/main.js"></script>
+</body>
+```
+
+Finally, create a JavaScript file to handle the interactions with the web UI and make predictions using the model. In this example, I use Vue.js for the frontend logic:
+
+```javascript title="static/main.js"
+import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+createApp({
+  setup() {
+    const prediction = ref('')
+    return { prediction }
+  },
+  methods: {
+    async initDrawings() {
+      /** @type {HTMLCanvasElement} */
+      const image = this.$refs.image
+      image.width = 280
+      image.height = 280
+      const ctx = image.getContext('2d')
+
+      let isDrawing = false
+      let pos = { x: 0, y: 0 }
+
+      image.addEventListener('mousedown', (e) => {
+        isDrawing = true
+        getPos(e)
+      })
+
+      image.addEventListener('mouseup', (e) => {
+        isDrawing = false
+      })
+
+      image.addEventListener('mousemove', (e) => {
+        if (!isDrawing) return
+        ctx.beginPath()
+        ctx.fillStyle = '#0a0a0a'
+        ctx.strokeStyle = '#fafafa'
+        ctx.lineCap = 'round'
+        ctx.lineWidth = 20
+
+        ctx.moveTo(pos.x, pos.y)
+        getPos(e)
+        ctx.lineTo(pos.x, pos.y)
+        ctx.stroke()
+      })
+
+      const getPos = (e) => {
+        pos.x = e.clientX - image.offsetLeft
+        pos.y = e.clientY - image.offsetTop
+      }
+    },
+
+    async predict() {
+      /** @type {HTMLCanvasElement} */
+      const image = this.$refs.image
+
+      image.toBlob(async (blob) => {
+        const formData = new FormData()
+        formData.append('image', blob)
+
+        const res = await fetch('/predict', {
+          method: 'POST',
+          body: formData,
+        }).then((res) => res.json())
+
+        this.prediction = res.prediction
+      })
+    },
+
+    async clear() {
+      /** @type {HTMLCanvasElement} */
+      const image = this.$refs.image
+      const ctx = image.getContext('2d')
+      ctx.clearRect(0, 0, 280, 280)
+      ctx.fillStyle = '#0a0a0a'
+      ctx.fillRect(0, 0, 280, 280)
+      this.prediction = ''
+    },
+  },
+  mounted() {
+    this.initDrawings()
+  },
+}).mount('#app')
+```
+
+This JavaScript file sets up the canvas for drawing digits, captures the drawn image, sends it to the Flask server for prediction, and displays the predicted digit on the web UI. The `predict` method sends the drawn image to the Flask server for prediction, and the `clear` method clears the canvas and resets the prediction. The `initDrawings` method initializes the canvas for drawing. The canvas is set up to capture mouse events for drawing digits. The `mounted` lifecycle hook calls the `initDrawings` method when the Vue app is mounted. The Vue app is mounted on the `#app` element in the HTML template. You can run the Flask app by executing the following command in your terminal:
 
 ```bash
-python web.py
+python src/app.py
 ```
 
 This will start the Flask app, and you can access it in your browser at `http://localhost:5000`.
-
-> Note: you can download test images from Kaggle: [MNIST as JPG](https://www.kaggle.com/scolianni/mnistasjpg)
 
 ![Web UI](/assets/blog/cnn-web.png)
 
