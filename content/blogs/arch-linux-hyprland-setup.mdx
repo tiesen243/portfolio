@@ -193,24 +193,9 @@ Go to hypr config file to disable warning message.
 
 Get started to install dependencies for the system.
 
-<Callout type="info">
-You can run the following command to automatically setup all config files. Or you can follow the steps below to install each package manually.
-
-```bash
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/tiesen243/dotfiles/main/install.sh)"
-```
-
-</Callout>
-
 ### Installation
 
-1. Clone this repository
-
-```bash
-git clone git@github.com:tiesen243/dotfiles.git ~/dotfiles
-```
-
-2. Install `yay`
+1. Install `yay`
 
 ```bash
 pacman -S --needed git base-devel
@@ -223,7 +208,7 @@ rm -rf ~/yay
 3. Install all packages
 
 ```bash
-yay -S zsh hyprpaper hyprpicker hypridle hyprlock wlogout wofi pavucontrol brightnessctl playerctl floorp-bin cliphist wl-clipboard grim slurp thunar gvfs lsd bat nwg-look p7zip fastfetch btop commitizen-go localsend lazygit noto-fonts noto-fonts-cjk noto-fonts-emoji github-cli docker ripgrep
+yay -S zsh hyprpaper hyprpicker hypridle hyprlock pavucontrol brightnessctl playerctl vlc floorp-bin cliphist wl-clipboard grim slurp lsd bat nwg-look fastfetch btop github-cli docker ripgrep noto-fonts noto-fonts-cjk noto-fonts-emoji
 ```
 
 4. Install `oh-my-zsh`
@@ -241,7 +226,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
-5. Optional: Install `miniconda3` for python and `nvm` for nodejs development environment
+5. Optional: Install `miniconda3` for python and `nvm` for nodejs development environment and `obs-studio` for screen recording
 
 - Miniconda
 
@@ -269,23 +254,21 @@ fi
 # <<< bun initialize <<<
 ```
 
+- If you use `obs-studio`, you can install `wlrobs-hg` dependency for screen recording
+
+```bash
+yay -S obs-studio wlrobs-hg
+```
+
 ### Usage
 
 To apply my config, you can run the following command
 
 ```bash
 rm ~/.zshrc
-rm -rf ~/.oh-my-zsh/custom/themes/yuki.zsh-theme
-rm -rf ~/.config/{hypr,btop,nvim,kitty,dunst,wlogout,lazygit,fastfetch}
+rm -rf ~/.config/{dunst,fastfetch,hypr,kitty,nvim,wofi}
 
-ln -s ~/dotfiles/hypr ~/.config
-ln -s ~/dotfiles/btop ~/.config
-ln -s ~/dotfiles/nvim ~/.config
-ln -s ~/dotfiles/kitty ~/.config
-ln -s ~/dotfiles/dunst ~/.config
-ln -s ~/dotfiles/wlogout ~/.config
-ln -s ~/dotfiles/lazygit ~/.config
-ln -s ~/dotfiles/fastfetch ~/.config
+ln -s ~/dotfiles/{dunst,fastfetch,hypr,kitty,nvim,wofi} ~/.config
 ln -s ~/dotfiles/zsh/config.zsh ~/.zshrc
 ln -s ~/dotfiles/zsh/themes/yuki.zsh-theme ~/.oh-my-zsh/custom/themes
 ```
@@ -295,12 +278,12 @@ ln -s ~/dotfiles/zsh/themes/yuki.zsh-theme ~/.oh-my-zsh/custom/themes
 1. Change Themes
 
 ```bash
-cp -r ~/dotfiles/themes/.fonts ~/.local/share
+cp -r ~/dotfiles/customsize/* ~/.local/share
 ```
 
 Then, you can change the themes by `nwg-look` command
 
-2. Change Wallpaper in `~/dotfiles/hypr/misc/hyprpaper.conf`
+2. Change Wallpaper in `~/dotfiles/hypr/hyprpaper.conf`
 
 ```bash
 $path = /path/to/your/wallpaper
@@ -308,18 +291,18 @@ $path = /path/to/your/wallpaper
 
 Or change file in `~/dotfiles/assets/_background.png`
 
-### Notes
-
-- If you use `obs-studio`, you can install `wlrobs-hg` dependency for screen recording
-
-```bash
-yay -S obs-studio wlrobs-hg
-```
+## Note
 
 - If time is not correct on windows when you dual boot with Windows 11, you can run the following command to fix the time
 
 ```bash
-timedatectl set-local-rtc 1 --adjust-system-clock
+timedatectl set-local-rtc 1
+```
+
+- If you want to change the default shell to `zsh`, you can run the following command
+
+```bash
+chsh -s $(which zsh)
 ```
 
 ## Conclusion
@@ -331,3 +314,7 @@ Repository: [dotfiles](https://github.com/tiesen243/dotfiles)
 ## References
 
 Document: [Hyprland](https://hyprland.org/)
+
+```
+
+```
