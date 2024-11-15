@@ -1,4 +1,4 @@
-import { rehypeCodeDefaultOptions } from 'fumadocs-core/mdx-plugins'
+import { rehypeCodeDefaultOptions, remarkAdmonition } from 'fumadocs-core/mdx-plugins'
 import { remarkInstall } from 'fumadocs-docgen'
 import { defineConfig, defineDocs, frontmatterSchema } from 'fumadocs-mdx/config'
 import { z } from 'zod'
@@ -26,6 +26,6 @@ export default defineConfig({
       },
       transformers: rehypeCodeDefaultOptions.transformers,
     },
-    remarkPlugins: [[remarkInstall, { persist: { id: 'package-manager' } }]],
+    remarkPlugins: [[remarkInstall, { persist: { id: 'package-manager' } }], [remarkAdmonition]],
   },
 })

@@ -106,7 +106,7 @@ const nextjsConfig = [
 /** @type {import('typescript-eslint').Config} */
 export default [
   {
-    ignores: ['.next/**'],
+    ignores: ['.next/**', '.source/**'],
   },
   ...baseConfig,
   ...reactConfig,

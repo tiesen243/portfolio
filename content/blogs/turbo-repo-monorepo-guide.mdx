@@ -41,7 +41,7 @@ Turborepo is a tool that helps you manage monorepos more effectively. It provide
 To get started with Turborepo, you can using my template:
 
 ```bash
-npx create-turbo@latest -e https://github.com/tiesen243/create-yuki-turbo
+npx create-turbo@latest -e https://github.com/tiesen243/create-yuki-turbo --package-manager bun
 ```
 
 This will create a new Turborepo project with a basic configuration and project structure.
@@ -51,6 +51,9 @@ This will create a new Turborepo project with a basic configuration and project 
 A typical Turborepo project will have the following structure:
 
 ```text
+.github
+  └─ workflows
+      └─ CI to check lint, format and type
 apps
   └─ web
       ├─ Next.js 14
@@ -91,19 +94,37 @@ You can enable remote caching on `vercel` to share caches between your team memb
 
 {' '}
 
-<Tab value="npm">```bash npx turbo login npx turbo link ```</Tab>
+<Tab value="npm">
 
-{' '}
+```bash
+npx turbo login npx turbo link
+```
 
-<Tab value="yarn">```bash yarn turbo login yarn turbo link ```</Tab>
+</Tab>
 
-{' '}
+<Tab value="yarn">
 
-<Tab value="pnpm">```bash pnpm dlx turbo login pnpm dlx turbo link ```</Tab>
+```bash
+yarn turbo login yarn turbo link
+```
 
-{' '}
+</Tab>
 
-<Tab value="bun">```bash bun turbo login bun turbo link ```</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm turbo login pnpm turbo link
+```
+
+</Tab>
+
+<Tab value="bun">
+
+```bash
+bun turbo login bun turbo link
+```
+
+</Tab>
 
 </Tabs>
 
@@ -131,19 +152,37 @@ To create a new package in your Turborepo project, you can use the `ui-add` scri
 
 {' '}
 
-<Tab value="npm">```bash npm run ui-add ```</Tab>
+<Tab value="npm">
 
-{' '}
+```bash
+npm run ui-add
+```
 
-<Tab value="yarn">```bash yarn ui-add ```</Tab>
+</Tab>
 
-{' '}
+<Tab value="yarn">
 
-<Tab value="pnpm">```bash pnpm run ui-add ```</Tab>
+```bash
+yarn ui-add
+```
 
-{' '}
+</Tab>
 
-<Tab value="bun">```bash bun ui-add ```</Tab>
+<Tab value="pnpm">
+
+```bash
+pnpm ui-add
+```
+
+</Tab>
+
+<Tab value="bun">
+
+```bash
+bun ui-add
+```
+
+</Tab>
 
 </Tabs>
 
@@ -155,19 +194,41 @@ To create a new package in your Turborepo project, you can use the following com
 
 {' '}
 
-<Tab value="npm">```bash npx turbo gen init ```</Tab>
+<Tab value="npm">
+
+```bash
+npm turbo gen init
+```
+
+</Tab>
 
 {' '}
 
-<Tab value="yarn">```bash yarn turbo gen init ```</Tab>
+<Tab value="yarn">
+
+```bash
+yarn turbo gen init
+```
+
+</Tab>
 
 {' '}
 
-<Tab value="pnpm">```bash pnpm dlx turbo gen init ```</Tab>
+<Tab value="pnpm">
 
-{' '}
+```bash
+pnpm turbo gen init
+```
 
-<Tab value="bun">```bash bun turbo gen init ```</Tab>
+</Tab>
+
+<Tab value="bun">
+
+```bash
+bun turbo gen init
+```
+
+</Tab>
 
 </Tabs>
 
