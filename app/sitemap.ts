@@ -1,8 +1,8 @@
 import type { MetadataRoute } from 'next'
 
-import { source } from '@/content/source'
-import { getBaseUrl } from '@/lib/utils'
-import { projects } from './projects/_data'
+import { projects } from '@/lib/data'
+import { getBaseUrl } from '@/lib/seo'
+import { source } from '@/lib/source'
 
 interface Route {
   url: string
@@ -11,13 +11,13 @@ interface Route {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch static routes
-  const routesMap: Route[] = ['', 'contact', 'project'].map((route) => ({
+  const routesMap: Route[] = ['', 'contact', 'projects'].map((route) => ({
     url: `${getBaseUrl()}/${route}`,
     lastModified: new Date().toISOString(),
   }))
 
   const projectRoutes = projects.map((project) => ({
-    url: `${getBaseUrl()}/project/${project.slug}`,
+    url: `${getBaseUrl()}/projects/${project.slug}`,
     lastModified: new Date().toISOString(),
   }))
 

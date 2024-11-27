@@ -1,31 +1,29 @@
-import { rehypeCodeDefaultOptions, remarkAdmonition } from 'fumadocs-core/mdx-plugins'
 import { remarkInstall } from 'fumadocs-docgen'
 import { defineConfig, defineDocs, frontmatterSchema } from 'fumadocs-mdx/config'
 import { z } from 'zod'
 
 export const { docs, meta } = defineDocs({
+  dir: 'content/blog',
   docs: {
     type: 'doc',
-    dir: 'content/blogs',
     schema: frontmatterSchema.extend({
-      image: z.string().optional(),
       publishedAt: z.date(),
       tags: z.array(z.string()),
+      image: z.string().optional(),
     }),
   },
 })
 
 export default defineConfig({
+  lastModifiedTime: 'git',
   generateManifest: true,
   mdxOptions: {
+    remarkPlugins: [remarkInstall],
     rehypeCodeOptions: {
-      inline: 'tailing-curly-colon',
       themes: {
         light: 'github-light-default',
         dark: 'github-dark-default',
       },
-      transformers: rehypeCodeDefaultOptions.transformers,
     },
-    remarkPlugins: [[remarkInstall, { persist: { id: 'package-manager' } }], [remarkAdmonition]],
   },
 })

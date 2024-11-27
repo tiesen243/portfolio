@@ -1,18 +1,14 @@
 import { createMDX } from 'fumadocs-mdx/next'
 
-/**
- * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
- * for Docker builds.
- */
 await import('./env.js')
 
+const withMDX = createMDX()
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const config = {
   reactStrictMode: true,
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
 }
 
-const withMDX = createMDX({})
-
-export default withMDX(nextConfig)
+export default withMDX(config)

@@ -1,9 +1,8 @@
+import { Activity, FlaskConical, GraduationCap, Heart, Notebook } from 'lucide-react'
 import Link from 'next/link'
-import { Activity, FlaskConical, GraduationCap, Heart, Notebook, PanelsTopLeft } from 'lucide-react'
 
-import { projects } from '@/app/projects/_data'
 import { Typography } from '@/components/ui/typography'
-import { education, experiences, hobbies, skills, stuffs } from './data'
+import { education, experiences, hobbies, skills, stuffs } from '@/lib/data'
 
 export const Information: React.FC = () =>
   informations.map((info) => (
@@ -20,23 +19,6 @@ export const Information: React.FC = () =>
   ))
 
 const informations = [
-  {
-    id: 'education',
-    title: 'Education',
-    icon: GraduationCap,
-    content: (
-      <article className="flex flex-col gap-2">
-        {education.map((edu) => (
-          <div key={edu.id} className="space-y-1">
-            <time className="text-muted-foreground">{edu.time}</time>
-            <Typography level="h4">{edu.school}</Typography>
-            {edu.major && <p className="leading-7">{edu.major}</p>}
-            {edu.gpa && <p className="leading-7">GPA: {edu.gpa}</p>}
-          </div>
-        ))}
-      </article>
-    ),
-  },
   {
     id: 'skills',
     title: 'Skills',
@@ -59,6 +41,23 @@ const informations = [
     ),
   },
   {
+    id: 'education',
+    title: 'Education',
+    icon: GraduationCap,
+    content: (
+      <article className="flex flex-col gap-2">
+        {education.map((edu) => (
+          <div key={edu.id} className="space-y-1">
+            <time className="text-muted-foreground">{edu.time}</time>
+            <Typography level="h4">{edu.school}</Typography>
+            {edu.major && <p className="leading-7">{edu.major}</p>}
+            {edu.gpa && <p className="leading-7">GPA: {edu.gpa}</p>}
+          </div>
+        ))}
+      </article>
+    ),
+  },
+  {
     id: 'experiences',
     title: 'Experiences',
     icon: Activity,
@@ -71,27 +70,6 @@ const informations = [
             <p className="leading-7">{exp.description}</p>
           </div>
         ))}
-      </article>
-    ),
-  },
-  {
-    id: 'projects',
-    title: 'Projects',
-    icon: PanelsTopLeft,
-    content: (
-      <article className="flex flex-col gap-2">
-        {projects.slice(0, 3).map((project) => (
-          <Link key={project.slug} href={`/projects/${project.slug}`}>
-            <Typography level="h4" className="hover:underline">
-              {project.title}
-            </Typography>
-            <p className="leading-7 text-muted-foreground">{project.preview}</p>
-          </Link>
-        ))}
-
-        <Link href="/projects" className="hover:underline">
-          <Typography level="h4">View all projects</Typography>
-        </Link>
       </article>
     ),
   },

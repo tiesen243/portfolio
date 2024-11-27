@@ -1,13 +1,13 @@
 import { Card, Cards } from 'fumadocs-ui/components/card'
 import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
 
+import { designs, projects } from '@/lib/data'
 import { seo } from '@/lib/seo'
-import { designs, projects } from './_data'
 
-const Page = () => (
+export default () => (
   <main className="container flex-1 py-4">
     <section>
-      <article className="prose prose-neutral mb-4 dark:prose-invert">
+      <article className="prose-neutral dark:prose-invert prose mb-4">
         <h1 className="mb-0">Projects</h1>
         <p>
           Here are some of the projects I've worked on. Click on the cards to view more details. You
@@ -28,7 +28,7 @@ const Page = () => (
     </section>
 
     <section className="mt-8 flex flex-col gap-4">
-      <article className="prose prose-neutral dark:prose-invert">
+      <article className="prose-neutral dark:prose-invert prose">
         <h1 className="mb-0">Designs</h1>
         <p>
           Here are some of the designs I've created. Click on the images to view them in full size.
@@ -48,8 +48,6 @@ const Page = () => (
     </section>
   </main>
 )
-
-export default Page
 
 export const metadata = seo({
   title: 'Projects',

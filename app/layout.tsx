@@ -1,30 +1,23 @@
-import '@/app/globals.css'
+import '@/app/global.css'
 
-import { Analytics } from '@vercel/analytics/next'
 import { cn } from 'fumadocs-ui/components/api'
 import { RootProvider } from 'fumadocs-ui/provider'
 
-import { Footer } from '@/components/footer'
 import { geistMono, geistSans } from '@/lib/fonts'
 import { seo } from '@/lib/seo'
 
-const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
+export default ({ children }: { children: React.ReactNode }) => (
   <html lang="en" suppressHydrationWarning>
     <body
-      className={cn('flex min-h-dvh flex-col font-sans', geistSans.variable, geistMono.variable)}
+      className={cn(
+        'flex min-h-screen flex-col font-sans antialiased',
+        geistSans.variable,
+        geistMono.variable,
+      )}
     >
-      <RootProvider
-        theme={{ attribute: 'class', defaultTheme: 'dark', disableTransitionOnChange: true }}
-      >
-        {children}
-        <Footer />
-      </RootProvider>
-
-      <Analytics />
+      <RootProvider>{children}</RootProvider>
     </body>
   </html>
 )
-
-export default RootLayout
 
 export const metadata = seo({})

@@ -3,10 +3,9 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ChevronLeft, Github, Globe2 } from 'lucide-react'
 
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { projects } from '@/lib/data'
 import { seo } from '@/lib/seo'
-import { projects } from '../_data'
 
 interface Props {
   params: { slug: string }
@@ -22,15 +21,15 @@ const Page: NextPage<Props> = ({ params }) => {
         <ChevronLeft /> All Projects
       </Link>
 
-      <article className="prose prose-lg prose-neutral flex-1 dark:prose-invert">
+      <article className="prose-lg prose-neutral dark:prose-invert prose flex-1">
         <h1>{project.title}</h1>
         <p className="mb-2">{project.description}</p>
 
         <div>
           {project.tags.map((tag) => (
-            <Badge key={tag} variant="outline" className="mr-2 cursor-default">
+            <span key={tag} className="mr-2 rounded-full border px-2 py-1 text-sm">
               {tag}
-            </Badge>
+            </span>
           ))}
         </div>
       </article>

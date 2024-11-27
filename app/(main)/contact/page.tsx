@@ -1,12 +1,10 @@
-import type { NextPage } from 'next'
 import { Card, Cards } from 'fumadocs-ui/components/card'
-import { Mail, MapPin, Phone } from 'lucide-react'
+import { Mail, MapPin } from 'lucide-react'
 
-import { socials } from '@/components/footer'
-import { seo } from '@/lib/seo'
+import { seo, socials } from '@/lib/seo'
 import { ContactForm } from './_form'
 
-const Page: NextPage = () => (
+export default () => (
   <main className="container flex-1 py-4">
     <h1 className="mb-8 text-center text-4xl font-bold">Contact Me</h1>
 
@@ -18,15 +16,12 @@ const Page: NextPage = () => (
 
       <div className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
         <h2 className="mb-4 text-2xl font-semibold">Contact Information</h2>
-        <div className="space-y-4">
+        <div className="space-y-8">
           <div className="flex items-center">
             <MapPin className="mr-2 h-5 w-5 text-muted-foreground" />
             <span>Sai Gon, Vietnam, 700000</span>
           </div>
-          <div className="flex items-center">
-            <Phone className="mr-2 h-5 w-5 text-muted-foreground" />
-            <span>+1 (555) 123-4567</span>
-          </div>
+
           <div className="flex items-center">
             <Mail className="mr-2 h-5 w-5 text-muted-foreground" />
             <span>ttien56906@gmail.com</span>
@@ -47,8 +42,6 @@ const Page: NextPage = () => (
     </div>
   </main>
 )
-
-export default Page
 
 export const metadata = seo({
   title: 'Contact',

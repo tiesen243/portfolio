@@ -1,54 +1,26 @@
-# Create Yuki App
+# tiesen
 
-A Next.js template with TypeScript, Tailwind CSS, ESLint and Prettier.
+This is a Next.js application generated with
+[Create Fumadocs](https://github.com/fuma-nama/fumadocs).
 
-## Getting Started
-
-### Create a new Next.js app
-
-```bash
-# using npm
-npx create-next-app@latest --example https://github.com/tiesen243/create-yuki-app
-
-# using yarn
-yarn create next-app@latest --example https://github.com/tiesen243/create-yuki-app
-
-# using pnpm
-pnpx create-next-app@latest --example https://github.com/tiesen243/create-yuki-app
-
-# using bun
-bunx --bun create-next-app@latest --example https://github.com/tiesen243/create-yuki-app
-```
-
-### Create `.env` file
+Run development server:
 
 ```bash
-cp .env.example .env
-```
-
-### Start the development server
-
-```bash
-# using npm
 npm run dev
-
-# using yarn
-yarn dev
-
-# using pnpm
+# or
 pnpm dev
-
-# using bun
-bun dev
+# or
+yarn dev
 ```
 
-## Features
+Open http://localhost:3000 with your browser to see the result.
 
-- TypeScript
-- ESLint
-- Prettier
-- Tailwind CSS
+## Learn More
 
-## License
+To learn more about Next.js and Fumadocs, take a look at the following
+resources:
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
+  features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Fumadocs](https://fumadocs.vercel.app) - learn about Fumadocs
