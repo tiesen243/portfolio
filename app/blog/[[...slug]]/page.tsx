@@ -6,7 +6,7 @@ import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/page
 import { metadataImage } from '@/lib/seo'
 import { source } from '@/lib/source'
 
-export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
+export default async (props: { params: Promise<{ slug?: string[] }> }) => {
   const params = await props.params
   const page = source.getPage(params.slug)
   if (!page) notFound()

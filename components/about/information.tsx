@@ -1,5 +1,5 @@
-import { Activity, FlaskConical, GraduationCap, Heart, Notebook } from 'lucide-react'
 import Link from 'next/link'
+import { Activity, FlaskConical, GraduationCap, Heart, Notebook } from 'lucide-react'
 
 import { Typography } from '@/components/ui/typography'
 import { education, experiences, hobbies, skills, stuffs } from '@/lib/data'

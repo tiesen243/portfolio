@@ -1,24 +1,21 @@
-import type { NextPage, ResolvingMetadata } from 'next'
+import type { ResolvingMetadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ChevronLeft, Github, Globe2 } from 'lucide-react'
+import { ChevronLeftIcon, GithubIcon, Globe2Icon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { projects } from '@/lib/data'
 import { seo } from '@/lib/seo'
 
-interface Props {
-  params: { slug: string }
-}
-
-const Page: NextPage<Props> = ({ params }) => {
-  const project = projects.find((project) => project.slug === params.slug)
+export default async ({ params }: { params: Promise<{ slug?: string }> }) => {
+  const slug = (await params).slug
+  const project = projects.find((project) => project.slug === slug)
   if (!project) notFound()
 
   return (
     <main className="container flex flex-1 flex-col py-4">
       <Link href="/projects" className="mb-4 flex gap-2">
-        <ChevronLeft /> All Projects
+        <ChevronLeftIcon /> All Projects
       </Link>
 
       <article className="prose-lg prose-neutral dark:prose-invert prose flex-1">
@@ -38,14 +35,14 @@ const Page: NextPage<Props> = ({ params }) => {
         {project.link && (
           <Button size="sm" variant="default" asChild>
             <a href={project.link} target="_blank" rel="noopener noreferrer">
-              <Globe2 className="mr-2" /> Visit Site
+              <Globe2Icon className="mr-2" /> Visit Site
             </a>
           </Button>
         )}
 
         <Button size="sm" variant="outline" asChild>
           <a href={project.repo} target="_blank" rel="noopener noreferrer">
-            <Github className="mr-2" /> View Source
+            <GithubIcon className="mr-2" /> View Source
           </a>
         </Button>
       </div>
@@ -53,13 +50,15 @@ const Page: NextPage<Props> = ({ params }) => {
   )
 }
 
-export default Page
-
-export async function generateMetadata({ params }: Props, parent: ResolvingMetadata) {
-  const project = projects.find((project) => project.slug === params.slug)
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug?: string }> },
+  parent: ResolvingMetadata,
+) {
+  const slug = (await params).slug
+  const project = projects.find((project) => project.slug === slug)
   if (!project) return notFound()
 
-  const previousImages = (await parent).openGraph?.images ?? []
+  const previousImages = ((await parent).openGraph?.images ?? []) as string[]
 
   return seo({
     title: project.title,

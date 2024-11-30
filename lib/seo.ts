@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { createMetadataImage } from 'fumadocs-core/server'
-import * as icons from 'lucide-react'
 
 import { env } from '@/env'
 import { source } from '@/lib/source'
@@ -47,36 +46,3 @@ export function getBaseUrl() {
   // eslint-disable-next-line no-restricted-properties
   return `http://localhost:${process.env.PORT ?? 3000}`
 }
-
-export const socials = [
-  {
-    label: 'Github',
-    href: 'https://github.com/tiesen243',
-    icon: icons.GithubIcon,
-  },
-  {
-    label: 'Linkedin',
-    href: 'https://www.linkedin.com/in/tiesen243/',
-    icon: icons.LinkedinIcon,
-  },
-  {
-    label: 'Facebook',
-    href: 'https://www.facebook.com/tiesen243.tsx/',
-    icon: icons.FacebookIcon,
-  },
-  {
-    label: 'Twitter',
-    href: 'https://twitter.com/tiesen243',
-    icon: icons.TwitterIcon,
-  },
-  {
-    label: 'Youtube',
-    href: 'https://www.youtube.com/@tiesen243',
-    icon: icons.YoutubeIcon,
-  },
-  {
-    label: 'Gravatar',
-    href: 'https://gravatar.com/tiesen243',
-    icon: icons.ListCollapseIcon,
-  },
-]

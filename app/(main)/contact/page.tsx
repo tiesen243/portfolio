@@ -1,7 +1,7 @@
 import { Card, Cards } from 'fumadocs-ui/components/card'
-import { Mail, MapPin } from 'lucide-react'
+import * as icons from 'lucide-react'
 
-import { seo, socials } from '@/lib/seo'
+import { seo } from '@/lib/seo'
 import { ContactForm } from './_form'
 
 export default () => (
@@ -18,12 +18,12 @@ export default () => (
         <h2 className="mb-4 text-2xl font-semibold">Contact Information</h2>
         <div className="space-y-8">
           <div className="flex items-center">
-            <MapPin className="mr-2 h-5 w-5 text-muted-foreground" />
+            <icons.MapPin className="mr-2 h-5 w-5 text-muted-foreground" />
             <span>Sai Gon, Vietnam, 700000</span>
           </div>
 
           <div className="flex items-center">
-            <Mail className="mr-2 h-5 w-5 text-muted-foreground" />
+            <icons.Mail className="mr-2 h-5 w-5 text-muted-foreground" />
             <span>ttien56906@gmail.com</span>
           </div>
 
@@ -52,3 +52,36 @@ export const metadata = seo({
   ],
   url: '/contact',
 })
+
+const socials = [
+  {
+    label: 'Github',
+    href: 'https://github.com/tiesen243',
+    icon: icons.GithubIcon,
+  },
+  {
+    label: 'Linkedin',
+    href: 'https://www.linkedin.com/in/tiesen243/',
+    icon: icons.LinkedinIcon,
+  },
+  {
+    label: 'Facebook',
+    href: 'https://www.facebook.com/tiesen243.tsx/',
+    icon: icons.FacebookIcon,
+  },
+  {
+    label: 'Twitter',
+    href: 'https://twitter.com/tiesen243',
+    icon: icons.TwitterIcon,
+  },
+  {
+    label: 'Youtube',
+    href: 'https://www.youtube.com/@tiesen243',
+    icon: icons.YoutubeIcon,
+  },
+  {
+    label: 'Gravatar',
+    href: 'https://gravatar.com/tiesen243',
+    icon: icons.ListCollapseIcon,
+  },
+]
