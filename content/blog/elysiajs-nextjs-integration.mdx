@@ -140,7 +140,7 @@ const createContext = new Elysia()
  * You can remove this if you don't like it, but it can help catch unwanted waterfalls by simulating
  * network latency that would occur in production but not in local development.
  */
-const timmingMiddleware = new Elysia()
+const timingMiddleware = new Elysia()
   .state({ start: 0 })
   .onBeforeHandle(({ store }) => (store.start = Date.now()))
   .onAfterHandle(({ path, store: { start } }) =>
@@ -159,7 +159,7 @@ export const createElysia = <P extends string, S extends boolean>(options?: Elys
     aot: true,
   })
     .use(createContext)
-    .use(timmingMiddleware)
+    .use(timingMiddleware)
 ```
 
 3. Create a new API endpoint

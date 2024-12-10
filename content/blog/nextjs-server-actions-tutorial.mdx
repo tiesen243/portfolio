@@ -264,7 +264,7 @@ const action = nsa
  * You can remove this if you don't like it, but it can help catch unwanted waterfalls by simulating
  * network latency that would occur in production but not in local development.
  */
-const timmingMiddleware = nsa
+const timingMiddleware = nsa
   .createMiddleware<{ metadata: { name: string } }>()
   .define(async ({ next, metadata }) => {
     const start = performance.now()
@@ -284,7 +284,7 @@ const timmingMiddleware = nsa
  *
  * This action is available to anyone, regardless of whether they are logged in or not.
  *  */
-export const publicAction = action.use(timmingMiddleware)
+export const publicAction = action.use(timingMiddleware)
 
 /**
  * Protected (authenticated) action
@@ -293,7 +293,7 @@ export const publicAction = action.use(timmingMiddleware)
  * the session is valid and guarantees `ctx.session` and `ctx.user` is not null.
  */
 export const protectedAction = action
-  .use(timmingMiddleware)
+  .use(timingMiddleware)
   .use(async ({ next, ctx: { session } }) => {
     if (!session) throw new Error('You must be logged in to perform this action')
     return next({ ctx: { user, session } })
