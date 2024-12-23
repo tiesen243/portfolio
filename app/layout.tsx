@@ -1,10 +1,13 @@
 import '@/app/global.css'
 
+import { Geist, Geist_Mono } from 'next/font/google'
 import { cn } from 'fumadocs-ui/components/api'
 import { RootProvider } from 'fumadocs-ui/provider'
 
-import { geistMono, geistSans } from '@/lib/fonts'
 import { seo } from '@/lib/seo'
+
+const geistSans = Geist({ variable: '--font-geist-sans' })
+const geistMono = Geist_Mono({ variable: '--font-geist-mono' })
 
 export default ({ children }: { children: React.ReactNode }) => (
   <html lang="en" suppressHydrationWarning>

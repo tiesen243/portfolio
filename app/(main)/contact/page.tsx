@@ -66,7 +66,7 @@ const socials = [
   },
   {
     label: 'Facebook',
-    href: 'https://www.facebook.com/tiesen243.tsx/',
+    href: 'https://www.facebook.com/tiesen.id.vn',
     icon: icons.FacebookIcon,
   },
   {

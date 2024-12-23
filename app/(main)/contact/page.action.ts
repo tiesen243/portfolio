@@ -8,10 +8,10 @@ import { env } from '@/env'
 const resend = new Resend(env.RESEND_KEY)
 
 const schema = z.object({
-  name: z.string().min(1, "Name can't be empty"),
+  name: z.string().min(1, 'Name can not be empty'),
   email: z.string().email('Invalid email address'),
-  subject: z.string().optional(),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
+  subject: z.string().min(1, 'Subject can not be empty'),
+  message: z.string().min(1, 'Message can not be empty'),
 })
 
 export const sendEmail = async (formData: FormData) => {
@@ -22,7 +22,7 @@ export const sendEmail = async (formData: FormData) => {
     from: 'Contact Form <no-reply@tiesen.id.vn>',
     to: 'ttien56906@gmail.com',
     replyTo: parsed.data.email,
-    subject: String(parsed.data.subject ?? 'New Message from Contact Form'),
+    subject: parsed.data.subject,
     text: `Name: ${parsed.data.name}\nEmail: ${parsed.data.email}\n\n${parsed.data.message}`,
   })
   if (res.error) return { message: res.error.message }
