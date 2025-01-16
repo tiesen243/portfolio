@@ -33,7 +33,7 @@ To get started with Arctic, you can install using following command:
 
 First, let's set up the Prisma schema. Create a new file called `schema.prisma` and add the following code:
 
-```prisma
+```prisma title="prisma/schema.prisma"
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["driverAdapters"]
@@ -80,7 +80,7 @@ model Session {
 
 Then, add some scripts to your `package.json`:
 
-```json
+```json title="package.json"
 {
   "scripts": {
     "db:generate": "prisma generate",
