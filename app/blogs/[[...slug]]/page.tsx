@@ -3,7 +3,7 @@ import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
 import defaultMdxComponents from 'fumadocs-ui/mdx'
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/page'
 
-import { metadataImage } from '@/lib/metadata'
+import { createMetadata, metadataImage } from '@/lib/metadata'
 import { source } from '@/lib/source'
 
 export default async (props: { params: Promise<{ slug?: string[] }> }) => {
@@ -33,8 +33,12 @@ export const generateMetadata = async (props: {
   const page = source.getPage(params.slug)
   if (!page) notFound()
 
-  return metadataImage.withImage(page.slugs, {
-    title: `Tiesen | ${page.data.title}`,
-    description: page.data.description,
-  })
+  return metadataImage.withImage(
+    page.slugs,
+    createMetadata({
+      title: page.data.title,
+      description: page.data.description,
+      openGraph: { url: page.url }
+    }),
+  )
 }

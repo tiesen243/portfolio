@@ -10,7 +10,7 @@ export const createMetadata = (
   const siteName = 'Tiesen'
   const description = "I'm Tran Tien, a Weeb Developer who loves to code and watch anime."
   const url = override.openGraph?.url
-    ? `${getBaseUrl()}/${override.openGraph.url}`
+    ? `${getBaseUrl()}${override.openGraph.url}`
     : getBaseUrl()
   const images = Array.isArray(override.openGraph?.images)
     ? override.openGraph.images

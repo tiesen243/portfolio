@@ -19,7 +19,7 @@ export const baseOptions: BaseLayoutProps = {
     },
     {
       url: '/blogs',
-      text: 'Blog',
+      text: 'Blogs',
       icon: <RssIcon />,
     },
     {

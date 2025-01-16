@@ -6,7 +6,6 @@ import { RootProvider } from 'fumadocs-ui/provider'
 
 import { createMetadata } from '@/lib/metadata'
 
-export const metadata = createMetadata({})
 
 const geistSans = Geist({ variable: '--font-sans', subsets: ['latin'] })
 const geistMono = Geist_Mono({ variable: '--font-mono', subsets: ['latin'] })
@@ -24,3 +23,5 @@ export default ({ children }: Readonly<{ children: React.ReactNode }>) => (
     </body>
   </html>
 )
+
+export const metadata = createMetadata({})
