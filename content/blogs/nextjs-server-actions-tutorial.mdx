@@ -112,7 +112,10 @@ import { db } from '@/server/db'
 const adapter = new PrismaAdapter(db.session, db.user)
 
 export const lucia = new Lucia(adapter, {
-  sessionCookie: { expires: false, attributes: { secure: env.NODE_ENV === 'production' } },
+  sessionCookie: {
+    expires: false,
+    attributes: { secure: env.NODE_ENV === 'production' },
+  },
   getUserAttributes: (attr) => attr,
 })
 
@@ -130,8 +133,8 @@ Next, let's create a new `auth` function to get the current user:
 import 'server-only'
 
 import type { Session, User } from '@prisma/client'
-import { cookies } from 'next/headers'
 import { cache } from 'react'
+import { cookies } from 'next/headers'
 
 import { lucia } from '@/server/auth/lucia'
 
@@ -246,7 +249,8 @@ const action = nsa
   .createSafeActionClient({
     validationAdapter: zodAdapter(),
     defaultValidationErrorsShape: 'flattened',
-    defineMetadataSchema: () => z.object({ name: z.string().min(1, 'Action name is required') }),
+    defineMetadataSchema: () =>
+      z.object({ name: z.string().min(1, 'Action name is required') }),
     handleServerError: ({ message }, { metadata }) => {
       if (message) {
         console.error(`[Server Error] ${metadata.name} threw an error: ${message}`)
@@ -366,17 +370,22 @@ export const signIn = publicAction
     return { success: true }
   })
 
-export const logout = protectedAction.metadata({ name: 'logout' }).action(async ({ ctx }) => {
-  await lucia.invalidateSession(ctx.session.id)
-  const sessionCookie = lucia.createBlankSessionCookie()
-  cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
+export const logout = protectedAction
+  .metadata({ name: 'logout' })
+  .action(async ({ ctx }) => {
+    await lucia.invalidateSession(ctx.session.id)
+    const sessionCookie = lucia.createBlankSessionCookie()
+    cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
 
-  return { success: true }
-})
+    return { success: true }
+  })
 
 const passwordSchema = zfd
   .formData({
-    currentPassword: z.string().min(8, 'Password must be at least 8 characters').optional(),
+    currentPassword: z
+      .string()
+      .min(8, 'Password must be at least 8 characters')
+      .optional(),
     password: z.string().min(8, 'Password must be at least 8 characters'),
     confirmPassword: z.string().min(8, 'Password must be at least 8 characters'),
   })
@@ -390,7 +399,10 @@ export const createPassword = protectedAction
   .schema(passwordSchema)
   .action(async ({ parsedInput: { password }, ctx }) => {
     const hashedPassword = await new Scrypt().hash(password)
-    await ctx.db.user.update({ where: { id: ctx.user.id }, data: { password: hashedPassword } })
+    await ctx.db.user.update({
+      where: { id: ctx.user.id },
+      data: { password: hashedPassword },
+    })
 
     return { success: true }
   })
@@ -405,7 +417,10 @@ export const changePassword = protectedAction
     if (!isValid) throw new Error('Current password is incorrect')
 
     const hashedPassword = await new Scrypt().hash(password)
-    await ctx.db.user.update({ where: { id: ctx.user.id }, data: { password: hashedPassword } })
+    await ctx.db.user.update({
+      where: { id: ctx.user.id },
+      data: { password: hashedPassword },
+    })
 
     return { success: true }
   })
@@ -473,7 +488,11 @@ export const SignUpForm: React.FC = () => {
 
       <p className="text-center text-sm">
         Already have an account?{' '}
-        <button type="button" className="hover:underline" onClick={() => router.push('/sign-in')}>
+        <button
+          type="button"
+          className="hover:underline"
+          onClick={() => router.push('/sign-in')}
+        >
           Login
         </button>
       </p>
@@ -483,8 +502,18 @@ export const SignUpForm: React.FC = () => {
 
 const fields = [
   { name: 'userName' as const, type: 'text', label: 'User Name', placeholder: 'Yuki' },
-  { name: 'email' as const, type: 'email', label: 'Email', placeholder: 'yuki@tiesen.id.vn' },
-  { name: 'password' as const, type: 'password', label: 'Password', placeholder: '********' },
+  {
+    name: 'email' as const,
+    type: 'email',
+    label: 'Email',
+    placeholder: 'yuki@tiesen.id.vn',
+  },
+  {
+    name: 'password' as const,
+    type: 'password',
+    label: 'Password',
+    placeholder: '********',
+  },
   {
     name: 'confirmPassword' as const,
     type: 'password',

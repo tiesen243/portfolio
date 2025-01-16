@@ -153,7 +153,9 @@ const timingMiddleware = new Elysia()
  *
  * This is where the trpc api is initialized, connecting the context and middleware to the server.
  */
-export const createElysia = <P extends string, S extends boolean>(options?: ElysiaConfig<P, S>) =>
+export const createElysia = <P extends string, S extends boolean>(
+  options?: ElysiaConfig<P, S>,
+) =>
   new Elysia({
     ...options,
     aot: true,

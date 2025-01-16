@@ -1,5 +1,5 @@
+import type { InferMetaType, InferPageType } from 'fumadocs-core/source'
 import { createElement } from 'react'
-import type { InferMetaType, InferPageType} from 'fumadocs-core/source';
 import { loader } from 'fumadocs-core/source'
 import { createMDXSource } from 'fumadocs-mdx'
 import { icons } from 'lucide-react'

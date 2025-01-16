@@ -1,10 +1,10 @@
 import { toRuntime, toRuntimeAsync } from "fumadocs-mdx"
-import * as docs_0 from "../content/blogs/arch-linux-hyprland-setup.mdx?collection=docs&hash=a4883838b7235344b45214daf68d394e"
-import * as docs_1 from "../content/blogs/elysiajs-nextjs-integration.mdx?collection=docs&hash=a4883838b7235344b45214daf68d394e"
-import * as docs_2 from "../content/blogs/index.mdx?collection=docs&hash=a4883838b7235344b45214daf68d394e"
-import * as docs_3 from "../content/blogs/nextjs-server-actions-tutorial.mdx?collection=docs&hash=a4883838b7235344b45214daf68d394e"
-import * as docs_4 from "../content/blogs/pytorch-cnn-image-classification.mdx?collection=docs&hash=a4883838b7235344b45214daf68d394e"
-import * as docs_5 from "../content/blogs/react-hook-form-guide.mdx?collection=docs&hash=a4883838b7235344b45214daf68d394e"
-import * as docs_6 from "../content/blogs/turbo-repo-monorepo-guide.mdx?collection=docs&hash=a4883838b7235344b45214daf68d394e"
+import * as docs_0 from "../content/blogs/arch-linux-hyprland-setup.mdx?collection=docs&hash=376c8e55b72ac0c331542278861a6c47"
+import * as docs_1 from "../content/blogs/elysiajs-nextjs-integration.mdx?collection=docs&hash=376c8e55b72ac0c331542278861a6c47"
+import * as docs_2 from "../content/blogs/index.mdx?collection=docs&hash=376c8e55b72ac0c331542278861a6c47"
+import * as docs_3 from "../content/blogs/nextjs-server-actions-tutorial.mdx?collection=docs&hash=376c8e55b72ac0c331542278861a6c47"
+import * as docs_4 from "../content/blogs/pytorch-cnn-image-classification.mdx?collection=docs&hash=376c8e55b72ac0c331542278861a6c47"
+import * as docs_5 from "../content/blogs/react-hook-form-guide.mdx?collection=docs&hash=376c8e55b72ac0c331542278861a6c47"
+import * as docs_6 from "../content/blogs/turbo-repo-monorepo-guide.mdx?collection=docs&hash=376c8e55b72ac0c331542278861a6c47"
 export const docs = [toRuntime("doc", docs_0, {"path":"arch-linux-hyprland-setup.mdx","absolutePath":"/home/tiesen/Documents/portfolio/content/blogs/arch-linux-hyprland-setup.mdx"}), toRuntime("doc", docs_1, {"path":"elysiajs-nextjs-integration.mdx","absolutePath":"/home/tiesen/Documents/portfolio/content/blogs/elysiajs-nextjs-integration.mdx"}), toRuntime("doc", docs_2, {"path":"index.mdx","absolutePath":"/home/tiesen/Documents/portfolio/content/blogs/index.mdx"}), toRuntime("doc", docs_3, {"path":"nextjs-server-actions-tutorial.mdx","absolutePath":"/home/tiesen/Documents/portfolio/content/blogs/nextjs-server-actions-tutorial.mdx"}), toRuntime("doc", docs_4, {"path":"pytorch-cnn-image-classification.mdx","absolutePath":"/home/tiesen/Documents/portfolio/content/blogs/pytorch-cnn-image-classification.mdx"}), toRuntime("doc", docs_5, {"path":"react-hook-form-guide.mdx","absolutePath":"/home/tiesen/Documents/portfolio/content/blogs/react-hook-form-guide.mdx"}), toRuntime("doc", docs_6, {"path":"turbo-repo-monorepo-guide.mdx","absolutePath":"/home/tiesen/Documents/portfolio/content/blogs/turbo-repo-monorepo-guide.mdx"})];
 export const meta = [];
