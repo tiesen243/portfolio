@@ -26,7 +26,7 @@ export const Introduction = () => (
           <strong>Date of Birth:</strong> June 22, 2004
         </li>
         <li>
-          <strong>Location:</strong> Sai Gon, Viet Name
+          <strong>Location:</strong> Sai Gon, Viet Nam
         </li>
         <li>
           <strong>Languages:</strong> Vietnamese, English
@@ -39,7 +39,7 @@ export const Introduction = () => (
       alt="Avatar"
       width={400}
       height={400}
-      className="mx-auto rounded-lg md:mx-0"
+      className="mx-auto rounded-lg shadow-lg md:mx-0"
       priority
     />
   </div>
