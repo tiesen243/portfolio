@@ -60,7 +60,6 @@ model User {
 model Account {
   provider     String
   providerId   String
-  providerName String
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
@@ -260,8 +259,6 @@ class OAuth {
       case 'discord':
         await this.discord(tokens.accessToken())
         break
-      default:
-        throw new Error(`Provider ${this.name} not supported`)
     }
 
     return await this.createUser()
@@ -302,7 +299,7 @@ class OAuth {
   // ...
   private async createUser() {
     const { id, email, name, image } = this.oauthUser
-    const create = { provider: this.name, providerId: id, providerName: name }
+    const create = { provider: this.name, providerId: id }
 
     const account = await db.account.findUnique({
       where: { provider_providerId: { provider: this.name, providerId: id } },
@@ -344,11 +341,7 @@ export class OAuth {
     switch (provider) {
       case 'discord':
         this.name = 'discord'
-        this.provider = new Discord(
-          authEnv.DISCORD_ID,
-          authEnv.DISCORD_SECRET,
-          callback_url,
-        )
+        this.provider = new Discord(env.DISCORD_ID, env.DISCORD_SECRET, callback_url)
         this.scopes = ['identify', 'email']
         break
       default:
@@ -380,8 +373,6 @@ export class OAuth {
       case 'discord':
         await this.discord(tokens.accessToken())
         break
-      default:
-        throw new Error(`Provider ${this.name} not supported`)
     }
 
     return await this.createUser()
@@ -389,7 +380,7 @@ export class OAuth {
 
   private async createUser() {
     const { id, email, name, image } = this.oauthUser
-    const create = { provider: this.name, providerId: id, providerName: name }
+    const create = { provider: this.name, providerId: id }
 
     const account = await db.account.findUnique({
       where: { provider_providerId: { provider: this.name, providerId: id } },
