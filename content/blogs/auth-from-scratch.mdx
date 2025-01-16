@@ -36,7 +36,6 @@ First, let's set up the Prisma schema. Create a new file called `schema.prisma` 
 ```prisma title="prisma/schema.prisma"
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -95,6 +94,26 @@ Now, run the following command to create the database:
 
 ```bash
 bun db:push
+```
+
+Next, create the `Prisma` function in `server/db.ts`:
+
+```typescript title="server/db.ts"
+import { PrismaClient } from '@prisma/client'
+
+const createPrismaClient = () =>
+  new PrismaClient({
+    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+  })
+
+const globalForPrisma = globalThis as unknown as {
+  prisma: ReturnType<typeof createPrismaClient> | undefined
+}
+
+export const db = globalForPrisma.prisma ?? createPrismaClient()
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = db
+
+export type * from '@prisma/client'
 ```
 
 ## Setting up the Auth API
