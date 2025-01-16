@@ -17,7 +17,7 @@ export default {
         mono: ['var(--font-mono)', ...fontFamily.mono],
       },
       colors: {
-        yuki: '#7aa2f7',
+        yuki: 'hsl(var(--yuki))',
       },
     },
   },

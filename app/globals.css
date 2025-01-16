@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --yuki: 228 23% 21%;
+  }
+  .dark {
+    --yuki: 221 89% 72%;
+  }
+}

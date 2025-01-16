@@ -20,7 +20,7 @@ export default ({ children }: Readonly<{ children: React.ReactNode }>) => (
         geistMono.variable,
       )}
     >
-      <RootProvider>{children}</RootProvider>
+      <RootProvider theme={{ defaultTheme: 'dark' }}>{children}</RootProvider>
     </body>
   </html>
 )
