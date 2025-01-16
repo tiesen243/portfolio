@@ -30,7 +30,7 @@ export default defineConfig({
     remarkPlugins: [remarkInstall],
     rehypeCodeOptions: {
       themes: {
-        light: 'tokyo-night',
+        light: 'github-light-default',
         dark: 'tokyo-night',
       },
     },

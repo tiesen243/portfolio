@@ -14,7 +14,6 @@ export const projects = [
       'tRPC',
       'Prisma',
       'Uploadthing',
-      'Lucia',
       'Arctic',
       'Resend',
     ],

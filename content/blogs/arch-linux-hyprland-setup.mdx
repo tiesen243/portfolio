@@ -32,9 +32,7 @@ Hyprland is also a great choice for users who want a stable and reliable operati
 
 First, you need to download the Arch Linux ISO image from the Arch Linux website. You can download the ISO image from the Arch Linux website by clicking on the download link on the Arch Linux website.
 
-Then, use `Rufus` to burn the ISO image to the USB drive. You can download Rufus from the Rufus website. Once you have downloaded Rufus, you need to open Rufus and select the Arch Linux ISO image that you downloaded. Then, you need to select the USB drive that you want to burn the ISO image to. Once you have selected the ISO image and the USB drive, you need to click on the start button to burn the ISO image to the USB drive.
-
-> Install Rufus [Download](https://rufus.ie/)
+Then, use `Ventoy` to burn the ISO image to the USB drive. You can download Ventoy from ths [website](https://www.ventoy.net/en/download.html) . Once you have downloaded Ventoy, you can craete bootable USB, then copy the ISO file to this.
 
 Second, plug the USB drive into the computer that you want to install Arch Linux on. Then, you need to boot the computer from the USB drive. You can do this by restarting the computer and pressing the boot menu key when the computer starts up. The boot menu key is usually F12, but it can vary depending on the computer. Once you have booted the computer from the USB drive, you need to select the Arch Linux installation option from the boot menu.
 
@@ -200,13 +198,13 @@ rm -rf ~/yay
 3. Install all packages
 
 ```bash
-yay -S zsh hyprpaper hyprpicker hypridle hyprlock \
+yay -S zsh rofi hyprpaper hyprpicker hypridle hyprlock \
 noto-fonts noto-fonts-cjk noto-fonts-emoji \
-bat lsd ripgrep brightnessctl \
+zen-browser-bin ffmpeg \
+lsd ripgrep brightnessctl \
+github-cli lazygit\
 cliphist wl-clipboard \
 nwg-look pavucontrol \
-btop fastfetch rofi \
-github-cli lazygit \
 grim slurp
 ```
 
@@ -225,32 +223,18 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
-5. Optional: Install `miniconda3` for python, `nvm` for nodejs development environment and `OBS` for screen record
+5. Optional: Install some stuffs
 
-- Miniconda
+- UV (Python package manager)
 
 ```bash
-mkdir -p ~/.miniconda3
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/.miniconda3/miniconda.sh
-bash ~/.miniconda3/miniconda.sh -b -u -p ~/.miniconda3
-rm -rf ~/.miniconda3/miniconda.sh
-~/.miniconda3/bin/conda init zsh
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-- NVM
+- NVM (Node Version Manager)
 
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
-```
-
-- If you use `bun` for default node package manager, remember to add this to your `.zshrc`
-
-```bash
-# >>> bun initialize >>>
-if [ -d "$HOME/.bun/bin" ]; then
-    export PATH="$HOME/.bun/bin:$PATH"
-fi
-# <<< bun initialize <<<
 ```
 
 - OBS Studio
@@ -271,10 +255,9 @@ sudo pacman -Runs htop nano vim wofi
 
 ```bash
 rm ~/.zshrc
-rm -rf ~/.config/{btop,dunst,fastfetch,hypr,kitty,nvim,rofi,wlogout,xsettingsd}
+rm -rf ~/.config/{dunst,fastfetch,hypr,kitty,lazygit,nvim,rofi}
 
-find ~/dotfiles/assets/* -maxdepth 0 -type d -name '*' -exec cp -r {} ~/.local/share \;
-ln -s ~/dotfiles/{btop,dunst,fastfetch,hypr,kitty,nvim,rofi,wlogout,xsettingsd} ~/.config
+ln -s ~/dotfiles/{dunst,fastfetch,hypr,kitty,lazygit,nvim,rofi} ~/.config
 ln -s ~/dotfiles/zsh/themes/yuki.zsh-theme ~/.oh-my-zsh/custom/themes
 ln -s ~/dotfiles/zsh/config.zsh ~/.zshrc
 ```
@@ -288,16 +271,6 @@ $path = /path/to/your/wallpaper
 ```
 
 Or change file in `~/dotfiles/assets/_background.png`
-
-:::info
-
-If windows display wrong time when dual boot, run this command:
-
-```bash
-timedatectl set-local-rtc 1
-```
-
-:::
 
 ## Conclusion
 

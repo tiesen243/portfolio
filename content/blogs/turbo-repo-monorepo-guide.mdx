@@ -9,7 +9,6 @@ tags:
   - Next.js
   - tRPC
   - Prisma
-  - Lucia
 ---
 
 ## Introduction
@@ -53,20 +52,20 @@ A typical Turborepo project will have the following structure:
 ```text
 .github
   └─ workflows
-      └─ CI to check lint, format and type
+        └─ CI with pnpm cache setup
 apps
-  └─ web
-      ├─ Next.js 14
-      ├─ React 18
+  └─ www
+      ├─ Next.js 15
+      ├─ React 19
       ├─ Tailwind CSS
       └─ E2E Typesafe API Server & Client
 packages
   ├─ api
   |   └─ tRPC v11 router definition
   ├─ auth
-  |   └─ Authentication using Lucia & Arctic
+  |   └─ Authentication from scratch using arctic for OAuth.
   ├─ db
-  |   └─ Typesafe db calls using Prisma
+  |   └─ Typesafe db calls using Prisma & Neon
   └─ ui
       └─ Start of a UI package for the webapp using shadcn-ui
 tooling
@@ -90,43 +89,9 @@ Turborepo provides a caching mechanism that can help speed up your development w
 
 You can enable remote caching on `vercel` to share caches between your team members. This can help reduce build times and improve collaboration. You can enable remote caching by running the following command:
 
-<Tabs items={["npm", "yarn", "pnpm", "bun"]}>
-
-{' '}
-
-<Tab value="npm">
-
-```bash
-npx turbo login npx turbo link
-```
-
-</Tab>
-
-<Tab value="yarn">
-
-```bash
-yarn turbo login yarn turbo link
-```
-
-</Tab>
-
-<Tab value="pnpm">
-
-```bash
-pnpm turbo login pnpm turbo link
-```
-
-</Tab>
-
-<Tab value="bun">
-
 ```bash
 bun turbo login bun turbo link
 ```
-
-</Tab>
-
-</Tabs>
 
 ### Workspaces
 
@@ -148,89 +113,17 @@ This will tell Turborepo to treat the `packages`, `tooling`, and `apps` director
 
 To create a new package in your Turborepo project, you can use the `ui-add` script to add a new UI component using the interactive shadcn/ui CLI. This will create a new component in the `packages/ui` directory with the necessary files and configurations.
 
-<Tabs items={["npm", "yarn", "pnpm", "bun"]}>
-
-{' '}
-
-<Tab value="npm">
-
-```bash
-npm run ui-add
-```
-
-</Tab>
-
-<Tab value="yarn">
-
-```bash
-yarn ui-add
-```
-
-</Tab>
-
-<Tab value="pnpm">
-
-```bash
-pnpm ui-add
-```
-
-</Tab>
-
-<Tab value="bun">
-
 ```bash
 bun ui-add
 ```
-
-</Tab>
-
-</Tabs>
 
 2. When you want to add a new package:
 
 To create a new package in your Turborepo project, you can use the following command:
 
-<Tabs items={["npm", "yarn", "pnpm", "bun"]}>
-
-{' '}
-
-<Tab value="npm">
-
-```bash
-npm turbo gen init
-```
-
-</Tab>
-
-{' '}
-
-<Tab value="yarn">
-
-```bash
-yarn turbo gen init
-```
-
-</Tab>
-
-{' '}
-
-<Tab value="pnpm">
-
-```bash
-pnpm turbo gen init
-```
-
-</Tab>
-
-<Tab value="bun">
-
 ```bash
 bun turbo gen init
 ```
-
-</Tab>
-
-</Tabs>
 
 The generator sets up the package.json, tsconfig.json and a index.ts, as well as configures all the necessary configurations for tooling around your package such as formatting, linting and typechecking. When the package is created, you're ready to go build out the package.
 
@@ -248,6 +141,5 @@ Repository: [Create Yuki Turbo](https://github.com/tiesen243/create-yuki-turbo)
 - [Next.js](https://nextjs.org)
 - [tRPC](https://trpc.io)
 - [Prisma](https://prisma.io)
-- [Lucia](https://lucia-auth.com)
 - [Arctic](https://arctic.js.org)
 - [Shadcn UI](https://ui.shadcn.com)
