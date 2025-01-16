@@ -23,6 +23,7 @@ export const createMetadata = (
     description: override.description ?? description,
     alternates: { canonical: url },
     facebook: { appId: '523462826928110' },
+    manifest: `${getBaseUrl()}/manifest.webmanifest`,
     keywords: ['Tiesen', 'tiesen243', 'Tran Tien', 'Trần Tiến'],
     openGraph: {
       url: url,
