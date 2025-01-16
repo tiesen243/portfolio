@@ -213,11 +213,6 @@ export class OAuth {
         this.provider = new Discord(env.DISCORD_ID, env.DISCORD_SECRET, callback_url)
         this.scopes = ['identify', 'email']
         break
-      case 'github':
-        this.name = 'github'
-        this.provider = new GitHub(env.GITHUB_ID, env.GITHUB_SECRET, callback_url)
-        this.scopes = ['user:email']
-        break
       default:
         throw new Error(`Provider ${provider} not supported`)
     }
@@ -264,9 +259,6 @@ class OAuth {
     switch (this.name) {
       case 'discord':
         await this.discord(tokens.accessToken())
-        break
-      case 'github':
-        await this.github(tokens.accessToken())
         break
       default:
         throw new Error(`Provider ${this.name} not supported`)
@@ -359,11 +351,6 @@ export class OAuth {
         )
         this.scopes = ['identify', 'email']
         break
-      case 'github':
-        this.name = 'github'
-        this.provider = new GitHub(authEnv.GITHUB_ID, authEnv.GITHUB_SECRET, callback_url)
-        this.scopes = ['user:email']
-        break
       default:
         throw new Error(`Provider ${provider} not supported`)
     }
@@ -392,9 +379,6 @@ export class OAuth {
     switch (this.name) {
       case 'discord':
         await this.discord(tokens.accessToken())
-        break
-      case 'github':
-        await this.github(tokens.accessToken())
         break
       default:
         throw new Error(`Provider ${this.name} not supported`)
@@ -443,25 +427,6 @@ export class OAuth {
         throw new Error('Failed to fetch user data from Discord')
       })
   }
-
-  private async github(token: string) {
-    // prettier-ignore
-    interface GithubUser { id: string; email: string; login: string; avatar_url: string }
-
-    this.oauthUser = await fetch('https://api.github.com/user', {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json() as Promise<GithubUser>)
-      .then((account) => ({
-        id: String(account.id),
-        email: account.email,
-        name: account.login,
-        image: account.avatar_url,
-      }))
-      .catch(() => {
-        throw new Error('Failed to fetch user data from GitHub')
-      })
-  }
 }
 ```
 
@@ -474,18 +439,17 @@ Frist, cretae some helper functions in `lib/auth/server.ts`:
 ```typescript title="lib/auth/server.ts"
 'use server'
 
-import type { SessionValidation } from '@yuki/auth'
 import { cache } from 'react'
 import { cookies } from 'next/headers'
+
+import type { SessionValidation } from '@/server/auth'
+import { env } from '@/env'
 import {
   createSession,
   generateSessionToken,
   invalidateSession,
   validateSessionToken,
-} from '@yuki/auth'
-import { authEnv } from '@yuki/auth/env'
-
-import { env } from '@/env'
+} from '@/server/auth'
 
 const KEY = 'auth_token'
 
@@ -501,7 +465,7 @@ export const signIn = async (userId: string) => {
   ;(await cookies()).set(KEY, token, {
     httpOnly: true,
     path: '/',
-    secure: authEnv.NODE_ENV === 'production',
+    secure: env.NODE_ENV === 'production',
     sameSite: 'lax',
     expires: session.expiresAt,
   })
@@ -580,7 +544,7 @@ If you want to get session data in the client side, you can create a hook in `li
 
 import { createContext, use } from 'react'
 
-import type { SessionValidation } from '@yuki/auth'
+import type { SessionValidation } from '@/server/auth'
 
 const sessionContext = createContext<SessionValidation | undefined>(undefined)
 
