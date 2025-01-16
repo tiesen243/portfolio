@@ -1,37 +1,44 @@
 import type { MetadataRoute } from 'next'
 
-import { projects } from '@/lib/data'
-import { getBaseUrl } from '@/lib/seo'
+import { getBaseUrl } from '@/lib/metadata'
 import { source } from '@/lib/source'
+import { projects } from './(main)/projects/data'
 
-interface Route {
-  url: string
-  lastModified: string
-}
+export const revalidate = false
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Fetch static routes
-  const routesMap: Route[] = ['', 'contact', 'projects'].map((route) => ({
-    url: `${getBaseUrl()}/${route}`,
-    lastModified: new Date().toISOString(),
-  }))
+  const url = (path: string): string => new URL(path, getBaseUrl()).toString()
 
-  const projectRoutes = projects.map((project) => ({
-    url: `${getBaseUrl()}/projects/${project.slug}`,
-    lastModified: new Date().toISOString(),
-  }))
-
-  const blogRoutes = source.getPages().map((page) => ({
-    url: `${getBaseUrl()}${page.url}`,
-    lastModified: new Date(page.data.publishedAt).toISOString(),
-  }))
-
-  // Fetch dynamic routes
-  let fetchedRoutes: Route[] = []
-  try {
-    fetchedRoutes = (await Promise.all([projectRoutes, blogRoutes])).flat()
-  } catch (error) {
-    if (error instanceof Error) throw new Error(`Error fetching dynamic routes: ${error.message}`)
-  }
-  return [...routesMap, ...fetchedRoutes]
+  return [
+    {
+      url: url('/'),
+      changeFrequency: 'monthly',
+      priority: 1,
+    },
+    {
+      url: url('/projects'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    ...(await Promise.all(
+      projects.map(
+        (project) =>
+          ({
+            url: url(`/projects/${project.slug}`),
+            changeFrequency: 'monthly',
+            priority: 0.7,
+          }) as MetadataRoute.Sitemap[number],
+      ),
+    )),
+    ...(await Promise.all(
+      source.getPages().map(
+        (page) =>
+          ({
+            url: url(page.url),
+            changeFrequency: 'weekly',
+            priority: 0.5,
+          }) as MetadataRoute.Sitemap[number],
+      ),
+    )),
+  ]
 }

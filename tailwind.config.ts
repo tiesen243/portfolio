@@ -1,21 +1,25 @@
-import type { Config } from 'tailwindcss/types/config'
 import { createPreset } from 'fumadocs-ui/tailwind-plugin'
+import { type Config } from 'tailwindcss'
 import { fontFamily } from 'tailwindcss/defaultTheme'
 
 export default {
   content: [
-    './app/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
+    './app/**/*.tsx',
+    './components/**/*.tsx',
     './content/**/*.{md,mdx}',
     './node_modules/fumadocs-ui/dist/**/*.js',
   ],
+  presets: [createPreset({ preset: 'neutral', addGlobalColors: true })],
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-geist-sans)', ...fontFamily.sans],
-        mono: ['var(--font-geist-mono)', ...fontFamily.mono],
+        sans: ['var(--font-sans)', ...fontFamily.sans],
+        mono: ['var(--font-mono)', ...fontFamily.mono],
+      },
+      colors: {
+        yuki: '#7aa2f7',
       },
     },
   },
-  presets: [createPreset({ preset: 'ocean', addGlobalColors: true })],
+  plugins: [],
 } satisfies Config

@@ -4,13 +4,13 @@ import { z } from 'zod'
 
 export const env = createEnv({
   extends: [vercel()],
+
   /**
    * Specify your server-side environment variables schema here. This way you can ensure the app
    * isn't built with invalid env vars.
    */
   server: {
-    NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
-    RESEND_KEY: z.string(),
+    NODE_ENV: z.enum(['development', 'test', 'production']),
   },
 
   /**
@@ -28,7 +28,6 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
-    RESEND_KEY: process.env.RESEND_KEY,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**

@@ -3,7 +3,7 @@ import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
 import defaultMdxComponents from 'fumadocs-ui/mdx'
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/page'
 
-import { metadataImage } from '@/lib/seo'
+import { metadataImage } from '@/lib/metadata'
 import { source } from '@/lib/source'
 
 export default async (props: { params: Promise<{ slug?: string[] }> }) => {
@@ -14,17 +14,7 @@ export default async (props: { params: Promise<{ slug?: string[] }> }) => {
   const MDX = page.data.body
 
   return (
-    <DocsPage
-      toc={page.data.toc}
-      full={page.data.full}
-      lastUpdate={new Date(String(page.data.publishedAt))}
-      editOnGithub={{
-        owner: 'tiesen243',
-        repo: 'portfolio',
-        sha: 'main',
-        path: `content/blog/${page.file.path}`,
-      }}
-    >
+    <DocsPage toc={page.data.toc} full={page.data.full}>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
@@ -34,11 +24,11 @@ export default async (props: { params: Promise<{ slug?: string[] }> }) => {
   )
 }
 
-export async function generateStaticParams() {
-  return source.generateParams()
-}
+export const generateStaticParams = () => source.generateParams()
 
-export async function generateMetadata(props: { params: Promise<{ slug?: string[] }> }) {
+export const generateMetadata = async (props: {
+  params: Promise<{ slug?: string[] }>
+}) => {
   const params = await props.params
   const page = source.getPage(params.slug)
   if (!page) notFound()

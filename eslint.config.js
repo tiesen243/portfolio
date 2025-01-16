@@ -1,17 +1,18 @@
-/// <reference types="./types.d.ts" />
+// @ts-nocheck
 
 import eslint from '@eslint/js'
 import nextPlugin from '@next/eslint-plugin-next'
 import importPlugin from 'eslint-plugin-import'
 import reactPlugin from 'eslint-plugin-react'
 import hooksPlugin from 'eslint-plugin-react-hooks'
+import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
 /**
  * All packages that leverage t3-env should use this rule
  */
 const restrictEnvAccess = tseslint.config(
-  { ignores: ['**/env.js', '**/env.ts'] },
+  { ignores: ['**/env.ts'] },
   {
     files: ['**/*.js', '**/*.ts', '**/*.tsx'],
     rules: {
@@ -39,9 +40,7 @@ const baseConfig = tseslint.config(
   { ignores: ['**/*.config.*'] },
   {
     files: ['**/*.js', '**/*.ts', '**/*.tsx'],
-    plugins: {
-      import: importPlugin,
-    },
+    plugins: { import: importPlugin },
     extends: [
       eslint.configs.recommended,
       ...tseslint.configs.recommended,
@@ -49,21 +48,23 @@ const baseConfig = tseslint.config(
       ...tseslint.configs.stylisticTypeChecked,
     ],
     rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
       '@typescript-eslint/consistent-type-imports': [
         'warn',
         { prefer: 'type-imports', fixStyle: 'separate-type-imports' },
       ],
-      '@typescript-eslint/no-misused-promises': [2, { checksVoidReturn: { attributes: false } }],
-      '@typescript-eslint/no-non-null-assertion': 'error',
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      '@typescript-eslint/no-misused-promises': [
+        2,
+        { checksVoidReturn: { attributes: false } },
       ],
       '@typescript-eslint/no-unnecessary-condition': [
         'error',
         { allowConstantLoopConditions: true },
       ],
-      '@typescript-eslint/require-await': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'error',
       'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
     },
   },
@@ -73,7 +74,10 @@ const baseConfig = tseslint.config(
   },
 )
 
-/** @type {Awaited<import('typescript-eslint').Config>} */
+/**
+ * A custom ESLint configuration for libraries that use React.
+ *
+ * @type {Awaited<import('typescript-eslint').Config>} */
 const reactConfig = [
   {
     files: ['**/*.ts', '**/*.tsx'],
@@ -81,19 +85,25 @@ const reactConfig = [
       react: reactPlugin,
       'react-hooks': hooksPlugin,
     },
+    settings: { react: { version: 'detect' } },
     rules: {
       ...reactPlugin.configs['jsx-runtime'].rules,
       ...hooksPlugin.configs.recommended.rules,
+      // React scope no longer necessary with new JSX transform.
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
     },
-    languageOptions: { globals: { React: 'writable' } },
+    languageOptions: { globals: { ...globals.serviceworker, ...globals.browser } },
   },
 ]
 
 /** @type {Awaited<import('typescript-eslint').Config>} */
-const nextjsConfig = [
+const nextConfig = [
   {
     files: ['**/*.ts', '**/*.tsx'],
-    plugins: { '@next/next': nextPlugin },
+    plugins: {
+      '@next/next': nextPlugin,
+    },
     rules: {
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs['core-web-vitals'].rules,
@@ -106,10 +116,10 @@ const nextjsConfig = [
 /** @type {import('typescript-eslint').Config} */
 export default [
   {
-    ignores: ['.next/**', '.source/**'],
+    ignores: ['.next/**'],
   },
   ...baseConfig,
   ...reactConfig,
-  ...nextjsConfig,
+  ...nextConfig,
   ...restrictEnvAccess,
 ]

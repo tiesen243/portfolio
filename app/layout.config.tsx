@@ -1,21 +1,31 @@
-import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared'
+import * as React from 'react'
 import Image from 'next/image'
-import { ContactIcon, PanelsTopLeftIcon, RssIcon } from 'lucide-react'
+import { BaseLayoutProps } from 'fumadocs-ui/layouts/shared'
+import { ChartNoAxesGanttIcon, FileUser, RssIcon } from 'lucide-react'
+
+import Logo from '@/public/assets/tiesen.png'
 
 export const baseOptions: BaseLayoutProps = {
   githubUrl: 'https://github.com/tiesen243',
   nav: {
-    title: (
-      <>
-        <Image src="/assets/logo.svg" alt="logo" width={28} height={28} className="dark:invert" />
-        <span>Tiesen</span>
-      </>
-    ),
+    title: <Image src={Logo} alt="Logo" className="w-20 md:w-24" />,
     transparentMode: 'top',
   },
   links: [
-    { icon: <PanelsTopLeftIcon />, text: 'Projects', url: '/projects', active: 'nested-url' },
-    { icon: <ContactIcon />, text: 'Contact', url: '/contact', active: 'nested-url' },
-    { icon: <RssIcon />, text: 'Blog', url: '/blog', active: 'nested-url' },
+    {
+      url: '/projects',
+      text: 'Projects',
+      icon: <ChartNoAxesGanttIcon />,
+    },
+    {
+      url: '/blogs',
+      text: 'Blog',
+      icon: <RssIcon />,
+    },
+    {
+      url: '/assets/cv.pdf',
+      text: 'Resume',
+      icon: <FileUser />,
+    },
   ],
 }

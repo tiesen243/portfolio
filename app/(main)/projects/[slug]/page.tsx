@@ -4,8 +4,8 @@ import { notFound } from 'next/navigation'
 import { ChevronLeftIcon, GithubIcon, Globe2Icon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { projects } from '@/lib/data'
-import { seo } from '@/lib/seo'
+import { createMetadata } from '@/lib/metadata'
+import { projects } from '../data'
 
 export default async ({ params }: { params: Promise<{ slug?: string }> }) => {
   const slug = (await params).slug
@@ -60,12 +60,18 @@ export async function generateMetadata(
 
   const previousImages = ((await parent).openGraph?.images ?? []) as string[]
 
-  return seo({
+  return createMetadata({
     title: project.title,
     description: project.preview,
-    url: `/projects/${project.slug}`,
-    images: [`/api/og?title=${project.title}&description=${project.preview}`, ...previousImages],
+    openGraph: {
+      images: [
+        `/api/og?title=${project.title}&description=${project.preview}`,
+        ...previousImages,
+      ],
+      url: `/projects/${project.slug}`,
+    },
   })
 }
 
-export const generateStaticParams = async () => projects.map((project) => ({ slug: project.slug }))
+export const generateStaticParams = () =>
+  projects.map((project) => ({ slug: project.slug }))
