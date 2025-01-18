@@ -38,7 +38,7 @@ export const generateMetadata = async (props: {
     createMetadata({
       title: page.data.title,
       description: page.data.description,
-      openGraph: { url: page.url }
+      openGraph: { url: page.url },
     }),
   )
 }

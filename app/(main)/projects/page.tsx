@@ -1,8 +1,8 @@
 import { Card, Cards } from 'fumadocs-ui/components/card'
 import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
 
+import { designs, projects } from '@/data'
 import { createMetadata } from '@/lib/metadata'
-import { designs, projects } from './data'
 
 export default () => (
   <main className="container flex-1 py-4">
@@ -36,14 +36,13 @@ export default () => (
         </p>
       </article>
 
-      {designs.map((design) => (
+      {designs.map((src, idx) => (
         <ImageZoom
-          key={design}
-          src={design}
-          alt="Design"
-          width={3000}
-          height={1000}
+          key={idx}
+          src={src}
+          alt={`Design-${idx}`}
           className="rounded-lg"
+          priority
         />
       ))}
     </section>

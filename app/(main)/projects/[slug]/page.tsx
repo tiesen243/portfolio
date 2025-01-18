@@ -3,9 +3,8 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ChevronLeftIcon, GithubIcon, Globe2Icon } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
+import { projects } from '@/data'
 import { createMetadata } from '@/lib/metadata'
-import { projects } from '../data'
 
 export default async ({ params }: { params: Promise<{ slug?: string }> }) => {
   const slug = (await params).slug
@@ -33,18 +32,24 @@ export default async ({ params }: { params: Promise<{ slug?: string }> }) => {
 
       <div className="my-4 flex items-center justify-end gap-4">
         {project.link && (
-          <Button size="sm" variant="default" asChild>
-            <a href={project.link} target="_blank" rel="noopener noreferrer">
-              <Globe2Icon className="mr-2" /> Visit Site
-            </a>
-          </Button>
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-8 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+          >
+            <Globe2Icon className="mr-2" /> Visit Site
+          </a>
         )}
 
-        <Button size="sm" variant="outline" asChild>
-          <a href={project.repo} target="_blank" rel="noopener noreferrer">
-            <GithubIcon className="mr-2" /> View Source
-          </a>
-        </Button>
+        <a
+          href={project.repo}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="border-input inline-flex h-8 items-center justify-center gap-2 whitespace-nowrap rounded-md border bg-background px-3 text-xs font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+        >
+          <GithubIcon className="mr-2" /> View Source
+        </a>
       </div>
     </main>
   )

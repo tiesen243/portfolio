@@ -6,7 +6,6 @@ import { RootProvider } from 'fumadocs-ui/provider'
 
 import { createMetadata } from '@/lib/metadata'
 
-
 const geistSans = Geist({ variable: '--font-sans', subsets: ['latin'] })
 const geistMono = Geist_Mono({ variable: '--font-mono', subsets: ['latin'] })
 

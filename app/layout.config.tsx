@@ -8,7 +8,7 @@ import Logo from '@/public/assets/tiesen.png'
 export const baseOptions: BaseLayoutProps = {
   githubUrl: 'https://github.com/tiesen243',
   nav: {
-    title: <Image src={Logo} alt="Logo" className="w-20 md:w-24" />,
+    title: <Image src={Logo} alt="Logo" className="w-20 md:w-24" priority />,
     transparentMode: 'top',
   },
   links: [

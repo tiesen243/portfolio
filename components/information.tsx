@@ -1,25 +1,9 @@
-import { LayersIcon, SchoolIcon, WorkflowIcon } from 'lucide-react'
+import Image from 'next/image'
+import { SchoolIcon, WorkflowIcon } from 'lucide-react'
 
-import { skills } from '@/components/ui/icons'
+import { educations, experiences, skills } from '@/data'
 
 const informations = [
-  {
-    title: (
-      <h3 className="absolute -top-4 col-span-full inline-flex items-center gap-2">
-        <LayersIcon /> Skills
-      </h3>
-    ),
-    content: (
-      <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
-        {skills.map((item, idx) => (
-          <li key={idx} className="flex items-center gap-2 text-lg font-medium">
-            <item.Icon className="size-8" />
-            <span className="text-center">{item.name}</span>
-          </li>
-        ))}
-      </ul>
-    ),
-  },
   {
     title: (
       <h3 className="absolute -top-4 col-span-full inline-flex items-center gap-2">
@@ -28,20 +12,7 @@ const informations = [
     ),
     content: (
       <ul>
-        {[
-          {
-            school: 'Hoang Hoa Tham High School',
-            major: '',
-            year: '2019 - 2022',
-            GPA: '',
-          },
-          {
-            school: 'Industrial University of Ho Chi Minh City',
-            major: 'Computer Engineering Technology',
-            year: '2022 - Present',
-            GPA: '3.01/4.0',
-          },
-        ].map((item, idx) => (
+        {educations.map((item, idx) => (
           <li key={idx}>
             <time className="text-xs">{item.year}</time>
             <h4 className="mt-0">{item.school}</h4>
@@ -63,13 +34,7 @@ const informations = [
     ),
     content: (
       <ul>
-        {[
-          {
-            year: '2004 - Present',
-            company: 'Work for myself',
-            position: 'I have no experience ᗜ˰ᗜ',
-          },
-        ].map((item, idx) => (
+        {experiences.map((item, idx) => (
           <li key={idx}>
             <time className="text-xs">{item.year}</time>
             <h4 className="mt-0">{item.company}</h4>
@@ -81,10 +46,32 @@ const informations = [
   },
 ]
 
-export const Information: React.FC = () =>
-  informations.map((item, idx) => (
-    <div key={idx} className="prose relative my-6 rounded-lg border p-6">
-      {item.title}
-      {item.content}
-    </div>
-  ))
+export const Information: React.FC = () => (
+  <>
+    <ul className="my-6 grid grid-cols-3 gap-4 lg:grid-cols-6">
+      {skills.map((item, idx) => (
+        <li
+          key={idx}
+          className="flex select-none items-center gap-4 rounded-lg bg-secondary px-4 py-3 font-medium text-secondary-foreground shadow-lg md:text-lg"
+        >
+          <Image
+            src={item.icon}
+            alt={item.title}
+            width={24}
+            height={24}
+            className="m-0"
+            priority
+          />
+          <span className="text-center">{item.title}</span>
+        </li>
+      ))}
+    </ul>
+
+    {informations.map((item, idx) => (
+      <div key={idx} className="prose relative my-6 rounded-lg border p-6">
+        {item.title}
+        {item.content}
+      </div>
+    ))}
+  </>
+)

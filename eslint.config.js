@@ -5,7 +5,6 @@ import nextPlugin from '@next/eslint-plugin-next'
 import importPlugin from 'eslint-plugin-import'
 import reactPlugin from 'eslint-plugin-react'
 import hooksPlugin from 'eslint-plugin-react-hooks'
-import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
 /**
@@ -93,7 +92,6 @@ const reactConfig = [
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
     },
-    languageOptions: { globals: { ...globals.serviceworker, ...globals.browser } },
   },
 ]
 

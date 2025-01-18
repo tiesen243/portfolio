@@ -13,7 +13,7 @@ export const Hero: React.FC = () => (
     <Image
       src={Logo}
       alt="Logo"
-      className="mb-6 w-full max-w-[500px] px-4 shadow-lg"
+      className="mb-6 w-full max-w-[500px] px-4 drop-shadow-lg"
       priority
     />
 

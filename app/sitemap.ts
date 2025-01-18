@@ -1,8 +1,8 @@
 import type { MetadataRoute } from 'next'
 
+import { projects } from '@/data'
 import { getBaseUrl } from '@/lib/metadata'
 import { source } from '@/lib/source'
-import { projects } from './(main)/projects/data'
 
 export const revalidate = false
 

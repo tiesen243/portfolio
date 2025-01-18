@@ -1,3 +1,43 @@
+import D2 from '@/public/assets/design/goldenglow.png'
+import D3 from '@/public/assets/design/lin-yushia.png'
+import D1 from '@/public/assets/design/tiesen-v1.png'
+import D4 from '@/public/assets/design/tiesen-v2.png'
+
+export const skills = [
+  { title: 'Linux', icon: '/assets/skills/linux.svg' },
+  { title: 'Git', icon: '/assets/skills/github.svg' },
+  { title: 'Typescript', icon: '/assets/skills/typescript.svg' },
+  { title: 'Python', icon: '/assets/skills/python.svg' },
+  { title: 'Photoshop', icon: '/assets/skills/photoshop.svg' },
+  { title: 'Illustrator', icon: '/assets/skills/illustrator.svg' },
+  { title: 'Turborepo', icon: '/assets/skills/turborepo.svg' },
+  { title: 'tRPC', icon: '/assets/skills/trpc.svg' },
+  { title: 'Prisma', icon: '/assets/skills/prisma.svg' },
+  { title: 'React', icon: '/assets/skills/react.svg' },
+  { title: 'Next.js', icon: '/assets/skills/nextjs.svg' },
+  { title: 'Tailwind CSS', icon: '/assets/skills/tailwindcss.svg' },
+]
+export const educations = [
+  {
+    school: 'Hoang Hoa Tham High School',
+    major: '',
+    year: '2019 - 2022',
+    GPA: '',
+  },
+  {
+    school: 'Industrial University of Ho Chi Minh City',
+    major: 'Computer Engineering Technology',
+    year: '2022 - Present',
+    GPA: '3.01/4.0',
+  },
+]
+export const experiences = [
+  {
+    year: '2004 - Present',
+    company: 'Work for myself',
+    position: 'I have no experience ᗜ˰ᗜ',
+  },
+]
 export const projects = [
   {
     slug: 'yuki',
@@ -83,9 +123,4 @@ export const projects = [
   },
 ]
 
-export const designs = [
-  '/assets/design/tiesen-v1.png',
-  '/assets/design/goldenglow.png',
-  '/assets/design/lin-yushia.png',
-  '/assets/design/tiesen-v2.png',
-]
+export const designs = [D1, D2, D3, D4]
