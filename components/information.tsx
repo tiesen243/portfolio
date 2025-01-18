@@ -59,7 +59,7 @@ export const Information: React.FC = () => (
             alt={item.title}
             width={24}
             height={24}
-            className="m-0"
+            className="m-0 drop-shadow-xl"
             priority
           />
           <span className="text-center">{item.title}</span>
