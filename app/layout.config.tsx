@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Image from 'next/image'
 import { BaseLayoutProps } from 'fumadocs-ui/layouts/shared'
-import { ChartNoAxesGanttIcon, FileUser, RssIcon } from 'lucide-react'
+import { ChartNoAxesGanttIcon, ContactIcon, RssIcon } from 'lucide-react'
 
 import Logo from '@/public/assets/tiesen.png'
 
@@ -23,9 +23,10 @@ export const baseOptions: BaseLayoutProps = {
       icon: <RssIcon />,
     },
     {
-      url: '/assets/cv.pdf',
-      text: 'Resume',
-      icon: <FileUser />,
+      url: 'https://gravatar.com/tiesen243',
+      text: 'Contact Me',
+      icon: <ContactIcon />,
+      external: true,
     },
   ],
 }
