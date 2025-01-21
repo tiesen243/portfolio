@@ -17,6 +17,7 @@ export const skills = [
   { title: 'Next.js', icon: '/assets/skills/nextjs.svg' },
   { title: 'Tailwind CSS', icon: '/assets/skills/tailwindcss.svg' },
 ]
+
 export const educations = [
   {
     school: 'Hoang Hoa Tham High School',
@@ -31,6 +32,7 @@ export const educations = [
     GPA: '3.01/4.0',
   },
 ]
+
 export const experiences = [
   {
     year: '2004 - Present',
@@ -38,44 +40,52 @@ export const experiences = [
     position: 'I have no experience ᗜ˰ᗜ',
   },
 ]
+
 export const projects = [
   {
-    slug: 'yuki',
-    title: 'Yuki',
+    slug: 'cnn',
+    title: 'CNN',
+    date: 'Oct 26, 2024 - Oct 28, 2024',
     preview:
-      'An e-commerce project is a user-friendly marketplace with admin tools. Shoppers can browse, buy, and manage their accounts.',
+      'Developed a project combining deep learning and web technologies to create a complete solution for digit recognition using the MNIST dataset.',
     description:
-      'An e-commerce project is a comprehensive online marketplace that offers a seamless shopping experience. Users can create accounts using email and password or connect through Discord for convenient login. The admin dashboard provides powerful tools for managing users, categories, products, and orders. Shoppers can browse and purchase products, easily adding items to their cart. Users have the flexibility to update their personal information, ensuring a personalized experience.',
-    link: 'https://yuki.tiesen.id.vn',
-    repo: 'https://github.com/tiesen243/yuki',
-    tags: [
-      'Next.js',
-      'Tailwind CSS',
-      'tRPC',
-      'Prisma',
-      'Uploadthing',
-      'Arctic',
-      'Resend',
-    ],
+      'I developed a project combining deep learning and web technologies to create a complete solution for digit recognition using the MNIST dataset. The backend involved designing and training a Convolutional Neural Network (CNN) using PyTorch to accurately classify handwritten digits. The CNN was carefully optimized with techniques such as data normalization, dropout, and learning rate tuning to achieve high prediction accuracy.\nTo enhance usability, I built an interactive web interface using Vue.js, allowing users to draw or upload handwritten digits and view real-time predictions. The web application communicates seamlessly with the trained model, ensuring smooth integration between the frontend and backend. This project demonstrated expertise in both machine learning with PyTorch and frontend development with Vue.js, resulting in a functional, user-friendly tool for digit recognition.',
+    link: '',
+    repo: 'https://github.com/tiesen243/cnn',
+    tags: ['Python', 'PyTorch', 'Vue.js', 'MNIST'],
   },
   {
     slug: 'kazez',
     title: 'Kazez',
+    date: 'Oct 9, 2024 - Oct 12, 2024',
     preview:
-      'A anime streaming platform is a user-friendly website where fans can watch their favorite shows and movies.',
+      'Developed an anime streaming website using Next.js, designed to provide users with an engaging and personalized viewing experience.',
     description:
-      'A anime streaming platform is a user-friendly website where fans can watch their favorite shows and movies. The platform offers a vast library of anime content, organized by genre, popularity, and release date. Users can create accounts to access personalized recommendations and track their viewing history. The platform supports video streaming with high-quality playback and subtitles. Additionally, users can interact with the community through comments and ratings, enhancing the overall viewing experience.',
+      'I developed an anime streaming website using Next.js, designed to provide users with an engaging and personalized viewing experience. The platform features a secure login system, enabling users to create accounts and manage their anime preferences. Once logged in, users can add their favorite shows to a personalized watchlist, making it easy to keep track of their progress and revisit shows at any time.\nTo enhance community interaction, I implemented a commenting feature that allows users to share their thoughts and engage in discussions about specific anime titles. The website is designed with a clean, user-friendly interface, ensuring a seamless browsing experience. Additionally, it is optimized for performance and responsiveness, delivering a smooth experience across devices. This project demonstrates proficiency in building scalable web applications with Next.js while focusing on user-centric features and interactivity.',
     link: '',
     repo: 'https://github.com/tiesen243/kazez',
     tags: ['Next.js', 'Comsumet API', 'Prisma', 'Server Action', 'Lucia', 'React Query'],
   },
   {
+    slug: 'cnn-from-scratch',
+    title: 'CNN from Scratch',
+    date: 'Apr 21, 2024 - Apr 26, 2024',
+    preview:
+      'A digit recognition project uses a Convolutional Neural Network (CNN) to accurately identify handwritten digits.',
+    description:
+      'A digit recognition project involved developing a Convolutional Neural Network (CNN) from scratch to accurately identify handwritten digits from the MNIST dataset. The CNN architecture incorporates convolutional layers for feature extraction and fully connected layers for classification. Through training on the extensive MNIST dataset, the model learns to effectively distinguish between different digit patterns, achieving high accuracy in digit recognition tasks.',
+    link: '',
+    repo: 'https://github.com/tiesen243/cnn-from-scratch',
+    tags: ['Python', 'CNN', 'NumPy', 'MNIST'],
+  },
+  {
     slug: 'egg-community',
     title: 'Egg Community',
+    date: 'Apr 14, 2024 - Apr 28, 2024',
     preview:
-      'A social platform is an interactive online community where users can share content and engage with others.',
+      'Built a social media platform using Next.js for the frontend and ElysiaJS for the backend, creating a dynamic and interactive environment for users to engage with one another.',
     description:
-      'A social platform is a dynamic online community where users can interact and share content. Key features include authentication for user accounts, the ability to create, read, update, and delete (CRUD) posts and comments, and personalized user profiles. Additionally, users can follow or unfollow other members to tailor their content feed. The platform supports image uploads, allowing for visually engaging posts and a rich user experience.',
+      'I built a social media platform using Next.js for the frontend and ElysiaJS for the backend, creating a dynamic and interactive environment for users to engage with one another. The platform allows users to create and manage their personal profiles, with features to update essential information such as their name, bio, avatar, and password. This ensures a customizable and secure user experience.\nIn terms of social interaction, the platform supports the creation of posts, enabling users to share content with others. Users can engage with posts by liking, commenting, and even deleting their own posts, offering a full range of social interaction features. The backend, powered by ElysiaJS, is optimized for performance and scalability, ensuring smooth and efficient handling of user data and interactions.\nThe frontend, built with Next.js, provides a responsive and intuitive user interface, ensuring the platform works seamlessly across both desktop and mobile devices. This project showcases expertise in full-stack development, utilizing modern technologies to create a robust social platform that prioritizes user engagement, security, and ease of use.',
     link: 'https://egg-community.vercel.app',
     repo: 'https://github.com/tiesen243/egg-community',
     tags: [
@@ -89,30 +99,9 @@ export const projects = [
     ],
   },
   {
-    slug: 'portfolio',
-    title: 'Portfolio',
-    preview:
-      'My portfolio showcases my skills, experience, and projects. It includes blog posts highlighting my thoughts and interests.',
-    description:
-      'My portfolio project serves as a digital showcase of my skills and accomplishments. It provides a comprehensive overview of my professional background, including my experience, education, and technical expertise. Additionally, the portfolio features a curated collection of my blog posts, offering insights into my thought process and areas of interest. This platform allows visitors to explore my work and learn more about my capabilities.',
-    link: 'https://tiesen.id.vn',
-    repo: 'https://github.com/tiesen243/portfolio',
-    tags: ['Next.js', 'Tailwind CSS', 'Fumadocs'],
-  },
-  {
-    slug: 'digit-recognization',
-    title: 'Digit Recognization',
-    preview:
-      'A digit recognition project uses a Convolutional Neural Network (CNN) to accurately identify handwritten digits.',
-    description:
-      'A digit recognition project involved developing a Convolutional Neural Network (CNN) from scratch to accurately identify handwritten digits from the MNIST dataset. The CNN architecture incorporates convolutional layers for feature extraction and fully connected layers for classification. Through training on the extensive MNIST dataset, the model learns to effectively distinguish between different digit patterns, achieving high accuracy in digit recognition tasks.',
-    link: '',
-    repo: 'https://github.com/tiesen243/digit-recognization',
-    tags: ['Python', 'CNN', 'NumPy', 'MNIST'],
-  },
-  {
     slug: 'whack-a-mole',
     title: 'Whack-a-Mole',
+    date: 'Sep 21, 2023',
     preview:
       'A Whack-a-Mole game is a fun and interactive project that challenges players to test their reflexes.',
     description:

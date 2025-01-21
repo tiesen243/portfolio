@@ -18,8 +18,16 @@ export default async ({ params }: { params: Promise<{ slug?: string }> }) => {
       </Link>
 
       <article className="prose-lg prose-neutral dark:prose-invert prose flex-1">
-        <h1>{project.title}</h1>
-        <p className="mb-2">{project.description}</p>
+        <div className="inline-flex w-full items-center justify-between">
+          <h1 className="mb-0">{project.title}</h1>
+          <p className="m-0">{project.date}</p>
+        </div>
+        <p
+          className="mb-2"
+          dangerouslySetInnerHTML={{
+            __html: project.description.replaceAll('\n', '<br/>'),
+          }}
+        />
 
         <div>
           {project.tags.map((tag) => (
