@@ -1,8 +1,6 @@
-import type { Metadata } from 'next/types'
-import { createMetadataImage } from 'fumadocs-core/server'
+import type { Metadata } from 'next'
 
-import { env } from '@/env'
-import { source } from '@/lib/source'
+import { getBaseUrl } from '@/lib/utils'
 
 export const createMetadata = (
   override: Omit<Metadata, 'title'> & { title?: string },
@@ -43,18 +41,4 @@ export const createMetadata = (
       apple: '/apple-touch-icon.png',
     },
   }
-}
-
-export const metadataImage = createMetadataImage({
-  source,
-  imageRoute: '/api/og',
-})
-
-export function getBaseUrl() {
-  if (typeof window !== 'undefined') return window.location.origin
-  if (env.VERCEL_PROJECT_PRODUCTION_URL)
-    return `https://${env.VERCEL_PROJECT_PRODUCTION_URL}`
-  if (env.VERCEL_URL) return `https://${env.VERCEL_URL}`
-  // eslint-disable-next-line no-restricted-properties
-  return `http://localhost:${process.env.PORT ?? 3000}`
 }

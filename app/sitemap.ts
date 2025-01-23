@@ -1,13 +1,14 @@
 import type { MetadataRoute } from 'next'
 
+import { getPages } from '@/content'
 import { projects } from '@/data'
-import { getBaseUrl } from '@/lib/metadata'
-import { source } from '@/lib/source'
+import { getBaseUrl } from '@/lib/utils'
 
 export const revalidate = false
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const url = (path: string): string => new URL(path, getBaseUrl()).toString()
+  const blogs = await getPages()
 
   return [
     {
@@ -31,10 +32,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ),
     )),
     ...(await Promise.all(
-      source.getPages().map(
+      blogs.map(
         (page) =>
           ({
-            url: url(page.url),
+            url: url(`/blogs/$${page.slug}`),
             changeFrequency: 'weekly',
             priority: 0.5,
           }) as MetadataRoute.Sitemap[number],

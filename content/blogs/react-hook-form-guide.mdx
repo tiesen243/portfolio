@@ -175,7 +175,7 @@ export const FormField = <T extends FieldValues>({
           {description && (
             <p
               id={ids.description}
-              className={cn('text-sm text-muted-foreground', classes.description)}
+              className={cn('text-muted-foreground text-sm', classes.description)}
             >
               {description}
             </p>
@@ -257,7 +257,7 @@ export const SignupForm: React.FC = () => {
   })
 
   return (
-    <Form className="w-full max-w-screen-md" onSubmit={handleSubmit}>
+    <Form className="w-full max-w-(--breakpoint-md)" onSubmit={handleSubmit}>
       {fields.map((field) => (
         <FormField key={field.name} control={form.control} {...field} />
       ))}

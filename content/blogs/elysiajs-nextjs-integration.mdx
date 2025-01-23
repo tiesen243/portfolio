@@ -378,7 +378,7 @@ export const Post: React.FC = () => {
   const createPost = api.post.createPost.post.useMutation({ onSuccess: () => refetch() })
 
   return (
-    <div className="mt-4 w-full max-w-screen-sm">
+    <div className="mt-4 w-full max-w-(--breakpoint-sm)">
       <span className="text-lg">Latest post: {latestPost?.content ?? 'No posts'}</span>
       <form
         className="flex w-full gap-4"

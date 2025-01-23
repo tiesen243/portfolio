@@ -1,7 +1,7 @@
-export const Footer: React.FC = () => (
+export const Footer = () => (
   <footer className="border-t py-8">
-    <p className="text-pretty text-center text-sm">
-      © {new Date().getFullYear()} Tran Tien. All rights reserved.
-    </p>
+    <div className="flex items-center justify-center gap-4">
+      <p>Copyright (c) {new Date().getFullYear()} Tiesen. All Rights Reserved.</p>
+    </div>
   </footer>
 )

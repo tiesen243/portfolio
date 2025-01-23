@@ -6,53 +6,49 @@ import { educations, experiences, skills } from '@/data'
 const informations = [
   {
     title: (
-      <h3 className="absolute -top-4 col-span-full inline-flex items-center gap-2">
+      <>
         <SchoolIcon /> Education
-      </h3>
+      </>
     ),
-    content: (
-      <ul>
-        {educations.map((item, idx) => (
-          <li key={idx}>
-            <time className="text-xs">{item.year}</time>
-            <h4 className="mt-0">{item.school}</h4>
-            {item.major && (
-              <p className="text-sm">
-                {item.major} - {item.GPA}
-              </p>
-            )}
-          </li>
-        ))}
-      </ul>
-    ),
+    content: educations.map((item, idx) => (
+      <li key={idx}>
+        <time className="text-xs">{item.year}</time>
+        <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+          {item.school}
+        </h4>
+        {item.major && (
+          <p className="text-sm leading-7">
+            {item.major} - {item.GPA}
+          </p>
+        )}
+      </li>
+    )),
   },
   {
     title: (
-      <h3 className="absolute -top-4 col-span-full inline-flex items-center gap-2">
+      <>
         <WorkflowIcon /> Experiences
-      </h3>
+      </>
     ),
-    content: (
-      <ul>
-        {experiences.map((item, idx) => (
-          <li key={idx}>
-            <time className="text-xs">{item.year}</time>
-            <h4 className="mt-0">{item.company}</h4>
-            <p className="text-sm">{item.position}</p>
-          </li>
-        ))}
-      </ul>
-    ),
+    content: experiences.map((item, idx) => (
+      <li key={idx}>
+        <time className="text-xs">{item.year}</time>
+        <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+          {item.company}
+        </h4>
+        <p className="text-sm leading-7">{item.position}</p>
+      </li>
+    )),
   },
 ]
 
 export const Information: React.FC = () => (
   <>
-    <ul className="my-6 grid grid-cols-3 gap-4 lg:grid-cols-6">
+    <ul className="container my-6 grid grid-cols-3 gap-4 lg:grid-cols-6">
       {skills.map((item, idx) => (
         <li
           key={idx}
-          className="flex select-none items-center gap-4 rounded-lg bg-secondary px-4 py-3 font-medium text-secondary-foreground shadow-lg md:text-lg"
+          className="bg-secondary text-secondary-foreground flex items-center gap-4 rounded-lg px-4 py-3 font-medium shadow-lg select-none md:text-lg"
         >
           <Image
             src={item.icon}
@@ -68,9 +64,11 @@ export const Information: React.FC = () => (
     </ul>
 
     {informations.map((item, idx) => (
-      <div key={idx} className="prose relative my-6 rounded-lg border p-6">
-        {item.title}
-        {item.content}
+      <div key={idx} className="relative container my-8 rounded-lg border p-6">
+        <h3 className="absolute -top-4 col-span-full inline-flex scroll-m-20 items-center gap-2 text-2xl font-semibold tracking-tight">
+          {item.title}
+        </h3>
+        <ul className="ml-6 list-disc [&>li]:mt-2">{item.content}</ul>
       </div>
     ))}
   </>

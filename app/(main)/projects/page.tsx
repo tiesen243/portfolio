@@ -1,53 +1,62 @@
-import { Card, Cards } from 'fumadocs-ui/components/card'
-import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
+import Image from 'next/image'
+import Link from 'next/link'
 
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { designs, projects } from '@/data'
 import { createMetadata } from '@/lib/metadata'
 
-export default () => (
-  <main className="container flex-1 py-4">
-    <section>
-      <article className="prose-neutral dark:prose-invert prose mb-4">
-        <h1 className="mb-0">Projects</h1>
-        <p>
-          Here are some of the projects I've worked on. Click on the cards to view more
-          details. You can also view my designs below.
-        </p>
-      </article>
+export default function ProjectsPage() {
+  return (
+    <main className="container flex-1 py-4">
+      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+        Projects
+      </h1>
 
-      <Cards>
-        {projects.map((project) => (
-          <Card
-            key={project.slug}
-            title={project.title}
-            description={project.preview}
-            href={`/projects/${project.slug}`}
+      <section className="mt-8 flex flex-col gap-4">
+        <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+          Applications and Websites
+        </h2>
+        <p className="text-muted-foreground leading-7">
+          Here are some of the projects I&apos;ve worked on. Click on the cards to view
+          more details.
+        </p>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          {projects.map((project) => (
+            <Link href={`/projects/${project.slug}`} key={project.slug}>
+              <Card className="hover:bg-secondary transition-colors">
+                <CardHeader>
+                  <CardTitle>{project.title}</CardTitle>
+                  <CardDescription className="text-sm">{project.preview}</CardDescription>
+                </CardHeader>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-8 flex flex-col gap-4">
+        <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+          Designs
+        </h2>
+        <p className="text-muted-foreground leading-7">
+          Here are some of the designs I&apos;ve created. Click on the images to view them
+          in full size.
+        </p>
+
+        {designs.map((src, idx) => (
+          <Image
+            key={idx}
+            src={src}
+            alt={`Design-${idx}`}
+            className="rounded-lg"
+            priority
           />
         ))}
-      </Cards>
-    </section>
-
-    <section className="mt-8 flex flex-col gap-4">
-      <article className="prose-neutral dark:prose-invert prose">
-        <h1 className="mb-0">Designs</h1>
-        <p>
-          Here are some of the designs I've created. Click on the images to view them in
-          full size.
-        </p>
-      </article>
-
-      {designs.map((src, idx) => (
-        <ImageZoom
-          key={idx}
-          src={src}
-          alt={`Design-${idx}`}
-          className="rounded-lg"
-          priority
-        />
-      ))}
-    </section>
-  </main>
-)
+      </section>
+    </main>
+  )
+}
 
 export const metadata = createMetadata({
   title: 'Projects',
