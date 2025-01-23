@@ -1,3 +1,5 @@
+import { cookies } from 'next/headers'
+
 import { AppSidebar } from '@/components/app-sidebar'
 import { Footer } from '@/components/footer'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
@@ -14,8 +16,10 @@ export default async function MainLayout({
     }))
     .filter((page) => page.name)
 
+  const isOpen = (await cookies()).get('sidebar:state')?.value === 'true'
+
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={isOpen}>
       <AppSidebar tree={tree} />
       <SidebarInset className="relative max-w-screen">
         <SidebarTrigger className="fixed bottom-4 left-4 z-10 md:absolute md:top-4" />
