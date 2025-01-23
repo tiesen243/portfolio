@@ -1,4 +1,3 @@
-import type { ResolvingMetadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ChevronLeftIcon, GithubIcon, Globe2Icon } from 'lucide-react'
@@ -70,28 +69,26 @@ export default async function ProjectPage({
   )
 }
 
-export async function generateMetadata(
-  { params }: { params: Promise<{ slug?: string }> },
-  parent: ResolvingMetadata,
-) {
+export const generateStaticParams = () =>
+  projects.map((project) => ({ slug: project.slug }))
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug?: string }>
+}) {
   const slug = (await params).slug
   const project = projects.find((project) => project.slug === slug)
   if (!project) return notFound()
-
-  const previousImages = ((await parent).openGraph?.images ?? []) as string[]
 
   return createMetadata({
     title: project.title,
     description: project.preview,
     openGraph: {
       images: [
-        `/api/og?title=${project.title}&description=${project.preview}`,
-        ...previousImages,
+        `/api/og?title=${encodeURIComponent(project.title)}&description=${encodeURIComponent(project.preview)}`,
       ],
       url: `/projects/${project.slug}`,
     },
   })
 }
-
-export const generateStaticParams = () =>
-  projects.map((project) => ({ slug: project.slug }))

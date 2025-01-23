@@ -48,6 +48,9 @@ export const mdxComponents = {
       <code.Pre>{props.children}</code.Pre>
     </code.CodeBlock>
   ),
+  code: (props: React.HTMLProps<HTMLElement>) => (
+    <code {...props} className="bg-accent text-accent-foreground rounded-md font-mono" />
+  ),
   img: (props: React.HTMLProps<HTMLImageElement>) => (
     <Image
       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 900px"

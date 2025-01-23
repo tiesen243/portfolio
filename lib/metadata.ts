@@ -25,7 +25,7 @@ export const createMetadata = (
     keywords: ['Tiesen', 'tiesen243', 'Tran Tien', 'Trần Tiến'],
     openGraph: {
       url: url,
-      images: [...images, { url: '/api/og' }],
+      images: [...images, { url: '/api/og?uwu=true' }],
       siteName,
       type: 'website',
       ...override.openGraph,

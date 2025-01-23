@@ -24,12 +24,12 @@ npx create-t3-app
 
 2. Install the required dependencies:
 
-```package-install
--d prisma
+```bash
+bun add -d prisma
 ```
 
-```package-install
-@prisma/client lucia @lucia-auth/adapter-prisma next-safe-action zod zod-form-data
+```bash
+bun add @prisma/client lucia @lucia-auth/adapter-prisma next-safe-action zod zod-form-data
 ```
 
 3. Create new postgres database and table with the following schema:

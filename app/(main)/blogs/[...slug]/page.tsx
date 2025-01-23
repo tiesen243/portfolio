@@ -22,10 +22,7 @@ export default async function BlogsPage({
     source: page.content,
     mdxOptions: {
       rehypeCodeOptions: {
-        themes: {
-          light: 'github-light-default',
-          dark: 'tokyo-night',
-        },
+        themes: { light: 'github-light-default', dark: 'tokyo-night' },
       },
     },
   })
@@ -53,5 +50,13 @@ export async function generateMetadata(props: { params: Promise<{ slug?: string[
   return createMetadata({
     title: frontmatter.title,
     description: frontmatter.description,
+    openGraph: {
+      images: [
+        `/api/og?title=${encodeURIComponent(
+          frontmatter.title,
+        )}&description=${encodeURIComponent(frontmatter.description)}`,
+      ],
+      url: `/blogs/${params.slug}`,
+    },
   })
 }

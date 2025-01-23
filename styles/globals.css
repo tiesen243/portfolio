@@ -16,8 +16,8 @@
 }
 
 @theme {
-  --font-sans: var(--font-geist-sans), sans-serif;
-  --font-mono: var(--font-geist-mono), monospace;
+  --font-family-sans: var(--font-geist-sans), sans-serif;
+  --font-family-mono: var(--font-geist-mono), monospace;
 
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));

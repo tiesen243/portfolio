@@ -63,7 +63,9 @@ export const metadata = createMetadata({
   description: "Here are some of the projects I've worked on.",
   openGraph: {
     images: [
-      '/api/og?title=Projects&description=Here%20are%20some%20of%20the%20projects%20I%27ve%20worked%20on.',
+      `/api/og?title=Projects&description=${encodeURIComponent(
+        "Here are some of the projects I've worked on.",
+      )}`,
     ],
     url: '/projects',
   },
