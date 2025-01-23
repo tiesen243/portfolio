@@ -49,7 +49,7 @@ export const mdxComponents = {
     </code.CodeBlock>
   ),
   code: (props: React.HTMLProps<HTMLElement>) => (
-    <code {...props} className="bg-accent text-accent-foreground rounded-md font-mono" />
+    <code {...props} className="bg-accent text-yuki rounded-md font-mono" />
   ),
   img: (props: React.HTMLProps<HTMLImageElement>) => (
     <Image
