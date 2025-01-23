@@ -288,7 +288,7 @@ export const api = createCaller.api.elysia
 First, create a query client configuration for `@tanstack/react-query`
 
 ```ts title="lib/elysia/query-client.ts"
-``import { defaultShouldDehydrateQuery, QueryClient } from '@tanstack/react-query'
+import { defaultShouldDehydrateQuery, QueryClient } from '@tanstack/react-query'
 import SuperJSON from 'superjson'
 
 export const createQueryClient = () =>

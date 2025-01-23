@@ -41,7 +41,7 @@ export const mdxComponents = {
     <ul {...props} className="my-6 ml-6 list-disc [&>li]:mt-2" />
   ),
   ol: (props: React.HTMLProps<HTMLOListElement>) => (
-    <ul {...props} className="my-6 ml-6 list-decimal [&>li]:mt-2" />
+    <ol {...props} type="1" className="my-6 ml-6 list-decimal [&>li]:mt-2" />
   ),
   pre: (props: CodeBlockProps) => (
     <code.CodeBlock {...props}>
