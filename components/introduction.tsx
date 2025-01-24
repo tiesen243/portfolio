@@ -3,7 +3,7 @@ import Image from 'next/image'
 const emailHash = '48b8ec4ce6c85e06c11bda4381a3ac6cb8161a23e5ea540544c809063090815d'
 
 export const Introduction = () => (
-  <section className="container flex flex-col justify-between gap-4 md:flex-row">
+  <section className="flex flex-col justify-between gap-4 md:flex-row">
     <article className="prose text-lg">
       <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
         Let me <span className="text-yuki">introduce</span> myself

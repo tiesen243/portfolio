@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { SchoolIcon, WorkflowIcon } from 'lucide-react'
 
 import { educations, experiences, skills } from '@/data'
+import { cn } from '@/lib/utils'
 
 const informations = [
   {
@@ -44,7 +45,7 @@ const informations = [
 
 export const Information: React.FC = () => (
   <>
-    <ul className="container my-6 grid grid-cols-3 gap-4 lg:grid-cols-6">
+    <ul className="my-6 grid grid-cols-3 gap-4 lg:grid-cols-6">
       {skills.map((item, idx) => (
         <li
           key={idx}
@@ -55,7 +56,7 @@ export const Information: React.FC = () => (
             alt={item.title}
             width={24}
             height={24}
-            className="m-0 drop-shadow-xl"
+            className={cn('m-0 drop-shadow-xl', item.invert && 'dark:invert')}
             priority
           />
           <span className="text-center">{item.title}</span>
@@ -64,7 +65,7 @@ export const Information: React.FC = () => (
     </ul>
 
     {informations.map((item, idx) => (
-      <div key={idx} className="relative container my-8 rounded-lg border p-6">
+      <div key={idx} className="relative my-8 rounded-lg border p-6">
         <h3 className="absolute -top-4 col-span-full inline-flex scroll-m-20 items-center gap-2 text-2xl font-semibold tracking-tight">
           {item.title}
         </h3>

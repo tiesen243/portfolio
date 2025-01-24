@@ -36,7 +36,7 @@ export default async function BlogsPage({
   return (
     <>
       <Toc toc={toc} />
-      <article className="container flex w-full max-w-[860px] flex-1 flex-col p-4 lg:px-8">
+      <article className="container flex w-full max-w-[860px] flex-col pt-4 pb-8">
         <mdxComponents.h1>{frontmatter.title}</mdxComponents.h1>
         <mdxComponents.p>{frontmatter.publishedAt.toString()}</mdxComponents.p>
         <mdxComponents.p>{frontmatter.description}</mdxComponents.p>

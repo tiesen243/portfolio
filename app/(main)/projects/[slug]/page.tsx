@@ -14,8 +14,8 @@ export default async function ProjectPage({
   if (!project) notFound()
 
   return (
-    <main className="container flex flex-1 flex-col py-4">
-      <article className="prose-lg prose-neutral dark:prose-invert prose flex-1">
+    <main className="container flex min-h-[calc(100dvh-8rem)] max-w-[860px] flex-col justify-between pt-4 pb-8">
+      <article className="shrink">
         <div className="inline-flex w-full items-center justify-between">
           <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
             {project.title}
@@ -29,9 +29,9 @@ export default async function ProjectPage({
           }}
         />
 
-        <div className="mt-4">
+        <div className="mt-4 flex flex-wrap items-center gap-2">
           {project.tags.map((tag) => (
-            <span key={tag} className="mr-2 rounded-full border px-2 py-1 text-sm">
+            <span key={tag} className="rounded-full border px-3 py-1 text-sm">
               {tag}
             </span>
           ))}

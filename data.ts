@@ -27,19 +27,18 @@ export const socials = [
 export const navigations = [
   { name: 'Projects', url: '/projects' },
   { name: 'Blogs', url: '/blogs' },
-  { name: 'Contact', url: 'https://gravatar.com/tiesen243', isExternal: true },
 ]
 
 export const skills = [
   { title: 'Linux', icon: '/assets/skills/linux.svg' },
-  { title: 'Git', icon: '/assets/skills/github.svg' },
+  { title: 'Git', icon: '/assets/skills/github.svg', invert: true },
   { title: 'Typescript', icon: '/assets/skills/typescript.svg' },
   { title: 'Python', icon: '/assets/skills/python.svg' },
   { title: 'Photoshop', icon: '/assets/skills/photoshop.svg' },
   { title: 'Illustrator', icon: '/assets/skills/illustrator.svg' },
   { title: 'Turborepo', icon: '/assets/skills/turborepo.svg' },
   { title: 'tRPC', icon: '/assets/skills/trpc.svg' },
-  { title: 'Prisma', icon: '/assets/skills/prisma.svg' },
+  { title: 'Prisma', icon: '/assets/skills/prisma.svg', invert: true },
   { title: 'React', icon: '/assets/skills/react.svg' },
   { title: 'Next.js', icon: '/assets/skills/nextjs.svg' },
   { title: 'Tailwind CSS', icon: '/assets/skills/tailwindcss.svg' },

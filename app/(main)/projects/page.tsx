@@ -7,7 +7,7 @@ import { createMetadata } from '@/lib/metadata'
 
 export default function ProjectsPage() {
   return (
-    <main className="container flex-1 py-4">
+    <main className="container shrink pt-4 pb-8">
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
         Projects
       </h1>

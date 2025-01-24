@@ -18,7 +18,7 @@ import {
   SidebarSeparator,
   SidebarTrigger,
 } from '@/components/ui/sidebar'
-import { navigations } from '@/data'
+import { navigations, socials } from '@/data'
 import Logo from '@/public/assets/tiesen.png'
 
 export const AppSidebar: React.FC<
@@ -41,13 +41,7 @@ export const AppSidebar: React.FC<
             {navigations.map((item) => (
               <SidebarMenuItem key={item.url}>
                 <SidebarMenuButton asChild>
-                  <Link
-                    href={item.url}
-                    target={item.isExternal ? '_blank' : '_self'}
-                    rel={item.isExternal ? 'noopener noreferrer' : undefined}
-                  >
-                    {item.name}
-                  </Link>
+                  <Link href={item.url}>{item.name}</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
@@ -72,9 +66,24 @@ export const AppSidebar: React.FC<
 
     <SidebarSeparator />
 
-    <SidebarFooter className="flex-row items-center justify-end">
-      <ThemeSwitch />
-      <SidebarTrigger />
+    <SidebarFooter className="flex-row items-center justify-between">
+      <nav className="flex items-center gap-2">
+        {socials.map((social) => (
+          <Link
+            key={social.link}
+            href={social.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <social.icon className="size-4" />
+          </Link>
+        ))}
+      </nav>
+      <div className="flex items-center gap-2">
+        <ThemeSwitch />
+        <SidebarTrigger />
+      </div>
     </SidebarFooter>
 
     <SidebarRail />

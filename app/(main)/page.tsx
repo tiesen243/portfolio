@@ -12,7 +12,7 @@ export default function HomePage() {
             'repeating-linear-gradient(to right, hsl(var(--primary)/.1),hsl(var(--primary)/.1) 1px,transparent 1px,transparent 50px), repeating-linear-gradient(to bottom, hsl(var(--primary)/.1),hsl(var(--primary)/.1) 1px,transparent 1px,transparent 50px)',
         }}
       />
-      <main className="relative overflow-hidden p-4 lg:pt-16">
+      <main className="relative container pt-4 lg:pt-16">
         <Hero />
         <Introduction />
         <Information />

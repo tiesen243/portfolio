@@ -21,8 +21,6 @@ export default function MainLayout({
               <Link
                 key={item.url}
                 href={item.url}
-                target={item.isExternal ? '_blank' : '_self'}
-                rel={item.isExternal ? 'noopener noreferrer' : undefined}
                 className="text-muted-foreground hover:text-foreground text-sm transition-colors md:text-base"
               >
                 {item.name}
