@@ -58,7 +58,7 @@ const SidebarProvider = React.forwardRef<
 >(
   (
     {
-      defaultOpen = false,
+      defaultOpen = true,
       open: openProp,
       onOpenChange: setOpenProp,
       className,
@@ -316,7 +316,7 @@ SidebarRail.displayName = 'SidebarRail'
 const SidebarInset = React.forwardRef<HTMLDivElement, React.ComponentProps<'main'>>(
   ({ className, ...props }, ref) => {
     return (
-      <section
+      <main
         ref={ref}
         className={cn(
           'bg-background relative flex min-h-svh flex-1 flex-col',

@@ -1,6 +1,5 @@
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ChevronLeftIcon, GithubIcon, Globe2Icon } from 'lucide-react'
+import { GithubIcon, Globe2Icon } from 'lucide-react'
 
 import { projects } from '@/data'
 import { createMetadata } from '@/lib/metadata'
@@ -16,10 +15,6 @@ export default async function ProjectPage({
 
   return (
     <main className="container flex flex-1 flex-col py-4">
-      <Link href="/projects" className="mb-4 flex gap-2">
-        <ChevronLeftIcon /> All Projects
-      </Link>
-
       <article className="prose-lg prose-neutral dark:prose-invert prose flex-1">
         <div className="inline-flex w-full items-center justify-between">
           <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">

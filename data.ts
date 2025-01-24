@@ -1,7 +1,34 @@
+import { FacebookIcon, GithubIcon, LinkedinIcon, TwitterIcon } from 'lucide-react'
+
 import D2 from '@/public/assets/design/goldenglow.png'
 import D3 from '@/public/assets/design/lin-yushia.png'
 import D1 from '@/public/assets/design/tiesen-v1.png'
 import D4 from '@/public/assets/design/tiesen-v2.png'
+
+export const socials = [
+  {
+    icon: GithubIcon,
+    link: 'https://github.com/tiesen243',
+  },
+  {
+    icon: LinkedinIcon,
+    link: 'https://linkedin.com/in/tiesen243',
+  },
+  {
+    icon: TwitterIcon,
+    link: 'https://x.com/tiesen243',
+  },
+  {
+    icon: FacebookIcon,
+    link: 'https://facebook.com/tiesen243.nanoda',
+  },
+]
+
+export const navigations = [
+  { name: 'Projects', url: '/projects' },
+  { name: 'Blogs', url: '/blogs' },
+  { name: 'Contact', url: 'https://gravatar.com/tiesen243', isExternal: true },
+]
 
 export const skills = [
   { title: 'Linux', icon: '/assets/skills/linux.svg' },

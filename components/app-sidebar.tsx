@@ -2,9 +2,11 @@ import * as React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { ThemeSwitch } from '@/components/theme-switch'
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -13,9 +15,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  SidebarSeparator,
+  SidebarTrigger,
 } from '@/components/ui/sidebar'
+import { navigations } from '@/data'
 import Logo from '@/public/assets/tiesen.png'
-import { ThemeBtn } from './theme-btn'
 
 export const AppSidebar: React.FC<
   React.ComponentProps<typeof Sidebar> & {
@@ -24,23 +28,17 @@ export const AppSidebar: React.FC<
 > = ({ tree, ...props }) => (
   <Sidebar {...props}>
     <SidebarHeader>
-      <Image src={Logo} alt="Tiesen" className="w-full max-w-[200px]" priority />
+      <Link href="/">
+        <Image src={Logo} alt="Tiesen" className="w-full max-w-[200px]" priority />
+      </Link>
     </SidebarHeader>
+
     <SidebarContent>
       <SidebarGroup>
         <SidebarGroupContent>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarMenu>
-            {[
-              { name: 'Home', url: '/' },
-              { name: 'Projects', url: '/projects' },
-              { name: 'Blogs', url: '/blogs' },
-              {
-                name: 'Contact',
-                url: 'https://gravatar.com/tiesen243',
-                isExternal: true,
-              },
-            ].map((item) => (
+            {navigations.map((item) => (
               <SidebarMenuItem key={item.url}>
                 <SidebarMenuButton asChild>
                   <Link
@@ -63,25 +61,22 @@ export const AppSidebar: React.FC<
             {tree.map((item) => (
               <SidebarMenuItem key={item.name}>
                 <SidebarMenuButton className="line-clamp-1 capitalize" asChild>
-                  <Link href={item.url}>{item.name.replaceAll('-', ' ')}</Link>
+                  <Link href={item.url}>{item.name}</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
-
-      <SidebarGroup>
-        <SidebarGroupLabel>Settings</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <ThemeBtn />
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
     </SidebarContent>
+
+    <SidebarSeparator />
+
+    <SidebarFooter className="flex-row items-center justify-end">
+      <ThemeSwitch />
+      <SidebarTrigger />
+    </SidebarFooter>
+
     <SidebarRail />
   </Sidebar>
 )

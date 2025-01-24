@@ -73,6 +73,9 @@ export const mdxComponents = {
 } satisfies MDXComponents
 
 const getId = (content: React.ReactNode) => {
-  if (typeof content === 'string') return content.split(' ').join('-').toLowerCase()
-  return
+  if (typeof content !== 'string') return ''
+  return String(content)
+    .toLowerCase()
+    .replace(/\s/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
 }
