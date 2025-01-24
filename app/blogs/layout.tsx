@@ -17,7 +17,7 @@ export default async function BlogLayout({
     <SidebarProvider>
       <AppSidebar tree={tree} />
       <SidebarInset className="max-w-screen">
-        <SidebarTrigger className="fixed bottom-2 left-4" />
+        <SidebarTrigger className="fixed bottom-2 left-4 z-10" />
         {children}
       </SidebarInset>
     </SidebarProvider>
