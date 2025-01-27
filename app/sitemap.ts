@@ -35,7 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       blogs.map(
         (page) =>
           ({
-            url: url(`/blogs/$${page.slug}`),
+            url: url(`/blogs/${page.slug}`),
             changeFrequency: 'weekly',
             priority: 0.5,
           }) as MetadataRoute.Sitemap[number],
