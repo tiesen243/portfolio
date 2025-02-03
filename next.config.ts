@@ -10,7 +10,6 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
-  experimental: { reactCompiler: true },
 
   images: { remotePatterns: [{ protocol: 'https', hostname: 'gravatar.com' }] },
 }

@@ -69,6 +69,16 @@ export const experiences = [
 
 export const projects = [
   {
+    slug: "yuki",
+    title: "Yuki",
+    date: "2025-02-04",
+    preview: "An innovative E-Commerce application built using Turbo repo and Next.js, offering a seamless shopping experience with fast performance and modern design.",
+    description: "This project is a cutting-edge e-commerce platform designed for scalability, performance, and maintainability. Built using Turborepo as a monorepo, it efficiently manages multiple applications within a single repository, improving developer workflow and optimizing build times.\nThe web storefront is developed with Next.js, leveraging its server-side rendering (SSR) and static site generation (SSG) capabilities to ensure fast page loads and an enhanced user experience. For the admin dashboard, Vue.js is used, providing a flexible and interactive interface for managing products, orders, and users efficiently.\nThe platform’s backend is powered by tRPC, enabling type-safe API communication between the front-end and back-end without the need for a traditional REST or GraphQL setup. This ensures a seamless and efficient data flow, reducing potential errors and improving development speed.\nFor styling, Tailwind CSS is used, allowing for a highly responsive and visually appealing user interface. With utility-first classes, it streamlines the design process and ensures consistency across both the storefront and the dashboard.\nThis tech stack creates a robust, scalable, and maintainable e-commerce solution, providing a high-performance shopping experience for users and an intuitive management system for administrators.",
+    link: 'https://shop.tiesen.id.vn',
+    repo: "https://github.com/tiesen243yuki",
+    tags: ["turborepo", "tRPC", "Next.js", "Vue.js", "TailwindCSS"]
+  },
+  {
     slug: 'cnn',
     title: 'CNN',
     date: 'Oct 26, 2024 - Oct 28, 2024',

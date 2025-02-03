@@ -9,8 +9,9 @@ export default async function ProjectPage({
 }: {
   params: Promise<{ slug?: string }>
 }) {
-  const slug = (await params).slug
+  const { slug } = (await params)
   const project = projects.find((project) => project.slug === slug)
+
   if (!project) notFound()
 
   return (
