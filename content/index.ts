@@ -28,11 +28,8 @@ export async function getPage(slugs: string[] = []): Promise<
 
     const stats = await fs.stat(file).catch(() => null)
 
-    if (stats?.isDirectory()) {
-      file = path.join(file, 'index.mdx')
-    } else {
-      file = file + '.mdx'
-    }
+    if (stats?.isDirectory()) file = path.join(file, 'index.mdx')
+    else file = file + '.mdx'
 
     return {
       path: file,

@@ -3,10 +3,12 @@ import '@/styles/shiki.css'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { compileMDX, parseFrontmatter } from '@fumadocs/mdx-remote'
+import * as Base from 'fumadocs-core/toc'
+import { AlignLeftIcon } from 'lucide-react'
 
 import type { Frontmatter } from '@/content'
 import { mdxComponents } from '@/components/mdx'
-import { Toc } from '@/components/toc'
+import { Badge } from '@/components/ui/badge'
 import { frontmatterShema, getPage, getPages } from '@/content'
 import { createMetadata } from '@/lib/metadata'
 
@@ -35,16 +37,33 @@ export default async function BlogsPage({
 
   return (
     <>
-      <Toc toc={toc} />
-      <article className="container flex w-full max-w-[860px] flex-col pt-4 pb-8">
+      <Base.AnchorProvider toc={toc}>
+        <div className="fixed top-4 right-4 hidden h-full w-64 max-w-full flex-col gap-3 pe-3 lg:flex">
+          <div className="text-muted-foreground flex items-center gap-2 text-sm">
+            <AlignLeftIcon className="size-4" />
+            <p>On this page</p>
+          </div>
+          {toc.map((item) => (
+            <Base.TOCItem
+              key={item.url}
+              href={item.url}
+              className={`text-muted-foreground data-[active=true]:text-foreground pl-${item.depth * 2}`}
+            >
+              {item.title}
+            </Base.TOCItem>
+          ))}
+        </div>
+      </Base.AnchorProvider>
+
+      <article className="flex flex-col px-6 pt-4 pb-8">
         <mdxComponents.h1>{frontmatter.title}</mdxComponents.h1>
         <mdxComponents.p>{frontmatter.publishedAt.toString()}</mdxComponents.p>
         <mdxComponents.p>{frontmatter.description}</mdxComponents.p>
-        <div className="mt-4 flex flex-wrap items-center">
+        <div className="mt-4 flex flex-wrap items-center gap-2">
           {frontmatter.tags.map((tag) => (
-            <span key={tag} className="mr-2 rounded-full border px-3 py-1 text-sm">
+            <Badge key={tag} variant="outline">
               {tag}
-            </span>
+            </Badge>
           ))}
         </div>
         {frontmatter.image && (

@@ -60,9 +60,16 @@ export const mdxComponents = {
       height={1080}
     />
   ),
-  a: (props: React.HTMLProps<HTMLAnchorElement>) => (
-    <Link {...(props as LinkProps)} className={cn('hover:underline', props.className)} />
-  ),
+  a: (props: React.HTMLProps<HTMLAnchorElement>) => {
+    const isExternal = props.href?.startsWith('https://')
+    return (
+      <Link
+        {...(props as LinkProps)}
+        className={cn('hover:underline', props.className)}
+        {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      />
+    )
+  },
   table: (props: React.HTMLProps<HTMLTableElement>) => (
     <div className="relative overflow-auto">
       <table {...props} />

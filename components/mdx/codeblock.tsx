@@ -1,8 +1,7 @@
 'use client'
 
 import type { ScrollAreaViewportProps } from '@radix-ui/react-scroll-area'
-import type { ButtonHTMLAttributes, HTMLAttributes, ReactElement, ReactNode } from 'react'
-import { forwardRef, useCallback, useRef } from 'react'
+import * as React from 'react'
 import { Check, Copy } from 'lucide-react'
 
 import { buttonVariants } from '@/components/ui/button'
@@ -10,13 +9,13 @@ import { ScrollArea, ScrollBar, ScrollViewport } from '@/components/ui/scroll-ar
 import { useCopyButton } from '@/hooks/use-copy-button'
 import { cn } from '@/lib/utils'
 
-export type CodeBlockProps = HTMLAttributes<HTMLElement> & {
+export type CodeBlockProps = React.HTMLAttributes<HTMLElement> & {
   /**
    * Icon of code block
    *
    * When passed as a string, it assumes the value is the HTML of icon
    */
-  icon?: ReactNode
+  icon?: React.ReactNode
 
   /**
    * Allow to copy code with copy button
@@ -35,106 +34,100 @@ export type CodeBlockProps = HTMLAttributes<HTMLElement> & {
   viewportProps?: ScrollAreaViewportProps
 }
 
-export const Pre = forwardRef<HTMLPreElement, HTMLAttributes<HTMLPreElement>>(
-  ({ className, ...props }, ref) => {
-    return (
-      <pre
-        ref={ref}
-        className={cn('p-4 focus-visible:outline-none', className)}
-        {...props}
-      >
-        {props.children}
-      </pre>
-    )
-  },
-)
+function Pre({ className, ...props }: React.ComponentProps<'pre'>) {
+  return (
+    <pre
+      data-slot="pre"
+      className={cn('p-4 focus-visible:outline-none', className)}
+      {...props}
+    />
+  )
+}
 
-Pre.displayName = 'Pre'
+function CodeBlock({
+  title,
+  allowCopy = true,
+  keepBackground = false,
+  icon,
+  viewportProps,
+  ...props
+}: React.ComponentProps<'figure'> & CodeBlockProps) {
+  const areaRef = React.useRef<HTMLDivElement>(null)
+  const onCopy = React.useCallback(() => {
+    const pre = areaRef.current?.getElementsByTagName('pre').item(0)
 
-export const CodeBlock = forwardRef<HTMLElement, CodeBlockProps>(
-  (
-    { title, allowCopy = true, keepBackground = false, icon, viewportProps, ...props },
-    ref,
-  ) => {
-    const areaRef = useRef<HTMLDivElement>(null)
-    const onCopy = useCallback(() => {
-      const pre = areaRef.current?.getElementsByTagName('pre').item(0)
+    if (!pre) return
 
-      if (!pre) return
+    const clone = pre.cloneNode(true) as HTMLElement
+    clone.querySelectorAll('.nd-copy-ignore').forEach((node) => {
+      node.remove()
+    })
 
-      const clone = pre.cloneNode(true) as HTMLElement
-      clone.querySelectorAll('.nd-copy-ignore').forEach((node) => {
-        node.remove()
-      })
+    void navigator.clipboard.writeText(clone.textContent ?? '')
+  }, [])
 
-      void navigator.clipboard.writeText(clone.textContent ?? '')
-    }, [])
-
-    return (
-      <figure
-        ref={ref}
-        {...props}
-        className={cn(
-          'group bg-secondary/50 relative my-6 overflow-hidden rounded-lg border text-sm',
-          keepBackground && 'bg-[var(--shiki-light-bg)] dark:bg-[var(--shiki-dark-bg)]',
-          props.className,
-        )}
-      >
-        {title ? (
-          <div className="bg-muted flex flex-row items-center gap-2 border-b px-4 py-1.5">
-            {icon ? (
-              <div
-                className="text-muted-foreground [&_svg]:size-3.5"
-                dangerouslySetInnerHTML={
-                  typeof icon === 'string'
-                    ? {
-                        __html: icon,
-                      }
-                    : undefined
-                }
-              >
-                {typeof icon !== 'string' ? icon : null}
-              </div>
-            ) : null}
-            <figcaption className="text-muted-foreground flex-1 truncate">
-              {title}
-            </figcaption>
-            {allowCopy ? <CopyButton className="-me-2" onCopy={onCopy} /> : null}
-          </div>
-        ) : (
-          allowCopy && (
-            <CopyButton
-              className="absolute top-2 right-2 z-[2] backdrop-blur-md"
-              onCopy={onCopy}
-            />
-          )
-        )}
-        <ScrollArea ref={areaRef} dir="ltr">
-          <ScrollViewport
-            {...viewportProps}
-            className={cn(
-              'max-h-[600px] **:rounded-none **:bg-transparent',
-              viewportProps?.className,
-            )}
-          >
-            {props.children}
-          </ScrollViewport>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
-      </figure>
-    )
-  },
-)
-
-CodeBlock.displayName = 'CodeBlock'
+  return (
+    <figure
+      {...props}
+      data-slot="codeblock"
+      className={cn(
+        'group bg-secondary/50 relative my-6 overflow-hidden rounded-lg border text-sm',
+        keepBackground && 'bg-[var(--shiki-light-bg)] dark:bg-[var(--shiki-dark-bg)]',
+        props.className,
+      )}
+    >
+      {title ? (
+        <div className="bg-muted flex flex-row items-center gap-2 border-b px-4 py-1.5">
+          {icon ? (
+            <div
+              className="text-muted-foreground [&_svg]:size-3.5"
+              dangerouslySetInnerHTML={
+                typeof icon === 'string'
+                  ? {
+                      __html: icon,
+                    }
+                  : undefined
+              }
+            >
+              {typeof icon !== 'string' ? icon : null}
+            </div>
+          ) : null}
+          <figcaption className="text-muted-foreground flex-1 truncate">
+            {title}
+          </figcaption>
+          {allowCopy ? <CopyButton className="-me-2" onCopy={onCopy} /> : null}
+        </div>
+      ) : (
+        allowCopy && (
+          <CopyButton
+            className="absolute top-2 right-2 z-[2] backdrop-blur-md"
+            onCopy={onCopy}
+          />
+        )
+      )}
+      <ScrollArea ref={areaRef} dir="ltr">
+        <ScrollViewport
+          {...viewportProps}
+          className={cn(
+            'max-h-[600px] **:rounded-none **:bg-transparent',
+            viewportProps?.className,
+          )}
+        >
+          {props.children}
+        </ScrollViewport>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
+    </figure>
+  )
+}
 
 function CopyButton({
   className,
   onCopy,
   ...props
-}: ButtonHTMLAttributes<HTMLButtonElement> & {
+}: React.ComponentProps<'button'> & {
   onCopy: () => void
-}): ReactElement {
+}) {
   const [checked, onClick] = useCopyButton(onCopy)
 
   return (
@@ -159,3 +152,5 @@ function CopyButton({
     </button>
   )
 }
+
+export { Pre, CodeBlock }

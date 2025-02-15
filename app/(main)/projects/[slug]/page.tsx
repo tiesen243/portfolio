@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { GithubIcon, Globe2Icon } from 'lucide-react'
 
+import { Badge } from '@/components/ui/badge'
 import { projects } from '@/data'
 import { createMetadata } from '@/lib/metadata'
 
@@ -32,9 +33,9 @@ export default async function ProjectPage({
 
         <div className="mt-4 flex flex-wrap items-center gap-2">
           {project.tags.map((tag) => (
-            <span key={tag} className="rounded-full border px-3 py-1 text-sm">
+            <Badge key={tag} variant="outline">
               {tag}
-            </span>
+            </Badge>
           ))}
         </div>
       </article>
