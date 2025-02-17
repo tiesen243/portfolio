@@ -53,7 +53,7 @@ export const Information: React.FC = () => (
         >
           <Image
             src={item.icon}
-            alt={item.title}
+            alt={`${item.title} icon`}
             width={24}
             height={24}
             className={cn('m-0 drop-shadow-xl', item.invert && 'dark:invert')}

@@ -8,18 +8,22 @@ import D4 from '@/public/assets/design/tiesen-v2.png'
 export const socials = [
   {
     icon: GithubIcon,
+    name: 'Github',
     link: 'https://github.com/tiesen243',
   },
   {
     icon: LinkedinIcon,
+    name: 'Linkedin',
     link: 'https://linkedin.com/in/tiesen243',
   },
   {
     icon: TwitterIcon,
+    name: 'Twitter',
     link: 'https://x.com/tiesen243',
   },
   {
     icon: FacebookIcon,
+    name: 'facebook',
     link: 'https://facebook.com/tiesen243.nanoda',
   },
 ]

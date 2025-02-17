@@ -9,10 +9,11 @@ export const ThemeSwitch: React.FC = () => {
   const { theme, setTheme } = useTheme()
 
   const isMouted = useMounted()
-  if (!isMouted) return <Switch />
+  if (!isMouted) return <Switch aria-label="Toggle Theme" />
 
   return (
     <Switch
+      aria-label="Toggle Theme"
       checked={theme === 'dark'}
       onCheckedChange={(checked) => {
         setTheme(checked ? 'dark' : 'light')

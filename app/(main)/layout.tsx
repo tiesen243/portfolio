@@ -38,6 +38,7 @@ export default function MainLayout({
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 <social.icon className="size-4" />
+                <span className="sr-only">{social.name}</span>
               </Link>
             ))}
             <ThemeSwitch />
