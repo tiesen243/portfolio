@@ -98,6 +98,7 @@ export async function generateMetadata(props: { params: Promise<{ slug?: string[
   return createMetadata({
     title: frontmatter.title,
     description: frontmatter.description,
+    keywords: frontmatter.tags,
     openGraph: {
       images: [
         `/api/og?title=${encodeURIComponent(

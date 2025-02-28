@@ -81,6 +81,7 @@ export async function generateMetadata({
   return createMetadata({
     title: project.title,
     description: project.preview,
+    keywords: project.tags,
     openGraph: {
       images: [
         `/api/og?title=${encodeURIComponent(project.title)}&description=${encodeURIComponent(project.preview)}`,

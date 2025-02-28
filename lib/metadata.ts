@@ -22,7 +22,17 @@ export const createMetadata = (
     alternates: { canonical: url },
     facebook: { appId: '523462826928110' },
     manifest: `${getBaseUrl()}/manifest.webmanifest`,
-    keywords: ['Tiesen', 'tiesen243', 'Tran Tien', 'Trần Tiến'],
+    keywords: [
+      'Tiesen',
+      'tiesen243',
+      'Tran Tien',
+      'Trần Tiến',
+      ...(override.keywords
+        ? typeof override.keywords === 'string'
+          ? [override.keywords]
+          : override.keywords
+        : []),
+    ],
     openGraph: {
       url: url,
       images: [...images, { url: '/api/og?uwu=true' }],
