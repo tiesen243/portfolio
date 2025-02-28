@@ -117,7 +117,7 @@ import '@/env'
 > Note: The `AUTH_SECRET` variable is used to salt the user's password before hashing it. Run the following command to generate a random secret:
 
 ```bash
-bunx --bun auth secret
+openssl rand -base64 32
 ```
 
 ### Setting up Prisma
