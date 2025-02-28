@@ -30,7 +30,7 @@ export default async function BlogsPage({
     source: page.content,
     mdxOptions: {
       rehypeCodeOptions: {
-        themes: { light: 'github-light-default', dark: 'tokyo-night' },
+        themes: { light: 'github-light-high-contrast', dark: 'vesper' },
       },
     },
   })
