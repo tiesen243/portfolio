@@ -842,6 +842,41 @@ export const SessionProvider: React.FC<React.PropsWithChildren> = ({ children })
 
 This hook uses React Query to fetch the user session from the server and provides a `refresh` method to refresh the session.
 
+3. Optionally, you can add `middleware` to protect routes that require authentication:
+
+```typescript title="middleware.ts"
+import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
+
+import { Session } from '@/server/auth/session'
+
+const publicRoutes = ['/', '/sign-in', '/sign-up']
+
+export const middleware = async (req: NextRequest) => {
+  const session = await new Session().validateSessionToken(
+    req.cookies.get('auth_token')?.value ?? '',
+  )
+
+  if (!publicRoutes.includes(req.url) && !session.user)
+    return NextResponse.redirect(new URL('/sign-in', req.nextUrl))
+
+  return NextResponse.next()
+}
+
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+  ],
+}
+```
+
 ## Conclusion
 
 In this article, we have explored how to create a simple authentication system using Typescript and Prisma. We have implemented user authentication using credentials and OAuth providers like Discord and Google. The system is designed to be easy to use and extend, making it a good starting point for building more complex authentication systems.
