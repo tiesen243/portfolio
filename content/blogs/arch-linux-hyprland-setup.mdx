@@ -174,7 +174,6 @@ After reboot, open the terminal by press `Win + Q`, and start to set up dual boo
 
 ```bash
 sudo grub-mkconfig -o /boot/grub/grub.cfg
-# Enter the root password
 ```
 
 Now, you can reboot the computer and can see the Windows 11 in the boot menu.
@@ -198,13 +197,14 @@ rm -rf ~/yay
 3. Install all packages
 
 ```bash
-yay -S zsh rofi hyprpaper hyprpicker hypridle hyprlock \
+yay -S zsh fastfetch rofi-wayland hyprpaper hyprpicker hypridle hyprlock xdg-desktop-portal-hyprland-git \
 noto-fonts noto-fonts-cjk noto-fonts-emoji \
 zen-browser-bin ffmpeg \
 lsd ripgrep brightnessctl \
 github-cli lazygit\
 cliphist wl-clipboard \
 nwg-look pavucontrol \
+lazygit unzip \
 grim slurp
 ```
 
@@ -237,13 +237,19 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
 ```
 
-- OBS Studio
+6. Generate SSH key
 
 ```bash
-yay -S obs-studio wlrobs-hg
+ssh-keygen -t rsa -b 4096 -C "yuki@example.com"
 ```
 
-6. Uninstall unnecessary packages (optional)
+Then, add the SSH key to github using `github-cli`
+
+```bash
+gh auth login
+```
+
+7. Uninstall unnecessary packages (optional)
 
 ```bash
 sudo pacman -Runs htop nano vim wofi
@@ -254,6 +260,12 @@ sudo pacman -Runs htop nano vim wofi
 1. To apply my config, you can run the following command:
 
 ```bash
+git clone git@github.com:tiesen243/dotfiles.git ~/dotfiles
+```
+
+Then, create the symbolic links to the config files
+
+```bash
 rm ~/.zshrc
 rm -rf ~/.config/{dunst,fastfetch,hypr,kitty,lazygit,nvim,rofi}
 
@@ -262,9 +274,7 @@ ln -s ~/dotfiles/zsh/themes/yuki.zsh-theme ~/.oh-my-zsh/custom/themes
 ln -s ~/dotfiles/zsh/config.zsh ~/.zshrc
 ```
 
-Then, you can change the themes by `nwg-look` command
-
-2. Change Wallpaper in `~/dotfiles/hypr/misc/hyprpaper.conf`
+2. Change Wallpaper in `~/dotfiles/hypr/hyprpaper.conf`
 
 ```bash
 $path = /path/to/your/wallpaper
@@ -272,11 +282,15 @@ $path = /path/to/your/wallpaper
 
 Or change file in `~/dotfiles/assets/_background.png`
 
+> Note: If it show wrong time on Windows, you can run the following command to fix it
+
+```bash
+timedatectl set-local-rtc 1
+```
+
 ## Conclusion
 
 In this tutorial, you have learned how to install Arch Linux with Hyprland OS on your computer. You have also learned how to set up the system and customize it to your liking. I hope this tutorial has been helpful to you, and I wish you the best of luck with your new Arch Linux system. If you have any questions or need further assistance, please feel free to ask. Thank you for reading!
-
-Repository: [dotfiles](https://github.com/tiesen243/dotfiles)
 
 ## References
 
