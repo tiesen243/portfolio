@@ -54,7 +54,7 @@ export default async function BlogsPage({
   return (
     <>
       <Base.AnchorProvider toc={toc}>
-        <div className="fixed top-4 right-4 hidden h-full w-64 max-w-full flex-col gap-3 pe-3 lg:flex">
+        <div className="fixed top-4 right-4 hidden h-full w-64 max-w-full flex-col gap-3 pe-3 xl:flex">
           <div className="text-muted-foreground flex items-center gap-2 text-sm">
             <AlignLeftIcon className="size-4" />
             <p>On this page</p>
@@ -73,7 +73,7 @@ export default async function BlogsPage({
 
       <article className="flex flex-col px-6 py-4">
         <mdxComponents.h1>{frontmatter.title}</mdxComponents.h1>
-        <mdxComponents.p>{frontmatter.publishedAt.toString()}</mdxComponents.p>
+        <mdxComponents.p>{frontmatter.publishedAt.toDateString()}</mdxComponents.p>
         <mdxComponents.p>{frontmatter.description}</mdxComponents.p>
         <div className="mt-4 flex flex-wrap items-center gap-2">
           {frontmatter.tags.map((tag) => (
