@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { parseFrontmatter } from '@fumadocs/mdx-remote'
 
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { frontmatterShema, getPage, getPages } from '@/content'
 import { createMetadata } from '@/lib/metadata'
 
@@ -20,7 +19,7 @@ export default async function BlogPage() {
         I hope you enjoy reading my blog and find it informative and entertaining.
       </p>
 
-      <div className="mt-4 grid gap-4">
+      <div className="mt-4 grid gap-6">
         {pages.map(async (page) => {
           const source = await getPage(page.slug)
           if (!source) return null
@@ -30,13 +29,18 @@ export default async function BlogPage() {
           )
 
           return (
-            <Link href={`/blogs/${page.slug}`} key={page.path}>
-              <Card className="hover:bg-secondary transition-colors">
-                <CardHeader>
-                  <CardTitle>{frontmatter.title}</CardTitle>
-                  <CardDescription>{frontmatter.description}</CardDescription>
-                </CardHeader>
-              </Card>
+            <Link href={`/blogs/${page.slug}`} key={page.path} className="group">
+              <time className="text-muted-foreground">
+                {new Date(frontmatter.publishedAt).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </time>
+              <h2 className="scroll-m-20 pt-1 pb-2 text-3xl font-semibold tracking-tight transition-colors group-hover:underline">
+                {frontmatter.title}
+              </h2>
+              <p className="leading-7">{frontmatter.description}</p>
             </Link>
           )
         })}

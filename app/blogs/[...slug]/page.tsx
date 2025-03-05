@@ -1,10 +1,12 @@
 import '@/styles/shiki.css'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { compileMDX, parseFrontmatter } from '@fumadocs/mdx-remote'
+import { findNeighbour } from 'fumadocs-core/server'
 import * as Base from 'fumadocs-core/toc'
-import { AlignLeftIcon } from 'lucide-react'
+import { AlignLeftIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 
 import type { Frontmatter } from '@/content'
 import { mdxComponents } from '@/components/mdx'
@@ -17,9 +19,23 @@ export default async function BlogsPage({
 }: {
   params: Promise<{ slug: string[] }>
 }) {
-  const slug = (await params).slug
+  const { slug } = await params
   const page = await getPage(slug)
   if (!page) return notFound()
+
+  const pages = await getPages()
+
+  const { previous, next } = findNeighbour(
+    {
+      name: 'Blogs',
+      children: pages.map((p) => ({
+        type: 'page',
+        name: p.frontmatter.title,
+        url: `/blogs/${p.slug.join('/')}`,
+      })),
+    },
+    `/blogs/${slug.join('/')}`,
+  )
 
   const {
     frontmatter,
@@ -55,7 +71,7 @@ export default async function BlogsPage({
         </div>
       </Base.AnchorProvider>
 
-      <article className="flex flex-col px-6 pt-4 pb-8">
+      <article className="flex flex-col px-6 py-4">
         <mdxComponents.h1>{frontmatter.title}</mdxComponents.h1>
         <mdxComponents.p>{frontmatter.publishedAt.toString()}</mdxComponents.p>
         <mdxComponents.p>{frontmatter.description}</mdxComponents.p>
@@ -80,6 +96,41 @@ export default async function BlogsPage({
 
         <MdxContent components={{ ...mdxComponents }} />
       </article>
+
+      <nav className="flex justify-between border-t px-6 py-8">
+        {previous && (
+          <Link
+            href={previous.url}
+            className="text-muted-foreground hover:text-foreground flex flex-col items-start"
+          >
+            <span className="ml-8">Previous</span>
+            <div className="flex items-center gap-2">
+              <ChevronLeftIcon />
+              <span className="text-foreground">
+                {String(previous.name as unknown).length > 20
+                  ? String(previous.name as unknown).slice(0, 20) + '...'
+                  : previous.name}
+              </span>
+            </div>
+          </Link>
+        )}
+        {next && (
+          <Link
+            href={next.url}
+            className="text-muted-foreground hover:text-foreground flex flex-col items-end"
+          >
+            <span className="mr-8">Next</span>
+            <div className="flex items-center gap-2">
+              <span className="text-foreground">
+                {String(next.name as unknown).length > 20
+                  ? String(next.name as unknown).slice(0, 20) + '...'
+                  : next.name}
+              </span>
+              <ChevronRightIcon />
+            </div>
+          </Link>
+        )}
+      </nav>
     </>
   )
 }
