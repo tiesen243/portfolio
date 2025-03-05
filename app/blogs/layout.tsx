@@ -1,9 +1,9 @@
 import { unstable_cache } from 'next/cache'
 
 import { getPages } from '@/content'
-import { Sidebar } from './layout.client'
+import { BlogsLayoutClient } from './layout.client'
 
-export default async function BlogLayout({
+export default async function BlogsLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const pages = await unstable_cache(getPages, ['pages'], {
@@ -31,8 +31,8 @@ export default async function BlogLayout({
   ]
 
   return (
-    <Sidebar navs={navs}>
+    <BlogsLayoutClient navs={navs}>
       <main className="mx-auto max-w-[calc(100svh-16rem)]">{children}</main>
-    </Sidebar>
+    </BlogsLayoutClient>
   )
 }

@@ -52,7 +52,7 @@ export default async function BlogsPage({
   })
 
   return (
-    <>
+    <main className="mx-auto max-w-[calc(100svh-16rem)]">
       <Base.AnchorProvider toc={toc}>
         <div className="fixed top-4 right-4 hidden h-full w-64 max-w-full flex-col gap-3 pe-3 xl:flex">
           <div className="text-muted-foreground flex items-center gap-2 text-sm">
@@ -136,7 +136,7 @@ export default async function BlogsPage({
           <a />
         )}
       </nav>
-    </>
+    </main>
   )
 }
 

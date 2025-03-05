@@ -8,7 +8,7 @@ export default async function BlogPage() {
   const pages = await getPages()
 
   return (
-    <article className="container pt-4 pb-8">
+    <main className="mx-auto max-w-[calc(100svh-16rem)] py-4">
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
         Blogs
       </h1>
@@ -19,7 +19,7 @@ export default async function BlogPage() {
         I hope you enjoy reading my blog and find it informative and entertaining.
       </p>
 
-      <div className="mt-4 grid gap-6">
+      <div className="mt-4 grid gap-8">
         {pages.map(async (page) => {
           const source = await getPage(page.slug)
           if (!source) return null
@@ -45,7 +45,7 @@ export default async function BlogPage() {
           )
         })}
       </div>
-    </article>
+    </main>
   )
 }
 
