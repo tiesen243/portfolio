@@ -98,7 +98,7 @@ export default async function BlogsPage({
       </article>
 
       <nav className="flex justify-between border-t px-6 py-8">
-        {previous && (
+        {previous ? (
           <Link
             href={previous.url}
             className="text-muted-foreground hover:text-foreground flex flex-col items-start"
@@ -113,8 +113,11 @@ export default async function BlogsPage({
               </span>
             </div>
           </Link>
+        ) : (
+          <a />
         )}
-        {next && (
+
+        {next ? (
           <Link
             href={next.url}
             className="text-muted-foreground hover:text-foreground flex flex-col items-end"
@@ -129,6 +132,8 @@ export default async function BlogsPage({
               <ChevronRightIcon />
             </div>
           </Link>
+        ) : (
+          <a />
         )}
       </nav>
     </>
