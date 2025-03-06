@@ -85,7 +85,11 @@ type FormProps = React.FormHTMLAttributes<HTMLFormElement>
 
 export const Form = forwardRef<HTMLFormElement, FormProps>(
   ({ className = '', ...props }, ref) => (
-    <form {...props} ref={ref} className={cn('flex flex-col gap-4', className)} />
+    <form
+      {...props}
+      ref={ref}
+      className={cn('flex flex-col gap-4', className)}
+    />
   ),
 )
 Form.displayName = 'Form'
@@ -143,7 +147,11 @@ export const FormField = <T extends FieldValues>({
     <Controller
       name={name}
       control={control}
-      render={({ field, fieldState: { error }, formState: { isSubmitting } }) => (
+      render={({
+        field,
+        fieldState: { error },
+        formState: { isSubmitting },
+      }) => (
         <fieldset
           name={field.name}
           disabled={isSubmitting}
@@ -175,14 +183,20 @@ export const FormField = <T extends FieldValues>({
           {description && (
             <p
               id={ids.description}
-              className={cn('text-muted-foreground text-sm', classes.description)}
+              className={cn(
+                'text-muted-foreground text-sm',
+                classes.description,
+              )}
             >
               {description}
             </p>
           )}
 
           {error && (
-            <small id={ids.message} className={cn('text-destructive', classes.message)}>
+            <small
+              id={ids.message}
+              className={cn('text-destructive', classes.message)}
+            >
               {error.message}
             </small>
           )}
@@ -227,7 +241,11 @@ const fields = [
   { name: 'name' as const, label: 'Name', type: 'text' },
   { name: 'email' as const, label: 'Email', type: 'email' },
   { name: 'password' as const, label: 'Password', type: 'password' },
-  { name: 'confirmPassword' as const, label: 'Confirm Password', type: 'password' },
+  {
+    name: 'confirmPassword' as const,
+    label: 'Confirm Password',
+    type: 'password',
+  },
 ]
 ```
 
@@ -245,7 +263,9 @@ import { Button } from '@/components/ui/button'
 import { Form, FormField } from '@/components/ui/form'
 
 export const SignupForm: React.FC = () => {
-  const form = useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema) })
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
+  })
 
   const handleSubmit = form.handleSubmit(async (data) => {
     /* Call your API here */

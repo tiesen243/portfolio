@@ -73,7 +73,9 @@ export default async function BlogsPage({
 
       <article className="flex flex-col px-6 py-4">
         <mdxComponents.h1>{frontmatter.title}</mdxComponents.h1>
-        <mdxComponents.p>{frontmatter.publishedAt.toDateString()}</mdxComponents.p>
+        <mdxComponents.p>
+          {frontmatter.publishedAt.toDateString()}
+        </mdxComponents.p>
         <mdxComponents.p>{frontmatter.description}</mdxComponents.p>
         <div className="mt-4 flex flex-wrap items-center gap-2">
           {frontmatter.tags.map((tag) => (
@@ -144,12 +146,16 @@ export async function generateStaticParams() {
   return (await getPages()).map((page) => ({ slug: page.slug }))
 }
 
-export async function generateMetadata(props: { params: Promise<{ slug?: string[] }> }) {
+export async function generateMetadata(props: {
+  params: Promise<{ slug?: string[] }>
+}) {
   const params = await props.params
   const page = await getPage(params.slug)
   if (!page) notFound()
 
-  const frontmatter = frontmatterShema.parse(parseFrontmatter(page.content).frontmatter)
+  const frontmatter = frontmatterShema.parse(
+    parseFrontmatter(page.content).frontmatter,
+  )
 
   return createMetadata({
     title: frontmatter.title,

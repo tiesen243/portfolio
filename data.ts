@@ -1,4 +1,9 @@
-import { FacebookIcon, GithubIcon, LinkedinIcon, TwitterIcon } from 'lucide-react'
+import {
+  FacebookIcon,
+  GithubIcon,
+  LinkedinIcon,
+  TwitterIcon,
+} from 'lucide-react'
 
 import D2 from '@/public/assets/design/goldenglow.png'
 import D3 from '@/public/assets/design/lin-yushia.png'

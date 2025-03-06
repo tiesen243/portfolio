@@ -1,6 +1,7 @@
 import Image from 'next/image'
 
-const emailHash = '48b8ec4ce6c85e06c11bda4381a3ac6cb8161a23e5ea540544c809063090815d'
+const emailHash =
+  '48b8ec4ce6c85e06c11bda4381a3ac6cb8161a23e5ea540544c809063090815d'
 
 export const Introduction = () => (
   <section className="flex flex-col justify-between gap-4 md:flex-row">
@@ -13,10 +14,11 @@ export const Introduction = () => (
         <strong className="text-yuki">Typescript </strong>and
         <strong className="text-yuki"> Python</strong>.
         <br /> My field of interest are building new{' '}
-        <strong className="text-yuki">web applications</strong> and also in areas related
-        to <strong className="text-yuki">Artificial Intelligence</strong>.
-        <br /> Whatever possible, I try to contribute to the open-source community with{' '}
-        <strong className="text-yuki">Next.js</strong> and{' '}
+        <strong className="text-yuki">web applications</strong> and also in
+        areas related to{' '}
+        <strong className="text-yuki">Artificial Intelligence</strong>.
+        <br /> Whatever possible, I try to contribute to the open-source
+        community with <strong className="text-yuki">Next.js</strong> and{' '}
         <strong className="text-yuki">Machine Learning</strong> projects.
       </p>
 

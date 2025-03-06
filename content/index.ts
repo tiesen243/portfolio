@@ -59,7 +59,9 @@ export async function getPages(): Promise<Page[]> {
       if (slugs[slugs.length - 1] === 'index') slugs.pop()
 
       const content = (await fs.readFile(file, 'utf-8')).toString()
-      const frontmatter = frontmatterShema.parse(parseFrontmatter(content).frontmatter)
+      const frontmatter = frontmatterShema.parse(
+        parseFrontmatter(content).frontmatter,
+      )
 
       return {
         path: file,
@@ -71,7 +73,8 @@ export async function getPages(): Promise<Page[]> {
     pages
       .sort(
         (a, b) =>
-          b.frontmatter.publishedAt.getTime() - a.frontmatter.publishedAt.getTime(),
+          b.frontmatter.publishedAt.getTime() -
+          a.frontmatter.publishedAt.getTime(),
       )
       .filter((page) => page.slug.length),
   )

@@ -19,8 +19,8 @@ export default function ProjectsPage() {
           Applications and Websites
         </h2>
         <p className="text-muted-foreground leading-7">
-          Here are some of the projects I&apos;ve worked on. Click on the cards to view
-          more details.
+          Here are some of the projects I&apos;ve worked on. Click on the cards
+          to view more details.
         </p>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
@@ -34,8 +34,8 @@ export default function ProjectsPage() {
           Designs
         </h2>
         <p className="text-muted-foreground leading-7">
-          Here are some of the designs I&apos;ve created. Click on the images to view them
-          in full size.
+          Here are some of the designs I&apos;ve created. Click on the images to
+          view them in full size.
         </p>
 
         {designs.map((src, idx) => (
@@ -65,7 +65,9 @@ export const metadata = createMetadata({
   },
 })
 
-const ProjectCard: React.FC<{ project: (typeof projects)[number] }> = ({ project }) => (
+const ProjectCard: React.FC<{ project: (typeof projects)[number] }> = ({
+  project,
+}) => (
   <div className="bg-card text-card-foreground flex h-full w-full flex-col overflow-hidden rounded-xl border shadow-sm transition-all hover:shadow-xl">
     <div className="flex grow flex-col items-start gap-1.5 p-6">
       <h3 className="text-xl leading-none font-semibold tracking-tight">
@@ -86,7 +88,11 @@ const ProjectCard: React.FC<{ project: (typeof projects)[number] }> = ({ project
       <div className="flex items-center justify-between">
         <div className="text-muted-foreground flex items-center gap-2 text-sm">
           <ClockIcon className="h-4 w-4" />
-          {project.due ? <span>Due in {project.due}</span> : <span>On going</span>}
+          {project.due ? (
+            <span>Due in {project.due}</span>
+          ) : (
+            <span>On going</span>
+          )}
         </div>
         <div className="text-muted-foreground flex items-center gap-2 text-sm">
           <UsersIcon className="h-4 w-4" />

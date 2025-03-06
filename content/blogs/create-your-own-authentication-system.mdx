@@ -202,7 +202,8 @@ const adapter = new PrismaNeon(pool)
 const createPrismaClient = () =>
   new PrismaClient({
     adapter, // If you are using Neon
-    log: env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+    log:
+      env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
   })
 
 const globalForPrisma = globalThis as unknown as {
@@ -224,7 +225,10 @@ This file sets up the Prisma client with the Neon adapter and exports the `db` o
 ```typescript title="server/auth/session.ts"
 import type { User } from '@prisma/client'
 import { sha256 } from '@oslojs/crypto/sha2'
-import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding'
+import {
+  encodeBase32LowerCaseNoPadding,
+  encodeHexLowerCase,
+} from '@oslojs/encoding'
 
 import { db } from '@/server/db'
 
@@ -252,7 +256,9 @@ export class Session {
 
     const session = await this.db.session.create({
       data: {
-        sessionToken: encodeHexLowerCase(sha256(new TextEncoder().encode(token))),
+        sessionToken: encodeHexLowerCase(
+          sha256(new TextEncoder().encode(token)),
+        ),
         expires: new Date(Date.now() + this.EXPIRATION_TIME),
         userId,
       },
@@ -262,7 +268,9 @@ export class Session {
   }
 
   public async validateSessionToken(token: string): Promise<SessionResult> {
-    const sessionToken = encodeHexLowerCase(sha256(new TextEncoder().encode(token)))
+    const sessionToken = encodeHexLowerCase(
+      sha256(new TextEncoder().encode(token)),
+    )
 
     const result = await this.db.session.findUnique({
       where: { sessionToken },
@@ -290,7 +298,9 @@ export class Session {
   }
 
   public async invalidateSessionToken(token: string): Promise<void> {
-    const sessionToken = encodeHexLowerCase(sha256(new TextEncoder().encode(token)))
+    const sessionToken = encodeHexLowerCase(
+      sha256(new TextEncoder().encode(token)),
+    )
     await this.db.session.delete({ where: { sessionToken } })
   }
 
@@ -323,7 +333,9 @@ import { env } from '@/env'
 export class Password {
   public hash(password: string): string {
     const saltedPassword = `${password}${env.AUTH_SECRET}`
-    return encodeBase32LowerCase(sha3_256(new TextEncoder().encode(saltedPassword)))
+    return encodeBase32LowerCase(
+      sha3_256(new TextEncoder().encode(saltedPassword)),
+    )
   }
 
   public verify(password: string, hash: string): boolean {
@@ -411,7 +423,8 @@ class AuthHandler {
           const isCallback = url.pathname.endsWith('/callback')
 
           if (!isCallback) {
-            const provider = this.providers[String(url.pathname.split('/').pop())]
+            const provider =
+              this.providers[String(url.pathname.split('/').pop())]
 
             if (!provider) {
               response = NextResponse.json(
@@ -422,13 +435,19 @@ class AuthHandler {
             }
             const state = generateState()
             const codeVerifier = generateCodeVerifier()
-            const authorizationUrl = provider.createAuthorizationURL(state, codeVerifier)
+            const authorizationUrl = provider.createAuthorizationURL(
+              state,
+              codeVerifier,
+            )
 
-            response = NextResponse.redirect(new URL(authorizationUrl, req.nextUrl))
+            response = NextResponse.redirect(
+              new URL(authorizationUrl, req.nextUrl),
+            )
             response.cookies.set('code_verifier', codeVerifier)
             response.cookies.set('oauth_state', state)
           } else {
-            const provider = this.providers[String(url.pathname.split('/').slice(-2)[0])]
+            const provider =
+              this.providers[String(url.pathname.split('/').slice(-2)[0])]
             if (!provider) {
               response = NextResponse.json(
                 { error: 'Provider not supported' },
@@ -446,7 +465,8 @@ class AuthHandler {
               if (!code || !state || state !== storedState)
                 throw new Error('Invalid state')
 
-              const { validateAuthorizationCode, fetchUserUrl, mapUser } = provider
+              const { validateAuthorizationCode, fetchUserUrl, mapUser } =
+                provider
 
               const verifiedCode = await validateAuthorizationCode(
                 'dsadasd',
@@ -460,7 +480,9 @@ class AuthHandler {
               })
               if (!res.ok) throw new Error('Failed to fetch user data')
 
-              const user = await this.createUser(mapUser((await res.json()) as never))
+              const user = await this.createUser(
+                mapUser((await res.json()) as never),
+              )
               const session = await this.session.createSession(user.id)
 
               response = NextResponse.redirect(new URL('/', req.nextUrl))
@@ -480,7 +502,10 @@ class AuthHandler {
                   { status: 400 },
                 )
               } else if (error instanceof Error)
-                response = NextResponse.json({ error: error.message }, { status: 400 })
+                response = NextResponse.json(
+                  { error: error.message },
+                  { status: 400 },
+                )
               else
                 response = NextResponse.json(
                   { error: 'An unknown error occurred' },
@@ -514,7 +539,10 @@ class AuthHandler {
     if (type === 'credentials') {
       const parsedData = credentialsSchema.safeParse(data)
       if (!parsedData.success)
-        return { success: false, fieldErrors: parsedData.error.flatten().fieldErrors }
+        return {
+          success: false,
+          fieldErrors: parsedData.error.flatten().fieldErrors,
+        }
 
       const { email, password } = parsedData.data
 
@@ -562,7 +590,8 @@ class AuthHandler {
     email: string
     image: string
   }): Promise<User> {
-    const { provider, providerAccountId, providerAccountName, email, image } = data
+    const { provider, providerAccountId, providerAccountName, email, image } =
+      data
 
     const existingAccount = await db.account.findUnique({
       where: { provider_providerAccountId: { provider, providerAccountId } },
@@ -683,7 +712,10 @@ const authOptions = {
   providers: {
     discord: {
       createAuthorizationURL: (state, codeVerifier) =>
-        discord.createAuthorizationURL(state, codeVerifier, ['identify', 'email']),
+        discord.createAuthorizationURL(state, codeVerifier, [
+          'identify',
+          'email',
+        ]),
       validateAuthorizationCode: (code, codeVerifier) =>
         discord.validateAuthorizationCode(code, codeVerifier),
       fetchUserUrl: 'https://discord.com/api/users/@me',
@@ -710,7 +742,12 @@ const authOptions = {
       validateAuthorizationCode: (code, codeVerifier) =>
         google.validateAuthorizationCode(code, codeVerifier),
       fetchUserUrl: 'https://openidconnect.googleapis.com/v1/userinfo',
-      mapUser: (user: { sub: string; email: string; name: string; picture: string }) => ({
+      mapUser: (user: {
+        sub: string
+        email: string
+        name: string
+        picture: string
+      }) => ({
         provider: 'google',
         providerAccountId: user.sub,
         providerAccountName: user.name,
@@ -767,7 +804,8 @@ export const Providers: React.FC<React.PropsWithChildren> = ({ children }) => {
           },
           dehydrate: {
             shouldDehydrateQuery: (query) =>
-              defaultShouldDehydrateQuery(query) || query.state.status === 'pending',
+              defaultShouldDehydrateQuery(query) ||
+              query.state.status === 'pending',
           },
           hydrate: {},
         },
@@ -801,15 +839,20 @@ interface SessionContextValue {
   refresh: () => Promise<void>
 }
 
-const SessionContext = React.createContext<SessionContextValue | undefined>(undefined)
+const SessionContext = React.createContext<SessionContextValue | undefined>(
+  undefined,
+)
 
 export const useSession = () => {
   const context = React.useContext(SessionContext)
-  if (!context) throw new Error('useSession must be used within a SessionProvider')
+  if (!context)
+    throw new Error('useSession must be used within a SessionProvider')
   return context
 }
 
-export const SessionProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+export const SessionProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const router = useRouter()
 
   const session = useQuery({

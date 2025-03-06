@@ -39,7 +39,9 @@ export const BlogsLayoutClient: React.FC<BlogsLayoutClientProps> = ({
   return <Sidebar navs={navs}>{children}</Sidebar>
 }
 
-const MobileHeader: React.FC<{ navs: BlogsLayoutClientProps['navs'] }> = ({ navs }) => {
+const MobileHeader: React.FC<{ navs: BlogsLayoutClientProps['navs'] }> = ({
+  navs,
+}) => {
   const [open, setOpen] = useState(false)
 
   return (
@@ -123,7 +125,9 @@ const MobileHeader: React.FC<{ navs: BlogsLayoutClientProps['navs'] }> = ({ navs
 const Sidebar: React.FC<BlogsLayoutClientProps> = ({ navs, children }) => {
   const getCookieValue = useCallback(() => {
     if (typeof document === 'undefined') return false
-    const match = new RegExp(`(^| )${SIDEBAR_COOKIE_NAME}=([^;]+)`).exec(document.cookie)
+    const match = new RegExp(`(^| )${SIDEBAR_COOKIE_NAME}=([^;]+)`).exec(
+      document.cookie,
+    )
     return match ? match[2] === 'true' : false
   }, [])
 

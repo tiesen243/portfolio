@@ -1,6 +1,9 @@
 'use client'
 
-import type { TabsProps as BaseProps, TabsContentProps } from '@radix-ui/react-tabs'
+import type {
+  TabsProps as BaseProps,
+  TabsContentProps,
+} from '@radix-ui/react-tabs'
 import * as React from 'react'
 
 import * as Primitive from '@/components/ui/tabs'
@@ -47,7 +50,10 @@ export function Tabs({
   updateAnchor = false,
   ...props
 }: TabsProps) {
-  const values = React.useMemo(() => items.map((item) => toValue(item)), [items])
+  const values = React.useMemo(
+    () => items.map((item) => toValue(item)),
+    [items],
+  )
   const [value, setValue] = React.useState(values[defaultIndex])
 
   const valueToIdMap = React.useMemo(() => new Map<string, string>(), [])

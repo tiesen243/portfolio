@@ -149,11 +149,19 @@ const uncachedAuth = async (): Promise<Auth> => {
   try {
     if (result.session?.fresh) {
       const sessionCookie = lucia.createSessionCookie(result.session.id)
-      cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
+      cookies().set(
+        sessionCookie.name,
+        sessionCookie.value,
+        sessionCookie.attributes,
+      )
     }
     if (!result.session) {
       const sessionCookie = lucia.createBlankSessionCookie()
-      cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
+      cookies().set(
+        sessionCookie.name,
+        sessionCookie.value,
+        sessionCookie.attributes,
+      )
     }
   } catch {}
 
@@ -253,7 +261,9 @@ const action = nsa
       z.object({ name: z.string().min(1, 'Action name is required') }),
     handleServerError: ({ message }, { metadata }) => {
       if (message) {
-        console.error(`[Server Error] ${metadata.name} threw an error: ${message}`)
+        console.error(
+          `[Server Error] ${metadata.name} threw an error: ${message}`,
+        )
         return message
       }
 
@@ -299,7 +309,8 @@ export const publicAction = action.use(timingMiddleware)
 export const protectedAction = action
   .use(timingMiddleware)
   .use(async ({ next, ctx: { session } }) => {
-    if (!session) throw new Error('You must be logged in to perform this action')
+    if (!session)
+      throw new Error('You must be logged in to perform this action')
     return next({ ctx: { user, session } })
   })
 ```
@@ -325,7 +336,9 @@ export const signUp = publicAction
         userName: z.string().min(1, 'User Name is required'),
         email: z.string().email(),
         password: z.string().min(8, 'Password must be at least 8 characters'),
-        confirmPassword: z.string().min(8, 'Password must be at least 8 characters'),
+        confirmPassword: z
+          .string()
+          .min(8, 'Password must be at least 8 characters'),
       })
       .refine((data) => data.password === data.confirmPassword, {
         message: 'Passwords do not match',
@@ -365,7 +378,11 @@ export const signIn = publicAction
 
     const session = await lucia.createSession(user.id, {})
     const sessionCookie = lucia.createSessionCookie(session.id)
-    cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
+    cookies().set(
+      sessionCookie.name,
+      sessionCookie.value,
+      sessionCookie.attributes,
+    )
 
     return { success: true }
   })
@@ -375,7 +392,11 @@ export const logout = protectedAction
   .action(async ({ ctx }) => {
     await lucia.invalidateSession(ctx.session.id)
     const sessionCookie = lucia.createBlankSessionCookie()
-    cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
+    cookies().set(
+      sessionCookie.name,
+      sessionCookie.value,
+      sessionCookie.attributes,
+    )
 
     return { success: true }
   })
@@ -387,7 +408,9 @@ const passwordSchema = zfd
       .min(8, 'Password must be at least 8 characters')
       .optional(),
     password: z.string().min(8, 'Password must be at least 8 characters'),
-    confirmPassword: z.string().min(8, 'Password must be at least 8 characters'),
+    confirmPassword: z
+      .string()
+      .min(8, 'Password must be at least 8 characters'),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
@@ -413,7 +436,10 @@ export const changePassword = protectedAction
   .action(async ({ parsedInput: { currentPassword, password }, ctx }) => {
     if (!ctx.user.password) throw new Error('User has no password')
 
-    const isValid = await new Scrypt().verify(ctx.user.password, currentPassword!)
+    const isValid = await new Scrypt().verify(
+      ctx.user.password,
+      currentPassword!,
+    )
     if (!isValid) throw new Error('Current password is incorrect')
 
     const hashedPassword = await new Scrypt().hash(password)
@@ -501,7 +527,12 @@ export const SignUpForm: React.FC = () => {
 }
 
 const fields = [
-  { name: 'userName' as const, type: 'text', label: 'User Name', placeholder: 'Yuki' },
+  {
+    name: 'userName' as const,
+    type: 'text',
+    label: 'User Name',
+    placeholder: 'Yuki',
+  },
   {
     name: 'email' as const,
     type: 'email',
@@ -620,7 +651,8 @@ export const Component: React.FC = () => {
   if (!session)
     return (
       <div className="flex items-center gap-2">
-        <Link href="/sign-in">Sign In</Link> | <Link href="/sign-up">Sign Up</Link>
+        <Link href="/sign-in">Sign In</Link> |{' '}
+        <Link href="/sign-up">Sign Up</Link>
       </div>
     )
 

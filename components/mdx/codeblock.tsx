@@ -5,7 +5,11 @@ import * as React from 'react'
 import { Check, Copy } from 'lucide-react'
 
 import { buttonVariants } from '@/components/ui/button'
-import { ScrollArea, ScrollBar, ScrollViewport } from '@/components/ui/scroll-area'
+import {
+  ScrollArea,
+  ScrollBar,
+  ScrollViewport,
+} from '@/components/ui/scroll-area'
 import { useCopyButton } from '@/hooks/use-copy-button'
 import { cn } from '@/lib/utils'
 
@@ -72,7 +76,8 @@ function CodeBlock({
       data-slot="codeblock"
       className={cn(
         'group bg-secondary/50 relative my-6 overflow-hidden rounded-lg border text-sm',
-        keepBackground && 'bg-[var(--shiki-light-bg)] dark:bg-[var(--shiki-dark-bg)]',
+        keepBackground &&
+          'bg-[var(--shiki-light-bg)] dark:bg-[var(--shiki-dark-bg)]',
         props.className,
       )}
     >
@@ -145,9 +150,14 @@ function CopyButton({
       onClick={onClick}
       {...props}
     >
-      <Check className={cn('size-3.5 transition-transform', !checked && 'scale-0')} />
+      <Check
+        className={cn('size-3.5 transition-transform', !checked && 'scale-0')}
+      />
       <Copy
-        className={cn('absolute size-3.5 transition-transform', checked && 'scale-0')}
+        className={cn(
+          'absolute size-3.5 transition-transform',
+          checked && 'scale-0',
+        )}
       />
     </button>
   )

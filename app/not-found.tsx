@@ -20,7 +20,10 @@ export default function NotFoundPage() {
         Looks like this page got lost in cyberspace!
       </p>
 
-      <Link href="/" className={buttonVariants({ variant: 'outline', size: 'lg' })}>
+      <Link
+        href="/"
+        className={buttonVariants({ variant: 'outline', size: 'lg' })}
+      >
         Take me home
       </Link>
     </main>

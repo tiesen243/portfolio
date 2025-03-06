@@ -66,7 +66,9 @@ export const mdxComponents = {
       <Link
         {...(props as LinkProps)}
         className={cn('hover:underline', props.className)}
-        {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        {...(isExternal
+          ? { target: '_blank', rel: 'noopener noreferrer' }
+          : {})}
       />
     )
   },

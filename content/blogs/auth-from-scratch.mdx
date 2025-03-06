@@ -103,7 +103,10 @@ import { PrismaClient } from '@prisma/client'
 
 const createPrismaClient = () =>
   new PrismaClient({
-    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+    log:
+      process.env.NODE_ENV === 'development'
+        ? ['query', 'error', 'warn']
+        : ['error'],
   })
 
 const globalForPrisma = globalThis as unknown as {
@@ -143,7 +146,10 @@ import { encodeHexLowerCase } from '@oslojs/encoding'
 
 const EXPIRES_IN = 1000 * 60 * 60 * 24 * 30 // 30 days
 
-export const createSession = async (token: string, userId: string): Promise<Session> => {
+export const createSession = async (
+  token: string,
+  userId: string,
+): Promise<Session> => {
   const session = {
     sessionToken: encodeHexLowerCase(sha256(new TextEncoder().encode(token))),
     expiresAt: new Date(Date.now() + EXPIRES_IN),
@@ -159,8 +165,12 @@ export const createSession = async (token: string, userId: string): Promise<Sess
 In this function, we check if the session token exists in the database and if it has expired. If the token is valid, we return the user and the expiration date. If the token has expired, we delete it from the database and return the current date.
 
 ```typescript title="server/auth/index.ts"
-export const validateSessionToken = async (token: string): Promise<SessionValidation> => {
-  const sessionToken = encodeHexLowerCase(sha256(new TextEncoder().encode(token)))
+export const validateSessionToken = async (
+  token: string,
+): Promise<SessionValidation> => {
+  const sessionToken = encodeHexLowerCase(
+    sha256(new TextEncoder().encode(token)),
+  )
   const result = await db.session.findUnique({
     where: { sessionToken },
     include: { user: true },
@@ -196,7 +206,9 @@ In this function, we delete the session from the database using the session toke
 
 ```typescript title="server/auth/index.ts"
 export const invalidateSession = async (token: string): Promise<void> => {
-  const sessionToken = encodeHexLowerCase(sha256(new TextEncoder().encode(token)))
+  const sessionToken = encodeHexLowerCase(
+    sha256(new TextEncoder().encode(token)),
+  )
   await db.session.delete({ where: { sessionToken } })
 }
 ```
@@ -228,7 +240,11 @@ export class OAuth {
     switch (provider) {
       case 'discord':
         this.name = 'discord'
-        this.provider = new Discord(env.DISCORD_ID, env.DISCORD_SECRET, callback_url)
+        this.provider = new Discord(
+          env.DISCORD_ID,
+          env.DISCORD_SECRET,
+          callback_url,
+        )
         this.scopes = ['identify', 'email']
         break
       default:
@@ -360,7 +376,11 @@ export class OAuth {
     switch (provider) {
       case 'discord':
         this.name = 'discord'
-        this.provider = new Discord(env.DISCORD_ID, env.DISCORD_SECRET, callback_url)
+        this.provider = new Discord(
+          env.DISCORD_ID,
+          env.DISCORD_SECRET,
+          callback_url,
+        )
         this.scopes = ['identify', 'email']
         break
       default:
@@ -531,7 +551,8 @@ export const GET = async (
     const storedState = req.cookies.get('oauth_state')?.value ?? ''
     ;(await cookies()).delete('oauth_state')
 
-    if (!code || !state || state !== storedState) throw new Error('Invalid state')
+    if (!code || !state || state !== storedState)
+      throw new Error('Invalid state')
 
     const user = await authProvider.callback(code)
     await signIn(user.id)
@@ -542,7 +563,11 @@ export const GET = async (
       return NextResponse.json({ error: e.message }, { status: Number(e.code) })
     else if (e instanceof Error)
       return NextResponse.json({ error: e.message }, { status: 500 })
-    else return NextResponse.json({ error: 'An unknown error occurred' }, { status: 500 })
+    else
+      return NextResponse.json(
+        { error: 'An unknown error occurred' },
+        { status: 500 },
+      )
   }
 }
 ```

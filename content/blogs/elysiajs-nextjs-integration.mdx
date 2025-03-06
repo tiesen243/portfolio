@@ -97,7 +97,8 @@ import { env } from '@/env'
 
 const createPrismaClient = () =>
   new PrismaClient({
-    log: env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+    log:
+      env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
   })
 
 const globalForPrisma = globalThis as unknown as {
@@ -302,7 +303,8 @@ export const createQueryClient = () =>
       dehydrate: {
         serializeData: SuperJSON.serialize,
         shouldDehydrateQuery: (query) =>
-          defaultShouldDehydrateQuery(query) || query.state.status === 'pending',
+          defaultShouldDehydrateQuery(query) ||
+          query.state.status === 'pending',
       },
       hydrate: {
         deserializeData: SuperJSON.deserialize,
@@ -318,7 +320,10 @@ Then, create a client-side caller
 
 import type { QueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { createEdenTreatyReactQuery, httpBatchLink } from '@ap0nia/eden-react-query'
+import {
+  createEdenTreatyReactQuery,
+  httpBatchLink,
+} from '@ap0nia/eden-react-query'
 import { QueryClientProvider } from '@tanstack/react-query'
 
 import type { AppRouter } from '@/server/api/root'
@@ -336,9 +341,13 @@ const getQueryClient = () => {
 }
 
 // @ts-expect-error - lgtm
-export const api = createEdenTreatyReactQuery<AppRouter>({ abortOnUnmount: true })
+export const api = createEdenTreatyReactQuery<AppRouter>({
+  abortOnUnmount: true,
+})
 
-export const ElysiaReactProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+export const ElysiaReactProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const queryClient = getQueryClient()
 
   const [elysiaClient] = useState(() =>
@@ -374,12 +383,17 @@ import { Input } from '@/components/ui/input'
 import { api } from '@/lib/elysia/react'
 
 export const Post: React.FC = () => {
-  const [latestPost, { refetch }] = api.post.getLatestPost.get.useSuspenseQuery()
-  const createPost = api.post.createPost.post.useMutation({ onSuccess: () => refetch() })
+  const [latestPost, { refetch }] =
+    api.post.getLatestPost.get.useSuspenseQuery()
+  const createPost = api.post.createPost.post.useMutation({
+    onSuccess: () => refetch(),
+  })
 
   return (
     <div className="mt-4 w-full max-w-(--breakpoint-sm)">
-      <span className="text-lg">Latest post: {latestPost?.content ?? 'No posts'}</span>
+      <span className="text-lg">
+        Latest post: {latestPost?.content ?? 'No posts'}
+      </span>
       <form
         className="flex w-full gap-4"
         onSubmit={(e) => {

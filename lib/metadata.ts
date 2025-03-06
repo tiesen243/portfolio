@@ -6,7 +6,8 @@ export const createMetadata = (
   override: Omit<Metadata, 'title'> & { title?: string },
 ): Metadata => {
   const siteName = 'Tiesen'
-  const description = "I'm Tran Tien, a Weeb Developer who loves to code and watch anime."
+  const description =
+    "I'm Tran Tien, a Weeb Developer who loves to code and watch anime."
   const url = override.openGraph?.url
     ? `${getBaseUrl()}${override.openGraph.url}`
     : getBaseUrl()
