@@ -29,11 +29,6 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" enableSystem disableTransitionOnChange>
           {children}
-          <footer className="border-t py-6">
-            <div className="flex items-center justify-center gap-4">
-              <p>Copyright (c) {new Date().getFullYear()} Tiesen. All Rights Reserved.</p>
-            </div>
-          </footer>
         </ThemeProvider>
 
         <Analytics />

@@ -33,6 +33,12 @@ export default async function BlogsLayout({
   return (
     <BlogsLayoutClient navs={navs}>
       <main className="mx-auto max-w-[calc(100svh-16rem)]">{children}</main>
+
+      <footer className="border-t py-6">
+        <div className="flex items-center justify-center gap-4">
+          <p>Copyright (c) {new Date().getFullYear()} Tiesen. All Rights Reserved.</p>
+        </div>
+      </footer>
     </BlogsLayoutClient>
   )
 }
