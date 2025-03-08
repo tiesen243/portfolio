@@ -14,6 +14,7 @@ import { mdxComponents } from '@/components/mdx'
 import { Badge } from '@/components/ui/badge'
 import { frontmatterShema, getPage, getPages } from '@/content'
 import { createMetadata } from '@/lib/metadata'
+import { getBaseUrl } from '@/lib/utils'
 
 export default async function BlogsPage({
   params,
@@ -52,7 +53,7 @@ export default async function BlogsPage({
     },
   })
 
-  const jsonLd = generateJsonLd({ page })
+  const jsonLd = generateJsonLd({ page, slug })
 
   return (
     <main className="mx-auto max-w-[calc(100svh-16rem)]">
@@ -185,8 +186,10 @@ export async function generateMetadata(props: {
 
 function generateJsonLd({
   page,
+  slug,
 }: {
   page: Awaited<ReturnType<typeof getPage>>
+  slug: string[]
 }) {
   if (!page) return null
 
@@ -201,7 +204,10 @@ function generateJsonLd({
     description: frontmatter.description,
     keywords: frontmatter.tags.join(', '),
     datePublished: frontmatter.publishedAt.toISOString(),
-    image: frontmatter.image ?? '',
+    image:
+      frontmatter.image ??
+      `${getBaseUrl()}/api/og?title=${encodeURIComponent(frontmatter.title)}&description=${encodeURIComponent(frontmatter.description)}`,
+    url: `${getBaseUrl()}/blogs/${slug.join('/')}`,
     author: {
       '@type': 'Person',
       name: 'Tran Tien',
