@@ -3,6 +3,7 @@ import '@/styles/shiki.css'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import Script from 'next/script'
 import { compileMDX, parseFrontmatter } from '@fumadocs/mdx-remote'
 import { findNeighbour } from 'fumadocs-core/server'
 import * as Base from 'fumadocs-core/toc'
@@ -51,8 +52,18 @@ export default async function BlogsPage({
     },
   })
 
+  const jsonLd = generateJsonLd({ page })
+
   return (
     <main className="mx-auto max-w-[calc(100svh-16rem)]">
+      {jsonLd && (
+        <Script
+          id="json-ld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
+
       <Base.AnchorProvider toc={toc}>
         <div className="fixed top-4 right-4 hidden h-full w-64 max-w-full flex-col gap-3 pe-3 xl:flex">
           <div className="text-muted-foreground flex items-center gap-2 text-sm">
@@ -170,4 +181,30 @@ export async function generateMetadata(props: {
       url: `/blogs/${params.slug}`,
     },
   })
+}
+
+function generateJsonLd({
+  page,
+}: {
+  page: Awaited<ReturnType<typeof getPage>>
+}) {
+  if (!page) return null
+
+  const frontmatter = frontmatterShema.parse(
+    parseFrontmatter(page.content).frontmatter,
+  )
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: frontmatter.title,
+    description: frontmatter.description,
+    keywords: frontmatter.tags.join(', '),
+    datePublished: frontmatter.publishedAt.toISOString(),
+    image: frontmatter.image ?? '',
+    author: {
+      '@type': 'Person',
+      name: 'Tran Tien',
+    },
+  }
 }
