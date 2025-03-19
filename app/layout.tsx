@@ -1,8 +1,8 @@
-import '@/styles/globals.css'
+import '@/app/globals.css'
 
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
-import { ThemeProvider } from 'next-themes'
+import { RootProvider } from 'fumadocs-ui/provider'
 
 import { createMetadata } from '@/lib/metadata'
 import { cn } from '@/lib/utils'
@@ -31,9 +31,7 @@ export default function RootLayout({
           geistMono.variable,
         )}
       >
-        <ThemeProvider attribute="class" enableSystem disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
+        <RootProvider>{children}</RootProvider>
 
         <Analytics />
       </body>

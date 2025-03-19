@@ -5,6 +5,7 @@
 import '@/env'
 
 import type { NextConfig } from 'next'
+import { createMDX } from 'fumadocs-mdx/next'
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -14,4 +15,6 @@ const nextConfig: NextConfig = {
   images: { remotePatterns: [{ protocol: 'https', hostname: 'gravatar.com' }] },
 }
 
-export default nextConfig
+const withMDX = createMDX()
+
+export default withMDX(nextConfig)
