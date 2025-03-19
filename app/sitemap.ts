@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-import { getPages } from '@/content'
+import { source } from '@/content'
 import { projects } from '@/data'
 import { getBaseUrl } from '@/lib/utils'
 
@@ -8,7 +8,7 @@ export const revalidate = false
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const url = (path: string): string => new URL(path, getBaseUrl()).toString()
-  const blogs = await getPages()
+  const blogs = source.getPages()
 
   return [
     {
@@ -35,7 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       blogs.map(
         (page) =>
           ({
-            url: url(`/blogs/${page.slug}`),
+            url: url(page.url),
             changeFrequency: 'weekly',
             priority: 0.5,
           }) as MetadataRoute.Sitemap[number],
