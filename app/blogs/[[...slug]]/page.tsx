@@ -10,6 +10,7 @@ import {
   DocsTitle,
 } from 'fumadocs-ui/page'
 
+import { Badge } from '@/components/ui/badge'
 import { source } from '@/content'
 import { createMetadata } from '@/lib/metadata'
 import { getBaseUrl } from '@/lib/utils'
@@ -37,6 +38,21 @@ export default async function BlogsPage({
       )}
 
       <DocsTitle>{page.data.title}</DocsTitle>
+      <time
+        dateTime={page.data.publishedAt.toISOString()}
+        className="text-muted-foreground text-sm"
+      >
+        {page.data.publishedAt.toDateString()}
+      </time>
+      {page.data.tags.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {page.data.tags.map((tag) => (
+            <Badge key={tag} variant="outline">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      )}
       <DocsDescription>{page.data.description}</DocsDescription>
       {page.data.image && (
         <Image
