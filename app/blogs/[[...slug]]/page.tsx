@@ -87,13 +87,14 @@ export async function generateMetadata(props: {
   return createMetadata({
     title,
     description,
+    keywords: page.data.tags,
     openGraph: {
       images: [
         `/api/og?title=${encodeURIComponent(
           title,
         )}&description=${encodeURIComponent(description ?? '')}`,
       ],
-      url: `/blogs/${params.slug}`,
+      url: page.url,
     },
   })
 }
