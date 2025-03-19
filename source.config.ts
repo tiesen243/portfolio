@@ -12,6 +12,7 @@ export const docs = defineDocs({
   docs: {
     // options for `doc` collection
     schema: frontmatterSchema.extend({
+      image: z.string().optional(),
       publishedAt: z.date(),
       tags: z.array(z.string()),
     }),

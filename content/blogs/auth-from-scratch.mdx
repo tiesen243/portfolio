@@ -20,13 +20,12 @@ Arctic is a collection of OAuth 2.0 clients for popular providers. Only the auth
 
 To get started with Arctic, you can install using following command:
 
-```bash
-bun add @oslojs/crypto @oslojs/encoding arctic
+```package-install
+@oslojs/crypto @oslojs/encoding arctic @tanstack/react-query
 ```
 
-```bash
-bun add -d prisma
-
+```package-install
+-d prisma
 ```
 
 ## Setting up the Prisma schema
@@ -57,22 +56,24 @@ model User {
 }
 
 model Account {
-  provider     String
-  providerId   String
+  provider            String
+  providerAccountId   String
+  providerAccountName String
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  @@id([provider, providerId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([provider, providerAccountId])
 }
 
 model Session {
-  sessionToken String   @unique
-  expiresAt    DateTime
+  sessionToken String   @id
+  expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String
-
-  createdAt DateTime @default(now())
 }
 ```
 
@@ -80,7 +81,9 @@ Then, add some scripts to your `package.json`:
 
 ```json title="package.json"
 {
+  ...
   "scripts": {
+    ...
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:studio": "prisma studio"
@@ -90,7 +93,9 @@ Then, add some scripts to your `package.json`:
 
 Now, run the following command to create the database:
 
-> Remember to set the `DATABASE_URL` environment variable.
+<Callout type="warn">
+  Remember to set the `DATABASE_URL` environment variable.
+</Callout>
 
 ```bash
 bun db:push
@@ -115,524 +120,634 @@ const globalForPrisma = globalThis as unknown as {
 
 export const db = globalForPrisma.prisma ?? createPrismaClient()
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = db
-
-export type * from '@prisma/client'
 ```
 
-## Setting up the Auth API
+## Create session class
 
-Next, let's set up the Auth API. Create a new file called `server/auth/index.ts` and add the following code:
+Next, let's create a class called `Session` that handles session management. Create a new file called `server/auth/session.ts` and add the following code:
 
-- Generate a session token:
-
-```typescript title="server/auth/index.ts"
-import { encodeBase32LowerCaseNoPadding } from '@oslojs/encoding'
-
-export function generateSessionToken(): string {
-  const bytes = new Uint8Array(20)
-  crypto.getRandomValues(bytes)
-  const token = encodeBase32LowerCaseNoPadding(bytes)
-  return token
-}
-```
-
-- Create session helper functions:
-
-In this function, we create a new session in the database with the given token and user ID.
-
-```typescript title="server/auth/index.ts"
+```typescript title="server/auth/session.ts"
+import type { User } from '@prisma/client'
 import { sha256 } from '@oslojs/crypto/sha2'
-import { encodeHexLowerCase } from '@oslojs/encoding'
+import {
+  encodeBase32LowerCaseNoPadding,
+  encodeHexLowerCase,
+} from '@oslojs/encoding'
+import { db } from '@yuki/db'
 
-const EXPIRES_IN = 1000 * 60 * 60 * 24 * 30 // 30 days
+export class Session {
+  private readonly db: typeof db
+  private readonly EXPIRATION_TIME
 
-export const createSession = async (
-  token: string,
-  userId: string,
-): Promise<Session> => {
-  const session = {
-    sessionToken: encodeHexLowerCase(sha256(new TextEncoder().encode(token))),
-    expiresAt: new Date(Date.now() + EXPIRES_IN),
-    user: { connect: { id: userId } },
+  constructor() {
+    this.EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 30 // 30 days
+
+    this.db = db
   }
 
-  return await db.session.create({ data: session })
-}
-```
-
-- Validate a session token:
-
-In this function, we check if the session token exists in the database and if it has expired. If the token is valid, we return the user and the expiration date. If the token has expired, we delete it from the database and return the current date.
-
-```typescript title="server/auth/index.ts"
-export const validateSessionToken = async (
-  token: string,
-): Promise<SessionValidation> => {
-  const sessionToken = encodeHexLowerCase(
-    sha256(new TextEncoder().encode(token)),
-  )
-  const result = await db.session.findUnique({
-    where: { sessionToken },
-    include: { user: true },
-  })
-  if (!result) return { expires: new Date(Date.now()) }
-
-  const { user, ...session } = result
-  if (Date.now() >= session.expiresAt.getTime()) {
-    await db.session.delete({ where: { sessionToken } })
-    return { expires: new Date(Date.now()) }
+  private generateSessionToken(): string {
+    const bytes = new Uint8Array(20)
+    crypto.getRandomValues(bytes)
+    const token = encodeBase32LowerCaseNoPadding(bytes)
+    return token
   }
 
-  if (Date.now() >= session.expiresAt.getTime() - EXPIRES_IN / 2) {
-    session.expiresAt = new Date(Date.now() + EXPIRES_IN)
-    await db.session.update({
-      where: { sessionToken },
-      data: { expiresAt: session.expiresAt },
+  public async createSession(
+    userId: User['id'],
+  ): Promise<{ sessionToken: string; expires: Date }> {
+    const token = this.generateSessionToken()
+
+    const session = await this.db.session.create({
+      data: {
+        sessionToken: encodeHexLowerCase(
+          sha256(new TextEncoder().encode(token)),
+        ),
+        expires: new Date(Date.now() + this.EXPIRATION_TIME),
+        userId,
+      },
     })
+
+    return { sessionToken: token, expires: session.expires }
   }
 
-  return { user, expires: session.createdAt }
+  public async validateSessionToken(token: string): Promise<SessionResult> {
+    const sessionToken = encodeHexLowerCase(
+      sha256(new TextEncoder().encode(token)),
+    )
+
+    const result = await this.db.session.findUnique({
+      where: { sessionToken },
+      include: { user: true },
+    })
+
+    if (!result) return { expires: new Date() }
+
+    const { user, ...session } = result
+
+    if (Date.now() > session.expires.getTime()) {
+      await this.db.session.delete({ where: { sessionToken } })
+      return { expires: new Date() }
+    }
+
+    if (Date.now() >= session.expires.getTime() - this.EXPIRATION_TIME / 2) {
+      session.expires = new Date(Date.now() + this.EXPIRATION_TIME)
+      await this.db.session.update({
+        where: { sessionToken },
+        data: { expires: session.expires },
+      })
+    }
+
+    return { user, expires: session.expires }
+  }
+
+  public async invalidateSessionToken(token: string): Promise<void> {
+    const sessionToken = encodeHexLowerCase(
+      sha256(new TextEncoder().encode(token)),
+    )
+    await this.db.session.delete({ where: { sessionToken } })
+  }
+
+  public async invalidateAllSessionTokens(userId: User['id']): Promise<void> {
+    await this.db.session.deleteMany({ where: { userId } })
+  }
 }
 
-export interface SessionValidation {
+export interface SessionResult {
   user?: User
   expires: Date
 }
 ```
 
-- Create a invalidation session function:
+- First, we create a class called `Session` that takes the `db` instance as an argument and sets the expiration time for the session.
+- Second, we create a function called `generateSessionToken` that generates a random session token.
+- Third, we create a function called `createSession` that creates a new session for the user.
+- Fourth, we create a function called `validateSessionToken` that validates the session token and returns the user and expiration date.
+- Fifth, we create a function called `invalidateSessionToken` that invalidates the session token.
+- Finally, we create a function called `invalidateAllSessionTokens` that invalidates all session tokens for the user.
 
-In this function, we delete the session from the database using the session token.
+## Create password class
 
-```typescript title="server/auth/index.ts"
-export const invalidateSession = async (token: string): Promise<void> => {
-  const sessionToken = encodeHexLowerCase(
-    sha256(new TextEncoder().encode(token)),
-  )
-  await db.session.delete({ where: { sessionToken } })
+Next, let's create a class called `Password` that handles password hashing. Create a new file called `server/auth/password.ts` and add the following code:
+
+<Callout type="warn">
+  Remember to set the `AUTH_SECRET` environment variable. You can generate a random secret using the following command:
+  
+  ```bash
+  openssl rand -hex 32
+  ```
+
+</Callout>
+
+```typescript title="server/auth/password.ts"
+import { sha3_256 } from '@oslojs/crypto/sha3'
+import { encodeBase32LowerCase } from '@oslojs/encoding'
+
+export class Password {
+  public hash(password: string): string {
+    const saltedPassword = `${password}${process.env.AUTH_SECRET}`
+    return encodeBase32LowerCase(
+      sha3_256(new TextEncoder().encode(saltedPassword)),
+    )
+  }
+
+  public verify(password: string, hash: string): boolean {
+    const saltedPassword = `${password}${process.env.AUTH_SECRET}`
+
+    const hashPassword = encodeBase32LowerCase(
+      sha3_256(new TextEncoder().encode(saltedPassword)),
+    )
+    return hashPassword === hash
+  }
 }
 ```
 
 ## Setting up the OAuth API
 
-Next, let's set up the OAuth API. Create a new file called `server/auth/oauth.ts` and add the following code:
+First, let's create a new file called `server/auth/auth.ts` and add the following code:
 
-- First, let's create a class called `OAuth` that takes the provider, client ID, client secret, and callback URL as arguments:
-
-  > Note: in this example, we use `Discord` as the provider. So that, remember to add `DISCORD_CLIENT_ID` and `DISCORD_CLIENT_SECRET` to your environment variables.
-
-  > Note 2: You can add more providers base on `Arctic` documentaion.
-
-```typescript title="server/auth/oauth.ts"
-import { Discord } from 'arctic'
-
-import { env } from '@/env'
-
-export class OAuth {
-  private name: string
-  private provider: Discord
-  private scopes: string[]
-  private oauthUser: { id: string; email: string; name: string; image: string }
-
-  constructor(provider: string, callback_url: string) {
-    this.oauthUser = { id: '', email: '', name: '', image: '' }
-
-    switch (provider) {
-      case 'discord':
-        this.name = 'discord'
-        this.provider = new Discord(
-          env.DISCORD_ID,
-          env.DISCORD_SECRET,
-          callback_url,
-        )
-        this.scopes = ['identify', 'email']
-        break
-      default:
-        throw new Error(`Provider ${provider} not supported`)
-    }
-  }
-}
-```
-
-- Second, let's create a function called `getOAuthURL` that generates the OAuth URL for the provider:
-
-```typescript title="server/auth/oauth.ts"
-class OAuth {
-  // ...
-
-  public getOAuthUrl(): { url: URL; state: string } {
-    const state = generateState()
-
-    const url =
-      this.provider.createAuthorizationURL.length === 3
-        ? // @ts-expect-error - This is a hack to make the types work
-          this.provider.createAuthorizationURL(state, null, this.scopes)
-        : // @ts-expect-error - This is a hack to make the types work
-          this.provider.createAuthorizationURL(state, this.scopes)
-
-    return { url, state }
-  }
-}
-```
-
-- Third, let's create a function called `callback` that handles the OAuth callback:
-
-```typescript title="server/auth/oauth.ts"
-import { db } from '@/server/db'
-
-class OAuth {
-  // ...
-
-  public async callback(code: string) {
-    const tokens =
-      this.provider.validateAuthorizationCode.length == 2
-        ? await this.provider.validateAuthorizationCode(code, '')
-        : // @ts-expect-error - This is a hack to make the types work
-          await this.provider.validateAuthorizationCode(code)
-
-    switch (this.name) {
-      case 'discord':
-        await this.discord(tokens.accessToken())
-        break
-    }
-
-    return await this.createUser()
-  }
-}
-```
-
-- Fourth, let's create a function called `discord` that fetches the user's information from Discord:
-
-```typescript title="server/auth/oauth.ts"
-class OAuth {
-  // ...
-
-  private async discord(token: string) {
-    // prettier-ignore
-    interface DiscordUser { id: string; email: string; username: string; avatar: string }
-    this.oauthUser = await fetch('https://discord.com/api/users/@me', {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json() as Promise<DiscordUser>)
-      .then((account) => ({
-        id: account.id,
-        name: account.username,
-        email: account.email,
-        image: `https://cdn.discordapp.com/avatars/${account.id}/${account.avatar}.png`,
-      }))
-      .catch(() => {
-        throw new Error('Failed to fetch user data from Discord')
-      })
-  }
-}
-```
-
-- Finally, let's create a function called `createUser` that creates a new user in the database:
-
-```typescript title="server/auth/oauth.ts"
-class OAuth {
-  // ...
-  private async createUser() {
-    const { id, email, name, image } = this.oauthUser
-    const create = { provider: this.name, providerId: id }
-
-    const account = await db.account.findUnique({
-      where: { provider_providerId: { provider: this.name, providerId: id } },
-    })
-    let user = await db.user.findFirst({ where: { email } })
-
-    if (!account && !user)
-      user = await db.user.create({
-        data: { email, name, image, accounts: { create } },
-      })
-    else if (!account && user)
-      user = await db.user.update({
-        where: { email },
-        data: { accounts: { create } },
-      })
-
-    if (!user) throw new Error(`Failed to sign in with ${this.name}`)
-    return user
-  }
-}
-```
-
-Consuming the OAuth API
-
-```typescript title="server/auth/oauth.ts"
-import { authEnv } from '@yuki/auth/env'
-import { db } from '@yuki/db'
-import { Discord, generateState, GitHub } from 'arctic'
-
-export class OAuth {
-  private name: string
-  private provider: Discord | GitHub
-  private scopes: string[]
-  private oauthUser: { id: string; email: string; name: string; image: string }
-
-  constructor(provider: string, callback_url: string) {
-    this.oauthUser = { id: '', email: '', name: '', image: '' }
-
-    switch (provider) {
-      case 'discord':
-        this.name = 'discord'
-        this.provider = new Discord(
-          env.DISCORD_ID,
-          env.DISCORD_SECRET,
-          callback_url,
-        )
-        this.scopes = ['identify', 'email']
-        break
-      default:
-        throw new Error(`Provider ${provider} not supported`)
-    }
-  }
-
-  public getOAuthUrl(): { url: URL; state: string } {
-    const state = generateState()
-
-    const url =
-      this.provider.createAuthorizationURL.length === 3
-        ? // @ts-expect-error - This is a hack to make the types work
-          this.provider.createAuthorizationURL(state, null, this.scopes)
-        : // @ts-expect-error - This is a hack to make the types work
-          this.provider.createAuthorizationURL(state, this.scopes)
-
-    return { url, state }
-  }
-
-  public async callback(code: string) {
-    const tokens =
-      this.provider.validateAuthorizationCode.length == 2
-        ? await this.provider.validateAuthorizationCode(code, '')
-        : // @ts-expect-error - This is a hack to make the types work
-          await this.provider.validateAuthorizationCode(code)
-
-    switch (this.name) {
-      case 'discord':
-        await this.discord(tokens.accessToken())
-        break
-    }
-
-    return await this.createUser()
-  }
-
-  private async createUser() {
-    const { id, email, name, image } = this.oauthUser
-    const create = { provider: this.name, providerId: id }
-
-    const account = await db.account.findUnique({
-      where: { provider_providerId: { provider: this.name, providerId: id } },
-    })
-    let user = await db.user.findFirst({ where: { email } })
-
-    if (!account && !user)
-      user = await db.user.create({
-        data: { email, name, image, accounts: { create } },
-      })
-    else if (!account && user)
-      user = await db.user.update({
-        where: { email },
-        data: { accounts: { create } },
-      })
-
-    if (!user) throw new Error(`Failed to sign in with ${this.name}`)
-    return user
-  }
-
-  private async discord(token: string) {
-    // prettier-ignore
-    interface DiscordUser { id: string; email: string; username: string; avatar: string }
-    this.oauthUser = await fetch('https://discord.com/api/users/@me', {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json() as Promise<DiscordUser>)
-      .then((account) => ({
-        id: account.id,
-        name: account.username,
-        email: account.email,
-        image: `https://cdn.discordapp.com/avatars/${account.id}/${account.avatar}.png`,
-      }))
-      .catch(() => {
-        throw new Error('Failed to fetch user data from Discord')
-      })
-  }
-}
-```
-
-## Setting up the API routes
-
-> We use `Next.js` in this example.
-
-Frist, cretae some helper functions in `lib/auth/server.ts`:
-
-```typescript title="lib/auth/server.ts"
-'use server'
-
-import { cache } from 'react'
-import { cookies } from 'next/headers'
-
-import type { SessionValidation } from '@/server/auth'
-import { env } from '@/env'
-import {
-  createSession,
-  generateSessionToken,
-  invalidateSession,
-  validateSessionToken,
-} from '@/server/auth'
-
-const KEY = 'auth_token'
-
-export const auth = cache(async (): Promise<SessionValidation> => {
-  const token = (await cookies()).get(KEY)?.value ?? ''
-  if (!token) return { expires: new Date(Date.now()) }
-  return validateSessionToken(token)
-})
-
-export const signIn = async (userId: string) => {
-  const token = generateSessionToken()
-  const session = await createSession(token, userId)
-  ;(await cookies()).set(KEY, token, {
-    httpOnly: true,
-    path: '/',
-    secure: env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    expires: session.expiresAt,
-  })
-}
-
-export const signOut = async () => {
-  const token = (await cookies()).get(KEY)?.value ?? ''
-  if (!token) return
-
-  await invalidateSession(token)
-  ;(await cookies()).set(KEY, '', {
-    httpOnly: true,
-    path: '/',
-    secure: env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    maxAge: 0,
-  })
-}
-```
-
-Next, let's set up the API routes. Create a new file called `app/api/auth/[...auth]/route.ts` and add the following code:
-
-```typescript title="app/api/auth/[...auth]/route.ts"
+```typescript title="server/auth/auth.ts"
+import type { User } from '@prisma/client'
+import type { OAuth2Tokens } from 'arctic'
 import type { NextRequest } from 'next/server'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 import { NextResponse } from 'next/server'
-import { OAuth2RequestError } from 'arctic'
+import { generateCodeVerifier, generateState, OAuth2RequestError } from 'arctic'
 
-import { signIn } from '@/lib/auth/server'
-import { OAuth } from '@/server/auth/oauth'
+import type { SessionResult } from './session'
+import { db } from '@/server/db'
+import { Password } from './password'
+import { Session } from './session'
 
-export const GET = async (
-  req: NextRequest,
-  { params }: { params: Promise<{ auth: [string, string] }> },
-) => {
-  const nextUrl = new URL(req.url)
+export interface AuthOptions {
+  cookieKey: string
+  providers: Providers
+}
 
-  const [provider, isCallback] = (await params).auth
-  const callbackUrl = `${nextUrl.origin}/api/auth/${provider}/callback`
+class AuthClass {
+  private readonly db: typeof db
+  private readonly session: Session
+  private readonly password: Password
 
-  const authProvider = new OAuth(provider, callbackUrl)
+  private readonly COOKIE_KEY: string
+  private readonly providers: Providers
 
-  if (!isCallback) {
-    const { url, state } = authProvider.getOAuthUrl()
-    ;(await cookies()).set('oauth_state', `${state}`)
+  constructor(options: AuthOptions) {
+    this.COOKIE_KEY = options.cookieKey
+    this.providers = options.providers
 
-    return NextResponse.redirect(new URL(`${url}`, nextUrl))
+    this.db = db
+    this.session = new Session()
+    this.password = new Password()
   }
 
-  try {
-    const code = nextUrl.searchParams.get('code') ?? ''
-    const state = nextUrl.searchParams.get('state') ?? ''
-    const storedState = req.cookies.get('oauth_state')?.value ?? ''
-    ;(await cookies()).delete('oauth_state')
+  public async auth(req?: NextRequest): Promise<SessionResult> {
+    let authToken: string | undefined
 
-    if (!code || !state || state !== storedState)
-      throw new Error('Invalid state')
+    if (req)
+      authToken =
+        req.cookies.get(this.COOKIE_KEY)?.value ??
+        req.headers.get('Authorization')?.replace('Bearer ', '')
+    else authToken = (await cookies()).get(this.COOKIE_KEY)?.value
 
-    const user = await authProvider.callback(code)
-    await signIn(user.id)
+    if (!authToken) return { expires: new Date() }
 
-    return NextResponse.redirect(new URL('/', nextUrl))
-  } catch (e) {
-    if (e instanceof OAuth2RequestError)
-      return NextResponse.json({ error: e.message }, { status: Number(e.code) })
-    else if (e instanceof Error)
-      return NextResponse.json({ error: e.message }, { status: 500 })
-    else
-      return NextResponse.json(
-        { error: 'An unknown error occurred' },
-        { status: 500 },
+    return await this.session.validateSessionToken(authToken)
+  }
+
+  public async handlers(req: NextRequest): Promise<Response> {
+    const url = new URL(req.nextUrl)
+
+    let response: NextResponse = NextResponse.json(
+      { error: 'Not found' },
+      { status: 404 },
+    )
+
+    switch (req.method) {
+      case 'OPTIONS':
+        response = NextResponse.json('', { status: 204 })
+        break
+      case 'GET':
+        if (url.pathname === '/api/auth') {
+          const session = await this.auth(req)
+          response = NextResponse.json(session)
+        } else if (url.pathname.startsWith('/api/auth/oauth')) {
+          const isCallback = url.pathname.endsWith('/callback')
+
+          if (!isCallback) {
+            const provider =
+              this.providers[String(url.pathname.split('/').pop())]
+
+            if (!provider) {
+              response = NextResponse.json(
+                { error: 'Provider not supported' },
+                { status: 404 },
+              )
+              break
+            }
+            const state = generateState()
+            const codeVerifier = generateCodeVerifier()
+            const authorizationUrl = provider.createAuthorizationURL(
+              state,
+              codeVerifier,
+            )
+
+            response = NextResponse.redirect(
+              new URL(authorizationUrl, req.nextUrl),
+            )
+            response.cookies.set('code_verifier', codeVerifier)
+            response.cookies.set('oauth_state', state)
+          } else {
+            const provider =
+              this.providers[String(url.pathname.split('/').slice(-2)[0])]
+            if (!provider) {
+              response = NextResponse.json(
+                { error: 'Provider not supported' },
+                { status: 404 },
+              )
+              break
+            }
+
+            const code = url.searchParams.get('code')
+            const state = url.searchParams.get('state')
+            const storedState = req.cookies.get('oauth_state')?.value ?? ''
+            const codeVerifier = req.cookies.get('code_verifier')?.value ?? ''
+
+            try {
+              if (!code || !state || state !== storedState)
+                throw new Error('Invalid state')
+
+              const { validateAuthorizationCode, fetchUserUrl, mapUser } =
+                provider
+
+              const verifiedCode = await validateAuthorizationCode(
+                code,
+                codeVerifier,
+              )
+
+              const token = verifiedCode.accessToken()
+
+              const res = await fetch(fetchUserUrl, {
+                headers: { Authorization: `Bearer ${token}` },
+              })
+              if (!res.ok) throw new Error('Failed to fetch user data')
+
+              const user = await this.createUser(
+                mapUser((await res.json()) as never),
+              )
+              const session = await this.session.createSession(user.id)
+
+              response = NextResponse.redirect(new URL('/', req.nextUrl))
+              response.cookies.set(this.COOKIE_KEY, session.sessionToken, {
+                httpOnly: true,
+                path: '/',
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'lax',
+                expires: session.expires,
+              })
+              response.cookies.delete('oauth_state')
+              response.cookies.delete('code_verifier')
+            } catch (error) {
+              if (error instanceof OAuth2RequestError) {
+                response = NextResponse.json(
+                  { error: error.message, description: error.description },
+                  { status: 400 },
+                )
+              } else if (error instanceof Error)
+                response = NextResponse.json(
+                  { error: error.message },
+                  { status: 400 },
+                )
+              else
+                response = NextResponse.json(
+                  { error: 'An unknown error occurred' },
+                  { status: 400 },
+                )
+            }
+          }
+        }
+        break
+      case 'POST':
+        if (url.pathname === '/api/auth/sign-out') {
+          await this.signOut(req)
+          response = NextResponse.redirect(new URL('/', req.url))
+          response.cookies.delete(this.COOKIE_KEY)
+        }
+        break
+    }
+
+    this.setCorsHeaders(response)
+    return response
+  }
+
+  public async signIn(
+    type: SignInType,
+    values?: { email: string; password: string },
+  ): Promise<void> {
+    if (type === 'credentials' && values) {
+      const { email, password } = values
+      const user = await this.db.user.findUnique({ where: { email } })
+      if (!user) throw new Error('User not found')
+      if (!user.password) throw new Error('User has no password')
+
+      const passwordMatch = this.password.verify(password, user.password)
+      if (!passwordMatch) throw new Error('Invalid password')
+
+      const session = await this.session.createSession(user.id)
+      ;(await cookies()).set('auth_token', session.sessionToken, {
+        httpOnly: true,
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        expires: session.expires,
+      })
+    } else {
+      redirect(`/api/auth/oauth/${type}`)
+    }
+  }
+
+  public async signOut(req?: NextRequest): Promise<void> {
+    const token = await this.getToken(req)
+    await this.session.invalidateSessionToken(token)
+  }
+
+  private async getToken(req?: NextRequest): Promise<string> {
+    if (req)
+      return (
+        req.cookies.get(this.COOKIE_KEY)?.value ??
+        req.headers.get('Authorization')?.replace('Bearer ', '') ??
+        ''
       )
+    return (await cookies()).get(this.COOKIE_KEY)?.value ?? ''
   }
+
+  private async createUser(data: {
+    provider: string
+    providerAccountId: string
+    providerAccountName: string
+    email: string
+    image: string
+  }): Promise<User> {
+    const { provider, providerAccountId, providerAccountName, email, image } =
+      data
+
+    const existingAccount = await db.account.findUnique({
+      where: { provider_providerAccountId: { provider, providerAccountId } },
+    })
+
+    if (existingAccount) {
+      const user = await db.user.findUnique({
+        where: { id: existingAccount.userId },
+      })
+      if (!user) throw new Error(`Failed to sign in with ${provider}`)
+      return user
+    }
+
+    const accountData = {
+      provider,
+      providerAccountId,
+      providerAccountName,
+    }
+
+    return await db.user.upsert({
+      where: { email },
+      update: { accounts: { create: accountData } },
+      create: {
+        email,
+        name: providerAccountName,
+        image,
+        accounts: { create: accountData },
+      },
+    })
+  }
+
+  private setCorsHeaders(res: Response): void {
+    res.headers.set('Access-Control-Allow-Origin', '*')
+    res.headers.set('Access-Control-Request-Method', '*')
+    res.headers.set('Access-Control-Allow-Methods', 'OPTIONS, GET, POST')
+    res.headers.set('Access-Control-Allow-Headers', '*')
+  }
+}
+
+export const Auth = (options: AuthOptions) => {
+  const authInstance = new AuthClass(options)
+
+  return {
+    auth: (req?: NextRequest) => authInstance.auth(req),
+    signIn: (type: SignInType, values?: typeof signInSchema.infer) =>
+      authInstance.signIn(type, values),
+    signOut: (req?: NextRequest) => authInstance.signOut(req),
+    handlers: (req: NextRequest) => authInstance.handlers(req),
+  }
+}
+
+type SignInType = 'credentials' | 'google' // Add more providers as needed for type safety
+type Providers = Record<
+  string,
+  {
+    createAuthorizationURL: (state: string, codeVerifier: string) => URL
+    validateAuthorizationCode: (
+      code: string,
+      codeVerifier: string,
+    ) => Promise<OAuth2Tokens>
+    fetchUserUrl: string
+    mapUser: (user: never) => {
+      provider: string
+      providerAccountId: string
+      providerAccountName: string
+      email: string
+      image: string
+    }
+  }
+>
+```
+
+- First, we create an interface called `AuthOptions` that takes the `cookieKey` and `providers` as arguments.
+- Second, we create a class called `AuthClass` that takes the `options` as an argument and sets the `cookieKey` and `providers`.
+- Third, we create a function called `auth` that validates the session token and returns the user and expiration date.
+- Fourth, we create a function called `handlers` that handles the different HTTP methods and routes.
+- Fifth, we create a function called `signIn` that signs in the user using the credentials or OAuth provider.
+- Sixth, we create a function called `signOut` that signs out the user.
+- Finally, we create a function called `createUser` that creates a new user or updates an existing user.
+
+## Setting up the OAuth providers
+
+First, let's create a new file called `server/auth/config.ts` and add the following code:
+
+```typescript title="lib/utils.ts"
+const getBaseUrl = () => {
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL)
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`
+  return `http://localhost:${process.env.PORT ?? 3000}`
 }
 ```
 
-If you want to get session data in the client side, you can create a hook in `lib/auth/react.tsx`
+<Callout type="warn">
+  Remember to set the `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` environment
+  variables.
+</Callout>
 
-```typescript title="lib/auth/react.tsx"
+```typescript title="server/auth/config.ts"
+'use server'
+
+import { Google } from 'arctic'
+
+import type { AuthOptions } from './utils/auth'
+import { getBaseUrl } from '@/lib/utils'
+import { Auth } from './auth'
+
+const google = new Google(
+  env.GOOGLE_CLIENT_ID,
+  env.GOOGLE_CLIENT_SECRET,
+  `${getBaseUrl()}/api/auth/oauth/google/callback`,
+)
+
+const authOptions = {
+  cookieKey: 'auth_token',
+  providers: {
+    google: {
+      createAuthorizationURL: (state, codeVerifier) =>
+        google.createAuthorizationURL(state, codeVerifier, [
+          'openid',
+          'profile',
+          'email',
+        ]),
+      validateAuthorizationCode: (code, codeVerifier) =>
+        google.validateAuthorizationCode(code, codeVerifier),
+      fetchUserUrl: 'https://openidconnect.googleapis.com/v1/userinfo',
+      mapUser: (user: {
+        sub: string
+        email: string
+        name: string
+        picture: string
+      }) => ({
+        provider: 'google',
+        providerAccountId: user.sub,
+        providerAccountName: user.name,
+        email: user.email,
+        image: user.picture,
+      }),
+    },
+  },
+} satisfies AuthOptions
+
+export const { auth, signIn, signOut, handlers } = Auth(authOptions)
+```
+
+```typescript title="server/auth/index.ts"
+import { cache } from 'react'
+
+import { handlers, signIn, signOut, auth as uncachedAuth } from './configs'
+
+const auth = cache(uncachedAuth)
+
+export { auth, signIn, signOut, handlers }
+```
+
+- First, we create a function called `getBaseUrl` that returns the base URL of the application.
+- Second, we create a new file called `server/auth/config.ts` that sets up the Google OAuth provider or any other provider as needed.
+- Third, we create a function called `mapUser` that maps the user data from Google to our user schema.
+- Finally, we create a new file called `server/auth/index.ts` that caches the `auth` function.
+
+## Using the authentication system
+
+### Setting up the API routes
+
+First, let's create a new file called `pages/api/auth.ts` and add the following code:
+
+```typescript title="app/api/auth/[[...slug]]/route.ts
+import { handlers } from '@/server/auth'
+
+export { handlers as GET, handlers as POST, handlers as OPTIONS }
+```
+
+### Setting up react hooks for authentication
+
+```tsx title="hooks/use-session.ts"
 'use client'
 
-import { createContext, use } from 'react'
+import * as React from 'react'
+import { useQuery } from '@tanstack/react-query'
 
-import type { SessionValidation } from '@/server/auth'
+import type { SessionResult } from './utils/session'
 
-const sessionContext = createContext<SessionValidation | undefined>(undefined)
+interface SessionContextValue {
+  session: SessionResult
+  isLoading: boolean
+}
 
-export const SessionProvider: React.FC<
-  Readonly<{
-    session: SessionValidation
-    children: React.ReactNode
-  }>
-> = ({ session, children }) => (
-  <sessionContext.Provider value={session}>{children}</sessionContext.Provider>
+const SessionContext = React.createContext<SessionContextValue | undefined>(
+  undefined,
 )
 
 export const useSession = () => {
-  const context = use(sessionContext)
-  if (!context) throw new Error('useSession must be used within a SessionProvider')
-  return context
+  const ctx = React.useContext(SessionContext)
+  if (!ctx) throw new Error('useSession must be used within a SessionProvider')
+  return ctx
 }
-```
 
-Then wrap your app with `SessionProvider` in `app/layout.tsx`
-
-```tsx title="app/layout.tsx"
-import { SessionProvider } from '@/lib/auth/react'
-import { auth } from '@/lib/auth/server'
-
-const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const session = auth()
-  return <SessionProvider session={session}>{children}</SessionProvider>
-}
-```
-
-Now, you can use `useSession` hook in your components to get session data.
-
-```tsx title="app/page.tsx"
-'use client'
-
-import { useSession } from '@/lib/auth/react'
-
-const Home: React.FC = () => {
-  const session = useSession()
+export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const { data: session = { expires: new Date() }, isLoading } = useQuery({
+    queryKey: ['auth'],
+    queryFn: async () => {
+      const res = await fetch('/api/auth')
+      return res.json() as Promise<SessionResult>
+    },
+  })
 
   return (
-    <div>
-      {session.user ? (
-        <div>
-          <p>Welcome, {session.user.name}</p>
-          <button onClick={signOut}>Sign Out</button>
-        </div>
-      ) : (
-        <button onClick={signIn}>Sign In</button>
-      )}
-    </div>
+    <SessionContext.Provider value={{ session, isLoading }}>
+      {children}
+    </SessionContext.Provider>
   )
+}
+```
+
+- First, we create a new file called `hooks/use-session.ts` that creates a `SessionContext` and a `useSession` hook.
+- Second, we create a `SessionProvider` component that fetches the session data from the API.
+- Finally, we export the `useSession` hook and the `SessionProvider` component.
+
+### Adding the authentication provider to the app
+
+```tsx title="app/layout.tsx"
+import { SessionProvider } from '@/hooks/use-session'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider>
+        {children}
+      </SessionProvider>
+    </QueryClientProvider>
+  )
+)
+```
+
+- First, we import the `SessionProvider` component and the `QueryClientProvider` component.
+- Second, we create a new `QueryClient` instance.
+- Finally, we wrap the `SessionProvider` component with the `QueryClientProvider` component.
+
+### Using the authentication provider in the app
+
+You can now use the `useSession` hook in your components to access the session data:
+
+```tsx title="app/page.tsx"
+import { useSession } from '@/hooks/use-session'
+
+export default function Page() {
+  const { session, isLoading } = useSession()
+
+  if (isLoading) return <div>Loading...</div>
+
+  if (!session.user) return <div>Not authenticated</div>
+
+  return <div>Welcome, {session.user.name}</div>
 }
 ```
 

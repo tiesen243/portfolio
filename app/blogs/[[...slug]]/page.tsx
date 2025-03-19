@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import Script from 'next/script'
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
@@ -37,6 +38,15 @@ export default async function BlogsPage({
 
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
+      {page.data.image && (
+        <Image
+          src={page.data.image}
+          width={1200}
+          height={630}
+          alt={page.data.title}
+          className="rounded-lg object-cover shadow-md"
+        />
+      )}
 
       <DocsBody>
         <MDX components={{ ...defaultMdxComponents, Tabs, Tab }} />

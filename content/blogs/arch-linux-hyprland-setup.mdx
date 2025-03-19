@@ -1,6 +1,7 @@
 ---
 title: "Arch Linux with Hyprland: A Beginner's Guide"
 description: Discover the power of Arch Linux and Hyprland, two popular choices for minimalist and highly customizable desktop setups. This tutorial will teach you how to install and configure both, providing you with a tailored desktop experience.
+image: https://github.com/tiesen243/dotfiles/blob/main/assets/preview-01.png?raw=true
 publishedAt: 2024-01-11
 tags:
   - Linux
@@ -124,7 +125,7 @@ Run `archinstall` script to start the installation. In archinstall script, you c
 - Dont select `Audio` because I will install `Pulseaudio` later
 - `Additional packages`:
   - Choose `Yes` to install additional packages
-  - Enter the package name: `pulseaudio`, `grub`, `efibootmgr`, `os-prober`, `neovim`
+  - Enter the package name: `pulseaudio` `grub` `efibootmgr` `os-prober` `neovim` (optional)
   - Press enter to verify the package name
 - `Network configuration`: Choose `Use NetworkManager` to manage the network connection
 - `Timezone`: Choose the timezone for your location. In my case, I choose `Asia/Ho_Chi_Minh`
@@ -266,9 +267,9 @@ Then, create the symbolic links to the config files
 
 ```bash
 rm ~/.zshrc
-rm -rf ~/.config/{dunst,fastfetch,hypr,kitty,lazygit,nvim,rofi,waybar}
+rm -rf ~/.config/{dunst,fastfetch,hypr,kitty,lazygit,lsd,nvim,rofi,waybar}
 
-ln -s ~/dotfiles/{dunst,fastfetch,hypr,kitty,lazygit,nvim,rofi,waybar} ~/.config
+ln -s ~/dotfiles/{dunst,fastfetch,hypr,kitty,lazygit,lsd,nvim,rofi,waybar} ~/.config
 ln -s ~/dotfiles/zsh/themes/yuki.zsh-theme ~/.oh-my-zsh/custom/themes
 ln -s ~/dotfiles/zsh/config.zsh ~/.zshrc
 ```
@@ -281,11 +282,14 @@ $path = /path/to/your/wallpaper
 
 Or change file in `~/dotfiles/assets/_background.png`
 
-> Note: If it show wrong time on Windows, you can run the following command to fix it
+<Callout>
+Note: If it show wrong time on Windows, you can run the following command to fix it
 
 ```bash
 timedatectl set-local-rtc 1
 ```
+
+</Callout>
 
 ## Conclusion
 

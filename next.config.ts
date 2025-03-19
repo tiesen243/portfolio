@@ -12,7 +12,12 @@ const nextConfig: NextConfig = {
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
 
-  images: { remotePatterns: [{ protocol: 'https', hostname: 'gravatar.com' }] },
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'gravatar.com' },
+      { protocol: 'https', hostname: 'github.com' },
+    ],
+  },
 }
 
 const withMDX = createMDX()
