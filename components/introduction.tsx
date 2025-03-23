@@ -43,7 +43,7 @@ export const Introduction = () => (
       alt="Avatar"
       width={500}
       height={500}
-      className="mx-auto rounded-lg shadow-lg md:mx-0"
+      className="mx-auto aspect-square rounded-lg shadow-lg md:mx-0"
       priority
     />
   </section>

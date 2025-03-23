@@ -49,17 +49,17 @@ export const Information: React.FC = () => (
       {skills.map((item, idx) => (
         <li
           key={idx}
-          className="bg-secondary text-secondary-foreground flex items-center gap-4 rounded-lg px-4 py-3 font-medium shadow-lg select-none md:text-lg"
+          className="bg-secondary text-secondary-foreground inline-flex items-center gap-2 rounded-lg px-4 py-3 font-medium whitespace-nowrap shadow-lg select-none md:gap-4 md:text-lg"
         >
           <Image
             src={item.icon}
             alt={`${item.title} icon`}
             width={24}
             height={24}
-            className={cn('m-0 drop-shadow-xl', item.invert && 'dark:invert')}
+            className={cn('m-0 size-4 md:size-6', item.invert && 'dark:invert')}
             priority
           />
-          <span className="text-center">{item.title}</span>
+          <span>{item.title}</span>
         </li>
       ))}
     </ul>

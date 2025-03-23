@@ -4,7 +4,7 @@ import { buttonVariants } from '@/components/ui/button'
 import Logo from '@/public/assets/tiesen.png'
 
 export const Hero: React.FC = () => (
-  <section className="flex flex-col items-center pb-8 text-center">
+  <section className="flex flex-col items-center justify-center pb-8 text-center">
     <Image
       src={Logo}
       alt="Logo"
