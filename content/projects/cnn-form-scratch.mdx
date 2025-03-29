@@ -1,0 +1,56 @@
+---
+title: CNN from Scratch
+description: A digit recognition project uses a Convolutional Neural Network (CNN) to accurately identify handwritten digits.
+tags: ['MNIST', 'NumPy', 'Python']
+repo: https://github.com/tiesen243/cnn-from-scratch
+due: '2024-04-21 - 2024-04-25'
+order: 4
+---
+
+## Overview
+
+This project implements a Convolutional Neural Network (CNN) from scratch using only NumPy, with no deep learning frameworks. The system is designed to recognize handwritten digits from the MNIST dataset, demonstrating the fundamental principles behind CNNs through pure Python implementation.
+
+## Key Features
+
+- **Framework-free Implementation**: Built entirely with NumPy, without relying on TensorFlow, PyTorch, or other deep learning libraries
+- **Complete CNN Architecture**: Implementation of all essential CNN components including:
+  - Convolutional layers with custom filters
+  - Pooling layers for dimensionality reduction
+  - Fully connected layers for classification
+  - Activation functions and loss functions
+- **Backpropagation Algorithm**: Custom implementation of the backpropagation algorithm for training
+- **MNIST Dataset Processing**: Data loading, normalization, and batching pipeline
+- **Performance Visualization**: Tools for visualizing training progress and model accuracy
+
+## Technical Implementation
+
+The project is structured around several core components:
+
+1. **Layer Implementations**:
+
+   - Convolutional layers with forward and backward propagation
+   - Max pooling for feature extraction
+   - ReLU activation functions
+   - Fully connected layers with weight initialization strategies
+
+2. **Training Pipeline**:
+   - Mini-batch gradient descent optimizer
+   - Cross-entropy loss function
+   - Learning rate scheduling
+   - Training and validation split management
+
+## Challenges & Solutions
+
+A significant challenge was optimizing the convolution operations, which are computationally intensive when implemented without GPU acceleration. This was addressed by developing efficient NumPy vectorization strategies and implementing a sliding window approach to reduce redundant calculations.
+
+Another challenge was debugging the backpropagation algorithm, especially for the convolutional layers. This was solved by implementing gradient checking methods to verify the correctness of gradient computations.
+
+## Learning Outcomes
+
+This project provided deep insights into the mathematical foundations of CNNs and neural networks in general. By implementing every component from scratch, I gained a comprehensive understanding of:
+
+- The role of each layer in feature extraction and classification
+- How backpropagation works across different layer types
+- Optimization challenges in neural network training
+- Efficient numerical computation strategies in Python

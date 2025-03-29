@@ -1,8 +1,6 @@
-import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import Script from 'next/script'
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
-import defaultMdxComponents from 'fumadocs-ui/mdx'
+import defaultMdxComponents, { createRelativeLink } from 'fumadocs-ui/mdx'
 import {
   DocsBody,
   DocsDescription,
@@ -10,116 +8,57 @@ import {
   DocsTitle,
 } from 'fumadocs-ui/page'
 
-import { Badge } from '@/components/ui/badge'
-import { source } from '@/content'
 import { createMetadata } from '@/lib/metadata'
-import { getBaseUrl } from '@/lib/utils'
+import { blogsSource } from '@/lib/source'
 
-export default async function BlogsPage({
-  params,
-}: {
-  params: Promise<{ slug: string[] }>
+export default async function Page(props: {
+  params: Promise<{ slug?: string[] }>
 }) {
-  const { slug } = await params
-  const page = source.getPage(slug)
+  const params = await props.params
+  const page = blogsSource.getPage(params.slug)
   if (!page) notFound()
 
-  const jsonLd = generateJsonLd({ page })
-  const MDX = page.data.body
+  const MDXContent = page.data.body
 
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
-      {jsonLd && (
-        <Script
-          id="json-ld"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      )}
-
       <DocsTitle>{page.data.title}</DocsTitle>
-      <time
-        dateTime={page.data.publishedAt.toISOString()}
-        className="text-muted-foreground text-sm"
-      >
-        {page.data.publishedAt.toDateString()}
-      </time>
-      {page.data.tags.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {page.data.tags.map((tag) => (
-            <Badge key={tag} variant="outline">
-              {tag}
-            </Badge>
-          ))}
-        </div>
-      )}
       <DocsDescription>{page.data.description}</DocsDescription>
-      {page.data.image && (
-        <Image
-          src={page.data.image}
-          width={1200}
-          height={630}
-          alt={page.data.title}
-          className="rounded-lg object-cover shadow-md"
-        />
-      )}
-
       <DocsBody>
-        <MDX components={{ ...defaultMdxComponents, Tabs, Tab }} />
+        <MDXContent
+          components={{
+            ...defaultMdxComponents,
+            // this allows you to link to other pages with relative file paths
+            a: createRelativeLink(blogsSource, page),
+            // you can add other MDX components here
+            Tabs,
+            Tab,
+          }}
+        />
       </DocsBody>
     </DocsPage>
   )
 }
 
 export function generateStaticParams() {
-  return source.generateParams()
+  return blogsSource.generateParams()
 }
 
 export async function generateMetadata(props: {
   params: Promise<{ slug?: string[] }>
 }) {
   const params = await props.params
-  const page = source.getPage(params.slug)
+  const page = blogsSource.getPage(params.slug)
   if (!page) notFound()
 
-  const { title, description } = page.data
-
   return createMetadata({
-    title,
-    description,
-    keywords: page.data.tags,
+    title: page.data.title,
+    description: page.data.description,
     openGraph: {
-      images: [
-        `/api/og?title=${encodeURIComponent(
-          title,
-        )}&description=${encodeURIComponent(description ?? '')}`,
-      ],
-      url: page.url,
+      images:
+        page.data.image ??
+        `/api/og?title=${encodeURIComponent(page.data.title)}&description=${encodeURIComponent(page.data.description)}`,
+      type: 'article',
     },
   })
-}
-
-const generateJsonLd = ({
-  page,
-}: {
-  page: ReturnType<(typeof source)['getPage']>
-}) => {
-  if (!page) return null
-
-  const { title, description, tags } = page.data
-
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    headline: title,
-    description,
-    keywords: tags.join(', '),
-    datePublished: page.data.publishedAt.toISOString(),
-    image: `/api/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description ?? '')}`,
-    url: `${getBaseUrl()}/${page.url}`,
-    author: {
-      '@type': 'Person',
-      name: 'Tran Tien',
-    },
-  }
 }

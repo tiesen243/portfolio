@@ -1,21 +1,34 @@
 import Link from 'next/link'
 
-import { source } from '@/content'
+import { blogsSource } from '@/lib/source'
 
-export const BlogList = () => {
-  const pages = source.getPages().filter((page) => page.slugs.length >= 1)
+export const BlogList: React.FC = () => {
+  const blogs = blogsSource
+    .getPages()
+    .filter((page) => page.url !== '/blogs')
+    .sort(
+      (a, b) =>
+        new Date(b.data.published).getTime() -
+        new Date(a.data.published).getTime(),
+    )
 
   return (
-    <div className="not-prose grid gap-8">
-      {pages.map((page) => (
-        <Link key={page.slugs.join('-')} href={page.url} className="group">
-          <time className="text-muted-foreground">{page.data.icon}</time>
-          <h2 className="scroll-m-20 pt-1 pb-2 text-3xl font-semibold tracking-tight transition-colors group-hover:underline">
-            {page.data.title}
-          </h2>
-          <p className="leading-7">{page.data.description}</p>
-        </Link>
+    <ul className="not-prose grid gap-6">
+      {blogs.map((blog) => (
+        <li key={blog.url}>
+          <Link href={blog.url} className="group">
+            <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight group-hover:underline first:mt-0">
+              {blog.data.title}
+            </h2>
+            <time className="text-fd-muted-foreground block text-sm">
+              {blog.data.published.toDateString()}
+            </time>
+            <p className="text-fd-foreground text-lg">
+              {blog.data.description}
+            </p>
+          </Link>
+        </li>
       ))}
-    </div>
+    </ul>
   )
 }

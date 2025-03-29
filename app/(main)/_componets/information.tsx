@@ -1,14 +1,12 @@
-import Image from 'next/image'
 import { SchoolIcon, WorkflowIcon } from 'lucide-react'
 
-import { educations, experiences, skills } from '@/data'
-import { cn } from '@/lib/utils'
+import { educations, experiences } from '@/lib/data'
 
 const informations = [
   {
     title: (
       <>
-        <SchoolIcon /> Education
+        <SchoolIcon /> <span>Educations</span>
       </>
     ),
     content: educations.map((item, idx) => (
@@ -28,7 +26,7 @@ const informations = [
   {
     title: (
       <>
-        <WorkflowIcon /> Experiences
+        <WorkflowIcon /> <span>Experiences</span>
       </>
     ),
     content: experiences.map((item, idx) => (
@@ -43,34 +41,17 @@ const informations = [
   },
 ]
 
-export const Information: React.FC = () => (
-  <>
-    <ul className="my-6 grid grid-cols-3 gap-4 lg:grid-cols-6">
-      {skills.map((item, idx) => (
-        <li
-          key={idx}
-          className="bg-secondary text-secondary-foreground inline-flex items-center gap-2 rounded-lg px-4 py-3 font-medium whitespace-nowrap shadow-lg select-none md:gap-4 md:text-lg"
-        >
-          <Image
-            src={item.icon}
-            alt={`${item.title} icon`}
-            width={24}
-            height={24}
-            className={cn('m-0 size-4 md:size-6', item.invert && 'dark:invert')}
-            priority
-          />
-          <span>{item.title}</span>
-        </li>
-      ))}
-    </ul>
+export const InformationSection: React.FC = () => (
+  <section className="container">
+    <h2 className="sr-only">Educations and Experiences section</h2>
 
     {informations.map((item, idx) => (
-      <div key={idx} className="relative my-8 rounded-lg border p-6">
+      <section key={idx} className="relative my-8 rounded-lg border p-6">
         <h3 className="absolute -top-4 col-span-full inline-flex scroll-m-20 items-center gap-2 text-2xl font-semibold tracking-tight">
           {item.title}
         </h3>
         <ul className="ml-6 list-disc [&>li]:mt-2">{item.content}</ul>
-      </div>
+      </section>
     ))}
-  </>
+  </section>
 )

@@ -1,0 +1,47 @@
+---
+title: Convolutional Neural Networks
+description: An in-depth guide to Convolutional Neural Networks (CNNs) and their applications in computer vision tasks.
+tags: ['Machine Learning', 'Deep Learning', 'Pytorch', 'Vue']
+repo: 'https://github.com/tiesen243/cnn'
+due: '2024-10-26 - 2024-10-28'
+order: 2
+---
+
+## Overview
+
+This project implements and explores Convolutional Neural Networks (CNNs) for various computer vision tasks. Built with PyTorch for the neural network components and Vue.js for the interactive front-end interface, this application demonstrates how deep learning models can be deployed with an intuitive user interface.
+
+## Key Features
+
+- **PyTorch Implementation**: Custom CNN architectures built using PyTorch's neural network modules
+- **Interactive Visualization**: Vue.js-powered interface for visualizing network architectures and training progress
+- **Image Classification**: Multi-class image classification with real-time predictions
+- **Feature Map Visualization**: Interactive tools to visualize what the network "sees" at different layers
+- **Model Training Dashboard**: Real-time monitoring of loss, accuracy, and other metrics during training
+- **Responsive Design**: Mobile-friendly interface allowing access from any device
+
+## Technical Implementation
+
+The project consists of two main components:
+
+1. **Backend ML Pipeline**:
+
+   - PyTorch-based CNN implementation with modular architecture
+   - Data preprocessing and augmentation pipelines
+   - Training and evaluation workflows with checkpointing
+   - Model export functionality for web deployment
+
+2. **Vue.js Frontend**:
+   - Component-based UI
+   - Canvas-based visualization of network architecture
+   - Interactive demonstration of convolutional operations
+
+## Challenges & Solutions
+
+A major challenge was optimizing the models for web deployment while maintaining accuracy. This was addressed by implementing model quantization and exploring MobileNet-inspired architectures to reduce parameter count without significant performance loss.
+
+The integration between PyTorch models and the Vue frontend required careful consideration of data flow and API design to ensure responsive user experience even when processing large images or complex models.
+
+## Learning Outcomes
+
+This project provided valuable hands-on experience with both deep learning concepts and modern web development. Key takeaways include understanding convolutional operations, backpropagation through complex architectures, and techniques for creating intuitive interfaces for machine learning applications.

@@ -1,0 +1,47 @@
+---
+title: Kazez
+description: Developed an anime streaming website using Next.js, designed to provide users with an engaging and personalized viewing experience.
+tags: ['Next.js', 'Prisma', 'Server Action']
+repo: https://github.com/tiesen243/kazez
+due: '2024-10-09 - 2024-10-12'
+order: 3
+---
+
+## Overview
+
+Kazez is a modern anime streaming website built with Next.js, designed to provide users with an engaging and personalized viewing experience. The platform combines sleek design principles with powerful backend functionality to deliver a seamless streaming service for anime enthusiasts.
+
+## Key Features
+
+- **Responsive Design**: Fully adaptive interface that works flawlessly across desktop, tablet, and mobile devices
+- **Server Actions**: Leveraging Next.js server actions for efficient data handling and state management
+- **User Authentication**: Secure login and registration system with personalized user profiles
+- **Content Discovery**: Advanced search and filtering options with recommendation algorithms
+- **Watchlist Management**: Personalized watchlists and progress tracking across devices
+- **Video Player**: Custom-built video player with playback controls and quality options
+- **Real-time Updates**: Notifications for new episodes and content updates
+
+## Technical Implementation
+
+The application is built using several cutting-edge technologies:
+
+1. **Frontend**:
+
+   - Next.js for server-side rendering and client-side navigation
+   - Tailwind CSS for responsive and customizable styling
+   - React Context API for global state management
+
+2. **Backend**:
+   - Prisma ORM for type-safe database operations
+   - Server Actions for form handling and data mutations
+   - RESTful API integration with anime data sources
+
+## Challenges & Solutions
+
+One of the main challenges was implementing efficient content delivery while maintaining good performance. This was addressed by implementing strategic data fetching patterns with SWR for client-side caching and leveraging Next.js's incremental static regeneration for frequently accessed pages.
+
+Managing user watch history and progress across episodes required careful database design. The solution involved a normalized schema with Prisma that efficiently tracks user interactions while minimizing database load.
+
+## Learning Outcomes
+
+This project provided valuable experience with modern Next.js features, particularly Server Actions for handling form submissions and data mutations without traditional API endpoints. It also reinforced best practices for responsive design and user experience in media streaming applications.

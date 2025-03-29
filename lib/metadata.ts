@@ -1,55 +1,79 @@
-import type { Metadata } from 'next'
+import type { Metadata as NextMetadata } from 'next'
 
-import { getBaseUrl } from '@/lib/utils'
+type Metadata = Omit<NextMetadata, 'title' | 'keywords'> & {
+  title: string
+  keywords: string[]
+}
 
-export const createMetadata = (
-  override: Omit<Metadata, 'title'> & { title?: string },
-): Metadata => {
+export const createMetadata = (override: Partial<Metadata> = {}): Metadata => {
   const siteName = 'Tiesen'
+  const title = override.title ? `${override.title} | ${siteName}` : siteName
   const description =
-    "I'm Tran Tien, a Weeb Developer who loves to code and watch anime."
-  const url = override.openGraph?.url
-    ? `${getBaseUrl()}${override.openGraph.url}`
-    : getBaseUrl()
-  const images = Array.isArray(override.openGraph?.images)
-    ? override.openGraph.images
-    : []
+    override.description ??
+    `I'm Tiesen, a web developer specializing in Next.js. Passionate about creating efficient web applications and anime enthusiast.`
+  const url = `${getBaseUrl()}${override.openGraph?.url ?? ''}`
 
   return {
     ...override,
     metadataBase: new URL(getBaseUrl()),
-    title: override.title ? `${override.title} | ${siteName}` : siteName,
-    description: override.description ?? description,
-    alternates: { canonical: url },
-    facebook: { appId: '523462826928110' },
+    applicationName: siteName,
+    title,
+    description,
+    category: 'Portfolio',
+    authors: { name: 'Tiesen', url: getBaseUrl() },
     manifest: `${getBaseUrl()}/manifest.webmanifest`,
     keywords: [
-      'Tiesen',
+      ...(override.keywords ?? []),
+      'tiesen',
       'tiesen243',
       'Tran Tien',
-      'Trần Tiến',
-      ...(override.keywords
-        ? typeof override.keywords === 'string'
-          ? [override.keywords]
-          : override.keywords
-        : []),
+      'web development',
+      'frontend',
+      'Next.js',
+      'React',
+      'TypeScript',
+      'portfolio',
+      'developer',
+      'blogs',
     ],
     openGraph: {
-      url: url,
-      images: [...images, { url: '/api/og?uwu=true' }],
-      siteName,
-      type: 'website',
       ...override.openGraph,
+      url,
+      title,
+      description,
+      siteName,
+      images: [
+        ...(Array.isArray(override.openGraph?.images)
+          ? override.openGraph.images
+          : override.openGraph?.images
+            ? [override.openGraph.images]
+            : []),
+        { url: '/api/og?uwu' },
+      ],
     },
     twitter: {
-      card: 'summary_large_image',
-      creator: '@tiesen243',
       ...override.twitter,
+      card: 'summary_large_image',
+      creatorId: '@tiesen243',
     },
     icons: {
       icon: '/favicon.ico',
       shortcut: '/favicon-16x16.png',
       apple: '/apple-touch-icon.png',
     },
+    alternates: {
+      ...override.alternates,
+      canonical: url,
+    },
+    facebook: { appId: '625246206988524' },
+    assets: '/assets',
   }
+}
+
+function getBaseUrl() {
+  if (typeof window !== 'undefined') return window.location.origin
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL)
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`
+  return `http://localhost:${process.env.PORT ?? 3000}`
 }

@@ -1,42 +1,42 @@
-import '@/app/globals.css'
+import '@/app/global.css'
 
+import type { ReactNode } from 'react'
 import { Geist, Geist_Mono } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
+import { cn } from 'fumadocs-ui/components/api'
 import { RootProvider } from 'fumadocs-ui/provider'
 
 import { createMetadata } from '@/lib/metadata'
-import { cn } from '@/lib/utils'
 
 const geistSans = Geist({
-  variable: '--font-geist-sans',
   subsets: ['latin'],
+  variable: '--font-geist-sans',
 })
 
 const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
   subsets: ['latin'],
+  variable: '--font-geist-mono',
 })
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+}: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          'font-sans antialiased',
+          'flex min-h-screen flex-col font-sans antialiased',
           geistSans.variable,
           geistMono.variable,
         )}
       >
-        <RootProvider>{children}</RootProvider>
-
-        <Analytics />
+        <RootProvider theme={{ disableTransitionOnChange: true }}>
+          {children}
+        </RootProvider>
       </body>
     </html>
   )
 }
 
-export const metadata = createMetadata({})
+export const metadata = createMetadata({
+  openGraph: { type: 'website' },
+})

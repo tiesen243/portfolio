@@ -1,0 +1,49 @@
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/neutral.css';
+@import 'fumadocs-ui/css/preset.css';
+
+@source '../node_modules/fumadocs-ui/dist/**/*.js';
+
+:root {
+  --yuki: oklch(0.5 0.136 261.08);
+}
+.dark {
+  --yuki: oklch(0.7365 0.136 261.08);
+}
+
+@theme inline {
+  --color-yuki: var(--yuki);
+
+  --font-sans: 'var(--font-geist-sans)', sans-serif;
+  --font-mono: 'var(--font-geist-mono)', monospace;
+
+  --animate-shimmer: shimmer 2s linear infinite;
+  @keyframes shimmer {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+
+  --animate-marquee: marquee 20s linear infinite;
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  --animate-marquee-reverse: marquee-reverse 20s linear infinite;
+  @keyframes marquee-reverse {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+}

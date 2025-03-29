@@ -69,32 +69,4 @@ export default [
       'react/prop-types': 'off',
     },
   },
-
-  // Restric environment variables
-  ...tseslint.config(
-    { ignores: ['**/env.ts'] },
-    {
-      files: ['**/*.ts', '**/*.tsx'],
-      rules: {
-        'no-restricted-properties': [
-          'error',
-          {
-            object: 'process',
-            property: 'env',
-            message:
-              "Use `import { env } from '@/env'` instead to ensure validated types.",
-          },
-        ],
-        'no-restricted-imports': [
-          'error',
-          {
-            name: 'process',
-            importNames: ['env'],
-            message:
-              "Use `import { env } from '@/env'` instead to ensure validated types.",
-          },
-        ],
-      },
-    },
-  ),
 ]

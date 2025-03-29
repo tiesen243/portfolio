@@ -1,0 +1,47 @@
+---
+title: Egg Community
+description: Built a social media platform using Next.js for the frontend and ElysiaJS for the backend, creating a dynamic and interactive environment for users to engage with one another.
+tags: ['ElysiaJS', 'Next.js', 'Prisma', 'Tailwind CSS']
+link: https://egg-community.vercel.app
+repo: https://github.com/tiesen243/egg-community
+due: '2024-04-14 - 2024-04-28'
+order: 5
+---
+
+## Overview
+
+Egg Community is a modern social media platform built with Next.js and ElysiaJS, designed to create an engaging digital space where users can connect, share content, and interact with one another. The platform combines responsive frontend design with a robust backend architecture to deliver a seamless social experience.
+
+## Key Features
+
+- **User Profiles**: Customizable user profiles with avatars, bio information, and activity feeds
+- **Content Sharing**: Rich media posting capabilities including text, images, and embedded content
+- **Real-time Interactions**: Like, comment, and share functionality with instant updates
+- **Responsive Design**: Mobile-first approach ensuring optimal experience across all devices
+- **Authentication System**: Secure user registration and login with role-based permissions
+- **Notification System**: Real-time alerts for user interactions and content updates
+- **Search Functionality**: Advanced search capabilities for finding users and content
+
+## Technical Implementation
+
+The application is built using a modern tech stack:
+
+1. **Frontend**:
+
+   - Next.js for server-side rendering and client-side navigation
+   - Tailwind CSS for responsive and customizable styling
+   - React hooks and context for state management
+
+2. **Backend**:
+   - ElysiaJS for creating a fast and lightweight API server
+   - Prisma ORM for type-safe database operations
+
+## Challenges & Solutions
+
+One of the main challenges was implementing an efficient real-time notification system. This was addressed by utilizing WebSockets through Socket.io, creating event listeners for various user actions, and implementing an optimized database schema for tracking notification status.
+
+Another challenge was handling media uploads and storage efficiently. The solution involved implementing cloud storage integration with image optimization and progressive loading techniques to ensure good performance even with media-heavy content.
+
+## Learning Outcomes
+
+This project provided valuable experience in building full-stack applications with a focus on real-time interactions. Key takeaways include implementing efficient state management across a complex application, optimizing database queries for social media patterns, and creating intuitive user interfaces for content creation and consumption.
