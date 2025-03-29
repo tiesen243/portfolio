@@ -30,7 +30,9 @@ export default function RootLayout({
           geistMono.variable,
         )}
       >
-        <RootProvider theme={{ disableTransitionOnChange: true }}>
+        <RootProvider
+          theme={{ defaultTheme: 'dark', disableTransitionOnChange: true }}
+        >
           {children}
         </RootProvider>
 
