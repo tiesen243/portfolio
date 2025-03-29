@@ -55,9 +55,12 @@ export async function generateMetadata(props: {
     title: page.data.title,
     description: page.data.description,
     openGraph: {
-      images:
-        page.data.image ??
-        `/api/og?title=${encodeURIComponent(page.data.title)}&description=${encodeURIComponent(page.data.description)}`,
+      images: {
+        url:
+          page.data.image ??
+          `/api/og?title=${encodeURIComponent(page.data.title)}&description=${encodeURIComponent(page.data.description)}`,
+        alt: page.data.title,
+      },
       type: 'article',
     },
   })

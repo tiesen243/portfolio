@@ -103,9 +103,12 @@ export async function generateMetadata(props: {
     title: page.data.title,
     description: page.data.description,
     openGraph: {
-      images: `/api/og?title=${encodeURIComponent(
-        page.data.title,
-      )}&description=${encodeURIComponent(page.data.description)}`,
+      images: {
+        url: `/api/og?title=${encodeURIComponent(
+          page.data.title,
+        )}&description=${encodeURIComponent(page.data.description)}`,
+        alt: page.data.title,
+      },
       type: 'article',
     },
   })

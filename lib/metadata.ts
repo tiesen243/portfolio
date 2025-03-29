@@ -48,7 +48,7 @@ export const createMetadata = (override: Partial<Metadata> = {}): Metadata => {
           : override.openGraph?.images
             ? [override.openGraph.images]
             : []),
-        { url: '/api/og?uwu=true' },
+        { url: '/api/og?uwu=true', alt: title },
       ],
     },
     twitter: {
