@@ -11,7 +11,13 @@ export const createMetadata = (override: Partial<Metadata> = {}): Metadata => {
   const description =
     override.description ??
     `I'm Tiesen, a web developer specializing in Next.js. Passionate about creating efficient web applications and anime enthusiast.`
-  const { title: _, description: __, openGraph, ...restOverride } = override
+  const {
+    title: _,
+    description: __,
+    keywords = [],
+    openGraph,
+    ...restOverride
+  } = override
   const { images: ogImages, url: ogUrl, ...restOpenGraph } = openGraph ?? {}
   const url = `${getBaseUrl()}${ogUrl ?? ''}`
 
@@ -24,7 +30,7 @@ export const createMetadata = (override: Partial<Metadata> = {}): Metadata => {
     authors: { name: 'Tiesen', url: getBaseUrl() },
     manifest: `${getBaseUrl()}/manifest.webmanifest`,
     keywords: [
-      ...(override.keywords ?? []),
+      ...keywords,
       'tiesen',
       'tiesen243',
       'Tran Tien',
