@@ -42,6 +42,4 @@ export default function RootLayout({
   )
 }
 
-export const metadata = createMetadata({
-  openGraph: { type: 'website' },
-})
+export const metadata = createMetadata()

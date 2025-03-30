@@ -11,10 +11,11 @@ export const createMetadata = (override: Partial<Metadata> = {}): Metadata => {
   const description =
     override.description ??
     `I'm Tiesen, a web developer specializing in Next.js. Passionate about creating efficient web applications and anime enthusiast.`
-  const url = `${getBaseUrl()}${override.openGraph?.url ?? ''}`
+  const { title: _, description: __, openGraph, ...restOverride } = override
+  const { images: ogImages, url: ogUrl, ...restOpenGraph } = openGraph ?? {}
+  const url = `${getBaseUrl()}${ogUrl ?? ''}`
 
   return {
-    ...override,
     metadataBase: new URL(getBaseUrl()),
     applicationName: siteName,
     title,
@@ -37,24 +38,21 @@ export const createMetadata = (override: Partial<Metadata> = {}): Metadata => {
       'blogs',
     ],
     openGraph: {
-      ...override.openGraph,
       url,
       title,
       description,
       siteName,
+      type: 'website',
       images: [
-        ...(Array.isArray(override.openGraph?.images)
-          ? override.openGraph.images
-          : override.openGraph?.images
-            ? [override.openGraph.images]
-            : []),
-        { url: '/api/og?uwu=true', alt: title },
+        { url: '/api/og?uwu=true', alt: 'Tiesen' },
+        ...(Array.isArray(ogImages) ? ogImages : ogImages ? [ogImages] : []),
       ],
+      ...restOpenGraph,
     },
     twitter: {
-      ...override.twitter,
       card: 'summary_large_image',
       creatorId: '@tiesen243',
+      ...override.twitter,
     },
     icons: {
       icon: '/favicon.ico',
@@ -62,11 +60,12 @@ export const createMetadata = (override: Partial<Metadata> = {}): Metadata => {
       apple: '/apple-touch-icon.png',
     },
     alternates: {
-      ...override.alternates,
       canonical: url,
+      ...override.alternates,
     },
     facebook: { appId: '625246206988524' },
     assets: '/assets',
+    ...restOverride,
   }
 }
 
