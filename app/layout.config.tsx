@@ -1,5 +1,6 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { FacebookIcon, XIcon } from '@/components/ui/icons'
 import Tiesen from '@/public/assets/tiesen.png'
@@ -47,4 +48,43 @@ export const baseOptions: BaseLayoutProps = {
       type: 'icon',
     },
   ],
+}
+
+export const Footer: React.FC = () => {
+  const navs = [
+    { href: '/', title: 'Home' },
+    { href: '/projects', title: 'Projects' },
+    { href: '/blogs', title: 'Blogs' },
+  ]
+
+  return (
+    <footer className="text-fd-muted-foreground border-t py-6 text-sm">
+      <div className="container flex flex-col gap-4">
+        <nav className="flex items-center gap-4">
+          <Link href="/">
+            <Image
+              src="/assets/logo.svg"
+              width={24}
+              height={24}
+              alt="Tiesen Logo"
+              className="size-6 dark:invert"
+            />
+            <span className="sr-only">Tiesen</span>
+          </Link>
+
+          {navs.map((nav) => (
+            <Link
+              key={nav.href}
+              href={nav.href}
+              className="hover:text-fd-foreground"
+            >
+              {nav.title}
+            </Link>
+          ))}
+        </nav>
+
+        <p>© {new Date().getFullYear()} Tiesen</p>
+      </div>
+    </footer>
+  )
 }

@@ -6,6 +6,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { cn } from 'fumadocs-ui/components/api'
 import { RootProvider } from 'fumadocs-ui/provider'
 
+import { Footer } from '@/app/layout.config'
 import { createMetadata } from '@/lib/metadata'
 
 const geistSans = Geist({
@@ -34,6 +35,8 @@ export default function RootLayout({
           theme={{ defaultTheme: 'dark', disableTransitionOnChange: true }}
         >
           {children}
+
+          <Footer />
         </RootProvider>
 
         <Analytics />
