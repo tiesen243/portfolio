@@ -17,7 +17,7 @@ export const blogs = defineDocs({
     schema: frontmatterSchema.extend({
       description: z.string(),
       tags: z.array(z.string()),
-      published: z.date().optional(),
+      published: z.date(),
       image: z.string().optional(),
     }),
   },
