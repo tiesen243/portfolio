@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
+import { getBaseUrl } from '@/lib/metadata'
 import { blogsSource, projectsSource } from '@/lib/source'
 
 export function GET(_request: NextRequest) {
@@ -29,7 +30,7 @@ export function GET(_request: NextRequest) {
       <link>${post.url}</link>
       <description>${post.data.description}</description>
       <pubDate>${new Date(post.data.published).toUTCString()}</pubDate>
-      <guid isPermaLink="true">${post.url}</guid>
+      <guid isPermaLink="true">${getBaseUrl()}${post.url}</guid>
     </item>`,
     )
     .join('')}
@@ -40,7 +41,7 @@ export function GET(_request: NextRequest) {
       <title>${project.data.title}</title>
       <link>${project.url}</link>
       <description>${project.data.description}</description>
-      <guid isPermaLink="true">${project.url}</guid>
+      <guid isPermaLink="true">${getBaseUrl()}${project.url}</guid>
     </item>`,
     )
     .join('')}
