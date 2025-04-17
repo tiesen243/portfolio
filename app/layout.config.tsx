@@ -82,8 +82,19 @@ export const Footer: React.FC = () => {
             </Link>
           ))}
         </nav>
+        
+        <div className="flex items-center justify-between">
+            <p>© {new Date().getFullYear()} Tiesen</p>
 
-        <p>© {new Date().getFullYear()} Tiesen</p>
+            <nav className="flex items-center gap-4">
+                <Link href="/sitemap.xml" className="hover:text-fd-foreground">
+                    Sitemap
+                </Link>
+                <Link href="/api/rss" className="hover:text-fd-foreground">
+                    RSS
+                </Link>
+            </nav>
+        </div>
       </div>
     </footer>
   )
