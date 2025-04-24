@@ -30,7 +30,7 @@ export const Introduction = () => (
           <strong>Date of Birth:</strong> June 22, 2004
         </li>
         <li>
-          <strong>Location:</strong> Sai Gon, Viet Nam
+          <strong>Location:</strong> Ho Chi Minh city, Viet Nam
         </li>
         <li>
           <strong>Languages:</strong> Vietnamese, English
