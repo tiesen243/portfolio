@@ -35,12 +35,11 @@ Then, use `Ventoy` to burn the ISO image to the USB drive. You can download Vent
 
 Second, plug the USB drive into the computer that you want to install Arch Linux on. Then, you need to boot the computer from the USB drive. You can do this by restarting the computer and pressing the boot menu key when the computer starts up. The boot menu key is usually F12, but it can vary depending on the computer. Once you have booted the computer from the USB drive, you need to select the Arch Linux installation option from the boot menu.
 
-> Remember to disable `Secure Boot` in the BIOS settings
-
 Now, started to install Arch Linux on your computer. You can follow the Arch Linux installation guide to install Arch Linux on your computer.
 
 ```bash
-setfont ter-132n
+# Increase the font size
+setfont ter-120n
 ```
 
 Check the internet connection.
@@ -120,14 +119,23 @@ Run `archinstall` script to start the installation. In archinstall script, you c
   - Choose `Desktop` as the profile and select `Hyprland` as the desktop environment
   - Choose `Graphics driver` and select GPU driver for your computer. In my case, I choose `Nvidia` driver
   - `Greeter`: Choose `SDDM` as the greeter or something you like
-- Dont select `Audio` because I will install `Pulseaudio` later
 - `Additional packages`:
   - Choose `Yes` to install additional packages
-  - Enter the package name: `pulseaudio` `grub` `efibootmgr` `os-prober` `neovim` (optional)
+  - Enter the package name: `pipewire-pulse` `grub` `efibootmgr` `os-prober` `neovim`
   - Press enter to verify the package name
 - `Network configuration`: Choose `Use NetworkManager` to manage the network connection
-- `Timezone`: Choose the timezone for your location. In my case, I choose `Asia/Ho_Chi_Minh`
+- `Timezone`: Choose the timezone for your location.
 - Finally, choose `Install` to start the installation process
+
+:::warning
+
+If you encounter a "Failed to install packages to new root" error when running `archinstall`, you may need to update the Arch Linux keyring before proceeding:
+
+```bash
+pacman -S archlinux-keyring
+```
+
+:::
 
 After that, configure the system to boot into Arch Linux.
 
@@ -136,8 +144,8 @@ bootctl remove
 
 # Mount the EFI partitions of Windows 11
 lsblk # Check the EFI partition
-mkdir /mnt/win
-mount /dev/[drive_name] /mnt/win # in my case, the EFI partition is /dev/nvme0n1p1
+mkdir /mnt/windows
+mount /dev/[drive_name] /mnt/windows
 
 # Grub installation
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch
@@ -160,6 +168,13 @@ Update the grub resolution by find and update the following line
 
 ```bash title="/etc/default/grub"
 GRUB_GFXMODE=1920x1080x32
+```
+
+Optionally, you can set GRUB to remember your last boot selection:
+
+```bash title="/etc/default/grub"
+GRUB_DEFAULT=saved
+GRUB_SAVEDEFAULT=true
 ```
 
 Finally, reboot the computer and select the Arch Linux in the boot menu to start the system.
@@ -196,14 +211,15 @@ rm -rf ~/yay
 3. Install all packages
 
 ```bash
-yay -S fastfetch hyperidle hyprlock hyprpaper hyprpicker rofi-wayland waybar xdg-desktop-portal-hyprland-git zsh \
-noto-fonts noto-fonts-cjk noto-fonts-emoji \
-brightnessctl lsd playerctl ripgrep unzip \
-ffmpeg zen-browser-bin \
-cliphist wl-clipboard \
-nwg-look pavucontrol \
-github-cli lazygit\
-grim slurp
+yes | yay -S --answerclean All --answerdiff None \
+  hypridle hyprlock hyprpaper hyprpicker xdg-desktop-portal-hyprland-git rofi-wayland \
+  noto-fonts noto-fonts-cjk noto-fonts-emoji otf-geist otf-geist-mono-nerd \
+  fastfetch zsh brightnessctl nwg-look playerctl libnotify \
+  github-cli lazygit lsd ripgrep unzip \
+  grim slurp cliphist wl-clipboard \
+  ffmpeg pipewire wireplumber \
+  zen-browser-bin \
+  thunar gvfs
 ```
 
 4. Install `oh-my-zsh`
@@ -211,8 +227,6 @@ grim slurp
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
-
-> Remember to choose `zsh` as your default shell
 
 Then, install zsh plugins
 
@@ -235,13 +249,9 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
 ```
 
-6. Generate SSH key
+6. Set up github
 
-```bash
-ssh-keygen -t rsa -b 4096 -C "yuki@example.com"
-```
-
-Then, add the SSH key to github using `github-cli`
+Open the browser and login to your github account, then run the following command to set up the SSH key for your github account.
 
 ```bash
 gh auth login
@@ -265,9 +275,9 @@ Then, create the symbolic links to the config files
 
 ```bash
 rm ~/.zshrc
-rm -rf ~/.config/{dunst,fastfetch,hypr,kitty,lazygit,lsd,nvim,rofi,waybar}
+rm -rf ~/.config/{dunst,fastfetch,hypr,kitty,lazygit,lsd,nvim,rofi,Thunar}
 
-ln -s ~/dotfiles/{dunst,fastfetch,hypr,kitty,lazygit,lsd,nvim,rofi,waybar} ~/.config
+ln -s ~/dotfiles/{dunst,fastfetch,hypr,kitty,lazygit,lsd,nvim,rofi,Thunar} ~/.config
 ln -s ~/dotfiles/zsh/themes/yuki.zsh-theme ~/.oh-my-zsh/custom/themes
 ln -s ~/dotfiles/zsh/config.zsh ~/.zshrc
 ```
@@ -280,14 +290,17 @@ $path = /path/to/your/wallpaper
 
 Or change file in `~/dotfiles/assets/_background.png`
 
-<Callout>
-Note: If it show wrong time on Windows, you can run the following command to fix it
+3. Add your avatar to `~/dotfiles/assets/_profile.png` to show in the lock screen
+
+:::info
+
+If it show wrong time on Windows, you can run the following command to fix it
 
 ```bash
 timedatectl set-local-rtc 1
 ```
 
-</Callout>
+:::
 
 ## Conclusion
 
