@@ -5,10 +5,10 @@
 @source '../node_modules/fumadocs-ui/dist/**/*.js';
 
 :root {
-  --yuki: oklch(0.5 0.136 261.08);
+  --yuki: oklch(0.27 0.0808 28.97);
 }
 .dark {
-  --yuki: oklch(0.7365 0.136 261.08);
+  --yuki: oklch(0.57 0.0997 40.04);
 }
 
 @theme inline {
