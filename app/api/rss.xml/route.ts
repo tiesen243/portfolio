@@ -50,6 +50,6 @@ export function GET(_request: NextRequest) {
 
   return new NextResponse(feed, {
     status: 200,
-    headers: { 'Content-Type': 'application/rss+xml' },
+    headers: { 'Content-Type': 'application/xml' },
   })
 }

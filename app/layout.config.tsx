@@ -86,12 +86,12 @@ export const Footer: React.FC = () => {
         <div className="flex items-center justify-between">
           <p>© {new Date().getFullYear()} Tiesen</p>
 
-          <nav className="flex items-center gap-4">
+          <nav className="flex items-center gap-6">
             <Link href="/sitemap.xml" className="hover:text-fd-foreground">
               Sitemap
             </Link>
-            <Link href="/api/rss" className="hover:text-fd-foreground">
-              RSS
+            <Link href="/api/rss.xml" className="hover:text-fd-foreground">
+              RSS Feed
             </Link>
           </nav>
         </div>
