@@ -17,7 +17,7 @@ export default async function Page(props: {
 }) {
   const params = await props.params
   const page = projectsSource.getPage(params.slug)
-  if (!page) notFound()
+  if (!page) return notFound()
 
   const MDXContent = page.data.body
 
@@ -39,18 +39,16 @@ export default async function Page(props: {
           </p>
         )}
       </div>
-      {page.data.tags.length > 0 && (
-        <ul className="flex gap-2">
-          {page.data.tags.map((tag) => (
-            <li
-              key={tag}
-              className="bg-fd-primary text-fd-primary-foreground rounded-md px-2 py-1 text-xs"
-            >
-              {tag}
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul className="flex gap-2">
+        {page.data.tags.map((tag) => (
+          <li
+            key={tag}
+            className="bg-fd-primary text-fd-primary-foreground rounded-md px-2 py-1 text-xs"
+          >
+            {tag}
+          </li>
+        ))}
+      </ul>
 
       <div className="flex items-center justify-end gap-2">
         {page.data.live && (

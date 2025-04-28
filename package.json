@@ -8,8 +8,8 @@
     "dev": "next dev --turbopack",
     "format": "prettier --check . --cache --cache-location .cache/.prettiercache",
     "format:fix": "prettier --check . --cache --write --cache-location .cache/.prettiercache",
-    "lint": "eslint --cache-location .cache/.eslintcache",
-    "lint:fix": "eslint --fix --cache-location .cache/.eslintcache",
+    "lint": "eslint . --cache-location .cache/.eslintcache",
+    "lint:fix": "eslint . --fix --cache-location .cache/.eslintcache",
     "postinstall": "fumadocs-mdx",
     "start": "next start",
     "typecheck": "tsc --noEmit"
@@ -42,6 +42,6 @@
     "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "^4.1.4",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.31.0"
+    "typescript-eslint": "^8.31.1"
   }
 }

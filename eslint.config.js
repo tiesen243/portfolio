@@ -8,7 +8,7 @@ import tseslint from 'typescript-eslint'
 
 /** @type {import('typescript-eslint').Config} */
 export default [
-  { ignores: ['.next/**'] },
+  { ignores: ['.next/**', '.source/**'] },
 
   // Base configs
   ...tseslint.config(
