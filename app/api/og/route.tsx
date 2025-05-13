@@ -24,7 +24,11 @@ export function GET(req: NextRequest) {
           tw="flex flex-col items-center justify-center w-full h-full"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`${getBaseUrl()}/assets/tiesen.png`} tw="w-4/5" />
+          <img
+            src={`${getBaseUrl()}/assets/tiesen.png`}
+            alt="Tiesen"
+            tw="w-4/5"
+          />
         </div>
       ),
       { width: 1200, height: 630 },
@@ -44,6 +48,7 @@ export function GET(req: NextRequest) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={`${getBaseUrl()}/assets/logo.svg`}
+            alt="Tiesen"
             tw="w-20 h-20 mr-4"
             style={{ filter: 'invert(1)' }}
           />
