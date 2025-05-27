@@ -5,7 +5,7 @@ import { blogsSource, projectsSource } from '@/lib/source'
 
 export const revalidate = false
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default function sitemap(): MetadataRoute.Sitemap {
   const url = (path: string): string => new URL(path, getBaseUrl()).toString()
   const projects = projectsSource.getPages()
   const blogs = blogsSource.getPages()
@@ -16,25 +16,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 1,
     },
-    ...(await Promise.all(
-      projects.map(
-        (page) =>
-          ({
-            url: url(page.url),
-            changeFrequency: 'weekly',
-            priority: 0.8,
-          }) as MetadataRoute.Sitemap[number],
-      ),
-    )),
-    ...(await Promise.all(
-      blogs.map(
-        (page) =>
-          ({
-            url: url(page.url),
-            changeFrequency: 'weekly',
-            priority: 0.8,
-          }) as MetadataRoute.Sitemap[number],
-      ),
-    )),
+    ...projects.map(
+      (page) =>
+        ({
+          url: url(page.url),
+          changeFrequency: 'weekly',
+          priority: 0.8,
+        }) as MetadataRoute.Sitemap[number],
+    ),
+    ...blogs.map(
+      (page) =>
+        ({
+          url: url(page.url),
+          changeFrequency: 'weekly',
+          priority: 0.8,
+        }) as MetadataRoute.Sitemap[number],
+    ),
   ]
 }

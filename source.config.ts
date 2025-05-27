@@ -9,7 +9,7 @@ import {
   defineDocs,
   frontmatterSchema,
 } from 'fumadocs-mdx/config'
-import { z } from 'zod'
+import * as z from 'zod/v3'
 
 export const blogs = defineDocs({
   dir: 'content/blogs',
