@@ -13,15 +13,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: url('/'),
-      changeFrequency: 'monthly',
+      changeFrequency: 'yearly',
       priority: 1,
+      lastModified: new Date('2004-06-22'),
     },
     ...projects.map(
       (page) =>
         ({
           url: url(page.url),
-          changeFrequency: 'weekly',
+          changeFrequency: 'monthly',
           priority: 0.8,
+          lastModified: new Date(page.data.lastModified ?? ''),
         }) as MetadataRoute.Sitemap[number],
     ),
     ...blogs.map(
@@ -30,6 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
           url: url(page.url),
           changeFrequency: 'weekly',
           priority: 0.8,
+          lastModified: new Date(page.data.lastModified ?? ''),
         }) as MetadataRoute.Sitemap[number],
     ),
   ]

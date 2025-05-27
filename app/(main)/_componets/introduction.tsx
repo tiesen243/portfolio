@@ -1,8 +1,5 @@
 import Image from 'next/image'
 
-const emailHash =
-  '48b8ec4ce6c85e06c11bda4381a3ac6cb8161a23e5ea540544c809063090815d'
-
 export const Introduction = () => (
   <section className="container flex flex-col justify-between gap-4 md:flex-row">
     <article className="prose text-lg">
@@ -39,7 +36,7 @@ export const Introduction = () => (
     </article>
 
     <Image
-      src={`https://gravatar.com/avatar/${emailHash}?s=500`}
+      src="https://gravatar.com/avatar/48b8ec4ce6c85e06c11bda4381a3ac6cb8161a23e5ea540544c809063090815d?size=500"
       alt="Avatar"
       width={500}
       height={500}

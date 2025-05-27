@@ -67,6 +67,11 @@ export const createMetadata = (override: Partial<Metadata> = {}): Metadata => {
     },
     alternates: {
       canonical: url,
+      types: {
+        'application/rss+xml': [
+          { title: 'Tiesen RSS Feed', url: `${getBaseUrl()}/rss.xml` },
+        ],
+      },
       ...override.alternates,
     },
     facebook: { appId: '625246206988524' },

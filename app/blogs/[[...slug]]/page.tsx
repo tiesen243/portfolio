@@ -27,7 +27,7 @@ export default async function Page(props: {
         {page.data.description}
       </DocsDescription>
       <time className="text-fd-muted-foreground text-sm">
-        {page.data.published.toDateString()}
+        {new Date(page.data.lastModified ?? '').toISOString()}
       </time>
       <ul className="flex gap-2">
         {page.data.tags.map((tag) => (
