@@ -13,11 +13,9 @@ coverage
 out/
 next-env.d.ts
 
-# production
-build
-.source
-
 # misc
+.cache/
+.source/
 .DS_Store
 *.pem
 
@@ -36,4 +34,3 @@ yarn-error.log*
 
 # typescript
 dist/
-.cache
