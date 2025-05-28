@@ -8,8 +8,8 @@ export const BlogList: React.FC = () => {
     .filter((page) => page.url !== '/blogs')
     .sort(
       (a, b) =>
-        new Date(b.data.published).getTime() -
-        new Date(a.data.published).getTime(),
+        new Date(b.data.lastModified ?? '').getTime() -
+        new Date(a.data.lastModified ?? '').getTime(),
     )
 
   return (
@@ -21,7 +21,7 @@ export const BlogList: React.FC = () => {
               {blog.data.title}
             </h2>
             <time className="text-fd-muted-foreground block text-sm">
-              {blog.data.published.toDateString()}
+              {new Date(blog.data.lastModified ?? '').toDateString()}
             </time>
             <p className="text-fd-foreground text-lg">
               {blog.data.description}
