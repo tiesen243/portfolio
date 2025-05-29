@@ -81,6 +81,8 @@ export default async function Page(props: {
             a: createRelativeLink(projectsSource, page),
           }}
         />
+
+        <div className="giscus" />
       </DocsBody>
     </DocsPage>
   )

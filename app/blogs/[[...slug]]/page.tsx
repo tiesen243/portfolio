@@ -51,6 +51,7 @@ export default async function Page(props: {
             Tab,
           }}
         />
+        <div className={`giscus ${page.url === '/blogs' ? 'hidden' : ''}`} />
       </DocsBody>
     </DocsPage>
   )

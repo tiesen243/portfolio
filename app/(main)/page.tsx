@@ -12,6 +12,8 @@ export default function HomePage() {
       <Introduction />
 
       <InformationSection />
+
+      <div className="giscus hidden" />
     </main>
   )
 }
