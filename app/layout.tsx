@@ -7,7 +7,6 @@ import { RootProvider } from 'fumadocs-ui/provider'
 import { cn } from 'fumadocs-ui/utils/cn'
 
 import { Footer } from '@/app/layout.config'
-import { Giscus } from '@/components/giscus'
 import { createMetadata } from '@/lib/metadata'
 
 const geistSans = Geist({
@@ -38,8 +37,6 @@ export default function RootLayout({
           {children}
 
           <Footer />
-
-          <Giscus />
         </RootProvider>
 
         <Analytics />

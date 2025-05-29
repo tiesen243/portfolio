@@ -8,6 +8,7 @@ import {
   DocsTitle,
 } from 'fumadocs-ui/page'
 
+import { Giscus } from '@/components/giscus'
 import { createMetadata } from '@/lib/metadata'
 import { blogsSource } from '@/lib/source'
 
@@ -51,7 +52,8 @@ export default async function Page(props: {
             Tab,
           }}
         />
-        <div className={`giscus ${page.url === '/blogs' ? 'hidden' : ''}`} />
+
+        {page.url !== '/blogs' && <Giscus />}
       </DocsBody>
     </DocsPage>
   )
