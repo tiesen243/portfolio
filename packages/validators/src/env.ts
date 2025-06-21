@@ -1,5 +1,7 @@
 import * as z from 'zod/v4-mini'
 
+console.log(process.env)
+
 export const env = createEnv({
   server: {
     NODE_ENV: z._default(

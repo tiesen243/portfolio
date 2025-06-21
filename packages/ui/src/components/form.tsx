@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Slot as SlotPrimitive } from 'radix-ui'
+import { Slot } from '@radix-ui/react-slot'
 
 import { cn } from '@yuki/ui'
 
@@ -255,7 +255,7 @@ function useForm<
     const { state, meta } = useFormField()
 
     return (
-      <SlotPrimitive.Slot
+      <Slot
         data-slot="form-control"
         id={meta.formItemId}
         aria-describedby={
