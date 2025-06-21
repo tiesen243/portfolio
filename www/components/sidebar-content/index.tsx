@@ -16,7 +16,7 @@ export function SidebarContent() {
         />
       </section>
 
-      <section>
+      <section className="flex-1">
         <nav className="flex flex-col gap-2 px-2 py-4">
           {navs.map((nav) => (
             <Link
@@ -46,8 +46,8 @@ const navs = [
     icon: MailIcon,
   },
   {
-    label: 'Blog',
-    href: '/blog',
+    label: 'Blogs',
+    href: '/blogs',
     icon: RssIcon,
   },
   {

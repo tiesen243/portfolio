@@ -14,5 +14,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
       lastModified: new Date('2004-06-22'),
     },
+    {
+      url: url('/contact'),
+      changeFrequency: 'yearly',
+      priority: 0.8,
+      lastModified: new Date('2004-06-22'),
+    },
   ]
 }

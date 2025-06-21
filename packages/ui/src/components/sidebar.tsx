@@ -71,7 +71,7 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
           data-slot="sidebar"
           data-state={open ? 'open' : 'closed'}
           className={cn(
-            'bg-background text-sidebar-foreground fixed inset-0 z-40 overflow-y-auto border border-l md:hidden',
+            'bg-background text-sidebar-foreground fixed inset-0 z-40 flex flex-col overflow-y-auto border border-l md:hidden',
             'transition-transform duration-200 ease-linear',
             'w-(--sidebar-width) data-[state=closed]:-translate-x-full data-[state=open]:translate-x-0',
           )}
@@ -100,7 +100,7 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
       <aside
         data-slot="sidebar-content"
         className={cn(
-          'border-l-secondary bg-background fixed inset-y-0 z-10 w-64 border',
+          'border-l-secondary bg-background fixed inset-y-0 z-10 flex w-(--sidebar-width) flex-col border',
           'transition-[left] duration-200 ease-linear',
           'left-0 group-data-[state=closed]:left-[calc(var(--sidebar-width)*-1)]',
         )}

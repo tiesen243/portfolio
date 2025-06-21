@@ -16,6 +16,7 @@ export function HeroSection() {
     <section
       id="hero"
       className="container flex min-h-dvh flex-col items-center justify-center"
+      style={{ '--max-width': '650px' } as React.CSSProperties}
     >
       <h1 className="sr-only">Hero section</h1>
 
@@ -23,16 +24,16 @@ export function HeroSection() {
         src={Tiesen}
         alt="Tiesen"
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        className="mx-auto h-auto w-[600px]"
+        className="mx-auto h-auto w-(--max-width)"
       />
 
-      <Typography className="mt-6 text-center text-pretty">
+      <Typography className="mt-6 max-w-(--max-width) text-center text-pretty">
         I believe this world is{' '}
         <span className="text-normal font-medium">flat</span>, because{' '}
         <span className="text-normal font-medium">loli</span> is my world OwO
       </Typography>
 
-      <nav className="mt-8 flex w-full max-w-xl flex-col gap-4">
+      <nav className="mt-8 flex w-full max-w-(--max-width) flex-col gap-4">
         {navs.map((nav) => (
           <Link
             key={nav.label}
@@ -52,6 +53,8 @@ export function HeroSection() {
           </Link>
         ))}
       </nav>
+
+      <Typography className="mt-12">@tiesen243</Typography>
     </section>
   )
 }
@@ -73,12 +76,12 @@ const navs = [
     icon: FolderKanbanIcon,
     label: 'Projects',
     shortcut: 'p',
-    href: '#',
+    href: '/projects',
   },
   {
     icon: RssIcon,
     label: 'Blogs',
     shortcut: 'b',
-    href: '#',
+    href: '/blogs',
   },
 ]

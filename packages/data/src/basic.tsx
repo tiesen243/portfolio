@@ -3,7 +3,7 @@ export const basic = {
   nickname: 'Tiesen',
   name: 'Tran Tien',
   email: 'ttien56906@gmail.com',
-  dateOfBirth: '2004-06-22',
+  dateOfBirth: '2004-06-??',
   location: 'Ho Chi Minh City, Vietnam',
   languages: ['Vietnamese', 'English'],
 

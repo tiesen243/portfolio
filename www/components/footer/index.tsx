@@ -6,7 +6,7 @@ import { Mode } from './mode'
 
 export function Footer() {
   return (
-    <footer className="bg-secondary sticky bottom-4 left-0 z-40 inline-flex h-6 w-full items-center justify-between gap-0 px-4">
+    <footer className="bg-secondary sticky bottom-0 left-0 z-40 inline-flex h-6 w-full items-center justify-between gap-0 px-4 md:bottom-4">
       <div className="flex h-full items-center">
         <Mode />
 
