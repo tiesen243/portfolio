@@ -1,6 +1,7 @@
 'use client'
 
 import { useTheme } from '@yuki/ui'
+import { useMounted } from '@yuki/ui/hooks/use-mounted'
 import { SectionSeparatorIcon } from '@yuki/ui/icons'
 
 export function Copyright() {
@@ -8,6 +9,9 @@ export function Copyright() {
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
   }
+
+  const isMounted = useMounted()
+  if (!isMounted) return null
 
   return (
     <button

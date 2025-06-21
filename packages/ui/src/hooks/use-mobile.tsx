@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { useDebounce } from './use-debounce'
+import { useDebounce } from '@yuki/ui/hooks/use-debounce'
 
 export const useMobile = () => {
   const [isMobile, setIsMobile] = React.useState(() => {

@@ -13,7 +13,7 @@ export const metadata = createMetadata({
 
 export default function ContactPage() {
   return (
-    <section className="container flex min-h-[calc(100svh-2rem)] flex-col items-center justify-center">
+    <section className="container flex min-h-[calc(100svh-2rem)] flex-col items-center justify-center py-12">
       <h1 className="sr-only">Contact page</h1>
 
       <section className="mb-16 text-center">

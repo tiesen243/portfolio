@@ -4,6 +4,7 @@ import * as React from 'react'
 
 import { cn } from '@yuki/ui'
 import { useMobile } from '@yuki/ui/hooks/use-mobile'
+import { useMounted } from '@yuki/ui/hooks/use-mounted'
 
 const SidebarContext = React.createContext<{
   open: boolean
@@ -47,21 +48,37 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
-  const { open, isMobile } = useSidebar()
+  const { open, setOpen, isMobile } = useSidebar()
+
+  const isMounted = useMounted()
+  if (!isMounted) return null
 
   if (isMobile) {
     return (
-      <div
-        data-slot="sidebar"
-        data-state={open ? 'open' : 'closed'}
-        className={cn(
-          'bg-background text-sidebar-foreground fixed inset-0 z-40 overflow-y-auto border border-l md:hidden',
-          'transition-transform duration-200 ease-linear',
-          'w-(--sidebar-width) data-[state=closed]:-translate-x-full data-[state=open]:translate-x-0',
-        )}
-      >
-        {children}
-      </div>
+      <>
+        <button
+          data-slot="sidebar-toggle"
+          onClick={() => {
+            setOpen(!open)
+          }}
+          className={cn(
+            'bg-background/10 fixed inset-0 z-30 w-full backdrop-blur-xl',
+            'transition-opacity duration-200 ease-linear',
+            open ? 'block opacity-100' : 'hidden opacity-0',
+          )}
+        />
+        <aside
+          data-slot="sidebar"
+          data-state={open ? 'open' : 'closed'}
+          className={cn(
+            'bg-background text-sidebar-foreground fixed inset-0 z-40 overflow-y-auto border border-l md:hidden',
+            'transition-transform duration-200 ease-linear',
+            'w-(--sidebar-width) data-[state=closed]:-translate-x-full data-[state=open]:translate-x-0',
+          )}
+        >
+          {children}
+        </aside>
+      </>
     )
   }
 

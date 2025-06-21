@@ -14,7 +14,7 @@ export function GET(request: NextRequest) {
     return new ImageResponse(
       (
         <div
-          tw="flex h-full w-full flex-col p-16"
+          tw="flex h-full w-full flex-col items-center justify-center p-16"
           style={{
             backgroundColor: '#0c0c0c',
             backgroundImage: `linear-gradient(to top right, #a96249, transparent)`,
@@ -24,6 +24,7 @@ export function GET(request: NextRequest) {
           <img
             src={`${meta.metadataBase}/assets/images/tiesen.png`}
             alt="Tiesen Logo"
+            tw="w-3/4"
           />
         </div>
       ),
