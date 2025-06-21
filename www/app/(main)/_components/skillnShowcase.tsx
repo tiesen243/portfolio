@@ -18,7 +18,7 @@ export function SkillAndShowcaseSection() {
   return (
     <section
       id="skill-showcase"
-      className="container flex min-h-dvh flex-col justify-center gap-12"
+      className="container mb-12 flex min-h-dvh flex-col justify-center gap-12"
     >
       <h2 className="sr-only">Skills & Showcase section</h2>
 

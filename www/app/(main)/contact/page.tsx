@@ -1,12 +1,6 @@
 import { basic } from '@yuki/data'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@yuki/ui/card'
 import { MailIcon, MapPinIcon } from '@yuki/ui/icons'
+import { Typography } from '@yuki/ui/typography'
 
 import { createMetadata } from '@/lib/metadata'
 import { ContactForm } from './page.client'
@@ -19,88 +13,95 @@ export const metadata = createMetadata({
 
 export default function ContactPage() {
   return (
-    <div className="from-background to-muted/20 min-h-screen bg-gradient-to-br">
-      <div className="container mx-auto px-4 py-16">
-        {/* Header */}
-        <div className="mb-16 text-center">
-          <h1 className="mb-4 text-4xl font-bold tracking-tight">
-            Get In Touch
-          </h1>
-          <p className="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Have a question or want to work together? I&apos;d love to hear from
-            you.
-          </p>
-        </div>
+    <section className="container flex min-h-[calc(100svh-2rem)] flex-col items-center justify-center">
+      <h1 className="sr-only">Contact page</h1>
 
-        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2">
-          <ContactForm />
+      <section className="mb-16 text-center">
+        <Typography variant="h2">Get In Touch</Typography>
+        <Typography className="text-muted-foreground mx-auto max-w-2xl text-xl">
+          Have a question or want to work together? I&apos;d love to hear from
+          you.
+        </Typography>
+      </section>
 
-          <div className="space-y-8">
-            {/* Contact Information */}
-            <Card className="shadow-lg">
-              <CardHeader>
-                <CardTitle className="text-2xl">Contact Information</CardTitle>
-                <CardDescription>
-                  You can also reach me through these channels.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {contactInfo.map((info, index) => (
-                  <div key={index} className="flex items-center space-x-4">
-                    <div className="flex-shrink-0">
-                      <div className="bg-primary/10 flex h-12 w-12 items-center justify-center rounded-lg">
-                        <info.icon className="text-primary h-6 w-6" />
-                      </div>
-                    </div>
-                    <div>
-                      <p className="font-medium">{info.label}</p>
-                      {info.href === '#' ? (
-                        <p className="text-muted-foreground">{info.value}</p>
-                      ) : (
-                        <a
-                          href={info.href}
-                          className="text-muted-foreground hover:text-primary transition-colors"
-                        >
-                          {info.value}
-                        </a>
-                      )}
-                    </div>
+      <section className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2">
+        <h2 className="sr-only">Contact Methods section</h2>
+
+        <ContactForm />
+
+        <section className="space-y-8">
+          <h3 className="sr-only">Direct Contact Information section</h3>
+
+          <section className="bg-card text-card-foreground rounded-xl border py-6 shadow-md">
+            <h4 className="sr-only">Email and Location Details section</h4>
+
+            <section className="px-6">
+              <Typography variant="h5">Contact Information</Typography>
+              <Typography className="text-muted-foreground">
+                You can also reach me through these channels.
+              </Typography>
+            </section>
+
+            <div className="mt-4 space-y-6 px-6">
+              {contactInfo.map((info, index) => (
+                <div key={index} className="flex items-center space-x-4">
+                  <div className="bg-primary/10 flex h-12 w-12 items-center justify-center rounded-lg">
+                    <info.icon className="text-primary h-6 w-6" />
                   </div>
-                ))}
-              </CardContent>
-            </Card>
-
-            {/* Social Media */}
-            <Card className="shadow-lg">
-              <CardHeader>
-                <CardTitle className="text-2xl">Follow Me</CardTitle>
-                <CardDescription>
-                  Connect with me on social media for updates and insights.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-4">
-                  {basic.socials.map((social, index) => (
-                    <a
-                      key={index}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="border-border hover:border-primary/50 hover:bg-muted/50 group flex items-center space-x-3 rounded-lg border p-4 transition-all duration-200"
-                    >
-                      <social.icon className="size-6 transition-colors dark:invert" />
-                      <span className="group-hover:text-primary font-medium transition-colors">
-                        {social.label}
-                      </span>
-                    </a>
-                  ))}
+                  <div>
+                    <Typography className="font-medium">
+                      {info.label}
+                    </Typography>
+                    {info.href === '#' ? (
+                      <Typography className="text-muted-foreground">
+                        {info.value}
+                      </Typography>
+                    ) : (
+                      <Typography
+                        component="a"
+                        // @ts-expect-error - treated as a anchor tag
+                        href={info.href}
+                        className="text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        {info.value}
+                      </Typography>
+                    )}
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </div>
-    </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="bg-card text-card-foreground rounded-xl border py-6 shadow-md">
+            <h4 className="sr-only">Social Media Links section</h4>
+
+            <section className="px-6">
+              <Typography variant="h5">Follow Me</Typography>
+              <Typography className="text-muted-foreground">
+                Connect with me on social media for updates and insights.
+              </Typography>
+            </section>
+
+            <div className="grid grid-cols-2 gap-4 px-6 pt-6">
+              {basic.socials.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border-border hover:border-primary/50 hover:bg-muted/50 group flex items-center space-x-3 rounded-lg border p-4 transition-all duration-200"
+                >
+                  <social.icon className="size-6 transition-colors dark:invert" />
+                  <span className="group-hover:text-primary font-medium transition-colors">
+                    {social.label}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </section>
+        </section>
+      </section>
+    </section>
   )
 }
 

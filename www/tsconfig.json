@@ -2,8 +2,7 @@
   "extends": "@yuki/tsconfig/next.json",
   "compilerOptions": {
     "paths": {
-      "@/*": ["./*"],
-      "@yuki/ui/*": ["../packages/ui/src/*"]
+      "@/*": ["./*"]
     }
   },
   "include": ["**/*", "next-env.d.ts", ".next/types/**/*.ts"],
