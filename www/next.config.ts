@@ -1,3 +1,5 @@
+import '@yuki/validators/env'
+
 import type { NextConfig } from 'next'
 
 const nextConfig = {
