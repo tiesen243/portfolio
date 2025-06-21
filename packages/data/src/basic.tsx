@@ -12,7 +12,7 @@ export const basic = {
       duration: '2022 - Present',
       school: 'Industrial University of Ho Chi Minh City',
       major: 'Computer Engineering Technology',
-      gpa: '2.8/4.0',
+      gpa: '2.95/4.0',
     },
     {
       duration: '2019 - 2022',
