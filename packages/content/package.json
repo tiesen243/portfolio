@@ -1,0 +1,11 @@
+{
+  "name": "@yuki/content",
+  "version": "0.0.1",
+  "private": true,
+  "files": [
+    "blogs/*.mdx",
+    "blogs/*.md",
+    "projects/*.mdx",
+    "projects/*.md"
+  ]
+}
