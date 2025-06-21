@@ -10,6 +10,10 @@ export default async function BlogListPage() {
       <Typography variant="h3" component="h1">
         Blog Posts
       </Typography>
+      <Typography className="text-muted-foreground">
+        Explore my blog posts where I share insights, tutorials, and thoughts on
+        various topics related to web development, design, and technology.
+      </Typography>
 
       <div className="flex flex-col gap-4">
         {pages.map((page) => (

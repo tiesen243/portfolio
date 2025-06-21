@@ -10,7 +10,6 @@ import {
 } from 'fumadocs-core/mdx-plugins'
 import { remarkInstall } from 'fumadocs-docgen'
 
-import type { Frontmatter } from '@yuki/validators/mdx'
 import { frontmatterSchema } from '@yuki/validators/mdx'
 
 async function uncachedGetPage(source: 'blogs' | 'projects', slugs: string[]) {
@@ -35,7 +34,12 @@ async function uncachedGetPage(source: 'blogs' | 'projects', slugs: string[]) {
 
     const frontmatter = frontmatterSchema.parse(compiled.frontmatter)
 
-    return { path: filePath, MDXContent: compiled.body, frontmatter }
+    return {
+      path: filePath,
+      MDXContent: compiled.body,
+      frontmatter,
+      url: `/${source}/${slugs.join('/')}`,
+    }
   } catch (error) {
     if (error instanceof Error) throw new Error(`Page not found: ${filePath}`)
     throw new Error(
@@ -44,11 +48,7 @@ async function uncachedGetPage(source: 'blogs' | 'projects', slugs: string[]) {
   }
 }
 
-async function uncachedGetPages(
-  source: 'blogs' | 'projects',
-): Promise<
-  { slug: string; path: string; url: string; frontmatter: Frontmatter }[]
-> {
+async function uncachedGetPages(source: 'blogs' | 'projects') {
   const sourcePath = path.resolve(`../packages/content/${source}/`)
   const files = await fs.readdir(sourcePath, { withFileTypes: true })
 
