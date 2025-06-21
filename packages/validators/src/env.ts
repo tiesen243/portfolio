@@ -1,7 +1,5 @@
 import * as z from 'zod/v4-mini'
 
-console.log(process.env)
-
 export const env = createEnv({
   server: {
     NODE_ENV: z._default(
@@ -69,6 +67,8 @@ function createEnv<
   const _client = typeof opts.client === 'object' ? opts.client : {}
   const isServer = typeof window === 'undefined'
   const envs = isServer ? { ..._server, ..._client } : { ..._client }
+
+  console.log(opts.runtimeEnv)
 
   const parsedEnvs = z.object(envs).safeParse(opts.runtimeEnv)
   if (!opts.skipValidation && !parsedEnvs.success)
