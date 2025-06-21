@@ -68,8 +68,6 @@ function createEnv<
   const isServer = typeof window === 'undefined'
   const envs = isServer ? { ..._server, ..._client } : { ..._client }
 
-  console.log(opts.runtimeEnv)
-
   const parsedEnvs = z.object(envs).safeParse(opts.runtimeEnv)
   if (!opts.skipValidation && !parsedEnvs.success)
     throw new Error(
