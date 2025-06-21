@@ -4,10 +4,11 @@ import type { Showcase, Skill } from '@yuki/data'
 import { showcases, skills } from '@yuki/data'
 import { cn } from '@yuki/ui'
 import { Badge } from '@yuki/ui/badge'
+import { Button } from '@yuki/ui/button'
 import {
   Card,
-  CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@yuki/ui/card'
@@ -72,7 +73,7 @@ function SkillList({ title, skills }: SkillListProps) {
               skill.isInverted ? 'dark:invert' : '',
             )}
             style={{
-              backgroundColor: `${skill.color}20`,
+              backgroundColor: `${skill.color}10`,
               borderColor: skill.color,
               color: skill.color,
             }}
@@ -97,23 +98,22 @@ function ShowcaseCard({ showcase }: { showcase: Showcase }) {
           fill
         />
       </div>
+
       <CardHeader className="flex-1">
         <CardTitle className="text-xl">{showcase.title}</CardTitle>
         <CardDescription className="text-muted-foreground line-clamp-3 flex-1 text-sm">
           {showcase.description}
         </CardDescription>
       </CardHeader>
-      <CardContent className="pt-0">
-        <a
-          href={showcase.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="focus-visible:border-ring focus-visible:ring-ring/50 bg-background hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 inline-flex h-9 w-full shrink-0 items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm font-medium whitespace-nowrap shadow-xs transition-all outline-none focus-visible:ring-[3px] has-[>svg]:px-3 [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
-        >
-          View Project
-          <ExternalLinkIcon />
-        </a>
-      </CardContent>
+
+      <CardFooter className="pt-0">
+        <Button variant="outline" className="w-full" asChild>
+          <a href={showcase.url} target="_blank" rel="noopener noreferrer">
+            View Project
+            <ExternalLinkIcon />
+          </a>
+        </Button>
+      </CardFooter>
     </Card>
   )
 }
