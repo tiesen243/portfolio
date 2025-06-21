@@ -7,11 +7,11 @@
     "build": "bun with-env next build",
     "clean": "git clean -xdf .cache .next .turbo node_modules",
     "dev": "bun with-env next dev --turbopack --port 3000",
-    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "format": "prettier --check . --ignore-path ../.gitignore",
     "lint": "eslint",
     "start": "bun with-env next start  --port 3000",
     "typecheck": "tsc --noEmit",
-    "with-env": "dotenv -e ../../.env --"
+    "with-env": "dotenv -e ../.env --"
   },
   "prettier": "@yuki/prettier-config",
   "dependencies": {

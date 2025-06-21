@@ -6,6 +6,7 @@ export const env = createEnv({
       z.enum(['development', 'production', 'test']),
       'development',
     ),
+    RESEND_KEY: z.string(),
 
     // Vercel environment variables
     VERCEL: z.optional(z.boolean()),
@@ -19,6 +20,7 @@ export const env = createEnv({
   runtimeEnv: {
     // Server-side environment variables
     NODE_ENV: process.env.NODE_ENV,
+    RESEND_KEY: process.env.RESEND_KEY,
 
     // Client-side environment variables
 
