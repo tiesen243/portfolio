@@ -9,7 +9,7 @@ export const env = createEnv({
     RESEND_KEY: z.string(),
 
     // Vercel environment variables
-    VERCEL: z.optional(z.boolean()),
+    VERCEL: z.optional(z.string()),
     VERCEL_ENV: z.optional(z.enum(['production', 'preview', 'development'])),
     VERCEL_URL: z.optional(z.string()),
     VERCEL_PROJECT_PRODUCTION_URL: z.optional(z.string()),
@@ -73,8 +73,6 @@ function createEnv<
     throw new Error(
       `❌ Environment variables validation failed:\n${parsedEnvs.error.message}`,
     )
-
-  console.log(parsedEnvs)
 
   const envData = parsedEnvs.success ? parsedEnvs.data : {}
   return new Proxy(envData as TResult, {
