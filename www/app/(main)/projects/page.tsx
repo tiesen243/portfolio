@@ -68,10 +68,11 @@ export default async function ProjectListPage() {
           <Image
             key={index}
             src={image}
-            alt={`Project ${index + 1}`}
-            width={600}
-            height={400}
+            alt={`design-${image.split('/').pop()?.split('.')[0] ?? index}`}
             className="w-full rounded-lg object-cover"
+            width={3000}
+            height={1000}
+            priority
           />
         ))}
       </section>
