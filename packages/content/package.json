@@ -2,18 +2,13 @@
   "name": "@yuki/content",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./src/index.ts"
     }
   },
-  "files": [
-    "blogs/*.mdx",
-    "blogs/*.md",
-    "projects/*.mdx",
-    "projects/*.md"
-  ],
   "scripts": {
     "build": "tsc",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
