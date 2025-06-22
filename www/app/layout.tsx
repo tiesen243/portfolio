@@ -1,6 +1,7 @@
 import '@/app/globals.css'
 
 import { Geist, Geist_Mono } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
 
 import { cn, ThemeProvider } from '@yuki/ui'
 import { Sidebar, SidebarInset, SidebarProvider } from '@yuki/ui/sidebar'
@@ -49,6 +50,8 @@ export default function RootLayout({
             </SidebarInset>
           </SidebarProvider>
         </ThemeProvider>
+
+        <Analytics mode="production" />
       </body>
     </html>
   )
