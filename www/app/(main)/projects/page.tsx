@@ -29,12 +29,12 @@ export default async function ProjectListPage() {
         </Typography>
 
         {pages.map((page) => (
-          <Link key={page.slug} href={page.url}>
+          <Link key={page.slug} href={page.url} className="group">
             <div className="flex items-start justify-between gap-4">
               <Typography
                 variant="h4"
                 component="h2"
-                className="line-clamp-2 hover:underline"
+                className="line-clamp-2 group-hover:underline"
               >
                 {page.frontmatter.title}
               </Typography>
