@@ -32,7 +32,13 @@ export default function RootLayout({
           geistMono.variable,
         )}
       >
-        <ThemeProvider attribute="class" disableTransitionOnChange enableSystem>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          disableTransitionOnChange
+          enableColorScheme
+          enableSystem
+        >
           <SidebarProvider>
             <Sidebar>
               <SidebarContent />

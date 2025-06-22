@@ -11,19 +11,19 @@ export function Footer() {
         <Mode />
 
         <div className="hidden h-full items-center gap-0 md:inline-flex">
-          <span className="bg-background group-data-[state=open]:text-visual text-normal flex h-full items-center gap-2 pr-2 font-bold transition-colors duration-200 ease-linear">
+          <span className="bg-background group-data-[mode=visual]:text-visual group-data-[mode=insert]:text-insert group-data-[mode=normal]:text-normal flex h-full items-center gap-2 pr-2 font-bold transition-colors duration-200 ease-linear">
             <GitBranchIcon size={20} /> main
           </span>
           <SectionSeparatorIcon className="fill-background size-6 rotate-90" />
         </div>
-
-        <Breadcrumb />
       </div>
+
+      <Breadcrumb />
 
       <div className="flex h-full items-center">
         <div className="hidden h-full items-center gap-0 md:inline-flex">
           <SectionSeparatorIcon className="fill-background size-6 rotate-270" />
-          <span className="bg-background text-normal group-data-[state=open]:text-visual flex h-full items-center gap-2 pl-2 font-bold transition-colors duration-200 ease-linear">
+          <span className="bg-background group-data-[mode=insert]:text-insert group-data-[mode=normal]:text-normal group-data-[mode=visual]:text-visual flex h-full items-center gap-2 pl-2 font-bold whitespace-nowrap transition-colors duration-200 ease-linear">
             Yukikaze {'<4'}
           </span>
         </div>

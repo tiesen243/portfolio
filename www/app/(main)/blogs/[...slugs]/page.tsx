@@ -42,8 +42,8 @@ export async function generateStaticParams() {
 
 export const generateMetadata = async ({
   params,
-}: Readonly<{ params: { slugs: string[] } }>) => {
-  const { slugs } = params
+}: Readonly<{ params: Promise<{ slugs: string[] }> }>) => {
+  const { slugs } = await params
 
   try {
     const { frontmatter, url } = await getPage('blogs', slugs)

@@ -1,14 +1,20 @@
 'use client'
 
+import { useRef } from 'react'
+
 import { Button } from '@yuki/ui/button'
 import { useForm } from '@yuki/ui/form'
 import { SendIcon } from '@yuki/ui/icons'
 import { Input } from '@yuki/ui/input'
+import { useSidebar } from '@yuki/ui/sidebar'
 import { Textarea } from '@yuki/ui/textarea'
 import { Typography } from '@yuki/ui/typography'
 import { contactSchema } from '@yuki/validators/contact'
 
 export function ContactForm() {
+  const { mode, setMode } = useSidebar()
+  const previousMode = useRef(mode)
+
   const form = useForm({
     defaultValues: { name: '', email: '', subject: '', message: '' },
     validator: contactSchema,
@@ -17,6 +23,11 @@ export function ContactForm() {
       console.log('Form submitted:', value)
     },
   })
+
+  const handleFocus = () => {
+    previousMode.current = mode
+    setMode('insert')
+  }
 
   return (
     <section className="bg-card text-card-foreground rounded-xl border py-6 shadow-md">
@@ -47,7 +58,14 @@ export function ContactForm() {
               <div className="space-y-2">
                 <form.Label>Name</form.Label>
                 <form.Control {...field}>
-                  <Input placeholder="Yukikaze" />
+                  <Input
+                    placeholder="Yukikaze"
+                    onFocus={handleFocus}
+                    onBlur={async (e) => {
+                      await field.onBlur(e)
+                      setMode(previousMode.current)
+                    }}
+                  />
                 </form.Control>
                 <form.Message />
               </div>
@@ -60,7 +78,15 @@ export function ContactForm() {
               <div className="space-y-2">
                 <form.Label>Email</form.Label>
                 <form.Control {...field}>
-                  <Input type="email" placeholder="yuki@example.com" />
+                  <Input
+                    type="email"
+                    placeholder="yuki@example.com"
+                    onFocus={handleFocus}
+                    onBlur={async (e) => {
+                      await field.onBlur(e)
+                      setMode(previousMode.current)
+                    }}
+                  />
                 </form.Control>
                 <form.Message />
               </div>
@@ -74,7 +100,14 @@ export function ContactForm() {
             <div className="space-y-2">
               <form.Label>Subject</form.Label>
               <form.Control {...field}>
-                <Input placeholder="Project Inquiry" />
+                <Input
+                  placeholder="Project Inquiry"
+                  onFocus={handleFocus}
+                  onBlur={async (e) => {
+                    await field.onBlur(e)
+                    setMode(previousMode.current)
+                  }}
+                />
               </form.Control>
               <form.Message />
             </div>
@@ -90,6 +123,11 @@ export function ContactForm() {
                 <Textarea
                   placeholder="Tell me more about your project or question..."
                   rows={5}
+                  onFocus={handleFocus}
+                  onBlur={async (e) => {
+                    await field.onBlur(e as never)
+                    setMode(previousMode.current)
+                  }}
                 />
               </form.Control>
               <form.Message />
