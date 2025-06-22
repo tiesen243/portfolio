@@ -54,7 +54,7 @@ export function HeroSection() {
         ))}
       </nav>
 
-      <Typography className="mt-12">@tiesen243</Typography>
+      <Typography className="text-normal mt-16">@tiesen243</Typography>
     </section>
   )
 }
