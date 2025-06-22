@@ -69,7 +69,7 @@ export function mdxComponents() {
           href={href}
           className={cn(
             typographyVariants({ variant: 'p' }),
-            'hover:underline',
+            'underline',
             className,
           )}
           {...(isExternalLink

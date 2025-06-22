@@ -70,9 +70,7 @@ export const generateMetadata = async ({
       description: frontmatter.description,
       openGraph: {
         url,
-        images: [
-          `/api/og?title=${frontmatter.title}&description=${frontmatter.description}`,
-        ],
+        images: `/api/og?title=${frontmatter.title}&description=${frontmatter.description}`,
       },
     })
   } catch {

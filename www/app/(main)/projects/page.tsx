@@ -5,7 +5,12 @@ import { getPages } from '@yuki/content'
 import { Badge } from '@yuki/ui/badge'
 import { Typography } from '@yuki/ui/typography'
 
+import { createMetadata } from '@/lib/metadata'
 import { formatDate } from '@/lib/utils'
+
+const TITLE = 'Projects'
+const DESCRIPTION =
+  'Explore my projects where I showcase my work, experiments, and contributions to various open-source initiatives. Each project highlights my skills in web development, design, and problem-solving.'
 
 export default async function ProjectListPage() {
   const pages = await getPages('projects')
@@ -14,13 +19,9 @@ export default async function ProjectListPage() {
     <article className="container flex min-h-[calc(100dvh-2rem)] flex-col gap-8 py-12">
       <div>
         <Typography variant="h3" component="h1">
-          Projects
+          {TITLE}
         </Typography>
-        <Typography className="text-muted-foreground">
-          Explore my projects where I showcase my work, experiments, and
-          contributions to various open-source initiatives. Each project
-          highlights my skills in web development, design, and problem-solving.
-        </Typography>
+        <Typography className="text-muted-foreground">{DESCRIPTION}</Typography>
       </div>
 
       <section className="flex flex-col gap-4">
@@ -80,6 +81,16 @@ export default async function ProjectListPage() {
     </article>
   )
 }
+
+export const metadata = createMetadata({
+  title: TITLE,
+  description: DESCRIPTION,
+  keywords: ['projects', 'web development', 'design', 'open-source'],
+  openGraph: {
+    url: '/projects',
+    images: `/api/og?title=${TITLE}&description=${DESCRIPTION}`,
+  },
+})
 
 const images = [
   '/assets/images/showcases/tiesen-v2.png',

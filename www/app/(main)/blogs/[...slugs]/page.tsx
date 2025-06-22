@@ -71,9 +71,7 @@ export const generateMetadata = async ({
       keywords: frontmatter.tags,
       openGraph: {
         url,
-        images: [
-          `/api/og?title=${frontmatter.title}&description=${frontmatter.description}`,
-        ],
+        images: `/api/og?title=${frontmatter.title}&description=${frontmatter.description}`,
       },
     })
   } catch {
