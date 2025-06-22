@@ -17,7 +17,7 @@ export function GET(request: NextRequest) {
           tw="flex h-full w-full flex-col items-center justify-center p-16"
           style={{
             backgroundColor: '#0c0c0c',
-            backgroundImage: `linear-gradient(to top right, #a96249, transparent)`,
+            backgroundImage: `linear-gradient(to top right, #52a8ff, transparent)`,
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -37,7 +37,7 @@ export function GET(request: NextRequest) {
         tw="flex h-full w-full flex-col p-16"
         style={{
           backgroundColor: '#0c0c0c',
-          backgroundImage: `linear-gradient(to top right, #a96249, transparent)`,
+          backgroundImage: `linear-gradient(to top right, #52a8ff, transparent)`,
         }}
       >
         <div tw="mb-8 flex items-center">
