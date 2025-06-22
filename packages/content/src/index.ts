@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import type { RehypeCodeOptions } from 'fumadocs-core/mdx-plugins'
 import { cache } from 'react'
 import { compileMDX } from '@fumadocs/mdx-remote'
 import {
@@ -12,24 +13,39 @@ import { remarkInstall } from 'fumadocs-docgen'
 
 import { frontmatterSchema } from '@yuki/validators/mdx'
 
-async function uncachedGetPage(source: 'blogs' | 'projects', slugs: string[]) {
-  const sourcePath = path.resolve(`../packages/content/${source}/`)
+const MDX_OPTIONS = {
+  rehypeCodeOptions: {
+    themes: {
+      light: 'github-light-default',
+      dark: 'github-dark-default',
+    },
+  } satisfies RehypeCodeOptions,
+  remarkPlugins: [
+    remarkAdmonition,
+    remarkHeading,
+    remarkImage,
+    remarkInstall,
+    remarkSteps,
+  ],
+}
+
+async function uncachedGetPage(
+  contentType: 'blogs' | 'projects',
+  slugs: string[],
+) {
+  validateSlugs(slugs)
+
+  const sourcePath = path.resolve(`../packages/content/${contentType}/`)
   const filePath = path.join(sourcePath, ...slugs) + '.mdx'
 
   try {
     const source = await fs.readFile(filePath, 'utf-8')
+    if (!source.trim()) throw new Error('File is empty')
+
     const compiled = await compileMDX({
       source,
       filePath,
-      mdxOptions: {
-        remarkPlugins: [
-          remarkAdmonition,
-          remarkHeading,
-          remarkImage,
-          remarkInstall,
-          remarkSteps,
-        ],
-      },
+      mdxOptions: MDX_OPTIONS,
     })
 
     const frontmatter = frontmatterSchema.parse(compiled.frontmatter)
@@ -41,63 +57,83 @@ async function uncachedGetPage(source: 'blogs' | 'projects', slugs: string[]) {
       url: `/${source}/${slugs.join('/')}`,
     }
   } catch (error) {
-    if (error instanceof Error) throw new Error(`Page not found: ${filePath}`)
-    throw new Error(
-      `An unexpected error occurred while reading the page: ${filePath}`,
-    )
+    if (process.env.NODE_ENV === 'development') console.log(error)
+    if (error instanceof Error)
+      throw new Error(`Failed to compile page ${filePath}: ${error.message}`)
+    throw new Error(`Unexpected error while reading page: ${filePath}`)
   }
 }
 
-async function uncachedGetPages(source: 'blogs' | 'projects') {
-  const sourcePath = path.resolve(`../packages/content/${source}/`)
-  const files = await fs.readdir(sourcePath, { withFileTypes: true })
+async function uncachedGetPages(contentType: 'blogs' | 'projects') {
+  const sourcePath = path.resolve(`../packages/content/${contentType}/`)
 
-  const pages = await Promise.all(
-    files
-      .filter((file) => file.isFile() && file.name !== 'index.mdx')
-      .map(async (file) => {
-        const slug = file.name.replace(/\.mdx$/, '')
+  try {
+    const files = await fs.readdir(sourcePath, { withFileTypes: true })
+
+    const mdxFiles = files.filter(
+      (file) =>
+        file.isFile() &&
+        file.name.endsWith('.mdx') &&
+        file.name !== 'index.mdx',
+    )
+
+    const pages = await Promise.allSettled(
+      mdxFiles.map(async (file) => {
+        const slug = file.name.slice(0, -4)
         const filePath = path.join(sourcePath, file.name)
 
         try {
-          const fileContent = await fs.readFile(filePath, 'utf-8')
+          const source = await fs.readFile(filePath, 'utf-8')
+          if (!source.trim()) throw new Error('Empty file')
 
-          // Basic validation - check if file has content
-          if (!fileContent.trim()) {
-            throw new Error('Empty file')
-          }
-
-          const compiled = await compileMDX({
-            source: fileContent,
-            filePath,
-          })
-
+          const compiled = await compileMDX({ source, filePath })
           const frontmatter = frontmatterSchema.parse(compiled.frontmatter)
 
-          return {
-            slug,
-            path: filePath,
-            url: `/${source}/${slug}`,
-            frontmatter,
-          }
+          return { filePath, frontmatter, slug, url: `/${contentType}/${slug}` }
         } catch {
           return {
             slug,
-            path: filePath,
-            url: `/${source}/${slug}`,
+            filePath,
+            url: `/${contentType}/${slug}`,
             frontmatter: {
               title: slug
-                .replace(/-/g, ' ')
-                .replace(/\b\w/g, (l) => l.toUpperCase()),
+                .split('-')
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' '),
               description: '',
+              publishedAt: new Date(),
+              tags: [],
             },
           }
         }
       }),
-  )
+    )
 
-  return pages
+    return pages
+      .filter((result) => result.status === 'fulfilled')
+      .map((result) => result.value)
+      .sort((a, b) => {
+        const dateA = new Date(a.frontmatter.publishedAt)
+        const dateB = new Date(b.frontmatter.publishedAt)
+        return dateB.getTime() - dateA.getTime()
+      })
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') console.log(error)
+    if (error instanceof Error)
+      throw new Error(`Source directory not found: ${sourcePath}`)
+    throw new Error(`Failed to read source directory: ${sourcePath}`)
+  }
 }
 
 export const getPage = cache(uncachedGetPage)
 export const getPages = cache(uncachedGetPages)
+
+function validateSlugs(slugs: string[]): void {
+  if (slugs.length === 0) throw new Error('Slugs array cannot be empty')
+
+  const hasInvalidPath = slugs.some(
+    (slug) => slug.includes('..') || slug.includes('/') || slug.includes('\\'),
+  )
+  if (hasInvalidPath)
+    throw new Error('Invalid slug: contains path traversal characters')
+}

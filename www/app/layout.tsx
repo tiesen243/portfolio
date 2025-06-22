@@ -25,7 +25,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        style={{ '--sidebar-width': '16rem' } as React.CSSProperties}
         className={cn(
           'flex min-h-dvh w-full font-mono antialiased',
           geistSans.variable,

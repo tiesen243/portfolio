@@ -7,6 +7,7 @@ import { useMobile } from '@yuki/ui/hooks/use-mobile'
 import { useMounted } from '@yuki/ui/hooks/use-mounted'
 
 type ViMode = 'normal' | 'insert' | 'visual'
+const SIDEBAR_WIDTH = '16rem'
 
 const SidebarContext = React.createContext<{
   open: boolean
@@ -83,6 +84,7 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
         <aside
           data-slot="sidebar"
           data-state={open ? 'open' : 'closed'}
+          style={{ '--sidebar-width': SIDEBAR_WIDTH } as React.CSSProperties}
           className={cn(
             'bg-background text-sidebar-foreground fixed inset-0 z-40 flex flex-col overflow-y-auto border border-l md:hidden',
             'transition-transform duration-200 ease-linear',
@@ -100,6 +102,7 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
       data-slot="sidebar"
       data-state={open ? 'open' : 'closed'}
       className="text-sidebar-foreground group hidden md:block"
+      style={{ '--sidebar-width': SIDEBAR_WIDTH } as React.CSSProperties}
     >
       <div
         data-slot="sidebar-gap"

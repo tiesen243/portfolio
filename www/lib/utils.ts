@@ -18,3 +18,12 @@ async function uncachedHash256(data: string): Promise<string> {
   return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')
 }
 export const hash256 = cache(uncachedHash256)
+
+export function formatDate(date: Date | string): string {
+  const d = new Date(date)
+  return d.toLocaleDateString('en-GB', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  })
+}

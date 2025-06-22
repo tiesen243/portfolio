@@ -11,17 +11,42 @@ type Props = React.ComponentProps<'div'>
 export function mdxComponents() {
   return {
     ...defaultMdxComponents,
-    h2: (props: Props) => <Typography variant="h4" component="h2" {...props} />,
-    h3: (props: Props) => <Typography variant="h5" component="h3" {...props} />,
-    h4: (props: Props) => <Typography variant="h6" component="h4" {...props} />,
-    p: ({ className, ...props }: Props) => (
+    h2: ({ className, ...props }: Props) => (
       <Typography
-        className={cn('[&:not(:first-child)]:mt-6', className)}
+        variant="h4"
+        component="h2"
+        className={cn('mt-4', className)}
         {...props}
       />
     ),
-    ul: (props: Props) => <Typography variant="ul" {...props} />,
-    ol: (props: Props) => <Typography variant="ol" {...props} />,
+    h3: ({ className, ...props }: Props) => (
+      <Typography
+        variant="h5"
+        component="h3"
+        className={cn('mt-3', className)}
+        {...props}
+      />
+    ),
+    h4: ({ className, ...props }: Props) => (
+      <Typography
+        variant="h6"
+        component="h4"
+        className={cn('mt-2', className)}
+        {...props}
+      />
+    ),
+    p: ({ className, ...props }: Props) => (
+      <Typography
+        className={cn('[&:not(:first-child)]:mt-1', className)}
+        {...props}
+      />
+    ),
+    ul: ({ className, ...props }: Props) => (
+      <Typography variant="ul" className={cn('mt-1', className)} {...props} />
+    ),
+    ol: ({ className, ...props }: Props) => (
+      <Typography variant="ol" className={cn('mt-1', className)} {...props} />
+    ),
     blockquote: ({ className, ...props }: Props) => (
       <Typography
         variant="blockquote"
@@ -54,6 +79,15 @@ export function mdxComponents() {
         />
       )
     },
+    code: ({ className, ...props }: Props) => (
+      <code
+        className={cn(
+          '[&:not(:has(span))]:bg-muted [&:not(:has(span))]:text-normal [&:not(:has(span))]:relative [&:not(:has(span))]:w-fit [&:not(:has(span))]:rounded-md [&:not(:has(span))]:px-[0.3rem] [&:not(:has(span))]:py-[0.2rem] [&:not(:has(span))]:font-mono [&:not(:has(span))]:text-sm [&:not(:has(span))]:font-medium',
+          className,
+        )}
+        {...props}
+      />
+    ),
     Callout,
     Tabs,
     Tab,

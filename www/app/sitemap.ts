@@ -18,23 +18,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: url('/'),
       changeFrequency: 'yearly',
       priority: 1,
-      lastModified: new Date('2004-06-22'),
+      lastModified: new Date('2004-06-22').toISOString(),
     },
     {
       url: url('/contact'),
       changeFrequency: 'yearly',
       priority: 0.8,
-      lastModified: new Date('2004-06-22'),
+      lastModified: new Date('2004-06-22').toISOString(),
     },
     ...blogs.map((blog) => ({
       url: url(`/blogs/${blog.slug}`),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
+      lastModified: new Date(blog.frontmatter.publishedAt).toISOString(),
     })),
     ...projects.map((project) => ({
       url: url(`/projects/${project.slug}`),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
+      lastModified: new Date(project.frontmatter.publishedAt).toISOString(),
     })),
   ]
 }
