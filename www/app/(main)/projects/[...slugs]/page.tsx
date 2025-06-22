@@ -51,7 +51,7 @@ export default async function BlogPage({
 }
 
 export async function generateStaticParams() {
-  const pages = await getPages('blogs')
+  const pages = await getPages('projects')
   return pages.map((page) => ({
     slugs: page.slug.split('/').filter(Boolean),
   }))
