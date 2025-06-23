@@ -6,13 +6,13 @@ import { Button } from '@yuki/ui/button'
 import { useForm } from '@yuki/ui/form'
 import { SendIcon } from '@yuki/ui/icons'
 import { Input } from '@yuki/ui/input'
-import { useSidebar } from '@yuki/ui/sidebar'
+import { useNvimStatusline } from '@yuki/ui/nvim-statusline'
 import { Textarea } from '@yuki/ui/textarea'
 import { Typography } from '@yuki/ui/typography'
 import { contactSchema } from '@yuki/validators/contact'
 
 export function ContactForm() {
-  const { mode, setMode } = useSidebar()
+  const { mode, setMode } = useNvimStatusline()
   const previousMode = useRef(mode)
 
   const form = useForm({

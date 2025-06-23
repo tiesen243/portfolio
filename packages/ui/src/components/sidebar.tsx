@@ -6,17 +6,13 @@ import { cn } from '@yuki/ui'
 import { useMobile } from '@yuki/ui/hooks/use-mobile'
 import { useMounted } from '@yuki/ui/hooks/use-mounted'
 
-type ViMode = 'normal' | 'insert' | 'visual'
 const SIDEBAR_WIDTH = '16rem'
 
 const SidebarContext = React.createContext<{
   open: boolean
-  setOpen: (open: boolean) => void
-  toggleSidebar: () => void
   isMobile: boolean
-
-  mode: ViMode
-  setMode: React.Dispatch<React.SetStateAction<ViMode>>
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  toggleSidebar: () => void
 } | null>(null)
 
 export const useSidebar = () => {
@@ -27,38 +23,19 @@ export const useSidebar = () => {
 }
 
 export function SidebarProvider({ children }: { children: React.ReactNode }) {
-  const [open, setOpenState] = React.useState(false)
-  const [mode, setMode] = React.useState<ViMode>('normal')
+  const [open, setOpen] = React.useState(false)
   const isMobile = useMobile()
 
-  const setOpen = React.useCallback(
-    (open: boolean) => {
-      setOpenState(open)
-      setMode(open ? 'visual' : 'normal')
-    },
-    [setMode],
-  )
-
   const toggleSidebar = React.useCallback(() => {
-    setOpenState((prev) => !prev)
-    setMode((prev) => (prev === 'normal' ? 'visual' : 'normal'))
-  }, [setMode])
+    setOpen((prev) => !prev)
+  }, [])
 
   const value = React.useMemo(
-    () => ({
-      open,
-      setOpen,
-      toggleSidebar,
-      isMobile,
-      mode,
-      setMode,
-    }),
-    [isMobile, mode, open, setOpen, toggleSidebar],
+    () => ({ open, isMobile, setOpen, toggleSidebar }),
+    [isMobile, open, toggleSidebar],
   )
 
-  return (
-    <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>
-  )
+  return <SidebarContext value={value}>{children}</SidebarContext>
 }
 
 export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -67,7 +44,7 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
   const isMounted = useMounted()
   if (!isMounted) return null
 
-  if (isMobile) {
+  if (isMobile)
     return (
       <>
         <button
@@ -95,7 +72,6 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
         </aside>
       </>
     )
-  }
 
   return (
     <div
@@ -128,13 +104,12 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
 }
 
 export function SidebarInset({ children }: { children: React.ReactNode }) {
-  const { open, mode } = useSidebar()
+  const { open } = useSidebar()
 
   return (
     <main
       data-slot="sidebar-inset"
       data-state={open ? 'open' : 'closed'}
-      data-mode={mode}
       className={cn(
         'group flex min-h-dvh w-full flex-col',
         'transition-[width] duration-200 ease-linear',

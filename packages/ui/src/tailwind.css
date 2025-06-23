@@ -37,10 +37,12 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-
   --normal: oklch(0.533 0.188299 256.8803);
-  --insert: oklch(0.6273 0.17 149.2);
   --visual: oklch(0.5945 0.1522 48.09);
+  --replace: oklch(0.5352 0.1882 2.43);
+  --insert: oklch(0.6273 0.17 149.2);
+  --terminal: oklch(0.4706 0.2205 304.22);
+  --command: oklch(0.6424 0.18 45.27);
 }
 
 .dark {
@@ -76,10 +78,12 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.269 0 0);
   --sidebar-ring: oklch(0.439 0 0);
-
   --normal: oklch(0.7178 0.1521 250.77);
-  --insert: oklch(0.6273 0.17 149.2);
   --visual: oklch(0.8535 0.0907 84.06);
+  --replace: oklch(0.6931 0.1891 3.82);
+  --insert: oklch(0.6273 0.17 149.2);
+  --terminal: oklch(0.6986 0.1786 309.44);
+  --command: oklch(0.8124 0.1238 55.54);
 }
 
 @theme inline {
@@ -119,10 +123,12 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-
-  --color-normal: var(--normal);
+  --color-command: var(--command);
+  --color-terminal: var(--terminal);
   --color-insert: var(--insert);
+  --color-replace: var(--replace);
   --color-visual: var(--visual);
+  --color-normal: var(--normal);
 }
 
 @utility container {

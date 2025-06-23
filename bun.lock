@@ -10,6 +10,33 @@
         "turbo": "^2.5.4",
       },
     },
+    "kaze": {
+      "name": "@yuki/kaze",
+      "version": "1.0.0",
+      "dependencies": {
+        "@vercel/analytics": "^1.5.0",
+        "@yuki/content": "workspace:*",
+        "@yuki/data": "workspace:*",
+        "@yuki/ui": "workspace:*",
+        "@yuki/validators": "workspace:*",
+        "fumadocs-ui": "^15.5.3",
+        "next": "15.3.4",
+        "react": "catalog:react",
+        "react-dom": "catalog:react",
+      },
+      "devDependencies": {
+        "@tailwindcss/postcss": "^4.1.10",
+        "@types/node": "catalog:",
+        "@types/react": "catalog:react",
+        "@types/react-dom": "catalog:react",
+        "@yuki/eslint-config": "workspace:*",
+        "@yuki/prettier-config": "workspace:*",
+        "@yuki/tsconfig": "workspace:*",
+        "dotenv-cli": "catalog:",
+        "tailwindcss": "^4.1.10",
+        "typescript": "catalog:",
+      },
+    },
     "packages/content": {
       "name": "@yuki/content",
       "version": "0.0.1",
@@ -118,33 +145,6 @@
     "tools/typescript": {
       "name": "@yuki/tsconfig",
       "version": "0.0.1",
-    },
-    "www": {
-      "name": "@yuki/www",
-      "version": "1.0.0",
-      "dependencies": {
-        "@vercel/analytics": "^1.5.0",
-        "@yuki/content": "workspace:*",
-        "@yuki/data": "workspace:*",
-        "@yuki/ui": "workspace:*",
-        "@yuki/validators": "workspace:*",
-        "fumadocs-ui": "^15.5.3",
-        "next": "15.3.4",
-        "react": "catalog:react",
-        "react-dom": "catalog:react",
-      },
-      "devDependencies": {
-        "@tailwindcss/postcss": "^4.1.10",
-        "@types/node": "catalog:",
-        "@types/react": "catalog:react",
-        "@types/react-dom": "catalog:react",
-        "@yuki/eslint-config": "workspace:*",
-        "@yuki/prettier-config": "workspace:*",
-        "@yuki/tsconfig": "workspace:*",
-        "dotenv-cli": "catalog:",
-        "tailwindcss": "^4.1.10",
-        "typescript": "catalog:",
-      },
     },
   },
   "catalog": {
@@ -551,6 +551,8 @@
 
     "@yuki/eslint-config": ["@yuki/eslint-config@workspace:tools/eslint"],
 
+    "@yuki/kaze": ["@yuki/kaze@workspace:kaze"],
+
     "@yuki/prettier-config": ["@yuki/prettier-config@workspace:tools/prettier"],
 
     "@yuki/tsconfig": ["@yuki/tsconfig@workspace:tools/typescript"],
@@ -558,8 +560,6 @@
     "@yuki/ui": ["@yuki/ui@workspace:packages/ui"],
 
     "@yuki/validators": ["@yuki/validators@workspace:packages/validators"],
-
-    "@yuki/www": ["@yuki/www@workspace:www"],
 
     "acorn": ["acorn@8.15.0", "", { "bin": { "acorn": "bin/acorn" } }, "sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg=="],
 

@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 
 import { cn, ThemeProvider } from '@yuki/ui'
+import { NvimStatuslineProvider } from '@yuki/ui/nvim-statusline'
 import { Sidebar, SidebarInset, SidebarProvider } from '@yuki/ui/sidebar'
 
 import { Footer } from '@/components/footer'
@@ -40,14 +41,16 @@ export default function RootLayout({
           enableSystem
         >
           <SidebarProvider>
-            <Sidebar>
-              <SidebarContent />
-            </Sidebar>
+            <NvimStatuslineProvider>
+              <Sidebar>
+                <SidebarContent />
+              </Sidebar>
 
-            <SidebarInset>
-              {children}
-              <Footer />
-            </SidebarInset>
+              <SidebarInset>
+                {children}
+                <Footer />
+              </SidebarInset>
+            </NvimStatuslineProvider>
           </SidebarProvider>
         </ThemeProvider>
 
