@@ -20,7 +20,7 @@ export function Copyright() {
 
   return (
     <NvimStatuslineSectionZ className="cursor-pointer" onClick={toggleTheme}>
-      &copy; {new Date().getFullYear()} tiesen243
+      &copy;{new Date().getFullYear()} tiesen243
     </NvimStatuslineSectionZ>
   )
 }
