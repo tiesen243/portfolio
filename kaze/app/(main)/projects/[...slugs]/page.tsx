@@ -17,7 +17,7 @@ export default async function BlogPage({
     const { frontmatter, MDXContent } = await getPage('projects', slugs)
 
     return (
-      <article className="container flex min-h-[calc(100dvh-2rem)] flex-col py-12 font-sans">
+      <article className="container flex min-h-[calc(100dvh-1.5rem)] flex-col py-12 font-sans">
         <div className="flex items-start justify-between gap-4">
           <Typography variant="h2" component="h1">
             {frontmatter.title}
