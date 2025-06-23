@@ -1,3 +1,5 @@
+import type { ComponentProps } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { Callout } from 'fumadocs-ui/components/callout'
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
@@ -47,12 +49,8 @@ export function mdxComponents() {
     ol: ({ className, ...props }: Props) => (
       <Typography variant="ol" className={cn('mt-1', className)} {...props} />
     ),
-    blockquote: ({ className, ...props }: Props) => (
-      <Typography
-        variant="blockquote"
-        className={cn('inline-flex', className)}
-        {...props}
-      />
+    blockquote: (props: Props) => (
+      <Typography variant="blockquote" {...props} />
     ),
     caption: (props: Props) => <Typography variant="caption" {...props} />,
     a: ({
@@ -69,7 +67,7 @@ export function mdxComponents() {
           href={href}
           className={cn(
             typographyVariants({ variant: 'p' }),
-            'underline',
+            'hover:text-normal underline',
             className,
           )}
           {...(isExternalLink
@@ -79,6 +77,12 @@ export function mdxComponents() {
         />
       )
     },
+    img: ({ className, ...props }: ComponentProps<typeof Image>) => (
+      <Image
+        className={cn('my-4 rounded-xl shadow-md', className)}
+        {...props}
+      />
+    ),
     code: ({ className, ...props }: Props) => (
       <code
         className={cn(

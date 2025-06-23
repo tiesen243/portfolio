@@ -8,6 +8,7 @@ import {
   remarkHeading,
   remarkImage,
   remarkSteps,
+  remarkStructure,
 } from 'fumadocs-core/mdx-plugins'
 import { remarkInstall } from 'fumadocs-docgen'
 
@@ -26,6 +27,7 @@ const MDX_OPTIONS = {
     remarkImage,
     remarkInstall,
     remarkSteps,
+    remarkStructure,
   ],
 }
 
