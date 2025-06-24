@@ -33,7 +33,6 @@ export function createMetadata(override: Metadata = {}): Metadata {
     applicationName: siteName,
     title,
     description,
-    facebook: { appId: '625246206988524' },
     keywords: [
       'Tiesen',
       'tiesen243',
@@ -60,6 +59,8 @@ export function createMetadata(override: Metadata = {}): Metadata {
       shortcut: '/favicon-32x32.png',
       apple: '/apple-touch-icon.png',
     },
+    facebook: { appId: '625246206988524' },
+    verification: { google: 'dfsGgsTDdq4IwdTzb4p69XHyrPXvzFNmUMRxpuV4M8Q' },
     manifest: `${baseUrl}/manifest.webmanifest`,
     alternates: { canonical: url, ...override.alternates },
   }
