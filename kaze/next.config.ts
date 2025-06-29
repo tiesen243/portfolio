@@ -11,6 +11,21 @@ const nextConfig = {
     ],
   },
 
+  async redirects() {
+    return [
+      {
+        source: '/assets/cv.pdf',
+        destination: 'https://youtu.be/dQw4w9WgXcQ',
+        permanent: true,
+      },
+      ...Object.entries(socials).map(([key, value]) => ({
+        source: `/${key}`,
+        destination: value,
+        permanent: true,
+      })),
+    ]
+  },
+
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
 
@@ -18,3 +33,10 @@ const nextConfig = {
 } satisfies NextConfig
 
 export default nextConfig
+
+const socials = {
+  github: 'https://github.com/tiesen243',
+  facebook: 'https://facebook.com/tiesen243.nanoda',
+  linkedin: 'https://www.linkedin.com/in/tiesen243',
+  x: 'https://x.com/tiesen243',
+}

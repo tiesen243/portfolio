@@ -39,10 +39,6 @@ export function HeroSection() {
             key={nav.label}
             href={nav.href}
             className="flex items-center justify-between"
-            {...(nav.href.startsWith('https://') && {
-              target: '_blank',
-              rel: 'noopener noreferrer',
-            })}
           >
             <Typography className="inline-flex items-center gap-2 lg:text-base">
               <nav.icon className="size-4" />
@@ -62,7 +58,7 @@ const navs = [
     icon: DownloadIcon,
     label: 'Dowload CV',
     shortcut: 'd',
-    href: 'https://youtu.be/dQw4w9WgXcQ',
+    href: '/assets/cv.pdf',
   },
   {
     icon: ContactIcon,
