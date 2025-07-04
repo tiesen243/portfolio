@@ -8,7 +8,7 @@ import { mdxComponents } from '@/components/mdx'
 import { createMetadata } from '@/lib/metadata'
 import { formatDate } from '@/lib/utils'
 
-export default async function BlogPage({
+export default async function ProjectPage({
   params,
 }: Readonly<{ params: Promise<{ slugs: string[] }> }>) {
   const { slugs } = await params
@@ -18,15 +18,9 @@ export default async function BlogPage({
 
     return (
       <article className="container flex min-h-[calc(100dvh-1.5rem)] flex-col py-12 font-sans">
-        <div className="flex items-start justify-between gap-4">
-          <Typography variant="h2" component="h1">
-            {frontmatter.title}
-          </Typography>
-
-          <Typography className="text-muted-foreground shrink-0 text-xs">
-            {formatDate(frontmatter.publishedAt)}
-          </Typography>
-        </div>
+        <Typography variant="h2" component="h1">
+          {frontmatter.title}
+        </Typography>
 
         <Typography className="text-muted-foreground">
           {frontmatter.description}
@@ -39,6 +33,10 @@ export default async function BlogPage({
             </Badge>
           ))}
         </div>
+
+        <Typography className="text-muted-foreground mt-2 shrink-0 text-xs lg:text-sm">
+          {formatDate(frontmatter.publishedAt)}
+        </Typography>
 
         <hr className="my-4" />
 

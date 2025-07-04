@@ -4,13 +4,16 @@ import type { RehypeCodeOptions } from 'fumadocs-core/mdx-plugins'
 import { cache } from 'react'
 import { compileMDX } from '@fumadocs/mdx-remote'
 import {
+  rehypeToc,
   remarkAdmonition,
+  remarkCodeTab,
+  remarkGfm,
   remarkHeading,
   remarkImage,
+  remarkNpm,
   remarkSteps,
   remarkStructure,
 } from 'fumadocs-core/mdx-plugins'
-import { remarkInstall } from 'fumadocs-docgen'
 
 import { frontmatterSchema } from '@yuki/validators/mdx'
 
@@ -21,11 +24,14 @@ const MDX_OPTIONS = {
       dark: 'github-dark-default',
     },
   } satisfies RehypeCodeOptions,
+  rehypePlugins: [rehypeToc],
   remarkPlugins: [
     remarkAdmonition,
+    remarkCodeTab,
+    remarkGfm,
     remarkHeading,
     remarkImage,
-    remarkInstall,
+    remarkNpm,
     remarkSteps,
     remarkStructure,
   ],
