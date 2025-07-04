@@ -14,13 +14,13 @@ export function Copyright() {
   if (!isMounted)
     return (
       <NvimStatuslineSectionZ>
-        &copy;{new Date().getFullYear()} tiesen243
+        tiesen243 &copy; {new Date().getFullYear()}
       </NvimStatuslineSectionZ>
     )
 
   return (
     <NvimStatuslineSectionZ className="cursor-pointer" onClick={toggleTheme}>
-      &copy;{new Date().getFullYear()} tiesen243
+      tiesen243 &copy; {new Date().getFullYear()}
     </NvimStatuslineSectionZ>
   )
 }
