@@ -15,7 +15,6 @@ export const useMobile = () => {
   const debouncedUpdate = useDebounce(updateIsMobile, 100)
 
   React.useEffect(() => {
-    updateIsMobile() // Initial check
     window.addEventListener('resize', debouncedUpdate)
     return () => {
       window.removeEventListener('resize', debouncedUpdate)

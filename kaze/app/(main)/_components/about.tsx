@@ -72,9 +72,9 @@ export async function AboutSection() {
             Educations
           </Typography>
 
-          {basic.educations.map((education, index) => (
+          {basic.educations.map((education) => (
             <div
-              key={index}
+              key={education.school}
               className="border-primary relative border-l-1 pb-6 pl-8 last:pb-0"
             >
               <div className="bg-primary absolute top-0 -left-1.5 size-2.5 rounded-full" />
@@ -96,9 +96,9 @@ export async function AboutSection() {
             Certifications
           </Typography>
 
-          {basic.certifications.map((certification, index) => (
+          {basic.certifications.map((certification) => (
             <div
-              key={index}
+              key={certification.name}
               className="border-primary relative border-l-1 pb-6 pl-8 last:pb-0"
             >
               <div className="bg-primary absolute top-0 -left-1.5 size-2.5 rounded-full" />
@@ -121,9 +121,9 @@ export async function AboutSection() {
           Experiences
         </Typography>
 
-        {basic.experiences.map((exp, index) => (
+        {basic.experiences.map((exp) => (
           <div
-            key={index}
+            key={exp.company}
             className="border-primary relative border-l-1 pb-6 pl-8 last:pb-0"
           >
             <div className="bg-primary absolute top-0 -left-1.5 size-2.5 rounded-full" />

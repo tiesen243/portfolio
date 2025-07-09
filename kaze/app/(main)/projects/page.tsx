@@ -67,7 +67,7 @@ export default async function ProjectListPage() {
 
         {images.map((image, index) => (
           <Image
-            key={index}
+            key={image}
             src={image}
             alt={`design-${image.split('/').pop()?.split('.')[0] ?? index}`}
             className="w-full rounded-lg object-cover"

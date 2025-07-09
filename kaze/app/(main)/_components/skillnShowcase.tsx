@@ -45,8 +45,8 @@ export function SkillAndShowcaseSection() {
         </Typography>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {showcases.map((showcase, index) => (
-            <ShowcaseCard key={index} showcase={showcase} />
+          {showcases.map((showcase) => (
+            <ShowcaseCard key={showcase.title} showcase={showcase} />
           ))}
         </div>
       </section>
@@ -64,9 +64,9 @@ function SkillList({ title, skills }: SkillListProps) {
     <div className="space-y-4">
       <Typography variant="h5">{title}</Typography>
       <div className="flex flex-wrap gap-4">
-        {skills.map((skill, index) => (
+        {skills.map((skill) => (
           <Badge
-            key={index}
+            key={skill.name}
             variant="secondary"
             className={cn(
               'flex items-center gap-2 px-3 py-2 text-lg font-medium transition-all [&>svg]:size-6',

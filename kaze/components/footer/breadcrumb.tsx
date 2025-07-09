@@ -23,7 +23,7 @@ export function Breadcrumb() {
         ~
       </Link>
       {pathParts.map((part, index) => (
-        <Fragment key={index}>
+        <Fragment key={part}>
           <span>/</span>
           <Link
             href={`/${pathParts.slice(0, index + 1).join('/')}`}

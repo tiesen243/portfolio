@@ -43,8 +43,8 @@ export default function ContactPage() {
             </section>
 
             <div className="mt-4 space-y-6 px-6">
-              {contactInfo.map((info, index) => (
-                <div key={index} className="flex items-center space-x-4">
+              {contactInfo.map((info) => (
+                <div key={info.href} className="flex items-center space-x-4">
                   <div className="bg-primary/10 flex h-12 w-12 items-center justify-center rounded-lg">
                     <info.icon className="text-primary h-6 w-6" />
                   </div>
