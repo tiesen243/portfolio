@@ -116,6 +116,7 @@
         "@next/eslint-plugin-next": "^15.3.5",
         "eslint-plugin-import": "^2.32.0",
         "eslint-plugin-jsx-a11y": "^6.10.2",
+        "eslint-plugin-react-hooks": "^5.2.0",
         "eslint-plugin-turbo": "^2.5.4",
         "typescript-eslint": "^8.36.0",
       },
@@ -780,6 +781,8 @@
     "eslint-plugin-react-debug": ["eslint-plugin-react-debug@1.52.2", "", { "dependencies": { "@eslint-react/ast": "1.52.2", "@eslint-react/core": "1.52.2", "@eslint-react/eff": "1.52.2", "@eslint-react/kit": "1.52.2", "@eslint-react/shared": "1.52.2", "@eslint-react/var": "1.52.2", "@typescript-eslint/scope-manager": "^8.34.0", "@typescript-eslint/type-utils": "^8.34.0", "@typescript-eslint/types": "^8.34.0", "@typescript-eslint/utils": "^8.34.0", "string-ts": "^2.2.1", "ts-pattern": "^5.7.1" }, "peerDependencies": { "eslint": "^8.57.0 || ^9.0.0", "typescript": "^4.9.5 || ^5.3.3" }, "optionalPeers": ["typescript"] }, "sha512-9aJoZbC7VPhZ9ByKEg0R1ReDaltLGb9oLMwXL+oxoP4MFYQOL2BKNca+yfe74YZbSCOYidV1nsmCdTEQxh3nhg=="],
 
     "eslint-plugin-react-dom": ["eslint-plugin-react-dom@1.52.2", "", { "dependencies": { "@eslint-react/ast": "1.52.2", "@eslint-react/core": "1.52.2", "@eslint-react/eff": "1.52.2", "@eslint-react/kit": "1.52.2", "@eslint-react/shared": "1.52.2", "@eslint-react/var": "1.52.2", "@typescript-eslint/scope-manager": "^8.34.0", "@typescript-eslint/types": "^8.34.0", "@typescript-eslint/utils": "^8.34.0", "compare-versions": "^6.1.1", "string-ts": "^2.2.1", "ts-pattern": "^5.7.1" }, "peerDependencies": { "eslint": "^8.57.0 || ^9.0.0", "typescript": "^4.9.5 || ^5.3.3" }, "optionalPeers": ["typescript"] }, "sha512-HDwQTwGfJTFAa4x0Bf9NH/TVHULEFjI0/vBNhkZt7JAHFb7v+SrhlXGUIIKfQTPHHJIAQZm8v3yzc5g/NlCokA=="],
+
+    "eslint-plugin-react-hooks": ["eslint-plugin-react-hooks@5.2.0", "", { "peerDependencies": { "eslint": "^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0" } }, "sha512-+f15FfK64YQwZdJNELETdn5ibXEUQmW1DZL6KXhNnc2heoy/sg9VJJeT7n8TlMWouzWqSWavFkIhHyIbIAEapg=="],
 
     "eslint-plugin-react-hooks-extra": ["eslint-plugin-react-hooks-extra@1.52.2", "", { "dependencies": { "@eslint-react/ast": "1.52.2", "@eslint-react/core": "1.52.2", "@eslint-react/eff": "1.52.2", "@eslint-react/kit": "1.52.2", "@eslint-react/shared": "1.52.2", "@eslint-react/var": "1.52.2", "@typescript-eslint/scope-manager": "^8.34.0", "@typescript-eslint/type-utils": "^8.34.0", "@typescript-eslint/types": "^8.34.0", "@typescript-eslint/utils": "^8.34.0", "string-ts": "^2.2.1", "ts-pattern": "^5.7.1" }, "peerDependencies": { "eslint": "^8.57.0 || ^9.0.0", "typescript": "^4.9.5 || ^5.3.3" }, "optionalPeers": ["typescript"] }, "sha512-95vjCeNMGNZGFoBSwrvaAKfCDvHXXbrdiaizlCmD57AYTHALI9CzvEapQP9qjETNzuf5Uta0/kmRI5Ln4v2y6A=="],
 
