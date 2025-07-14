@@ -40,7 +40,7 @@ export function SidebarContent() {
         </nav>
       </section>
 
-      <section className="border py-4">
+      <section className="border pt-4 pb-10 md:pb-4">
         <nav className="flex items-center gap-4 px-2">
           {Object.entries(socials).map(([key, Icon]) => (
             <a
