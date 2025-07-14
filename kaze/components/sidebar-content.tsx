@@ -1,7 +1,16 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { FolderKanbanIcon, HomeIcon, MailIcon, RssIcon } from '@yuki/ui/icons'
+import {
+  FacebookIcon,
+  FolderKanbanIcon,
+  GithubIcon,
+  HomeIcon,
+  LinkedinIcon,
+  MailIcon,
+  RssIcon,
+  XFormerTwitterIcon,
+} from '@yuki/ui/icons'
 
 import Tiesen from '@/public/assets/images/tiesen.png'
 
@@ -27,6 +36,24 @@ export function SidebarContent() {
               <nav.icon className="size-4" />
               <span>{nav.label}</span>
             </Link>
+          ))}
+        </nav>
+      </section>
+
+      <section className="border py-4">
+        <nav className="flex items-center gap-4 px-2">
+          {Object.entries(socials).map(([key, Icon]) => (
+            <a
+              key={key}
+              href={`/contact/${key}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon className="hover:fill-muted-foreground size-4" />
+              <span className="sr-only">
+                {key.charAt(0).toUpperCase() + key.slice(1)}
+              </span>
+            </a>
           ))}
         </nav>
       </section>
@@ -56,3 +83,10 @@ const navs = [
     icon: FolderKanbanIcon,
   },
 ]
+
+const socials = {
+  github: GithubIcon,
+  facebook: FacebookIcon,
+  linkedin: LinkedinIcon,
+  x: XFormerTwitterIcon,
+}

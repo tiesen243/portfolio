@@ -19,7 +19,7 @@ const nextConfig = {
         permanent: true,
       },
       ...Object.entries(socials).map(([key, value]) => ({
-        source: `/${key}`,
+        source: `/contact/${key}`,
         destination: value,
         permanent: true,
       })),
