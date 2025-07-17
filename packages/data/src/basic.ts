@@ -23,10 +23,18 @@ export const basic = {
 
   certifications: [
     {
+      name: 'Next.js App Router Fundamentals',
+      issuer: 'Vercel',
+      description: 'Learned the fundamentals of Next.js App Router.',
+      date: '2025-04-26',
+      link: 'https://nextjs.org/learn/certificate?course=dashboard-app&user=47455&certId=dashboard-app-47455-1752746461959',
+    },
+    {
       name: 'Microsoft Office Specialist (MOS)',
       issuer: 'Microsoft',
-      date: '2025-??-??',
       description: 'Demonstrated proficiency in Microsoft Office applications.',
+      date: '2025-??-??',
+      link: '/asstes/pdf/mos-certificate.pdf',
     },
   ],
 

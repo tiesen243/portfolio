@@ -18,7 +18,7 @@ export async function AboutSection() {
         <section className="md:col-span-2">
           <Typography variant="h4">About Me</Typography>
           <Typography>
-            Hi, I&apos;m Tiesen, a software engineer with a passion for building
+            Hi, I&apos;m Tiesen, a weeb devalopa with a passion for building
             innovative solutions. I love working with TypeScript and Next.js to
             create dynamic web applications. When I&apos;m not coding, you can
             find me exploring new technologies or contributing to open-source
@@ -109,6 +109,16 @@ export async function AboutSection() {
                 Issued by {certification.issuer} on {certification.date}
               </Typography>
               <Typography>{certification.description}</Typography>
+              <Typography
+                component="a"
+                // @ts-expect-error - `href` is not recognized by Typography
+                href={certification.link}
+                className="text-sm hover:underline lg:text-base"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Certificate
+              </Typography>
             </div>
           ))}
         </section>
