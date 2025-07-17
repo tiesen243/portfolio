@@ -53,7 +53,7 @@ export default function ContactPage() {
               {contactInfo.map((info) => (
                 <div key={info.href} className="flex items-center space-x-4">
                   <div className="bg-primary/10 flex h-12 w-12 items-center justify-center rounded-lg">
-                    <info.icon className="text-primary h-6 w-6" />
+                    <info.icon className="h-6 w-6" />
                   </div>
                   <div>
                     <Typography className="font-medium">
@@ -96,10 +96,10 @@ export default function ContactPage() {
                   href={`/contact/${key}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="border-border hover:border-primary/50 hover:bg-muted/50 group flex items-center space-x-3 rounded-lg border p-4 transition-all duration-200"
+                  className="hover:border-primary/50 hover:bg-muted/50 group flex items-center gap-4 rounded-lg border p-4 transition-colors duration-200"
                 >
-                  <Icon className="size-6 transition-colors dark:invert" />
-                  <span className="group-hover:text-primary font-medium transition-colors">
+                  <Icon className="size-6" />
+                  <span className="group-hover:text-primary font-medium">
                     {key.charAt(0).toUpperCase() + key.slice(1)}
                   </span>
                 </a>
