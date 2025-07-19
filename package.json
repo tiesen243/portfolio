@@ -2,6 +2,11 @@
   "name": "yuki",
   "private": true,
   "workspaces": {
+    "packages": [
+      "kaze",
+      "packages/*",
+      "tools/*"
+    ],
     "catalog": {
       "@types/node": "^24.0.0",
       "dotenv-cli": "^8.0.0",
@@ -15,13 +20,13 @@
         "@types/react-dom": "^19.1.6",
         "react": "^19.1.0",
         "react-dom": "^19.1.0"
+      },
+      "tailwind": {
+        "@tailwindcss/postcss": "^4.1.11",
+        "@tailwindcss/vite": "^4.1.11",
+        "tailwindcss": "^4.1.11"
       }
-    },
-    "packages": [
-      "kaze",
-      "packages/*",
-      "tools/*"
-    ]
+    }
   },
   "scripts": {
     "build": "turbo run build",
