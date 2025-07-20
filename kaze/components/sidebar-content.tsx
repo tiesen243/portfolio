@@ -12,6 +12,7 @@ import {
   XFormerTwitterIcon,
 } from '@yuki/ui/icons'
 
+import { ToggleTheme } from '@/components/toggle-theme'
 import Tiesen from '@/public/assets/images/tiesen.png'
 
 export function SidebarContent() {
@@ -40,8 +41,8 @@ export function SidebarContent() {
         </nav>
       </section>
 
-      <section className="border pt-4 pb-10 md:pb-4">
-        <nav className="flex items-center gap-4 px-2">
+      <section className="flex items-center justify-between gap-4 border pt-4 pb-10 md:pb-4">
+        <nav className="flex items-center gap-4 pl-2">
           {Object.entries(socials).map(([key, Icon]) => (
             <a
               key={key}
@@ -56,6 +57,8 @@ export function SidebarContent() {
             </a>
           ))}
         </nav>
+
+        <ToggleTheme />
       </section>
     </>
   )

@@ -4,10 +4,10 @@ import {
   NvimStatuslineSectionB,
   NvimStatuslineSectionC,
   NvimStatuslineSectionY,
+  NvimStatuslineSectionZ,
 } from '@yuki/ui/nvim-statusline'
 
 import { Breadcrumb } from './breadcrumb'
-import { Copyright } from './copyright'
 import { Mode } from './mode'
 
 export function Footer() {
@@ -23,7 +23,9 @@ export function Footer() {
       <NvimStatuslineSectionY className="hidden md:inline-flex">
         Yukikaze {'<4'}
       </NvimStatuslineSectionY>
-      <Copyright />
+      <NvimStatuslineSectionZ>
+        tiesen243 &copy; {new Date().getFullYear()}
+      </NvimStatuslineSectionZ>
     </NvimStatusline>
   )
 }

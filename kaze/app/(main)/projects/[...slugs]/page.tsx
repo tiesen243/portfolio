@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { InlineTOC } from 'fumadocs-ui/components/inline-toc'
 
 import { getPage, getPages } from '@yuki/content'
 import { Badge } from '@yuki/ui/badge'
@@ -14,10 +15,10 @@ export default async function ProjectPage({
   const { slugs } = await params
 
   try {
-    const { frontmatter, MDXContent } = await getPage('projects', slugs)
+    const { frontmatter, toc, MDXContent } = await getPage('projects', slugs)
 
     return (
-      <article className="container flex min-h-[calc(100dvh-1.5rem)] flex-col py-12 font-sans">
+      <article className="container flex min-h-[calc(100dvh-1.5rem)] flex-col py-8 font-sans">
         <Typography variant="h2" component="h1">
           {frontmatter.title}
         </Typography>
@@ -39,6 +40,8 @@ export default async function ProjectPage({
         </Typography>
 
         <hr className="my-4" />
+
+        <InlineTOC items={toc} />
 
         <MDXContent components={mdxComponents()} />
       </article>

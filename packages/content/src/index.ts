@@ -60,8 +60,9 @@ async function uncachedGetPage(
 
     return {
       path: filePath,
-      MDXContent: compiled.body,
       frontmatter,
+      toc: compiled.toc,
+      MDXContent: compiled.body,
       url: `/${source}/${slugs.join('/')}`,
     }
   } catch (error) {

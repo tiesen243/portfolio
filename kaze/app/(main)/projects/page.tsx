@@ -16,7 +16,7 @@ export default async function ProjectListPage() {
   const pages = await getPages('projects')
 
   return (
-    <article className="container flex min-h-[calc(100dvh-1.5rem)] flex-col gap-8 py-12">
+    <article className="container flex min-h-[calc(100dvh-1.5rem)] flex-col gap-8 py-8">
       <div>
         <Typography variant="h3" component="h1">
           {TITLE}
@@ -24,7 +24,7 @@ export default async function ProjectListPage() {
         <Typography className="text-muted-foreground">{DESCRIPTION}</Typography>
       </div>
 
-      <section className="flex flex-col gap-4">
+      <section className="flex flex-col gap-6">
         <Typography variant="h4" component="h2">
           Featured Projects
         </Typography>
@@ -60,7 +60,7 @@ export default async function ProjectListPage() {
         ))}
       </section>
 
-      <section className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Typography variant="h4" component="h2" className="lg:col-span-2">
           Design Showcase
         </Typography>
