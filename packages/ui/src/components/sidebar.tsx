@@ -30,6 +30,25 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     setOpen((prev) => !prev)
   }, [])
 
+  React.useEffect(() => {
+    function handleKeydown(e: KeyboardEvent) {
+      if (e.ctrlKey && e.key === 'e') {
+        e.preventDefault()
+        toggleSidebar()
+      } else if (e.key === 'Escape') {
+        setOpen(false)
+      }
+    }
+
+    const abortController = new AbortController()
+    document.addEventListener('keydown', handleKeydown, {
+      signal: abortController.signal,
+    })
+    return () => {
+      abortController.abort()
+    }
+  })
+
   const value = React.useMemo(
     () => ({ open, isMobile, setOpen, toggleSidebar }),
     [isMobile, open, toggleSidebar],
