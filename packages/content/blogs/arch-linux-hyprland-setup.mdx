@@ -211,12 +211,12 @@ rm -rf ~/yay
 
 ```bash
 yes | yay -S --answerclean All --answerdiff None \
-  hypridle hyprlock hyprpaper hyprpicker xdg-desktop-portal-hyprland-git rofi-wayland \
   noto-fonts noto-fonts-cjk noto-fonts-emoji otf-geist otf-geist-mono-nerd \
-  fastfetch zsh brightnessctl nwg-look playerctl libnotify \
-  github-cli lazygit lsd ripgrep unzip \
+  hypridle hyprlock hyprpaper hyprpicker xdg-desktop-portal-hyprland-git \
+  fastfetch zsh brightnessctl nwg-look pavucontrol playerctl libnotify \
+  github-cli lazygit lsd ripgrep unzip 7zip \
   grim slurp cliphist wl-clipboard \
-  ffmpeg pipewire wireplumber \
+  swaync rofi-wayland \
   zen-browser-bin \
   thunar gvfs
 ```
@@ -274,9 +274,9 @@ Then, create the symbolic links to the config files
 
 ```bash
 rm ~/.zshrc
-rm -rf ~/.config/{dunst,fastfetch,hypr,kitty,lazygit,lsd,nvim,rofi,Thunar}
+rm -rf ~/.config/{fastfetch,git,hypr,kitty,lazygit,lsd,nvim,rofi,swaync,Thunar}
 
-ln -s ~/dotfiles/{dunst,fastfetch,hypr,kitty,lazygit,lsd,nvim,rofi,Thunar} ~/.config
+ln -s ~/dotfiles/{fastfetch,git,hypr,kitty,lazygit,lsd,nvim,rofi,swaync,Thunar} ~/.config
 ln -s ~/dotfiles/zsh/themes/yuki.zsh-theme ~/.oh-my-zsh/custom/themes
 ln -s ~/dotfiles/zsh/config.zsh ~/.zshrc
 ```
