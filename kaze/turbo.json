@@ -1,5 +1,5 @@
 {
-  "$schema": "../../node_modules/turbo/schema.json",
+  "$schema": "../node_modules/turbo/schema.json",
   "extends": ["//"],
   "tasks": {
     "build": {
@@ -7,6 +7,7 @@
       "outputs": [".next/**", "!.next/cache/**", "next-env.d.ts"]
     },
     "dev": {
+      "cache": false,
       "persistent": true
     }
   }
