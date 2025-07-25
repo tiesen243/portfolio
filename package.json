@@ -1,6 +1,9 @@
 {
-  "name": "yuki",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiesen243/portfolio.git"
+  },
   "workspaces": {
     "packages": [
       "kaze",
