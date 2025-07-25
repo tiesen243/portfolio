@@ -1,5 +1,6 @@
 {
   "private": true,
+  "homepage": "https://tiesen.id.vn",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tiesen243/portfolio.git"
