@@ -33,7 +33,7 @@
       "outputLogs": "new-only"
     }
   },
-  "globalEnv": ["PORT"],
+  "globalEnv": ["RESEND_KEY", "PORT"],
   "globalPassThroughEnv": [
     "CI",
     "NODE_ENV",
