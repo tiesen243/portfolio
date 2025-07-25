@@ -67,7 +67,7 @@ export function mdxComponents() {
           href={href}
           className={cn(
             typographyVariants({ variant: 'p' }),
-            'hover:text-normal underline',
+            'hover:text-normal underline underline-offset-4',
             className,
           )}
           {...(isExternalLink
@@ -79,7 +79,7 @@ export function mdxComponents() {
     },
     img: ({ className, ...props }: ComponentProps<typeof Image>) => (
       <Image
-        className={cn('my-4 rounded-xl shadow-md', className)}
+        className={cn('my-4 rounded-xl drop-shadow-md', className)}
         {...props}
       />
     ),

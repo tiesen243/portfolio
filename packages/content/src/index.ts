@@ -2,7 +2,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import type { RehypeCodeOptions } from 'fumadocs-core/mdx-plugins'
 import { cache } from 'react'
-import { compileMDX } from '@fumadocs/mdx-remote'
+import { createCompiler } from '@fumadocs/mdx-remote'
 import {
   rehypeToc,
   remarkAdmonition,
@@ -17,7 +17,7 @@ import {
 
 import { frontmatterSchema } from '@yuki/validators/mdx'
 
-const MDX_OPTIONS = {
+const compileMDX = createCompiler({
   rehypeCodeOptions: {
     themes: {
       light: 'github-light-default',
@@ -35,7 +35,7 @@ const MDX_OPTIONS = {
     remarkSteps,
     remarkStructure,
   ],
-}
+})
 
 async function uncachedGetPage(
   contentType: 'blogs' | 'projects',
@@ -50,10 +50,9 @@ async function uncachedGetPage(
     const source = await fs.readFile(filePath, 'utf-8')
     if (!source.trim()) throw new Error('File is empty')
 
-    const compiled = await compileMDX({
+    const compiled = await compileMDX.compile({
       source,
       filePath,
-      mdxOptions: MDX_OPTIONS,
     })
 
     const frontmatter = frontmatterSchema.parse(compiled.frontmatter)
@@ -63,7 +62,7 @@ async function uncachedGetPage(
       frontmatter,
       toc: compiled.toc,
       MDXContent: compiled.body,
-      url: `/${source}/${slugs.join('/')}`,
+      url: `/${contentType}/${slugs.join('/')}`,
     }
   } catch (error) {
     if (process.env.NODE_ENV === 'development') console.log(error)
@@ -95,7 +94,7 @@ async function uncachedGetPages(contentType: 'blogs' | 'projects') {
           const source = await fs.readFile(filePath, 'utf-8')
           if (!source.trim()) throw new Error('Empty file')
 
-          const compiled = await compileMDX({ source, filePath })
+          const compiled = await compileMDX.compile({ source, filePath })
           const frontmatter = frontmatterSchema.parse(compiled.frontmatter)
 
           return { filePath, frontmatter, slug, url: `/${contentType}/${slug}` }

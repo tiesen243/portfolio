@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { InlineTOC } from 'fumadocs-ui/components/inline-toc'
+import { EditOnGitHub } from 'fumadocs-ui/page'
 
 import { getPage, getPages } from '@yuki/content'
 import { Badge } from '@yuki/ui/badge'
@@ -15,10 +16,10 @@ export default async function BlogPage({
   const { slugs } = await params
 
   try {
-    const { frontmatter, toc, MDXContent } = await getPage('blogs', slugs)
+    const { frontmatter, toc, url, MDXContent } = await getPage('blogs', slugs)
 
     return (
-      <article className="container flex min-h-[calc(100dvh-1.5rem)] flex-col py-8 font-sans">
+      <article className="container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col py-8 font-sans">
         <Typography variant="h2" component="h1">
           {frontmatter.title}
         </Typography>
@@ -44,6 +45,13 @@ export default async function BlogPage({
         <InlineTOC items={toc} />
 
         <MDXContent components={mdxComponents()} />
+
+        <div className="flex justify-end">
+          <EditOnGitHub
+            href={`https://github.com/tiesen243/portfolio/blob/main/packages/content${url}.mdx`}
+            className="w-fit"
+          />
+        </div>
       </article>
     )
   } catch {
