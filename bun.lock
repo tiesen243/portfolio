@@ -2,6 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
+      "name": "portfolio",
       "devDependencies": {
         "@yuki/prettier-config": "workspace:*",
         "@yuki/tsconfig": "workspace:*",
