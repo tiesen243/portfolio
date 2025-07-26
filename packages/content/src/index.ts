@@ -1,6 +1,5 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import type { RehypeCodeOptions } from 'fumadocs-core/mdx-plugins'
 import { cache } from 'react'
 import { createCompiler } from '@fumadocs/mdx-remote'
 import {
@@ -23,7 +22,7 @@ const compileMDX = createCompiler({
       light: 'github-light-default',
       dark: 'github-dark-default',
     },
-  } satisfies RehypeCodeOptions,
+  },
   rehypePlugins: [rehypeToc],
   remarkPlugins: [
     remarkAdmonition,

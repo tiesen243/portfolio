@@ -20,7 +20,8 @@
   "prettier": "@yuki/prettier-config",
   "dependencies": {
     "@fumadocs/mdx-remote": "^1.4.0",
-    "@yuki/validators": "workspace:*"
+    "@yuki/validators": "workspace:*",
+    "fumadocs-core": "^15.6.6"
   },
   "devDependencies": {
     "@yuki/eslint-config": "workspace:*",
