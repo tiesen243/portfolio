@@ -22,6 +22,7 @@ const compileMDX = createCompiler({
       light: 'github-light-default',
       dark: 'github-dark-default',
     },
+    cache: new Map(),
   },
   rehypePlugins: [rehypeToc],
   remarkPlugins: [
