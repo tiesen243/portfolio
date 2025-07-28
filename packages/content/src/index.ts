@@ -34,7 +34,7 @@ const compileMDX = createCompiler({
     [
       remarkImage,
       {
-        publicDir: path.join(__dirname, '../../../kaze/public'),
+        publicDir: path.resolve(process.cwd(), 'public'),
       } satisfies RemarkImageOptions,
     ],
     remarkNpm,
