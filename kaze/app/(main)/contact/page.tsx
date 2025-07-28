@@ -12,10 +12,17 @@ import { Typography } from '@yuki/ui/typography'
 import { ContactForm } from '@/app/(main)/_components/contact-form'
 import { createMetadata } from '@/lib/metadata'
 
+const TITILE = 'Contact'
+const DESCRIPTION =
+  'Get in touch with me for inquiries or collaborations. Whether you have a question, feedback, or just want to say hello, I’d love to hear from you!'
+
 export const metadata = createMetadata({
-  title: 'Contact',
-  description: 'Get in touch with me for inquiries or collaborations.',
-  openGraph: { url: '/contact' },
+  title: TITILE,
+  description: DESCRIPTION,
+  openGraph: {
+    images: `/api/og?title=${TITILE}&description=${DESCRIPTION}`,
+    url: '/contact',
+  },
 })
 
 export default function ContactPage() {

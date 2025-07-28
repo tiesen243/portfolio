@@ -23,7 +23,8 @@
     "fumadocs-ui": "^15.6.6",
     "next": "^15.4.4",
     "react": "catalog:react",
-    "react-dom": "catalog:react"
+    "react-dom": "catalog:react",
+    "resend": "^4.7.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:tailwind",

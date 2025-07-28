@@ -11,6 +11,8 @@ import { Textarea } from '@yuki/ui/textarea'
 import { Typography } from '@yuki/ui/typography'
 import { contactSchema } from '@yuki/validators/contact'
 
+import { sendEmail } from '@/app/(main)/contact/page.action'
+
 export function ContactForm() {
   const { mode, setMode } = useNvimStatusline()
   const previousMode = useRef(mode)
@@ -18,10 +20,7 @@ export function ContactForm() {
   const form = useForm({
     defaultValues: { name: '', email: '', subject: '', message: '' },
     validator: contactSchema,
-    onSubmit: async (value) => {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      console.log('Form submitted:', value)
-    },
+    onSubmit: sendEmail,
   })
 
   const handleFocus = () => {

@@ -85,8 +85,8 @@ export const metadata = createMetadata({
   description: DESCRIPTION,
   keywords: ['projects', 'web development', 'design', 'open-source'],
   openGraph: {
-    url: '/projects',
     images: `/api/og?title=${TITLE}&description=${DESCRIPTION}`,
+    url: '/projects',
   },
 })
 
