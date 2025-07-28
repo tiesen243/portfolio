@@ -15,15 +15,13 @@ export default async function BlogListPage() {
   const pages = await getPages('blogs')
 
   return (
-    <article className="container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col gap-6 py-8">
-      <div>
-        <Typography variant="h3" component="h1">
-          {TITLE}
-        </Typography>
-        <Typography className="text-muted-foreground">{DESCRIPTION}</Typography>
-      </div>
+    <article className="container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col py-8">
+      <Typography variant="h3" component="h1">
+        {TITLE}
+      </Typography>
+      <Typography className="text-muted-foreground">{DESCRIPTION}</Typography>
 
-      <div className="flex flex-col gap-4">
+      <div className="mt-12 flex flex-col gap-4">
         {pages.map((page) => (
           <Link key={page.slug} href={page.url} className="group/blog">
             <div className="flex items-start justify-between gap-4">

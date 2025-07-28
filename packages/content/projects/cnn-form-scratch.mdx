@@ -1,53 +1,83 @@
 ---
-title: CNN from Scratch
-description: A digit recognition project uses a Convolutional Neural Network (CNN) to accurately identify handwritten digits.
-tags: ['MNIST', 'NumPy', 'Python']
+title: 'Building a Convolutional Neural Network from Scratch for MNIST Digit Recognition'
+description: 'A deep dive into constructing a CNN from first principles for handwritten digit recognition using the MNIST dataset, with educational code and step-by-step explanations.'
+tags:
+  - deep learning
+  - convolutional neural network
+  - mnist
+  - python
+  - machine learning
+  - tutorial
 publishedAt: 2024-04-25
 ---
 
+## Introduction
+
+In the world of machine learning, convolutional neural networks (CNNs) have revolutionized how we approach image classification tasks. This project, **cnn-from-scratch**, is a hands-on implementation that guides you through building a CNN from the ground up, specifically for recognizing handwritten digits using the MNIST dataset. The goal is to provide an educational experience that demystifies the inner workings of CNNs and neural networks in general.
+
+[View the repo on GitHub](https://github.com/tiesen243/cnn-from-scratch)
+
 ## Overview
 
-This project implements a Convolutional Neural Network (CNN) from scratch using only NumPy, with no deep learning frameworks. The system is designed to recognize handwritten digits from the MNIST dataset, demonstrating the fundamental principles behind CNNs through pure Python implementation.
+This project, **cnn-from-scratch**, is an educational implementation of a Convolutional Neural Network (CNN) designed to recognize handwritten digits from images in the MNIST dataset. The repository demonstrates how to build a neural network from the ground up, focusing on understanding and constructing the essential building blocks without relying on high-level deep learning frameworks.
 
-## Key Features
+- **Main Language:** Jupyter Notebook (Python)
+- **License:** MIT
+- **Topics:** Convolutional Neural Network, Digit Recognition, MNIST, Machine Learning, Deep Learning
 
-- **Framework-free Implementation**: Built entirely with NumPy, without relying on TensorFlow, PyTorch, or other deep learning libraries
-- **Complete CNN Architecture**: Implementation of all essential CNN components including:
-  - Convolutional layers with custom filters
-  - Pooling layers for dimensionality reduction
-  - Fully connected layers for classification
-  - Activation functions and loss functions
-- **Backpropagation Algorithm**: Custom implementation of the backpropagation algorithm for training
-- **MNIST Dataset Processing**: Data loading, normalization, and batching pipeline
-- **Performance Visualization**: Tools for visualizing training progress and model accuracy
+## What is MNIST?
 
-## Technical Implementation
+MNIST is a well-known dataset containing 60,000 training and 10,000 testing grayscale images of handwritten digits (0-9), each sized 28x28 pixels. It is commonly used for benchmarking image classification algorithms and neural networks. More information about MNIST can be found on the [Wikipedia](https://en.wikipedia.org/wiki/MNIST_database).
 
-The project is structured around several core components:
+## Project Goal
 
-1. **Layer Implementations**:
-   - Convolutional layers with forward and backward propagation
-   - Max pooling for feature extraction
-   - ReLU activation functions
-   - Fully connected layers with weight initialization strategies
+The primary goal is to **build a simple artificial neural network** that can predict the digit shown in each image from the MNIST dataset. This is achieved by constructing key neural network components manually, which helps users understand the inner workings of neural networks.
 
-2. **Training Pipeline**:
-   - Mini-batch gradient descent optimizer
-   - Cross-entropy loss function
-   - Learning rate scheduling
-   - Training and validation split management
+## How It Works
 
-## Challenges & Solutions
+### 1. Importing Libraries
 
-A significant challenge was optimizing the convolution operations, which are computationally intensive when implemented without GPU acceleration. This was addressed by developing efficient NumPy vectorization strategies and implementing a sliding window approach to reduce redundant calculations.
+The project utilizes the following Python libraries:
 
-Another challenge was debugging the backpropagation algorithm, especially for the convolutional layers. This was solved by implementing gradient checking methods to verify the correctness of gradient computations.
+- `numpy` for linear algebra computations
+- `matplotlib` for visualizing images, loss, and accuracy
+- `dill` for saving and loading the model state
+- `tqdm` for progress bars
+- `keras.datasets` for loading the MNIST dataset
 
-## Learning Outcomes
+### 2. Model Structure
 
-This project provided deep insights into the mathematical foundations of CNNs and neural networks in general. By implementing every component from scratch, I gained a comprehensive understanding of:
+#### Base Layer Class
 
-- The role of each layer in feature extraction and classification
-- How backpropagation works across different layer types
-- Optimization challenges in neural network training
-- Efficient numerical computation strategies in Python
+A core element is the `BaseLayer` class, which acts as the parent for all neural network layers. It includes:
+
+- `forward` method: Handles the forward pass, computing the output for a given input.
+- `backpropagation` method: Handles the backward pass, computing gradients and updating weights as needed.
+
+This modular approach allows extending the network with various types of layers (convolutional, activation, pooling, etc.) by inheriting from `BaseLayer`.
+
+#### Saving and Loading Models
+
+The model's state can be saved and loaded using `dill`, making it easy to persist training progress and resume later.
+
+### 3. Training and Evaluation
+
+- The model is trained on the MNIST dataset, learning to map pixel values to digit classes (0-9).
+- The notebook visualizes training progress, including loss and accuracy curves, to help users understand model performance.
+
+## Notable Features
+
+- **Didactic Approach:** The code is written to be educational, with clear separation between different neural network components.
+- **Manual Implementation:** Core neural network operations are implemented from scratch, providing insight into how deep learning works under the hood.
+- **Visualization:** Plots of training loss and accuracy are included for better interpretability.
+- **Persistence:** The ability to save and load models aids in experimentation and reproducibility.
+
+## Design and Code Structure
+
+- The main code is contained within a Jupyter Notebook (`digit-recognition.ipynb`), making it easy to follow and experiment interactively.
+- The project is organized with reusable classes for layers, facilitating extension and customization.
+- The repository includes checkpoints and sample outputs for reference.
+
+## Conclusion
+
+**cnn-from-scratch** is an excellent resource for anyone wanting to learn how convolutional neural networks operate at a low level. By walking through this project, you can gain a deeper appreciation of the mathematics and programming required to build modern image classifiers.

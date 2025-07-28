@@ -1,43 +1,69 @@
 ---
-title: Egg Community
-description: Built a social media platform using Next.js for the frontend and ElysiaJS for the backend, creating a dynamic and interactive environment for users to engage with one another.
-tags: ['ElysiaJS', 'Next.js', 'Prisma', 'Tailwind CSS']
+title: 'Egg Community: A Modern Social Platform for the Egg Antifan Community'
+description: 'Discover Egg Community, a social web app built with Next.js, ElysiaJS, Prisma, and TailwindCSS. Explore its features, tech stack, and how it brings people together.'
+tags:
+  - social network
+  - nextjs
+  - elysiajs
+  - tailwindcss
+  - typescript
+  - prisma
+  - cloudinary
+  - web development
 publishedAt: 2024-04-28
 ---
 
-## Overview
+## Introduction
 
-Egg Community is a modern social media platform built with Next.js and ElysiaJS, designed to create an engaging digital space where users can connect, share content, and interact with one another. The platform combines responsive frontend design with a robust backend architecture to deliver a seamless social experience.
+**Egg Community** is a feature-rich, modern social platform created for the egg antifan community. Built with cutting-edge web technologies like Next.js, ElysiaJS, Prisma, and TailwindCSS, it delivers a smooth, beautiful, and functional user experience for sharing posts, images, and discussions.
+
+[View the repo on GitHub](https://github.com/tiesen243/egg-community)
+
+[View the live demo](https://egg-community.vercel.app)
 
 ## Key Features
 
-- **User Profiles**: Customizable user profiles with avatars, bio information, and activity feeds
-- **Content Sharing**: Rich media posting capabilities including text, images, and embedded content
-- **Real-time Interactions**: Like, comment, and share functionality with instant updates
-- **Responsive Design**: Mobile-first approach ensuring optimal experience across all devices
-- **Authentication System**: Secure user registration and login with role-based permissions
-- **Notification System**: Real-time alerts for user interactions and content updates
-- **Search Functionality**: Advanced search capabilities for finding users and content
+- **Social Posting:** Users can create, edit, and delete rich-text posts, optionally with images.
+- **Comments & Likes:** Engage with others via comments and like buttons on each post.
+- **User Profiles:** Each user has a profile with avatar, name, and their own posts.
+- **Image Uploads:** Uses Cloudinary for fast, reliable, and scalable media storage.
+- **Authentication:** Session-based authentication with user context for secure, personalized experiences.
+- **Responsive UI:** Built with TailwindCSS for a seamless experience on all devices.
+- **SEO & Metadata:** Custom SEO configuration for better search engine visibility and shareability.
+- **Dark Mode:** Theming support out of the box.
 
-## Technical Implementation
+## Technical Stack
 
-The application is built using a modern tech stack:
+- **Frontend:** Next.js (React), TypeScript, TailwindCSS
+- **Backend:** ElysiaJS API, Prisma ORM for database interactions
+- **Authentication:** Session management with React context and server-side session checks
+- **Media Storage:** Cloudinary integration for image uploads and management
+- **SEO:** Dynamic meta tags via a central `seo` utility
+- **Database:** Prisma ORM with environment-based logging for local development and production
 
-1. **Frontend**:
-   - Next.js for server-side rendering and client-side navigation
-   - Tailwind CSS for responsive and customizable styling
-   - React hooks and context for state management
+## Architectural Highlights
 
-2. **Backend**:
-   - ElysiaJS for creating a fast and lightweight API server
-   - Prisma ORM for type-safe database operations
+- **Modular Components:** UI and logic are split into reusable React components, including post menus, comment menus, and session providers.
+- **API Communication:** Uses `@elysiajs/eden` and a typed API client for seamless, type-safe client-server interaction.
+- **Session Context:** The `SessionProvider` React context shares user and session information throughout the app.
+- **Cloudinary File Handling:** Server-side utilities to upload and delete images, keeping media management simple and robust.
+- **Loading States:** Custom loading pages and animated spinners for smooth navigation.
 
-## Challenges & Solutions
+## Example: Post Page Workflow
 
-One of the main challenges was implementing an efficient real-time notification system. This was addressed by utilizing WebSockets through Socket.io, creating event listeners for various user actions, and implementing an optimized database schema for tracking notification status.
+When a user navigates to a post:
 
-Another challenge was handling media uploads and storage efficiently. The solution involved implementing cloud storage integration with image optimization and progressive loading techniques to ensure good performance even with media-heavy content.
+1. **Server Auth:** User authentication is checked server-side for personalized experience.
+2. **Fetch Post:** The post data, including author details, content, images, and comments, is fetched from the API.
+3. **Render:** The post is rendered with author info, content, image (if any), and interactive like/comment features.
+4. **Interactions:** Users can like, comment, and (if they are the author) edit or delete their post.
 
-## Learning Outcomes
+## Why Egg Community Stands Out
 
-This project provided valuable experience in building full-stack applications with a focus on real-time interactions. Key takeaways include implementing efficient state management across a complex application, optimizing database queries for social media patterns, and creating intuitive user interfaces for content creation and consumption.
+- **Performance:** Built on Next.js app directory with server components for fast loading.
+- **Modern Stack:** Combines the best of React, TypeScript, and serverless APIs.
+- **Developer Experience:** Clean, well-organized code with full TypeScript support and environment-based configuration for easy scaling.
+
+## Conclusion
+
+Egg Community illustrates how to build a next-generation social network with today's web technology stack. Whether you're part of the egg antifan community or just looking for a reference for your own social app, this project provides a strong foundation, modern patterns, and extensibility.

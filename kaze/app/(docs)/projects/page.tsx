@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import Link from 'next/link'
+import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
 
 import { getPages } from '@yuki/content'
 import { Badge } from '@yuki/ui/badge'
@@ -16,15 +16,13 @@ export default async function ProjectListPage() {
   const pages = await getPages('projects')
 
   return (
-    <article className="container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col gap-8 py-8">
-      <div>
-        <Typography variant="h3" component="h1">
-          {TITLE}
-        </Typography>
-        <Typography className="text-muted-foreground">{DESCRIPTION}</Typography>
-      </div>
+    <article className="container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col py-8">
+      <Typography variant="h3" component="h1">
+        {TITLE}
+      </Typography>
+      <Typography className="text-muted-foreground">{DESCRIPTION}</Typography>
 
-      <section className="flex flex-col gap-6">
+      <section className="mt-12 flex flex-col gap-6">
         <Typography variant="h4" component="h2">
           Featured Projects
         </Typography>
@@ -60,13 +58,13 @@ export default async function ProjectListPage() {
         ))}
       </section>
 
-      <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <Typography variant="h4" component="h2" className="lg:col-span-2">
+      <section className="mt-12 grid gap-6">
+        <Typography variant="h4" component="h2">
           Design Showcase
         </Typography>
 
         {images.map((image, index) => (
-          <Image
+          <ImageZoom
             key={image}
             src={image}
             alt={`design-${image.split('/').pop()?.split('.')[0] ?? index}`}

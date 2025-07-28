@@ -1,35 +1,101 @@
 ---
-title: Yukinu
-description: An innovative E-Commerce application built using Turbo repo and Next.js, offering a seamless shopping experience with fast performance and modern design.
-tags: ['Next.js', 'Prisma', 'TailwindCSS', 'Turborepo', 'tRPC']
+title: 'Yukinu: High-Performance, Modern E-Commerce Platform'
+description: 'Yukinu is a next-generation e-commerce ecosystem with a blazing-fast frontend (Kaze), built on Next.js, React 19, tRPC, Tailwind CSS, and a robust backend. Explore its architecture, features, and how to get started.'
+tags:
+  - e-commerce
+  - nextjs
+  - react
+  - trpc
+  - drizzle
+  - typescript
+  - tailwindcss
+  - monorepo
+  - fullstack
 publishedAt: 2025-01-27
 ---
 
-## Overview
+## Introduction
 
-Yukinu is a high-performance e-commerce application built with a modern tech stack centered around Next.js and Turborepo. The platform delivers a seamless shopping experience with lightning-fast page loads, responsive design, and a intuitive user interface.
+**Yukinu** is a modern, high-performance e-commerce platform designed for enterprise-grade shopping experiences. Its flagship frontend application, **Kaze**, delivers a seamless user journey with the latest React and Next.js features, type safety, advanced SEO, and a flexible, scalable backend.
 
-## Key Features
+[View the repo on GitHub](https://github.com/tiesen243/yukinu)
 
-- **Monorepo Architecture**: Leveraged Turborepo for efficient code sharing and build optimization across multiple packages
-- **Full-Stack TypeScript**: End-to-end type safety from database to UI components
-- **tRPC Integration**: Type-safe API layer connecting frontend and backend systems
-- **Prisma ORM**: Robust database operations with migration support and type generation
-- **Responsive Design**: TailwindCSS implementation ensuring perfect display across all devices
-- **Authentication**: Secure user management with role-based access control
-- **Shopping Experience**: Intuitive product discovery, cart management, and checkout flow
-- **Admin Dashboard**: Comprehensive tools for product and order management
+[View the live demo](https://yukinu.vercel.app)
 
-## Technical Implementation
+## Features
 
-The application is structured as a monorepo using Turborepo, which enables efficient sharing of code between packages while maintaining clear separation of concerns. The frontend is built with Next.js, utilizing its powerful routing and rendering capabilities, while the backend leverages tRPC to provide type-safe API endpoints.
+- **Product Catalog**: Advanced filtering, search, and browsing.
+- **Shopping Cart**: Real-time, persistent cart management.
+- **User Authentication**: Secure registration, login, and sessions.
+- **Checkout & Orders**: Smooth checkout flow with order tracking.
+- **Personalization**: AI-powered recommendations and user preferences.
+- **Mobile-First**: Fully responsive, mobile-optimized design.
+- **SEO & Marketing**: Landing pages, structured data, analytics, and meta tags.
+- **Performance**: Optimized for Core Web Vitals and fast loading with server components and streaming.
 
-Data persistence is handled through Prisma, providing a type-safe interface to the database with seamless migration capabilities. The UI is crafted using TailwindCSS, enabling rapid development of responsive and visually appealing interfaces.
+## Technical Highlights
 
-## Challenges & Solutions
+- **Frontend**: Next.js 15, React 19, server components, and App Router.
+- **API Layer**: End-to-end typesafe communication with tRPC.
+- **Backend & DB**: Modular backend (via `@yuki/api`), Drizzle ORM, and scalable schema.
+- **UI/UX**: Tailwind CSS and shadcn/ui for visually stunning, accessible components.
+- **Tooling**: Bun runtime, Turbopack for speedy builds, and a strict monorepo structure for maintainability.
+- **Advanced SEO**: Dynamic sitemap, Open Graph image generation, and robust metadata support.
+- **Automation**: Includes seed scripts and type-safe DB migrations.
 
-One significant challenge was optimizing the application for both performance and developer experience. By implementing strategic code splitting and utilizing Turborepo's intelligent caching, we achieved substantial improvements in build times and runtime performance without compromising code maintainability.
+## Project Structure
 
-## Outcome
+Example from the Kaze frontend app:
 
-Yukinu demonstrates how modern web technologies can be combined to create e-commerce experiences that are both user-friendly and developer-friendly. The application showcases the power of TypeScript's type safety across the entire stack, from database queries to UI components.
+```
+app/
+├── (auth)/          # Authentication pages (login, register)
+├── (main)/          # Main app (dashboard, profile, product listing)
+├── (marketing)/     # Landing pages, about, home, etc.
+├── _components/     # Shared UI components
+├── api/             # API routes and Open Graph handlers
+```
+
+## Getting Started
+
+**Prerequisites:**
+
+- Node.js 18+ or Bun runtime
+- The `@yuki/api` backend service running
+
+**Setup Steps:**
+
+```sh
+bun install
+cp ../../.env.example ../../.env  # Set your environment variables
+bun dev
+```
+
+App will be available at `http://localhost:3000`
+
+**Available Scripts:**
+
+- `bun dev`: Start development server with Turbopack
+- `bun build`: Production build
+- `bun start`: Start production server
+- `bun typecheck`: TypeScript type checking
+- `bun lint`: Linting
+- `bun format`: Prettier format check
+
+## Example: Home Page Logic
+
+- Pre-fetches top products with React Suspense
+- Uses server-rendered and streamed UI for instant interaction
+- Modular product card skeletons for fast perceived performance
+
+## Why Choose Yukinu?
+
+- **Enterprise-Ready**: Battle-tested stack with modern features.
+- **Blazing Fast**: Server-side rendering, streaming, and optimal performance.
+- **Customizable**: Built for extension and integration with any backend.
+- **Type Safe**: TypeScript and end-to-end type safety with tRPC and Drizzle.
+- **Beautiful UI**: Ready-to-ship design powered by shadcn/ui and Tailwind CSS.
+
+## Conclusion
+
+Yukinu is more than just an e-commerce starter—it’s a foundation for your next big online store, combining developer happiness with customer delight.

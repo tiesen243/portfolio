@@ -37,13 +37,10 @@ const compileMDX = createCompiler({
   ],
 })
 
-async function uncachedGetPage(
-  contentType: 'blogs' | 'projects',
-  slugs: string[],
-) {
+async function uncachedGetPage(slugs: string[]) {
   validateSlugs(slugs)
 
-  const sourcePath = path.resolve(`../packages/content/${contentType}/`)
+  const sourcePath = path.resolve(`../packages/content/`)
   const filePath = path.join(sourcePath, ...slugs) + '.mdx'
 
   try {
@@ -62,7 +59,7 @@ async function uncachedGetPage(
       frontmatter,
       toc: compiled.toc,
       MDXContent: compiled.body,
-      url: `/${contentType}/${slugs.join('/')}`,
+      url: `/${slugs.join('/')}`,
     }
   } catch (error) {
     if (process.env.NODE_ENV === 'development') console.log(error)
@@ -73,7 +70,7 @@ async function uncachedGetPage(
 }
 
 async function uncachedGetPages(contentType: 'blogs' | 'projects') {
-  const sourcePath = path.resolve(`../packages/content/${contentType}/`)
+  const sourcePath = path.resolve(`../packages/content/${contentType}`)
 
   try {
     const files = await fs.readdir(sourcePath, { withFileTypes: true })

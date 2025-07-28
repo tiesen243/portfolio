@@ -1,44 +1,85 @@
 ---
-title: Convolutional Neural Networks
-description: An in-depth guide to Convolutional Neural Networks (CNNs) and their applications in computer vision tasks.
-tags: ['Machine Learning', 'Deep Learning', 'Pytorch', 'Vue']
+title: 'CNN: An Interactive Handwritten Digit Classifier with PyTorch, Flask, and Vue'
+description: 'Explore how the @tiesen243/cnn project combines a convolutional neural network, a Python backend, and a Vue.js frontend to predict handwritten digits in real time.'
+tags:
+  - convolutional neural network
+  - pytorch
+  - flask
+  - vue
+  - javascript
+  - computer vision
+  - digit recognition
+  - machine learning
+  - python
 publishedAt: 2024-10-28
 ---
 
-## Overview
+## Introduction
 
-This project implements and explores Convolutional Neural Networks (CNNs) for various computer vision tasks. Built with PyTorch for the neural network components and Vue.js for the interactive front-end interface, this application demonstrates how deep learning models can be deployed with an intuitive user interface.
+**@tiesen243/cnn** is a full-stack interactive application that brings handwritten digit recognition to your browser. By leveraging a custom-built convolutional neural network (CNN) powered by PyTorch, a Python Flask web backend, and a Vue.js frontend, this project allows users to draw digits on a canvas and instantly get predictions from a trained neural network.
+
+[View the repo on GitHub](https://github.com/tiesen243/cnn)
+
+## How It Works
+
+### 1. Convolutional Neural Network (CNN) in PyTorch
+
+At the heart of the project is a CNN defined in `src/cnn.py`, built using PyTorch. The model consists of:
+
+- Multiple convolutional layers and ReLU activations
+- Max pooling for spatial downsampling
+- Flattening and fully connected layers
+- Softmax output for digit classification (0–9)
+
+The model is trained on the MNIST dataset, a standard benchmark for digit recognition, with support for performance tracking via loss and accuracy metrics.
+
+### 2. Training Pipeline
+
+The training process is handled in a Jupyter Notebook (`src/train.ipynb`), which:
+
+- Loads and preprocesses the MNIST data
+- Defines the CNN architecture
+- Trains the model and evaluates accuracy
+- Saves the trained model weights for later inference
+
+### 3. Flask API Backend
+
+A simple Flask application (`src/app.py`) serves as the backend:
+
+- Loads the trained CNN model
+- Exposes a `/predict` endpoint that accepts POST requests with an image
+- Preprocesses the image (resizing, normalization, tensor conversion)
+- Returns the predicted digit as a JSON response
+
+### 4. Interactive Vue.js Frontend
+
+The frontend is a single-page app built with Vue 3 (`src/static/main.js` + `src/templates/index.html`):
+
+- Users can draw digits on an HTML `<canvas>`
+- The app provides "Predict" and "Clear" buttons
+- Upon prediction, the canvas image is sent to the Flask backend, and the predicted digit is displayed in real time
+- Uses Tailwind CSS for a modern, responsive design
 
 ## Key Features
 
-- **PyTorch Implementation**: Custom CNN architectures built using PyTorch's neural network modules
-- **Interactive Visualization**: Vue.js-powered interface for visualizing network architectures and training progress
-- **Image Classification**: Multi-class image classification with real-time predictions
-- **Feature Map Visualization**: Interactive tools to visualize what the network "sees" at different layers
-- **Model Training Dashboard**: Real-time monitoring of loss, accuracy, and other metrics during training
-- **Responsive Design**: Mobile-friendly interface allowing access from any device
+- **End-to-End ML Demo:** From model definition and training to real-time inference in the browser.
+- **Live Drawing Canvas:** Engaging user experience for digit input.
+- **RESTful API:** Easily extensible for other ML tasks.
+- **Clean, Modular Code:** Separation of concerns between frontend, backend, and model logic.
+- **GPU Support:** PyTorch model runs on CUDA if available for fast inference.
 
-## Technical Implementation
+## Example Usage
 
-The project consists of two main components:
+1. Draw a digit (0–9) on the canvas.
+2. Click "Predict" to send your drawing to the backend.
+3. View the prediction instantly, powered by a deep neural network.
 
-1. **Backend ML Pipeline**:
-   - PyTorch-based CNN implementation with modular architecture
-   - Data preprocessing and augmentation pipelines
-   - Training and evaluation workflows with checkpointing
-   - Model export functionality for web deployment
+## Why This Project Is Cool
 
-2. **Vue.js Frontend**:
-   - Component-based UI
-   - Canvas-based visualization of network architecture
-   - Interactive demonstration of convolutional operations
+- **Educational Value:** Great example for learning about neural networks, model serving, and frontend-backend integration.
+- **Full Stack:** Combines Python, JavaScript, machine learning, and modern web development.
+- **Open Source:** Easily adaptable for your own image classification projects.
 
-## Challenges & Solutions
+## Conclusion
 
-A major challenge was optimizing the models for web deployment while maintaining accuracy. This was addressed by implementing model quantization and exploring MobileNet-inspired architectures to reduce parameter count without significant performance loss.
-
-The integration between PyTorch models and the Vue frontend required careful consideration of data flow and API design to ensure responsive user experience even when processing large images or complex models.
-
-## Learning Outcomes
-
-This project provided valuable hands-on experience with both deep learning concepts and modern web development. Key takeaways include understanding convolutional operations, backpropagation through complex architectures, and techniques for creating intuitive interfaces for machine learning applications.
+@tiesen243/cnn is a fantastic showcase of bringing AI models into interactive web apps. Whether you're learning about machine learning, web development, or looking for a template to deploy your own models, this project has you covered.

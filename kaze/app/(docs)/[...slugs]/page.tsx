@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation'
 import { InlineTOC } from 'fumadocs-ui/components/inline-toc'
-import { EditOnGitHub } from 'fumadocs-ui/page'
 
 import { getPage, getPages } from '@yuki/content'
 import { Badge } from '@yuki/ui/badge'
@@ -10,16 +9,16 @@ import { mdxComponents } from '@/components/mdx'
 import { createMetadata } from '@/lib/metadata'
 import { formatDate } from '@/lib/utils'
 
-export default async function BlogPage({
+export default async function ContentPage({
   params,
 }: Readonly<{ params: Promise<{ slugs: string[] }> }>) {
   const { slugs } = await params
 
   try {
-    const { frontmatter, toc, url, MDXContent } = await getPage('blogs', slugs)
+    const { frontmatter, toc, MDXContent } = await getPage(slugs)
 
     return (
-      <article className="container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col py-8 font-sans">
+      <article className="container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col py-8">
         <Typography variant="h2" component="h1">
           {frontmatter.title}
         </Typography>
@@ -45,23 +44,16 @@ export default async function BlogPage({
         <InlineTOC items={toc} />
 
         <MDXContent components={mdxComponents()} />
-
-        <div className="flex justify-end">
-          <EditOnGitHub
-            href={`https://github.com/tiesen243/portfolio/blob/main/packages/content${url}.mdx`}
-            className="w-fit"
-          />
-        </div>
       </article>
     )
   } catch {
-    notFound()
+    return notFound()
   }
 }
 
 export async function generateStaticParams() {
-  const pages = await getPages('blogs')
-  return pages.map((page) => ({
+  const pages = await Promise.all([getPages('blogs'), getPages('projects')])
+  return pages.flat().map((page) => ({
     slugs: page.slug.split('/').filter(Boolean),
   }))
 }
@@ -72,7 +64,7 @@ export const generateMetadata = async ({
   const { slugs } = await params
 
   try {
-    const { frontmatter, url } = await getPage('blogs', slugs)
+    const { frontmatter, url } = await getPage(slugs)
 
     return createMetadata({
       title: frontmatter.title,

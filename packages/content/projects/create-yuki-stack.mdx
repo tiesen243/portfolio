@@ -1,0 +1,91 @@
+---
+title: 'Create Yuki Stack: The Ultimate Full-Stack TypeScript Monorepo Boilerplate'
+description: 'create-yuki-stack is a modern CLI tool for scaffolding fully-typed, full-stack TypeScript applications with customizable frontends, APIs, and database stacks. Get started with best practices built in.'
+tags:
+  - typescript
+  - monorepo
+  - cli
+  - boilerplate
+  - nextjs
+  - react
+  - trpc
+  - prisma
+  - drizzle
+  - mongoose
+  - fullstack
+  - turborepo
+publishedAt: 2025-06-07
+---
+
+## Introduction
+
+**create-yuki-stack** is a modern CLI tool for rapidly scaffolding production-ready, fully-typed full-stack TypeScript applications. With support for multiple frontend frameworks, API layers, and database solutions, it empowers developers to start with best practices, a monorepo structure, and all the right tools from day one.
+
+[View the repo on GitHub](https://github.com/tiesen243/create-yuki-stack)
+
+[View the documentation](https://create-yuki-stack.vercel.app)
+
+## Features
+
+- 🚀 **Multiple Frontend Options**: Choose between Next.js, React Router, or TanStack Start for your frontend.
+- 🔄 **API Layer Choices**: Select tRPC or oRPC for end-to-end type safety.
+- 🗄️ **Database Flexibility**: Prisma, Drizzle, or Mongoose integration (or none).
+- 🔒 **Authentication**: Built-in support for NextAuth.js, Better Auth, or basic auth flows.
+- 🎨 **UI Components**: Optionally integrate with shadcn/ui for beautiful, customizable UIs.
+- ⚡ **Turborepo Monorepo**: Optimized monorepo structure for scalable codebases and efficient DX.
+- 📦 **Shared Packages**: Organize common code and types into shared packages.
+- 🔧 **Pre-configured Tooling**: ESLint, Prettier, TypeScript, and strict environment validation.
+- 🤖 **CI/CD Ready**: Optional GitHub Actions, email extras, and more.
+
+## Quick Start
+
+To scaffold a new full-stack app, just run:
+
+```sh
+npx create-yuki-stack@latest
+```
+
+Or use your favorite package manager:
+
+```sh
+npm create yuki-stack
+yarn create yuki-stack
+pnpm create yuki-stack
+bun create yuki-stack
+```
+
+The CLI walks you through interactive prompts for your stack, or you can use flags for non-interactive setup.
+
+## CLI Options
+
+| Option                   | Description                                           |
+| ------------------------ | ----------------------------------------------------- |
+| `-y, --yes`              | Skip all prompts and use default settings             |
+| `--frontend`             | Choose frontend: nextjs, react-router, tanstack-start |
+| `--database`             | Database: none, drizzle, prisma, mongoose             |
+| `--adapter`              | Database adapter: none, neon                          |
+| `--backend`              | Backend framework: none, express, elysia, hono        |
+| `--api`                  | API: none, eden, trpc, orpc                           |
+| `--auth`                 | Auth: none, basic-auth, better-auth, next-auth        |
+| `--extras`               | Add extras: gh-actions, email                         |
+| `--package-manager`      | npm, yarn, pnpm, bun                                  |
+| `--install/--no-install` | (Do not) install dependencies after setup             |
+| `--git/--no-git`         | (Do not) initialize a git repository                  |
+
+## Architecture
+
+- **CLI (trpc-cli-based):** Modular commands for initializing, adding auth, email, or GitHub Actions.
+- **Monorepo Structure:** Out-of-the-box Turborepo config for high-performance code sharing and package isolation.
+- **Strict Environment Handling:** Enforces use of validated environment variables.
+- **Prebuilt Templates:** Ships with best-practice templates, gitignore, and pre-configured settings for all stack options.
+
+## Why Use create-yuki-stack?
+
+- **Fast Setup:** Go from zero to production-ready monorepo in minutes.
+- **Fully Typed:** End-to-end TypeScript for safety and speed.
+- **Customizable:** Swap out any layer—frontend, backend, database, UI.
+- **Modern Tooling:** Built-in support for the latest frameworks and libraries.
+
+## Conclusion
+
+If you want to build a full-stack TypeScript app with the flexibility to choose your stack, modern tooling, and best practices set up for you, **create-yuki-stack** is the best way to start.

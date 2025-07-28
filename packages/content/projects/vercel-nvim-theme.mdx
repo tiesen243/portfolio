@@ -1,0 +1,102 @@
+---
+title: 'vercel.nvim: A Modern, Minimal Neovim Colorscheme Inspired by Vercel'
+description: "Explore vercel.nvim, a highly configurable Neovim theme inspired by Vercel's design language. Features light/dark modes, bufferline/cmp integrations, transparency, and more."
+tags:
+  - neovim
+  - colorscheme
+  - lua
+  - nvim
+  - theme
+  - vercel
+  - vim
+  - plugin
+publishedAt: 2025-04-07
+---
+
+## Introduction
+
+**vercel.nvim** is a beautiful, modern Neovim colorscheme inspired by Vercel's branding and aesthetics. Designed for minimalism, readability, and flexibility, it supports both light and dark themes, bufferline/cmp integrations, transparency, and a range of customization options for an elegant coding experience.
+
+[View the repo on GitHub](https://github.com/tiesen243/vercel.nvim)
+
+## Key Features
+
+- **Vercel-inspired look:** Clean, modern palette based on Vercel's visual identity.
+- **Light & Dark modes:** Easily switch between light and dark variants.
+- **Transparency:** Optional transparent backgrounds for terminals and popups.
+- **Italics & Styling:** Fine-grained control over italics for comments, keywords, functions, strings, variables, and bufferline.
+- **Plugin Integrations:** Custom highlights for bufferline, nvim-cmp, and more.
+- **Extensible:** Supports user overrides via tables or functions.
+- **Written in Lua:** Fast and native for Neovim 0.7+.
+
+## Getting Started
+
+Add to your Neovim config (using lazy.nvim, packer, or other plugin manager):
+
+```lua
+use { "tiesen243/vercel.nvim" }
+```
+
+Then, in your Lua config:
+
+```lua
+require("vercel").setup({
+  theme = "dark", -- or "light"
+  transparent = true,
+  italics = {
+    comments = true,
+    keywords = true,
+    functions = true,
+    strings = false,
+    variables = false,
+    bufferline = false,
+  },
+  overrides = {},
+})
+
+vim.cmd.colorscheme("vercel")
+```
+
+## Configuration
+
+The theme exposes a flexible `setup` function:
+
+- `theme`: `"light"` or `"dark"`
+- `transparent`: `true` or `false`
+- `italics`: table to enable italics for different syntax groups
+- `overrides`: table or function for custom highlight overrides
+
+Type definition for options:
+
+```lua
+---@class Options
+---@field theme 'light' | 'dark'
+---@field transparent boolean
+---@field italics { comments: boolean, keywords: boolean, functions: boolean, strings: boolean, variables: boolean, bufferline: boolean }
+---@field overrides table<string, table<string, string>> | function(options: Options): table<string, table<string, string>>
+```
+
+## Technical Highlights
+
+- **Color Logic:** Uses HSL and hex conversions for precise palette generation.
+- **Terminal Colors:** Sets Neovim's terminal color palette to match the theme.
+- **Plugin Support:** Dedicated highlight groups for bufferline, nvim-cmp, and more.
+- **Well-Organized Codebase:** Clean Lua modules for colors, config, utils, and integrations.
+
+## Example: Extending Highlights
+
+Integrate with plugins like bufferline:
+
+```lua
+require("vercel.integrations.bufferline").highlights(options)
+```
+
+## Why Use vercel.nvim?
+
+- **Minimal yet expressive:** Carefully balanced colors for focus and clarity.
+- **Modern workflow:** Looks great for code, markdown, and UI plugins.
+- **Easy to customize:** Tweak to personal taste with simple Lua tables.
+
+## Conclusion
+
+vercel.nvim brings the sleek vibes of Vercel to your Neovim workflow. Whether you code all day or just want your editor to look sharp, this theme is a perfect fit for modern developers.

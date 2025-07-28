@@ -19,11 +19,16 @@ async function uncachedHash256(data: string): Promise<string> {
 }
 export const hash256 = cache(uncachedHash256)
 
-export function formatDate(date: Date | string): string {
-  const d = new Date(date)
-  return d.toLocaleDateString('en-GB', {
+export function formatDate(
+  date: Date | string,
+  options?: Intl.DateTimeFormatOptions,
+): string {
+  const defaultOptions = {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
-  })
+  } satisfies Intl.DateTimeFormatOptions
+
+  const d = new Date(date)
+  return d.toLocaleDateString('en-GB', { ...defaultOptions, ...options })
 }

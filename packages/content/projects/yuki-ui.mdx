@@ -1,45 +1,79 @@
 ---
-title: Yuki UI
-description: A comprehensive collection of copy-paste React components and libraries. Install components instantly using the shadcn CLI with a focus on customization, accessibility, and developer experience.
-tags: ['React', 'UI', 'Library']
+title: 'Yuki UI: Modern, Beautiful React Components for Your Next Project'
+description: 'Yuki UI is a customizable React component library built on top of shadcn/ui, designed for accessibility and modern development with Next.js and TypeScript.'
+tags:
+  - react
+  - ui library
+  - component library
+  - shadcn
+  - nextjs
+  - typescript
+  - tailwindcss
+  - design system
 publishedAt: 2025-03-16
 ---
 
-## Overview
+## Introduction
 
-Yuki UI is a comprehensive collection of copy-paste React components and libraries designed to accelerate modern web development. Built with a focus on customization, accessibility, and developer experience, this provides a seamless integration with the shadcn CLI, allowing developers to install and customize components instantly.
+**Yuki UI** is a modern UI component library for React, inspired by the flexibility and accessibility of [shadcn/ui](https://ui.shadcn.com/). Designed for developers who crave beautiful, easily customizable components out of the box, Yuki UI helps you ship polished interfaces faster—whether you're building with Next.js, TypeScript, or any modern React setup.
 
-## Key Features
+[View the repo on GitHub](https://github.com/tiesen243/yuki-ui)
 
-- **Instant Installation**: Seamless integration with shadcn CLI for one-command component installation
-- **Copy-Paste Ready**: Components designed for easy copying and pasting into existing projects
-- **Accessibility First**: All components built with WCAG guidelines and keyboard navigation support
-- **Highly Customizable**: Flexible theming system and component variants for diverse design needs
-- **Developer Experience**: TypeScript support with comprehensive type definitions and IntelliSense
-- **Modern Design System**: Consistent design language with customizable design tokens
-- **Zero Dependencies**: Lightweight components with minimal external dependencies
-- **Documentation**: Comprehensive documentation with interactive examples and usage guides
+[View the documentation](https://yuki-ui.vercel.app)
 
-## Technical Implementation
+## Features
 
-The project is structured around modern React patterns and best practices:
+- **Component-rich**: Access a suite of ready-to-use, stylish, and accessible React components.
+- **Built on shadcn/ui**: Extends the popular [shadcn/ui](https://ui.shadcn.com/) system for even more design power.
+- **Next.js Integration**: Optimized for Next.js apps, including font management and MDX documentation.
+- **TypeScript Support**: Fully typed components for safety and autocompletion.
+- **Custom Theming**: Easily override fonts, colors, and more using Tailwind and CSS variables.
+- **Flexible Install**: Quickly add individual components via command-line helpers.
 
-1. **Component Architecture**:
-   - TypeScript-first development with strict type checking
-   - Compound component patterns for flexible composition
-   - Polymorphic components supporting custom element types
-   - Forward ref patterns for seamless DOM access
+## Quick Start
 
-2. **Styling System**:
-   - Tailwind CSS integration with custom design tokens
-   - Shadcn theme
+To use Yuki UI in your project:
 
-## Challenges & Solutions
+```sh
+bunx --bun shadcn add https://yuki-ui.vercel.app/r/{component-name}.json
+```
 
-One of the primary challenges was creating components that work seamlessly across different React ecosystems and build tools. This was addressed by implementing a flexible build system that generates multiple output formats and ensures compatibility with various bundlers and frameworks.
+Or, copy-paste ready-to-go install commands from the built-in documentation tabs for npm, yarn, pnpm, or bun.
 
-Another challenge was maintaining consistency while allowing for extensive customization. The solution involved creating a robust theming system with design tokens that cascade through all components while preserving the ability to override styles at any level.
+## Example: Landing Page
 
-## Learning Outcomes
+The Yuki UI home page demonstrates a clean layout with a gradient headline, clear call-to-actions, and links to documentation and GitHub:
 
-This project provided valuable experience in library design and distribution, particularly around creating developer-friendly APIs and documentation. Key insights include the importance of TypeScript for library development, effective component composition patterns, and strategies for building maintainable design systems that scale across projects.
+```tsx
+<Typography variant="h1" component="h1">
+  Welcome to <span className="bg-gradient-to-r from-normal to-insert bg-clip-text text-transparent">Yuki UI</span>
+</Typography>
+<Typography variant="h3" component="p">
+  A modern UI component library for React built on top of shadcn/ui...
+</Typography>
+```
+
+## Technology & Architecture
+
+- **React + Next.js:** Modern, performant SSR/SSG support.
+- **TypeScript:** Full type safety everywhere.
+- **Tailwind CSS:** Customizable theme with seamless integration.
+- **Fumadocs:** MDX-powered docs with dynamic code blocks and previews.
+- **Monorepo Ready:** Designed for scalable projects.
+
+## Advanced Utilities
+
+- **Dynamic MDX Previews:** Use `PreviewComponent` and `ComponentSource` for live demos and source code directly in docs.
+- **Base URL Handling:** Utilities for SSR-friendly URL resolution and deployment on platforms like Vercel.
+- **Strict ESLint Rules:** Ensures code quality and best practices, including environment variable validation.
+
+## Why Yuki UI?
+
+- **Beautiful by Default:** Components look great out of the box but are easy to theme.
+- **Accessible:** Follows best practices for accessibility and usability.
+- **Developer Experience:** DX-first design, including autocomplete, strict typing, and modern docs.
+- **Open Source:** MIT-licensed and ready for your team or personal project.
+
+## Conclusion
+
+Yuki UI is the foundation for your next modern React app, combining the best of shadcn/ui with thoughtful custom features and developer experience. Try it today and see how easy it is to build beautiful, accessible UIs.

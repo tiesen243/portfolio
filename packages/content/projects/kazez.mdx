@@ -1,44 +1,91 @@
 ---
-title: Kazez
-description: Developed an anime streaming website using Next.js, designed to provide users with an engaging and personalized viewing experience.
-tags: ['Next.js', 'Prisma', 'Server Action']
+title: 'Kazez: A Modern, Full-Stack Platform to Watch Anime Online'
+description: 'Kazez is a beautifully designed, full-stack web application for streaming anime, built with Next.js, TypeScript, and Prisma. Explore its architecture, features, and what makes it unique.'
+tags:
+  - anime
+  - streaming
+  - nextjs
+  - react
+  - prisma
+  - typescript
+  - web development
+  - tailwindcss
 publishedAt: 2024-10-12
 ---
 
-## Overview
+## Introduction
 
-Kazez is a modern anime streaming website built with Next.js, designed to provide users with an engaging and personalized viewing experience. The platform combines sleek design principles with powerful backend functionality to deliver a seamless streaming service for anime enthusiasts.
+**Kazez** is a modern, full-stack anime streaming platform, designed to provide users with an outstanding experience watching anime online for free. Built on the latest web technologies—including Next.js, TypeScript, Prisma, and Tailwind CSS—Kazez combines performance, scalability, and elegant design.
+
+[View the repo on GitHub](https://github.com/tiesen243/kazez)
 
 ## Key Features
 
-- **Responsive Design**: Fully adaptive interface that works flawlessly across desktop, tablet, and mobile devices
-- **Server Actions**: Leveraging Next.js server actions for efficient data handling and state management
-- **User Authentication**: Secure login and registration system with personalized user profiles
-- **Content Discovery**: Advanced search and filtering options with recommendation algorithms
-- **Watchlist Management**: Personalized watchlists and progress tracking across devices
-- **Video Player**: Custom-built video player with playback controls and quality options
-- **Real-time Updates**: Notifications for new episodes and content updates
+- **Anime Streaming:** Watch recent episodes and search the anime database easily.
+- **Rich UI:** Built with React and Tailwind CSS. Components like cards and inputs are fully reusable and stylish.
+- **Pagination & Filtering:** Browse anime by genre, format, season, rating, and more.
+- **Authentication:** Secure user sessions using cookies and Lucia authentication.
+- **SEO Optimized:** Custom SEO metadata for better discoverability.
+- **Responsive Design:** Looks great on desktop and mobile.
+- **Performance-Oriented:** Uses React Query for efficient data fetching and caching.
 
-## Technical Implementation
+## Technical Overview
 
-The application is built using several cutting-edge technologies:
+### Stack
 
-1. **Frontend**:
-   - Next.js for server-side rendering and client-side navigation
-   - Tailwind CSS for responsive and customizable styling
-   - React Context API for global state management
+- **Frontend:** Next.js (React), TypeScript, Tailwind CSS
+- **Backend:** Next.js Server Components, Prisma (with PostgreSQL or another database)
+- **Authentication:** Lucia, cookies, and session management
+- **API/Data:** Fetches anime metadata from third-party sources [Consumet](https://consumet.org/)
+- **Styling:** Tailwind CSS with custom themes for dark/light modes
 
-2. **Backend**:
-   - Prisma ORM for type-safe database operations
-   - Server Actions for form handling and data mutations
-   - RESTful API integration with anime data sources
+### Architecture
 
-## Challenges & Solutions
+- **App Directory:** Uses Next.js 13+ app directory for routing, layouts, and server components.
+- **Component System:** Modular UI components (e.g., Card, Input) for fast development.
+- **Global Styles:** Customizable via `globals.css`, supports theming.
+- **SEO Utilities:** Centralized SEO configuration in `lib/seo.ts` for dynamic metadata.
+- **Database:** Prisma ORM with a global singleton pattern for efficient database access during development.
 
-One of the main challenges was implementing efficient content delivery while maintaining good performance. This was addressed by implementing strategic data fetching patterns with SWR for client-side caching and leveraging Next.js's incremental static regeneration for frequently accessed pages.
+### Example: Anime Data Fetching
 
-Managing user watch history and progress across episodes required careful database design. The solution involved a normalized schema with Prisma that efficiently tracks user interactions while minimizing database load.
+Kazez uses React Query to fetch and cache anime data. Users can filter by genre, season, status, and more. Example snippet:
 
-## Learning Outcomes
+```typescript
+export const useAnimes = ({ ...options }: UseAnimesOptions) =>
+  useQuery({
+    queryKey: [...],
+    queryFn: async () => {
+      const url = // build API URL with filters
+      const res = await fetch(url)
+      return res.json()
+    },
+  })
+```
 
-This project provided valuable experience with modern Next.js features, particularly Server Actions for handling form submissions and data mutations without traditional API endpoints. It also reinforced best practices for responsive design and user experience in media streaming applications.
+### Example: SEO Utility
+
+SEO is managed centrally:
+
+```typescript
+export const seo = (params: Prams): Metadata => ({
+  title: params.title ? `${params.title} | Kazez` : 'Kazez',
+  description: params.description ?? 'Watch anime online for free...',
+  // ... more meta tags
+})
+```
+
+### Authentication
+
+Kazez uses Lucia for authentication, managing sessions securely with cookies and supporting server-side session validation for protected routes.
+
+## User Experience
+
+- **Homepage:** Displays a large hero image and a list of recent episodes.
+- **Anime Listings:** Pagination and filters allow users to discover new anime by genre, season, and popularity.
+- **Episode Pages:** Watch anime episodes with up-to-date metadata and rich visuals.
+- **Dark Mode:** Automatic support for light and dark themes.
+
+## Conclusion
+
+Kazez demonstrates a production-grade, full-stack web application for anime streaming, blending modern frameworks, best practices, and a great user experience. Whether you're interested in building a similar platform or exploring advanced web development patterns, the Kazez repository offers an excellent reference.
