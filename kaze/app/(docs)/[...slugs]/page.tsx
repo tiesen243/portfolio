@@ -18,7 +18,7 @@ export default async function ContentPage({
     const { frontmatter, toc, MDXContent } = await getPage(slugs)
 
     return (
-      <article className="container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col py-8">
+      <article className="container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col py-8 font-sans">
         <Typography variant="h2" component="h1">
           {frontmatter.title}
         </Typography>
