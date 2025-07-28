@@ -39,6 +39,5 @@ export async function sendEmail(options: {
     ),
   })
 
-  if (env.NODE_ENV === 'development' && error)
-    console.error('Resend error:', error)
+  if (error) console.error('Resend error:', error)
 }
