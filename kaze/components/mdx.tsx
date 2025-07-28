@@ -50,8 +50,15 @@ export function mdxComponents() {
     ol: ({ className, ...props }: Props) => (
       <Typography variant="ol" className={cn('mt-1', className)} {...props} />
     ),
-    blockquote: (props: Props) => (
-      <Typography variant="blockquote" {...props} />
+    blockquote: ({ className, ...props }: Props) => (
+      <Typography
+        variant="blockquote"
+        className={cn(
+          '[&_p]:before:content-["“"] [&_p]:after:content-["”"]',
+          className,
+        )}
+        {...props}
+      />
     ),
     caption: (props: Props) => <Typography variant="caption" {...props} />,
     a: ({
