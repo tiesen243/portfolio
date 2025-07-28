@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
             flexDirection: 'column',
             alignItems: 'flex-start',
             justifyContent: 'space-between',
-            gap: '16px',
+            gap: '32px',
             backgroundColor: '#000',
             backgroundImage:
               'radial-gradient(circle at 25px 25px, #333 2%, transparent 0%), radial-gradient(circle at 75px 75px, #333 2%, transparent 0%)',
