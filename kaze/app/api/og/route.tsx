@@ -98,7 +98,6 @@ export async function GET(request: NextRequest) {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '24px',
-                maxWidth: '800px',
               }}
             >
               <h1
@@ -132,9 +131,7 @@ export async function GET(request: NextRequest) {
                   WebkitBoxOrient: 'vertical',
                 }}
               >
-                {description.length > 150
-                  ? truncateText(description, 150)
-                  : description}
+                {description}
               </p>
             </div>
           )}
