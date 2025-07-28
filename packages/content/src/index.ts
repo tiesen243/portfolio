@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import type { RemarkImageOptions } from 'fumadocs-core/mdx-plugins'
 import { cache } from 'react'
 import { createCompiler } from '@fumadocs/mdx-remote'
 import {
@@ -30,7 +31,12 @@ const compileMDX = createCompiler({
     remarkCodeTab,
     remarkGfm,
     remarkHeading,
-    remarkImage,
+    [
+      remarkImage,
+      {
+        publicDir: path.join(__dirname, '../../../kaze/public'),
+      } satisfies RemarkImageOptions,
+    ],
     remarkNpm,
     remarkSteps,
     remarkStructure,
