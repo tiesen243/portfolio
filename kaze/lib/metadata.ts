@@ -33,6 +33,7 @@ export function createMetadata(override: Metadata = {}): Metadata {
     applicationName: siteName,
     title,
     description,
+    authors: { name: 'Tiesen', url: 'https://tiesen.id.vn' },
     keywords: [
       'Tiesen',
       'tiesen243',

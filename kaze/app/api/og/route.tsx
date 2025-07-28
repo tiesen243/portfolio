@@ -13,9 +13,9 @@ export async function GET(request: NextRequest) {
     const defaultMetadata = createMetadata()
 
     const appName = defaultMetadata.applicationName ?? 'Tiesen'
-    const title = searchParams.get('title') ?? defaultMetadata.title
+    const title = searchParams.get('title') ?? defaultMetadata.title ?? ''
     const description =
-      searchParams.get('description') ?? defaultMetadata.description
+      searchParams.get('description') ?? defaultMetadata.description ?? ''
     const logoUrl = `${defaultMetadata.metadataBase?.toString()}/assets/images/logo.svg`
     const logoTypeUrl = `${defaultMetadata.metadataBase?.toString()}/assets/images/tiesen.png`
 
@@ -24,6 +24,9 @@ export async function GET(request: NextRequest) {
       getGeistMediumFont(),
       getGeistBoldFont(),
     ])
+
+    const truncatedTitle = truncateText(title, 80)
+    const titleFontSize = getTitleFontSize(truncatedTitle.length)
 
     const isUwU = searchParams.get('uwu') === 'true'
 
@@ -37,11 +40,12 @@ export async function GET(request: NextRequest) {
             flexDirection: 'column',
             alignItems: 'flex-start',
             justifyContent: 'space-between',
+            gap: '16px',
             backgroundColor: '#000',
             backgroundImage:
               'radial-gradient(circle at 25px 25px, #333 2%, transparent 0%), radial-gradient(circle at 75px 75px, #333 2%, transparent 0%)',
             backgroundSize: '100px 100px',
-            padding: '80px',
+            padding: '64px',
             fontFamily: 'Geist, sans-serif',
           }}
         >
@@ -79,10 +83,18 @@ export async function GET(request: NextRequest) {
           </div>
 
           {isUwU ? (
-            <img src={logoTypeUrl} alt="UwU Logo" />
+            <img
+              src={logoTypeUrl}
+              alt="UwU Logo"
+              style={{
+                flex: 1,
+                margin: '0 auto',
+              }}
+            />
           ) : (
             <div
               style={{
+                flex: 1,
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '24px',
@@ -91,7 +103,7 @@ export async function GET(request: NextRequest) {
             >
               <h1
                 style={{
-                  fontSize: '72px',
+                  fontSize: `${titleFontSize}px`,
                   fontWeight: '700',
                   color: '#fff',
                   lineHeight: '1.1',
@@ -102,20 +114,27 @@ export async function GET(request: NextRequest) {
                   fontFamily: 'GeistBold, sans-serif',
                 }}
               >
-                {title}
+                {truncatedTitle}
               </h1>
 
               <p
                 style={{
-                  fontSize: '28px',
+                  fontSize: description.length > 100 ? '24px' : '32px',
                   color: '#888',
-                  lineHeight: '1.4',
+                  lineHeight: '1.5',
                   margin: '0',
                   fontWeight: '400',
                   fontFamily: 'Geist, sans-serif',
+                  maxWidth: '800px',
+                  overflow: 'hidden',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: 'vertical',
                 }}
               >
-                {description}
+                {description.length > 150
+                  ? truncateText(description, 150)
+                  : description}
               </p>
             </div>
           )}
@@ -124,26 +143,72 @@ export async function GET(request: NextRequest) {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '12px',
+              justifyContent: 'space-between',
+              width: '100%',
+              marginTop: '40px',
             }}
           >
             <div
               style={{
-                width: '60px',
-                height: '4px',
-                background: 'linear-gradient(90deg, #0070f3, #00d9ff)',
-                borderRadius: '2px',
-              }}
-            />
-            <div
-              style={{
-                fontSize: '16px',
-                color: '#666',
-                fontWeight: '500',
-                fontFamily: 'GeistMedium, sans-serif',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '16px',
               }}
             >
-              {new URL(request.url).hostname}
+              <div
+                style={{
+                  width: '60px',
+                  height: '4px',
+                  background: 'linear-gradient(90deg, #0070f3, #00d9ff)',
+                  borderRadius: '2px',
+                }}
+              />
+              <div
+                style={{
+                  fontSize: '16px',
+                  color: '#666',
+                  fontWeight: '500',
+                  fontFamily: 'GeistMedium, sans-serif',
+                }}
+              >
+                {new URL(request.url).hostname}
+              </div>
+            </div>
+
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+              }}
+            >
+              <div
+                style={{
+                  width: '12px',
+                  height: '12px',
+                  backgroundColor: '#00d9ff',
+                  borderRadius: '50%',
+                  opacity: 0.8,
+                }}
+              />
+              <div
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  backgroundColor: '#0070f3',
+                  borderRadius: '50%',
+                  opacity: 0.6,
+                }}
+              />
+              <div
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  backgroundColor: '#7c3aed',
+                  borderRadius: '50%',
+                  opacity: 0.4,
+                }}
+              />
             </div>
           </div>
         </div>
@@ -200,4 +265,24 @@ async function getGeistBoldFont() {
     new URL('../../../public/assets/fonts/Geist-Bold.ttf', import.meta.url),
   )
   return response.arrayBuffer()
+}
+
+function truncateText(text: string, maxLength: number): string {
+  if (text.length <= maxLength) return text
+
+  const truncated = text.substring(0, maxLength)
+  const lastSpace = truncated.lastIndexOf(' ')
+
+  if (lastSpace > maxLength * 0.8) {
+    return truncated.substring(0, lastSpace) + '...'
+  }
+
+  return truncated + '...'
+}
+
+function getTitleFontSize(titleLength: number): number {
+  if (titleLength <= 20) return 72
+  if (titleLength <= 40) return 64
+  if (titleLength <= 60) return 56
+  return 48
 }
