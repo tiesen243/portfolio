@@ -46,7 +46,9 @@ export default async function ContentPage({
         <MDXContent components={mdxComponents()} />
       </article>
     )
-  } catch {
+  } catch (e) {
+    console.log(e)
+
     return notFound()
   }
 }
@@ -75,7 +77,8 @@ export const generateMetadata = async ({
         url,
       },
     })
-  } catch {
+  } catch (e) {
+    console.log(e)
     notFound()
   }
 }
