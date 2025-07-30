@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { InlineTOC } from 'fumadocs-ui/components/inline-toc'
 
@@ -39,6 +40,18 @@ export default async function ContentPage({
           {formatDate(frontmatter.publishedAt)}
         </Typography>
 
+        {frontmatter.image && (
+          <div className="relative mt-4 aspect-video w-full">
+            <Image
+              src={frontmatter.image}
+              alt={frontmatter.title}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="rounded-lg object-cover shadow-md"
+              priority
+              fill
+            />
+          </div>
+        )}
         <hr className="my-4" />
 
         <InlineTOC items={toc} />
@@ -71,7 +84,10 @@ export const generateMetadata = async ({
       description: frontmatter.description,
       keywords: frontmatter.tags,
       openGraph: {
-        images: `/api/og?title=${frontmatter.title}&description=${frontmatter.description}`,
+        images: [
+          ...(frontmatter.image ? [frontmatter.image] : []),
+          `/api/og?title=${frontmatter.title}&description=${frontmatter.description}`,
+        ],
         url,
       },
     })

@@ -5,10 +5,7 @@ import type { NextConfig } from 'next'
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    remotePatterns: [
-      { protocol: 'https', hostname: 'github.com' },
-      { protocol: 'https', hostname: 'gravatar.com' },
-    ],
+    remotePatterns: [{ protocol: 'https', hostname: 'gravatar.com' }],
   },
 
   async redirects() {
