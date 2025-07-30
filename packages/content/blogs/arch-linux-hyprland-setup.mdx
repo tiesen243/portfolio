@@ -17,13 +17,13 @@ publishedAt: 2024-01-11
 
 ### What is Hyprland?
 
-Hyprland is a Linux distribution based on Arch Linux. It is a rolling release distribution that is focused on simplicity and minimalism. It is designed to be lightweight and fast, with a clean and simple user interface. Hyprland is designed to be easy to install and use, with a focus on providing a stable and reliable operating system that is easy to maintain and update.
+Hyprland is a dynamic tiling Wayland compositor written in C++. It's designed to be highly customizable, feature-rich, and visually appealing while maintaining excellent performance. Hyprland provides advanced window management capabilities, smooth animations, and extensive configuration options that allow users to create a truly personalized desktop experience.
 
 ### Why Hyprland?
 
-Hyprland is a great choice for users who want a simple and lightweight Linux distribution that is easy to install and use. It is designed to be fast and efficient, with a clean and simple user interface that is easy to navigate. Hyprland is a rolling release distribution, which means that it is constantly updated with the latest software and security updates. This makes it a great choice for users who want to stay up to date with the latest software and security updates.
+Hyprland is an excellent choice for users who want a modern, efficient, and highly customizable desktop environment. As a Wayland compositor, it offers better security, performance, and multi-monitor support compared to traditional X11 window managers. Hyprland's tiling window management automatically organizes your windows for optimal screen space usage, boosting productivity.
 
-Hyprland is also a great choice for users who want a stable and reliable operating system that is easy to maintain and update. It is designed to be easy to install and use, with a focus on providing a stable and reliable operating system that is easy to maintain and update. Hyprland is a great choice for users who want a simple and lightweight Linux distribution that is easy to install and use.
+The compositor is particularly appealing for power users and developers who appreciate fine-grained control over their desktop environment. With its extensive configuration options, smooth animations, and active development community, Hyprland represents the cutting edge of Linux desktop technology while remaining stable and reliable for daily use.
 
 ## Installation
 
@@ -219,14 +219,19 @@ rm -rf ~/yay
 
 ```bash
 yes | yay -S --answerclean All --answerdiff None \
+  hypridle hyprlock hyprpaper hyprpicker xdg-desktop-portal-hyprland-git rofi-wayland \
   noto-fonts noto-fonts-cjk noto-fonts-emoji otf-geist otf-geist-mono-nerd \
-  hypridle hyprlock hyprpaper hyprpicker xdg-desktop-portal-hyprland-git \
-  fastfetch zsh brightnessctl nwg-look pavucontrol playerctl libnotify \
-  github-cli lazygit lsd ripgrep unzip 7zip \
+  fastfetch zsh brightnessctl nwg-look playerctl libnotify swaync \
+  github-cli lazygit lsd ripgrep unzip \
   grim slurp cliphist wl-clipboard \
-  swaync rofi-wayland \
-  zen-browser-bin \
+  ffmpeg pipewire wireplumber \
   thunar gvfs
+```
+
+I use zen as my default browser, you can install it by running the following command:
+
+```bash
+yay -S --noconfirm zen-browser-bin
 ```
 
 4. Install `oh-my-zsh`
@@ -235,14 +240,14 @@ yes | yay -S --answerclean All --answerdiff None \
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
+> Remember to choose `zsh` as your default shell
+
 Then, install zsh plugins
 
 ```bash
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
-
-5. Optional: Install some stuffs
 
 - UV (Python package manager)
 
@@ -258,7 +263,7 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
 
 6. Set up github
 
-Open the browser and login to your github account, then run the following command to set up the SSH key for your github account.
+Open your browser (press `SUPER+B`) and sign in to your GitHub account. Then authenticate GitHub CLI and set up SSH keys:
 
 ```bash
 gh auth login
@@ -282,11 +287,17 @@ Then, create the symbolic links to the config files
 
 ```bash
 rm ~/.zshrc
-rm -rf ~/.config/{fastfetch,git,hypr,kitty,lazygit,lsd,nvim,rofi,swaync,Thunar}
+rm -rf ~/.config/{Thunar,fastfetch,git,hypr,kitty,lazygit,lsd,nvim,rofi,swaync}
 
-ln -s ~/dotfiles/{fastfetch,git,hypr,kitty,lazygit,lsd,nvim,rofi,swaync,Thunar} ~/.config
+ln -s ~/dotfiles/{Thunar,fastfetch,git,hypr,kitty,lazygit,lsd,nvim,rofi,swaync} ~/.config
 ln -s ~/dotfiles/zsh/themes/yuki.zsh-theme ~/.oh-my-zsh/custom/themes
 ln -s ~/dotfiles/zsh/config.zsh ~/.zshrc
+```
+
+Final, make all scripts in the `dotfiles/scripts` directory executable
+
+```bash
+sudo chmod +x ~/dotfiles/scripts/*
 ```
 
 2. Change Wallpaper in `~/dotfiles/hypr/hyprpaper.conf`
@@ -299,15 +310,21 @@ Or change file in `~/dotfiles/assets/_background.png`
 
 3. Add your avatar to `~/dotfiles/assets/_profile.png` to show in the lock screen
 
-:::info
+4. Change sddm theme
 
-If it show wrong time on Windows, you can run the following command to fix it
+Copy the `eucalyptus-drop` theme to the SDDM themes directory:
 
-```bash
-timedatectl set-local-rtc 1
+```
+sudo cp -r ~/dotfiles/sddm/eucalyptus-drop /usr/share/sddm/themes
 ```
 
-:::
+Change the SDDM theme in the SDDM configuration file:
+
+```bash title="/usr/lib/sddm/sddm.conf.d/default.conf"
+[Theme]
+# Current theme name
+Current=/usr/share/sddm/themes/eucalyptus-drop
+```
 
 4. Laptop Fan Control (optional)
 
@@ -339,6 +356,55 @@ Then reboot the computer to apply the changes.
 nbfc set -s [fan_speed in percentage]
 nbfc set -a #auto fan speed
 ```
+
+:::info
+
+If it show wrong time on Windows, you can run the following command to fix it
+
+```bash
+timedatectl set-local-rtc 1
+```
+
+:::
+
+## Keybindings
+
+Here are the essential keybindings for navigating and controlling your Hyprland desktop environment. These shortcuts will help you efficiently manage windows, workspaces, applications, and system functions:
+
+| Keybinding                       | Action                           |
+| -------------------------------- | -------------------------------- |
+| `Super + A`                      | Toggle notification center       |
+| `Super + B`                      | Open browser (Zen)               |
+| `Super + E`                      | Open file manager (Thunar)       |
+| `Super + T`                      | Open terminal (Kitty)            |
+| `Super + C`                      | Color picker                     |
+| `Super + Q`                      | Kill active window               |
+| `Super + Space`                  | Application launcher (Rofi)      |
+| `Super + X`                      | Power menu (Rofi)                |
+| `Super + R`                      | Window switcher (Rofi)           |
+| `Super + N`                      | Web search (Rofi)                |
+| `Super + V`                      | Clipboard history (Rofi)         |
+| `Super + F`                      | Toggle floating window           |
+| `Super + Shift + F`              | Toggle fullscreen                |
+| `Super + O`                      | Pseudo tile                      |
+| `Super + Shift + O`              | Toggle split                     |
+| `Super + S`                      | Screenshot selection             |
+| `Super + Shift + S`              | Screenshot full screen           |
+| `Super + H/J/K/L`                | Move focus (left/down/up/right)  |
+| `Super + Ctrl + H/J/K/L`         | Move window (left/down/up/right) |
+| `Super + Ctrl + Shift + H/J/K/L` | Resize window                    |
+| `Super + 1-9/0`                  | Switch to workspace 1-10         |
+| `Super + Shift + 1-9/0`          | Move window to workspace 1-10    |
+| `Super + W`                      | Toggle special workspace         |
+| `Super + Shift + W`              | Move to special workspace        |
+| `Super + Mouse Wheel`            | Switch workspaces                |
+| `Super + Left Click`             | Move window                      |
+| `Super + Right Click`            | Resize window                    |
+| `XF86AudioRaiseVolume`           | Volume up                        |
+| `XF86AudioLowerVolume`           | Volume down                      |
+| `XF86AudioMute`                  | Toggle mute                      |
+| `XF86MonBrightnessUp`            | Brightness up                    |
+| `XF86MonBrightnessDown`          | Brightness down                  |
 
 ## Conclusion
 
