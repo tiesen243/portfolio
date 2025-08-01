@@ -6,9 +6,9 @@ import { Typography } from '@yuki/ui/typography'
 
 export default function NotFound() {
   return (
-    <main className="container flex min-h-dvh flex-col items-center justify-center gap-8">
+    <main className="container flex min-h-[calc(100dvh-1.5rem)] flex-col items-center justify-center gap-8">
       <Image
-        src="/assets/images/yuki.png"
+        src="/assets/images/yuki.webp"
         alt="Yuki Not Found"
         width={500}
         height={500}

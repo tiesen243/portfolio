@@ -131,7 +131,7 @@ export function SidebarInset({ children }: { children: React.ReactNode }) {
       data-slot="sidebar-inset"
       data-state={open ? 'open' : 'closed'}
       className={cn(
-        'group flex min-h-dvh w-full flex-col',
+        'group flex min-h-[calc(100dvh-1.5rem)] w-full flex-col',
         'transition-[width] duration-200 ease-linear',
       )}
     >
