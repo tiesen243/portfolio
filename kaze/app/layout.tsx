@@ -1,7 +1,6 @@
 import '@/app/globals.css'
 
 import { Geist, Geist_Mono } from 'next/font/google'
-import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/next'
 
 import { cn, ThemeProvider } from '@yuki/ui'
@@ -56,7 +55,6 @@ export default function RootLayout({
         </ThemeProvider>
 
         <Analytics mode="production" />
-        <Script src="https://widgets.dmca.com/widget.js" />
       </body>
     </html>
   )
