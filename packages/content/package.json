@@ -21,7 +21,7 @@
   "dependencies": {
     "@fumadocs/mdx-remote": "^1.4.0",
     "@yuki/validators": "workspace:*",
-    "fumadocs-core": "^15.6.7"
+    "fumadocs-core": "^15.6.8"
   },
   "devDependencies": {
     "@yuki/eslint-config": "workspace:*",
