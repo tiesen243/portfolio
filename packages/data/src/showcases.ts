@@ -15,7 +15,7 @@ export const showcases = [
   {
     title: 'Create Yuki Stack',
     description:
-      ' A CLI tool for scaffolding type-safe, full-stack TypeScript applications with best practices and customizable.',
+      'A CLI tool for scaffolding type-safe, full-stack TypeScript applications with best practices and customizable.',
     image: '/assets/images/showcases/create-yuki-stack.png',
     url: 'https://www.npmjs.com/package/create-yuki-stack',
   },
@@ -25,5 +25,11 @@ export const showcases = [
       'A component library for building beautiful and accessible user interfaces with React and Tailwind CSS.',
     image: '/assets/images/showcases/yuki-ui.png',
     url: 'https://yuki-ui.vercel.app',
+  },
+  {
+    title: 'Yuki DB',
+    description: 'Type-safe query database in client-side',
+    image: '/assets/images/showcases/yuki-db.png',
+    url: 'https://npmjs.com/package/yuki-db',
   },
 ] satisfies Showcase[]

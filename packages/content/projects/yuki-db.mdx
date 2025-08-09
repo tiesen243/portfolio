@@ -1,0 +1,67 @@
+---
+title: 'Yuki DB: Type-Safe Query Database for the Client-Side'
+description: 'Yuki DB is a TypeScript-first client-side query database providing type-safe operations, Prisma support, and React integration. Learn about its features, setup, and usage.'
+image: '/assets/images/showcases/yuki-db.png'
+tags:
+  - typescript
+  - react
+  - prisma
+  - database
+  - client-side
+  - type-safe
+  - query
+  - frontend
+publishedAt: 2025-08-03
+---
+
+## Introduction
+
+**yuki-db** is a type-safe, TypeScript-first client-side database query library. Designed for modern frontend applications, it enables developers to perform type-safe queries—supporting Prisma document structure—and integrates seamlessly with React and TanStack Query for state management.
+
+[View the repo on GitHub](https://github.com/tiesen243/yuki-db)
+
+[View on npm](https://npmjs.com/package/yuki-db)
+
+## Features
+
+- **Type Safety**: All operations are fully typed with TypeScript.
+- **Prisma Support**: Built-in support for Prisma document schema.
+- **React Integration**: Custom hooks for query/mutation, including suspense queries.
+- **Client-Side First**: Runs entirely in the browser or any JavaScript runtime.
+- **Flexible Selects**: Supports selecting fields as objects, not just arrays.
+- **Pagination**: Easily add `limit` and `offset` to queries.
+- **Helpers & Utilities**: Handy helpers for mutation, query, and database options.
+- **Validation**: Strict environment variable validation for runtime safety.
+
+## Quick Example
+
+```typescript
+import { useDatabaseQuery } from 'yuki-db'
+
+const { data, error } = useDatabaseQuery({
+  table: 'users',
+  select: { id: true, name: true },
+  where: { name: { like: '%Yuki%' } },
+  limit: 10,
+  offset: 0,
+})
+```
+
+## React & TanStack Query Support
+
+Yuki DB exposes React hooks for easy data fetching, including suspense support:
+
+- `useDatabaseQuery`
+- `useDatabaseSuspenseQuery`
+- `createMutationDatabaseOptions`
+
+## Prisma-Like API
+
+Supports documents and query patterns familiar to Prisma users, making it easy to migrate or integrate with existing codebases.
+
+## Why Use yuki-db?
+
+- **Type safety you can trust**
+- **Frontend-first, but backend-friendly**
+- **Modern React patterns**
+- **Flexible and extensible**

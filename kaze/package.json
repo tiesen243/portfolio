@@ -20,11 +20,11 @@
     "@yuki/data": "workspace:*",
     "@yuki/ui": "workspace:*",
     "@yuki/validators": "workspace:*",
-    "fumadocs-ui": "^15.6.8",
-    "next": "^15.4.5",
+    "fumadocs-ui": "^15.6.9",
+    "next": "^15.4.6",
     "react": "catalog:react",
     "react-dom": "catalog:react",
-    "resend": "^4.7.0"
+    "resend": "^6.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:tailwind",
