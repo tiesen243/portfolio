@@ -1,3 +1,4 @@
+import type { UrlObject } from 'node:url'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -37,7 +38,7 @@ export function HeroSection() {
         {navs.map((nav) => (
           <Link
             key={nav.label}
-            href={nav.href}
+            href={nav.href as unknown as UrlObject}
             className="flex items-center justify-between"
           >
             <Typography className="inline-flex items-center gap-2 lg:text-base">

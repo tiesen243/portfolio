@@ -102,12 +102,11 @@ async function uncachedGetPages(contentType: 'blogs' | 'projects') {
           const compiled = await compileMDX.compile({ source, filePath })
           const frontmatter = frontmatterSchema.parse(compiled.frontmatter)
 
-          return { filePath, frontmatter, slug, url: `/${contentType}/${slug}` }
+          return { filePath, frontmatter, slug }
         } catch {
           return {
             slug,
             filePath,
-            url: `/${contentType}/${slug}`,
             frontmatter: {
               title: slug
                 .split('-')

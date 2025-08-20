@@ -1,3 +1,4 @@
+import type { UrlObject } from 'node:url'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -31,7 +32,7 @@ export function SidebarContent() {
           {navs.map((nav) => (
             <Link
               key={nav.label}
-              href={nav.href}
+              href={nav.href as unknown as UrlObject}
               className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm transition-colors"
             >
               <nav.icon className="size-4" />

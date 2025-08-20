@@ -12,7 +12,7 @@ import { formatDate } from '@/lib/utils'
 
 export default async function ContentPage({
   params,
-}: Readonly<{ params: Promise<{ slugs: string[] }> }>) {
+}: PageProps<'/[...slugs]'>) {
   const { slugs } = await params
 
   try {
@@ -73,7 +73,7 @@ export async function generateStaticParams() {
 
 export const generateMetadata = async ({
   params,
-}: Readonly<{ params: Promise<{ slugs: string[] }> }>) => {
+}: PageProps<'/[...slugs]'>) => {
   const { slugs } = await params
 
   try {

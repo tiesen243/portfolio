@@ -4,6 +4,7 @@ import type { NextConfig } from 'next'
 
 const nextConfig = {
   reactStrictMode: true,
+  typedRoutes: true,
   images: {
     remotePatterns: [{ protocol: 'https', hostname: 'gravatar.com' }],
   },

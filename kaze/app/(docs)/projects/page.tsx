@@ -28,7 +28,11 @@ export default async function ProjectListPage() {
         </Typography>
 
         {pages.map((page) => (
-          <Link key={page.slug} href={page.url} className="group/project">
+          <Link
+            key={page.slug}
+            href={`/projects/${page.slug}`}
+            className="group/project"
+          >
             <div className="flex items-start justify-between gap-4">
               <Typography
                 variant="h4"

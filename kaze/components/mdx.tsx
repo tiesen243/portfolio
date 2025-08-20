@@ -1,3 +1,4 @@
+import type { UrlObject } from 'node:url'
 import type { ComponentProps } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -73,7 +74,7 @@ export function mdxComponents() {
 
       return (
         <Link
-          href={href}
+          href={href as unknown as UrlObject}
           className={cn(
             typographyVariants({ variant: 'p' }),
             'hover:text-normal inline-flex items-center gap-2 underline underline-offset-4',
