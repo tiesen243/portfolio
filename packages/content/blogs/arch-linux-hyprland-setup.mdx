@@ -218,19 +218,18 @@ Now, you can reboot the computer and can see the Windows 11 in the boot menu.
 
    ```bash
    yes | yay -S --answerclean All --answerdiff None \
-     hypridle hyprlock hyprpaper hyprpicker xdg-desktop-portal-hyprland-git rofi-wayland \
-     noto-fonts noto-fonts-cjk noto-fonts-emoji otf-geist otf-geist-mono-nerd \
-     fastfetch zsh brightnessctl nwg-look playerctl libnotify swaync \
-     github-cli lazygit lsd ripgrep unzip \
-     grim slurp cliphist wl-clipboard \
-     ffmpeg pipewire wireplumber \
-     thunar gvfs
+   hypridle hyprlock hyprpaper hyprpicker xdg-desktop-portal-hyprland-git rofi-wayland waybar ffmpeg \
+   noto-fonts noto-fonts-cjk noto-fonts-emoji otf-geist otf-geist-mono-nerd \
+   fastfetch zsh brightnessctl nwg-look playerctl libnotify swaync \
+   github-cli lazygit lsd ripgrep unzip 7zip \
+   grim slurp cliphist wl-clipboard \
+   thunar gvfs tumbler
    ```
 
    I use zen as my default browser, you can install it by running the following command:
 
    ```bash
-   yay -S --noconfirm zen-browser-bin
+   yay -S zen-browser-bin
    ```
 
    If you use another browser, you must change the `$browser` variable in the `~/dotfiles/hypr/core/keymaps.conf` file to your browser's executable name.
@@ -288,11 +287,13 @@ Now, you can reboot the computer and can see the Windows 11 in the boot menu.
 
    ```bash
    rm ~/.zshrc
-   rm -rf ~/.config/{Thunar,fastfetch,git,hypr,kitty,lazygit,lsd,nvim,rofi,swaync}
+   rm -rf ~/.config/{Code,Thunar,fastfetch,git,hypr,kitty,lazygit,lsd,nvim,rofi,swaync,waybar}
 
-   ln -s ~/dotfiles/{Thunar,fastfetch,git,hypr,kitty,lazygit,lsd,nvim,rofi,swaync} ~/.config
+   ln -s ~/dotfiles/{Code,Thunar,fastfetch,git,hypr,kitty,lazygit,lsd,nvim,rofi,swaync,waybar} ~/.config
    ln -s ~/dotfiles/zsh/themes/yuki.zsh-theme ~/.oh-my-zsh/custom/themes
    ln -s ~/dotfiles/zsh/config.zsh ~/.zshrc
+
+   ln -s ~/dotfiles/.local/share/{icons,themes} ~/.local/share
    ```
 
    Final, make all scripts in the `dotfiles/scripts` directory executable
@@ -309,25 +310,9 @@ Now, you can reboot the computer and can see the Windows 11 in the boot menu.
 
    Or change file in `~/dotfiles/assets/_background.png`
 
-3. Add your avatar to `~/dotfiles/assets/_profile.png` to show in the lock screen
+3. Add your avatar to `~/dotfiles/assets/_avatar.png` to show in the lock screen
 
-4. Change sddm theme
-
-   Copy the `eucalyptus-drop` theme to the SDDM themes directory:
-
-   ```bash
-   sudo cp -r ~/dotfiles/sddm/eucalyptus-drop /usr/share/sddm/themes
-   ```
-
-   Change the SDDM theme in the SDDM configuration file:
-
-   ```bash title="/usr/lib/sddm/sddm.conf.d/default.conf"
-   [Theme]
-   # Current theme name
-   Current=/usr/share/sddm/themes/eucalyptus-drop
-   ```
-
-5. Laptop Fan Control (optional)
+4. Laptop Fan Control (optional)
 
    If you're using a laptop and want to control your fans for better thermal management or noise reduction, install `nbfc` and configure it to your liking.
 
@@ -371,40 +356,40 @@ timedatectl set-local-rtc 1
 
 Here are the essential keybindings for navigating and controlling your Hyprland desktop environment. These shortcuts will help you efficiently manage windows, workspaces, applications, and system functions:
 
-| Keybinding                       | Action                           |
-| -------------------------------- | -------------------------------- |
-| `Super + A`                      | Toggle notification center       |
-| `Super + B`                      | Open browser (Zen)               |
-| `Super + E`                      | Open file manager (Thunar)       |
-| `Super + T`                      | Open terminal (Kitty)            |
-| `Super + C`                      | Color picker                     |
-| `Super + Q`                      | Kill active window               |
-| `Super + Space`                  | Application launcher (Rofi)      |
-| `Super + X`                      | Power menu (Rofi)                |
-| `Super + R`                      | Window switcher (Rofi)           |
-| `Super + N`                      | Web search (Rofi)                |
-| `Super + V`                      | Clipboard history (Rofi)         |
-| `Super + F`                      | Toggle floating window           |
-| `Super + Shift + F`              | Toggle fullscreen                |
-| `Super + O`                      | Pseudo tile                      |
-| `Super + Shift + O`              | Toggle split                     |
-| `Super + S`                      | Screenshot selection             |
-| `Super + Shift + S`              | Screenshot full screen           |
-| `Super + H/J/K/L`                | Move focus (left/down/up/right)  |
-| `Super + Ctrl + H/J/K/L`         | Move window (left/down/up/right) |
-| `Super + Ctrl + Shift + H/J/K/L` | Resize window                    |
-| `Super + 1-9/0`                  | Switch to workspace 1-10         |
-| `Super + Shift + 1-9/0`          | Move window to workspace 1-10    |
-| `Super + W`                      | Toggle special workspace         |
-| `Super + Shift + W`              | Move to special workspace        |
-| `Super + Mouse Wheel`            | Switch workspaces                |
-| `Super + Left Click`             | Move window                      |
-| `Super + Right Click`            | Resize window                    |
-| `XF86AudioRaiseVolume`           | Volume up                        |
-| `XF86AudioLowerVolume`           | Volume down                      |
-| `XF86AudioMute`                  | Toggle mute                      |
-| `XF86MonBrightnessUp`            | Brightness up                    |
-| `XF86MonBrightnessDown`          | Brightness down                  |
+| Keybinding                | Action                              |
+| ------------------------- | ----------------------------------- |
+| `Super + A`               | Toggle notification center (Swaync) |
+| `Super + B`               | Open browser (Zen)                  |
+| `Super + E`               | Open file manager (Thunar)          |
+| `Super + T`               | Open terminal (Kitty)               |
+| `Super + C`               | Color picker                        |
+| `Super + Q`               | Kill active window                  |
+| `Super + Space`           | Application launcher (Rofi)         |
+| `Super + X`               | Power menu (Rofi)                   |
+| `Super + R`               | Window switcher (Rofi)              |
+| `Super + N`               | Web search (Rofi)                   |
+| `Super + V`               | Clipboard history (Rofi)            |
+| `Super + F`               | Toggle floating window              |
+| `Super + Shift + F`       | Toggle fullscreen                   |
+| `Super + O`               | Pseudo tile                         |
+| `Super + Shift + O`       | Toggle split                        |
+| `Super + S`               | Screenshot selection                |
+| `Super + Shift + S`       | Screenshot full screen              |
+| `Super + H/J/K/L`         | Move focus (left/down/up/right)     |
+| `Super + SHIFT + H/J/K/L` | Move window (left/down/up/right)    |
+| `Super + ALT  + H/J/K/L`  | Resize window                       |
+| `Super + 1-9/0`           | Switch to workspace 1-10            |
+| `Super + Shift + 1-9/0`   | Move window to workspace 1-10       |
+| `Super + W`               | Toggle special workspace            |
+| `Super + Shift + W`       | Move to special workspace           |
+| `Super + Mouse Wheel`     | Switch workspaces                   |
+| `Super + Left Click`      | Move window                         |
+| `Super + Right Click`     | Resize window                       |
+| `XF86AudioRaiseVolume`    | Volume up                           |
+| `XF86AudioLowerVolume`    | Volume down                         |
+| `XF86AudioMute`           | Toggle mute                         |
+| `XF86MonBrightnessUp`     | Brightness up                       |
+| `XF86MonBrightnessDown`   | Brightness down                     |
 
 ## Conclusion
 
