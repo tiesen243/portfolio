@@ -13,6 +13,7 @@ export function createMetadata(override: Metadata = {}): Metadata {
 
   const title = override.title ? `${override.title} | ${siteName}` : siteName
   const description =
+    override.description ??
     'A personal portfolio and blog by Tiesen, showcasing projects, thoughts, and more.'
   const url = override.openGraph?.url
     ? `${baseUrl}${override.openGraph.url}`
