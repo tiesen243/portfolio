@@ -82,7 +82,16 @@ export const generateMetadata = async ({
     return createMetadata({
       title: frontmatter.title,
       description: frontmatter.description,
-      keywords: frontmatter.tags,
+      keywords: [
+        'content',
+        'documentation',
+        'blog',
+        'project',
+        'tutorial',
+        'guide',
+        'article',
+        ...frontmatter.tags,
+      ],
       openGraph: {
         images: [
           ...(frontmatter.image ? [frontmatter.image] : []),

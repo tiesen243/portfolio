@@ -36,10 +36,9 @@ export function createMetadata(override: Metadata = {}): Metadata {
     description,
     authors: { name: 'Tiesen', url: 'https://tiesen.id.vn' },
     keywords: [
-      'Tiesen',
+      'tiesen',
       'tiesen243',
       'portfolio',
-      'blog',
       'website',
       ...(override.keywords ?? []),
     ],

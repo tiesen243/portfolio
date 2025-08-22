@@ -19,6 +19,13 @@ const DESCRIPTION =
 export const metadata = createMetadata({
   title: TITILE,
   description: DESCRIPTION,
+  keywords: [
+    'contact',
+    'get in touch',
+    'inquiries',
+    'collaborations',
+    'feedback',
+  ],
   openGraph: {
     images: `/api/og?title=${TITILE}&description=${DESCRIPTION}`,
     url: '/contact',
