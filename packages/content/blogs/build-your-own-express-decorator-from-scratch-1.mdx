@@ -1,0 +1,537 @@
+---
+title: Build Your Own Express Decorators from Scratch (Part 1)
+description: Learn how to build your own Express decorators from scratch. A step-by-step tutorial to write cleaner, NestJS-style code in your Express apps.
+tags:
+  - express
+  - decorators
+  - typescript
+  - clean architecture
+  - nodejs meta programming
+  - custom decorators express
+  - build your own express decorators
+publishedAt: 2025-09-02
+---
+
+Decorators aren’t just for NestJS — you can bring the same power and readability to your Express apps. In this tutorial, we’ll build Express decorators from scratch, explore how they work under the hood with TypeScript, and learn how they can simplify your code while keeping it clean and maintainable.
+
+## Project Setup
+
+To follow along, clone the demo repo (or start fresh):
+
+```bash
+git clone git@github.com:tiesen243/saciut.git
+```
+
+If you’re starting from scratch, here’s how to set things up.
+
+1. Initialize the project
+
+   ```bash
+   mkdir my-app
+   cd my-app
+   npm init -y
+   ```
+
+2. Install dependencies
+
+   We’ll use:
+   - `cross-env` - to set environment variables in scripts across platforms.
+   - `express` – the core framework.
+   - `reflect-metadata` – to enable metadata reflection for decorators.
+   - `zod` – for schema validation (for query, params, body).
+   - `typescript` – for type safety and decorators support.
+   - `tsdown` - for building TypeScript into lightweight ESM/CJS output.
+
+   ```bash
+   npm install express reflect-metadata zod
+   npm install -D cross-env typescript tsdown @types/express @types/node
+   ```
+
+3. Configure TypeScript
+
+   Generate a `tsconfig.json`:
+
+   ```bash
+   npx tsc --init
+   ```
+
+   Update it to enable decorators and metadata:
+
+   ```json title="tsconfig.json"
+   {
+      "compilerOptions": {
+      // Other options...
+
+      // Decorator Options
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true
+
+      // Path Aliases
+      "baseUrl": ".",
+        "paths": {
+          "@/*": ["server/*"]
+        }
+      },
+      "include": ["server"],
+      "exclude": ["node_modules", "build", "dist"]
+   }
+   ```
+
+4. Project structure
+
+```text
+my-app/
+├── server/
+│   ├── core/
+│   │   ├── common/
+│   │   │   ├── container.ts
+│   │   │   ├── guard.ts
+│   │   │   ├── http-methods.ts
+│   │   │   ├── http.ts
+│   │   │   ├── middleware.ts
+│   │   │   ├── index.ts
+│   │   │   ├── metadata.ts
+│   │   │   └── params.ts
+│   │   ├── create-app/
+│   │   │   ├── index.ts
+│   │   │   ├── parse-args.ts
+│   │   │   └── register-controller.ts
+│   │   ├── http.ts
+│   │   └── types.d.ts
+│   ├── app.controller.ts
+│   ├── app.module.ts
+│   ├── app.service.ts
+│   └── main.ts
+├── package.json
+├── tsconfig.json
+├── tsdown.config.ts
+└── ...
+```
+
+5. Build and Run Scripts
+
+   We’ll use tsdown to bundle and compile the TypeScript source into a clean dist folder. The config below handles different modes for development and production:
+
+   ```ts title="tsdown.config.ts"
+   import { defineConfig } from 'tsdown'
+
+   const isDev = process.env['NODE_ENV'] === 'development'
+
+   export default defineConfig({
+     entry: './server/main.ts',
+     clean: true,
+     shims: true,
+     minify: true,
+     logLevel: isDev ? 'silent' : 'info',
+     onSuccess: isDev ? 'node --env-file-if-exists=.env ./dist/main.js' : ' ',
+   })
+   ```
+
+   And in your package.json, we add scripts for each workflow:
+   - `build`: compile once for production.
+   - `dev`: run in watch mode with auto-rebuild + restart.
+   - `start`: run the compiled app in production mode.
+
+   ```json title="package.json"
+   {
+     "scripts": {
+       "build": "tsdown",
+       "dev": "cross-env NODE_ENV=development tsdown --watch",
+       "start": "cross-env NODE_ENV=production node --env-file-if-exists=.env dist/main.js"
+     }
+   }
+   ```
+
+## Creating Core Decorators
+
+Now that we have our project set up, let’s create the core decorators that will help us build our Express controllers in a clean and maintainable way.
+
+### Shared Types and Constants
+
+These TypeScript types help with type inference for your Express decorators and DI system.
+
+- `Type<T>`: Represents a class constructor for type T.
+- `InterRouterInpuuts<TServices>`: Infers the input parameter types for each method in your service objects.
+- `InferRouterOutputs<TControllers>`: Infers the output (return) types for each method in your controller objects, unwrapping Promises if present.
+
+```ts title="server/core/types.d.ts"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+export type Type<T = any> = new (...args: any[]) => T
+
+export type InterRouterInpuuts<TServices extends Record<string, any>> = {
+  [TService in keyof TServices]: {
+    [TMehod in keyof TServices[TService]]: Parameters<
+      TServices[TService][TMehod]
+    >
+  }
+}
+
+export type InferRouterOutputs<TControllers extends Record<string, any>> = {
+  [TController in keyof TControllers]: {
+    [TMehod in keyof TControllers[TController]]: ReturnType<
+      TControllers[TController][TMehod]
+    > extends Promise<infer U>
+      ? U
+      : ReturnType<TControllers[TController][TMehod]>
+  }
+}
+```
+
+### Module, Controller, and Injectable Decorators
+
+Below are the core decorator implementations and their supporting metadata utilities. Each block is explained before the code.
+
+#### Metadata Keys
+
+Defines unique symbols to use as metadata keys for modules, controllers, providers, exports, and injection. These keys help store and retrieve metadata on classes and parameters.
+
+```ts title="server/core/common/metadata.ts"
+import 'reflect-metadata'
+
+const IMPORTS_METADATA_KEY = Symbol('module:imports')
+const CONTROLLERS_METADATA_KEY = Symbol('module:controllers')
+const PROVIDERS_METADATA_KEY = Symbol('module:providers')
+const EXPORTS_METADATA_KEY = Symbol('module:exports')
+
+const CONTROLLER_METADATA_KEY = Symbol('metadata:controller')
+const CONTROLLER_PREFIX_KEY = Symbol('metadata:controller:prefix')
+const INJECTABLE_METADATA_KEY = Symbol('metadata:injectable')
+const INJECT_METADATA_KEY = Symbol('metadata:inject')
+```
+
+#### Module Decorator & Metadata Accessors
+
+Implements the `@Module` decorator, which attaches metadata about imports, controllers, providers, and exports to a class. Also provides utility functions to retrieve this metadata.
+
+```ts title="server/core/common/metadata.ts"
+export function Module(options: {
+  imports?: Type[]
+  controllers?: Type[]
+  providers?: Type[]
+  exports?: (Type | { provide: string; useValue: unknown })[]
+}): ClassDecorator {
+  return (target) => {
+    Reflect.defineMetadata(IMPORTS_METADATA_KEY, options.imports ?? [], target)
+    Reflect.defineMetadata(
+      CONTROLLERS_METADATA_KEY,
+      options.controllers ?? [],
+      target,
+    )
+    Reflect.defineMetadata(
+      PROVIDERS_METADATA_KEY,
+      options.providers ?? [],
+      target,
+    )
+    Reflect.defineMetadata(EXPORTS_METADATA_KEY, options.exports ?? [], target)
+  }
+}
+
+export function getImports(target: Type): Type[] {
+  return (Reflect.getMetadata(IMPORTS_METADATA_KEY, target) ?? []) as Type[]
+}
+
+export function getControllers(target: Type): Type[] {
+  return (Reflect.getMetadata(CONTROLLERS_METADATA_KEY, target) ?? []) as Type[]
+}
+
+export function getProviders(target: Type): Type[] {
+  return (Reflect.getMetadata(PROVIDERS_METADATA_KEY, target) ?? []) as Type[]
+}
+
+export function getExports(target: Type): Type[] {
+  return (Reflect.getMetadata(EXPORTS_METADATA_KEY, target) ?? []) as Type[]
+}
+```
+
+#### Controller Decorator & Utilities
+
+Implements the `@Controller` decorator, which marks a class as a controller and optionally sets a route prefix. Includes helpers to check if a class is a controller and to get its prefix.
+
+```ts title="server/core/common/metadata.ts"
+export function Controller(prefix = '/'): ClassDecorator {
+  return (target) => {
+    Reflect.defineMetadata(CONTROLLER_METADATA_KEY, true, target)
+    Reflect.defineMetadata(CONTROLLER_PREFIX_KEY, prefix, target)
+  }
+}
+
+export function isController(target: Type): boolean {
+  return !!Reflect.getMetadata(CONTROLLER_METADATA_KEY, target)
+}
+
+export function getControllerPrefix(target: Type): string {
+  return String(Reflect.getMetadata(CONTROLLER_PREFIX_KEY, target))
+}
+```
+
+#### Injectable Decorator
+
+Implements the `@Injectable` decorator, marking a class as injectable for dependency injection. Also provides a helper to check if a class is injectable.
+
+```ts title="server/core/common/metadata.ts"
+export function Injectable(): ClassDecorator {
+  return (target) => {
+    Reflect.defineMetadata(INJECTABLE_METADATA_KEY, true, target)
+  }
+}
+
+export function isInjectable(target: Type): boolean {
+  return !!Reflect.getMetadata(INJECTABLE_METADATA_KEY, target)
+}
+```
+
+#### Inject Decorator
+
+Implements the `@Inject` parameter decorator for dependency injection, storing tokens for constructor parameters. Also provides helpers to check for injectable objects and retrieve injected parameter tokens.
+
+```ts title="server/core/common/metadata.ts"
+export function Inject(token: string): ParameterDecorator {
+  return (target, _propertyKey, parameterIndex) => {
+    const existingInjectedParams = (Reflect.getOwnMetadata(
+      INJECT_METADATA_KEY,
+      target,
+    ) ?? {}) as Record<number, string>
+    existingInjectedParams[parameterIndex] = token
+    Reflect.defineMetadata(INJECT_METADATA_KEY, existingInjectedParams, target)
+  }
+}
+
+export function isInject(target: object): boolean {
+  return 'provide' in target && 'useValue' in target
+}
+
+export function getInjectedParams(target: object): Record<number, string> {
+  return (Reflect.getOwnMetadata(INJECT_METADATA_KEY, target) ?? {}) as Record<
+    number,
+    string
+  >
+}
+```
+
+### HTTP Method Decorators
+
+These decorators define HTTP methods (GET, POST, etc.) for controller methods. They store metadata about the HTTP method and path, and provide utilities to check if a method is a route and to retrieve its definition.
+
+#### Route Metadata and Definition
+
+This part defines the metadata structure we’ll attach to each decorated method.
+
+```ts title="server/core/common/http-methods.ts"
+import type { HTTPMethod } from '@/core/http'
+
+const ROUTE_METADATA_KEY = Symbol('route')
+
+interface RouteDefinition {
+  method: HTTPMethod
+  path: string
+  name: string
+}
+```
+
+#### Base Route Decorator
+
+The `Route` function is the core method decorator. It saves the HTTP method, path, and method name as metadata. Also includes helpers to check if a method is a route and to retrieve its definition.
+
+```ts title="server/core/common/http-methods.ts"
+function Route(method: HTTPMethod, path: string): MethodDecorator {
+  return (target, propertyKey) => {
+    Reflect.defineMetadata(
+      ROUTE_METADATA_KEY,
+      { method, path, name: propertyKey.toString() },
+      target,
+      propertyKey,
+    )
+  }
+}
+
+export function isRoute(target: object, propertyKey: string | symbol): boolean {
+  return !!Reflect.getMetadata(ROUTE_METADATA_KEY, target, propertyKey)
+}
+
+export function getRoute(
+  target: object,
+  propertyKey: string | symbol,
+): RouteDefinition {
+  return Reflect.getMetadata(
+    ROUTE_METADATA_KEY,
+    target,
+    propertyKey,
+  ) as RouteDefinition
+}
+```
+
+#### Shorthand HTTP Method Decorators
+
+Finally, we expose shorthand functions like `@Get`, `@Post`, etc., so you can annotate controller methods.
+
+```ts title="server/core/common/http-methods.ts"
+export const Get = (path: string): MethodDecorator => Route('get', path)
+export const Post = (path: string): MethodDecorator => Route('post', path)
+export const Put = (path: string): MethodDecorator => Route('put', path)
+export const Delete = (path: string): MethodDecorator => Route('delete', path)
+export const Patch = (path: string): MethodDecorator => Route('patch', path)
+export const Options = (path: string): MethodDecorator => Route('options', path)
+export const Head = (path: string): MethodDecorator => Route('head', path)
+export const All = (path: string): MethodDecorator => Route('all', path)
+```
+
+### Parameter Decorators
+
+These decorators extract specific parts of the request (body, query, params, headers) and validate them using Zod schemas. They store metadata about which parameter to extract and how to validate it.
+
+#### Parameter Metadata and Definition
+
+This part defines the metadata structure we’ll attach to each decorated parameter.
+
+```ts title="server/core/common/params.ts"
+import 'reflect-metadata'
+
+import * as z from 'zod'
+
+import { HttpException } from '@/core/common'
+
+const PARAMETTERS_KEY = Symbol('parameters')
+
+export enum ParamType {
+  REQ = 'req',
+  RES = 'res',
+  NEXT = 'next',
+
+  BODY = 'body',
+  QUERY = 'query',
+  PARAMS = 'params',
+
+  HEADERS = 'headers',
+  COOKIES = 'cookies',
+}
+
+interface ParamValue {
+  index: number
+  type: ParamType
+  schema: z.ZodType | undefined
+}
+```
+
+#### Parameter Decorator Factory
+
+The `createParamDecorator` function is a factory that generates parameter decorators. It saves the parameter type, index, and optional Zod schema as metadata. Also includes a helper to retrieve all parameter metadata for a method.
+
+```ts title="server/core/common/params.ts"
+function createParamDecorator(
+  type: ParamType,
+  schema?: z.ZodType,
+): ParameterDecorator {
+  return (target, propertyKey, parameterIndex) => {
+    const existingParams = (Reflect.getOwnMetadata(
+      PARAMETTERS_KEY,
+      target,
+      propertyKey ?? '',
+    ) ?? []) as ParamValue[]
+    existingParams.push({ index: parameterIndex, type, schema })
+    Reflect.defineMetadata(
+      PARAMETTERS_KEY,
+      existingParams,
+      target,
+      String(propertyKey),
+    )
+  }
+}
+
+export function getParams<
+  T extends { index: number; type: ParamType; schema?: z.ZodType },
+>(target: object, propertyKey: string | symbol): T[] {
+  return (Reflect.getOwnMetadata(PARAMETTERS_KEY, target, propertyKey) ??
+    []) as T[]
+}
+```
+
+#### Schema Validation Helper
+
+A helper function to validate data against a Zod schema, throwing an HttpException if validation fails.
+
+```ts title="server/core/common/params.ts"
+export function parsedSchema(schema: z.ZodType, data: unknown) {
+  const parsed = schema.safeParse(data)
+  if (!parsed.success)
+    throw new HttpException('BAD_REQUEST', {
+      message: 'Invalid request data',
+      details: z.flattenError(parsed.error).fieldErrors,
+    })
+
+  return parsed.data
+}
+```
+
+#### Parameter Decorators
+
+Finally, we expose decorators like `@Body`, `@Query`, etc., so you can annotate controller method parameters.
+
+```ts title="server/core/common/params.ts"
+export const Req = (): ParameterDecorator => createParamDecorator(ParamType.REQ)
+export const Res = (): ParameterDecorator => createParamDecorator(ParamType.RES)
+export const Next = (): ParameterDecorator =>
+  createParamDecorator(ParamType.NEXT)
+
+export const Body = (schema?: z.ZodType): ParameterDecorator =>
+  createParamDecorator(ParamType.BODY, schema)
+export const Query = (schema?: z.ZodType): ParameterDecorator =>
+  createParamDecorator(ParamType.QUERY, schema)
+export const Params = (schema?: z.ZodType): ParameterDecorator =>
+  createParamDecorator(ParamType.PARAMS, schema)
+export const Headers = (schema?: z.ZodType): ParameterDecorator =>
+  createParamDecorator(ParamType.HEADERS, schema)
+export const Cookies = (schema?: z.ZodType): ParameterDecorator =>
+  createParamDecorator(ParamType.COOKIES, schema)
+```
+
+### Guards and Access Control
+
+In this part, we will focus on creating decorators for guards and access control. Guards are essential for protecting routes and ensuring that only authorized users can access certain resources.
+
+#### Guard Metadata and Definition
+
+This part defines the `CanActivate` interface, which will be implemented by guard classes to determine if a request should be allowed to proceed.
+
+```ts
+import 'reflect-metadata'
+
+import type { NextFunction, Request, Response } from 'express'
+
+const GUARD_METADATA_KEY = Symbol('guard')
+
+export interface CanActivate {
+  canActivate(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): boolean | Promise<boolean>
+}
+```
+
+#### Guard Decorator
+
+The `Guard` decorator allows us to attach guard classes to controllers or specific route handlers. It uses metadata to store the guards associated with a target. Also included is a utility function `getGuards` to retrieve the guards for a given target.
+
+```ts title="server/core/common/guard.ts"
+export function Guard(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ...guards: (new (...args: any[]) => CanActivate)[]
+): ClassDecorator & MethodDecorator {
+  return (target: object, propertyKey?: string | symbol) => {
+    if (propertyKey)
+      Reflect.defineMetadata(GUARD_METADATA_KEY, guards, target, propertyKey)
+    else Reflect.defineMetadata(GUARD_METADATA_KEY, guards, target)
+  }
+}
+
+export function getGuards(
+  target: object,
+  propertyKey: string | symbol,
+): (new () => CanActivate)[] {
+  return ((propertyKey
+    ? Reflect.getMetadata(GUARD_METADATA_KEY, target, propertyKey)
+    : Reflect.getMetadata(GUARD_METADATA_KEY, target)) ??
+    []) as (new () => CanActivate)[]
+}
+```

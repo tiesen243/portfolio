@@ -1,0 +1,585 @@
+---
+title: Build Your Own Express Decorators from Scratch (Part 2)
+description: Learn how to build your own Express decorators from scratch. A step-by-step tutorial to write cleaner, NestJS-style code in your Express apps.
+tags:
+  - express
+  - decorators
+  - typescript
+  - clean architecture
+  - nodejs meta programming
+  - custom decorators express
+  - build your own express decorators
+publishedAt: 2025-09-02
+---
+
+## Recap of Part 1
+
+In Part 1, you learned how to set up a TypeScript Express project and build your own decorator system inspired by NestJS. We covered core concepts including module, controller, and provider decorators, HTTP method and parameter decorators, and guards for access control. These tools enable you to write clean, maintainable, and scalable Express applications with dependency injection and declarative routing. In the next part, you'll see how to use these decorators to build real-world features and structure your app for production.
+
+## Creating Core Decorators (Part 2)
+
+In the previous part of this series, we explored the concept of decorators in Express.js and how they can help us write cleaner and more maintainable code. We created a simple `@Controller` decorator to define routes and a `@Get` decorator to handle GET requests. This allowed us to structure our code in a more organized way.
+
+### HTTP Responses and Exception Handling
+
+This section introduces decorators to control HTTP status codes and custom response headers, along with a dedicated `HttpException` class for handling errors consistently across your application.
+
+#### Defining Metadata Keys
+
+To manage HTTP status codes and response headers, we define unique metadata keys using `Symbol`. This ensures that our metadata does not conflict with other metadata in the application.
+
+```ts title="server/core/common/http.ts"
+import 'reflect-metadata'
+
+const STATUS_CODE_METADATA_KEY = Symbol('http:status_code')
+const HEADERS_METADATA_KEY = Symbol('http:headers')
+```
+
+#### HTTP Status Code Decorator
+
+The `Http` decorator allows you to specify the HTTP status code for a route handler. This is useful for ensuring that your API responses adhere to RESTful conventions. The `getHttpStatusCode` function retrieves the status code defined by the decorator.
+
+```ts title="server/core/common/http.ts"
+export function Http(statusCode: number): MethodDecorator {
+  return (target, propertyKey) => {
+    Reflect.defineMetadata(
+      STATUS_CODE_METADATA_KEY,
+      statusCode,
+      target,
+      propertyKey,
+    )
+  }
+}
+
+export function getHttpStatusCode(
+  target: object,
+  propertyKey: string | symbol,
+): number | undefined {
+  return Reflect.getMetadata(STATUS_CODE_METADATA_KEY, target, propertyKey) as
+    | number
+    | undefined
+}
+```
+
+#### Response Headers Decorator
+
+The `ResponseHeaders` decorator allows you to define custom headers for your HTTP responses. This can be useful for setting security headers, content types, or any other headers required by your application. The `getResponseHeaders` function retrieves the headers defined by the decorator.
+
+```ts title="server/core/common/http.ts"
+export function ResponseHeaders(
+  heads: Record<string, string>,
+): MethodDecorator {
+  return (target, propertyKey) => {
+    Reflect.defineMetadata(HEADERS_METADATA_KEY, heads, target, propertyKey)
+  }
+}
+
+export function getResponseHeaders(
+  target: object,
+  propertyKey: string | symbol,
+): Record<string, string> {
+  return (Reflect.getMetadata(HEADERS_METADATA_KEY, target, propertyKey) ??
+    {}) as Record<string, string>
+}
+```
+
+#### HttpException Class
+
+The `HttpException` class extends the built-in `Error` class to include an HTTP status code. This allows you to throw exceptions with specific status codes, which can be caught and handled by your error-handling middleware.
+
+```ts title="server/core/common/http.ts"
+import { HttpErrorStatus } from '@/core/http'
+
+export class HttpException extends Error {
+  statusCode: number
+  details: unknown
+
+  constructor(
+    statusCode: keyof typeof HttpErrorStatus,
+    {
+      message = statusCode,
+      details,
+    }: { message?: string; details?: unknown } = {},
+  ) {
+    super(message)
+    this.name = 'HttpError'
+    this.statusCode = HttpErrorStatus[statusCode]
+    this.details = details
+  }
+}
+```
+
+### Container for Dependency Injection
+
+This section implements a lightweight Dependency Injection (DI) container. It is responsible for managing service providers, resolving dependencies, and instantiating classes with their required injections.
+
+```ts title="server/core/common/container.ts"
+import 'reflect-metadata'
+
+import type { Type } from '@/core/types'
+import { getInjectedParams } from '@/core/common/metadata'
+
+export class Container {
+  private providers = new Map<string, unknown>()
+
+  register(token: string, value: unknown) {
+    this.providers.set(token, value)
+  }
+
+  resolve<T>(target: Type<T>): T {
+    const paramTypes = (Reflect.getMetadata('design:paramtypes', target) ??
+      []) as Type[]
+
+    const injectedTokens = getInjectedParams(target)
+
+    const injections = paramTypes.map((param: Type | undefined, index) => {
+      const token = injectedTokens[index]
+      if (token) {
+        if (!this.providers.has(token))
+          throw new Error(`No provider found for token: ${token}`)
+        return this.providers.get(token)
+      }
+
+      if (param) return this.resolve<Type>(param)
+      throw new Error(
+        `Type of parameter at index ${index} in ${target.name} is undefined`,
+      )
+    })
+
+    return new target(...injections)
+  }
+}
+```
+
+**Key Features:**
+
+- **Provider Registration:** register(token, value) allows you to bind a token (usually a string) to a concrete instance or service.
+- **Automatic Resolution:** Uses reflect-metadata to detect constructor parameter types and resolve them recursively.
+- **Custom Injection Tokens:** Supports explicit tokens (via getInjectedParams) for cases where reflection alone isn’t enough.
+- **Error Handling:** Throws descriptive errors if a dependency is missing or undefined.
+
+### Conclusion
+
+With these core decorators and the DI container in place, you can now build more complex and maintainable Express applications. In the next part of this series, we will explore how to implement middleware and exception filters using decorators, further enhancing the structure and readability of your code. Stay tuned!
+
+And finally, we can create an index file to export all the common utilities and decorators we've built so far.
+
+```ts title="server/core/common/index.ts"
+export * from './container'
+export * from './guard'
+export * from './http-methods'
+export * from './http'
+export * from './metadata'
+export * from './params'
+```
+
+## Application Utilities: Bootstrapping, Dependency Resolution, and Controller Handling
+
+This section provides a set of application utilities responsible for initializing the app, resolving dependencies through the DI container, and wiring controllers with their respective metadata (routes, guards, parameters, and responses).
+
+These utilities serve as the core runtime engine that transforms decorated classes (controllers, providers, etc.) into a working HTTP application.
+
+### Parsing Arguments for Controller Methods
+
+This utility function `parseArgs` is responsible for preparing the arguments that will be passed into a controller method during request handling.
+
+It leverages the metadata defined by parameter decorators (e.g., `@Body`, `@Query`, `@Params`, etc.) to extract and validate request data. If a schema is provided, it validates the data using Zod before injecting it into the controller method.
+
+**Key Responsibilities:**
+
+- **Metadata Resolution:** Reads parameter metadata from the controller method.
+- **Request Mapping:** Maps Express request objects (`req`, `res`, `next`) to the correct method arguments.
+- **Validation:** Applies schema validation (if provided) via `parsedSchema`.
+- **Dynamic Injection:** Builds the ordered list of arguments for invoking the controller method.
+
+```ts title="server/core/create-app/parse-args.ts"
+import type { NextFunction, Request, Response } from 'express'
+
+import { getParams, ParamType, parsedSchema } from '@/core/common/params'
+
+export function parseArgs(
+  target: object,
+  key: string | symbol,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): unknown[] {
+  const params = getParams(target, key)
+  const args: unknown[] = []
+
+  for (const param of params) {
+    switch (param.type) {
+      case ParamType.REQ:
+        args[param.index] = req
+        break
+      case ParamType.RES:
+        args[param.index] = res
+        break
+      case ParamType.NEXT:
+        args[param.index] = next
+        break
+      case ParamType.BODY:
+        args[param.index] = param.schema
+          ? parsedSchema(param.schema, req.body)
+          : req.body
+        break
+      case ParamType.QUERY:
+        args[param.index] = param.schema
+          ? parsedSchema(param.schema, req.query)
+          : req.query
+        break
+      case ParamType.PARAMS:
+        args[param.index] = param.schema
+          ? parsedSchema(param.schema, req.params)
+          : req.params
+        break
+      case ParamType.HEADERS:
+        args[param.index] = param.schema
+          ? parsedSchema(param.schema, req.headers)
+          : req.headers
+        break
+      case ParamType.COOKIES:
+        args[param.index] = param.schema
+          ? parsedSchema(param.schema, req.cookies)
+          : req.cookies
+        break
+    }
+  }
+
+  return args
+}
+```
+
+### Registering Controllers and Routes
+
+This utility `registerControllers` is the backbone of the application’s routing system. It wires up modules, providers, and controllers to the Express application by leveraging the metadata defined through decorators.
+
+It recursively traverses imported modules, sets up dependency injection via the `Container`, and attaches route handlers to Express based on the controller and method metadata.
+
+**Key Responsibilities:**
+
+- **Module Traversal:** Recursively processes imports and exports to build a complete dependency tree.
+- **Dependency Injection:** Registers providers and injects them using the `Container`.
+- **Controller Resolution:** Instantiates controllers with their dependencies automatically resolved.
+- **Route Registration:** Maps decorated controller methods to Express routes.
+- **Guards Execution:** Runs guards (like authorization checks) before executing a route handler.
+- **Response Handling:** Automatically sets headers, status codes, and sends response data.
+
+```ts title="server/core/create-app/register-controllers.ts"
+import type { Application, RequestHandler } from 'express'
+
+import type { CanActivate } from '@/core/common'
+import type { Type } from '@/core/types'
+import * as common from '@/core/common'
+import { parseArgs } from '@/core/create-app/parse-args'
+import { defaultStatusByMethod } from '@/core/http'
+
+export function registerControllers(app: Application, module: Type) {
+  const imports = common.getImports(module)
+  const container = new common.Container()
+
+  for (const importedModule of imports) {
+    const exported = common.getExports(importedModule)
+    for (const item of exported) {
+      if ('provide' in item && 'useValue' in item)
+        container.register(String(item.provide), item.useValue)
+      else container.register(item.name, new item())
+    }
+
+    registerControllers(app, importedModule)
+  }
+
+  const controllers = common.getControllers(module)
+  const providers = common.getProviders(module)
+
+  for (const provider of providers) {
+    if (!common.isInjectable(provider))
+      throw new Error(`Provider ${provider.name} is not injectable`)
+    container.register(provider.name, provider)
+  }
+
+  for (const controller of controllers) {
+    if (!common.isController(controller))
+      throw new Error(`Controller ${controller.name} is not a valid controller`)
+    const instance = container.resolve<Type>(controller)
+    const prefix = common.getControllerPrefix(controller)
+    const prototype = controller.prototype as object
+
+    for (const key of Object.getOwnPropertyNames(prototype)) {
+      if (!common.isRoute(prototype, key)) continue
+      const route = common.getRoute(prototype, key)
+
+      const guards = common
+        .getGuards(prototype, route.name)
+        .map((G) => container.resolve<CanActivate>(G))
+
+      const handlers: RequestHandler[] = []
+
+      handlers.push(async (req, res, next) => {
+        for (const guard of guards) {
+          const ok = await guard.canActivate(req, res, next)
+          if (!ok && !res.headersSent)
+            throw new common.HttpException('FORBIDDEN')
+        }
+        next()
+      })
+
+      handlers.push(async (req, res, next) => {
+        try {
+          const args = parseArgs(prototype, key, req, res, next)
+          // @ts-expect-error -- we know that instance[key] is a function
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+          const result = await instance[key](...args)
+          if (res.headersSent) return
+
+          const headers = common.getResponseHeaders(prototype, key)
+
+          for (const [k, v] of Object.entries(headers)) res.setHeader(k, v)
+
+          const status =
+            common.getHttpStatusCode(prototype, key) ??
+            defaultStatusByMethod[route.method] ??
+            200
+          res.status(status)
+
+          if (result === undefined) res.end()
+          else if (typeof result === 'string') res.send(result)
+          else res.json(result)
+        } catch (error) {
+          next(error)
+        }
+      })
+
+      app[route.method](normalizePath(`/${prefix}/${route.path}`), ...handlers)
+    }
+  }
+}
+
+function normalizePath(path: string): string {
+  return path.replace(/\/+/g, '/').replace(/\/$/, '')
+}
+```
+
+### Creating the Application Instance
+
+The `createApp` function provides a clean abstraction for initializing and configuring the Express application. It encapsulates middleware registration, controller setup, and error handling into a streamlined lifecycle.
+
+**Key Responsibilities:**
+
+- **Application Factory:** Produces an Express application instance ready to run.
+- **Middleware Hooks:** Supports beforeHandler and afterHandler for registering global middleware before and after controller routes are applied.
+- **Controller Registration:** Automatically mounts all controllers defined within the provided root module.
+- **Robust Startup:** Catches initialization errors and gracefully exits when failures occur.
+- **Encapsulation:** Exposes only a controlled interface to interact with the Express app.
+
+```ts title="server/core/create-app/index.ts"
+import 'reflect-metadata'
+
+import type { Application, ErrorRequestHandler, RequestHandler } from 'express'
+import express from 'express'
+
+import type { Type } from '@/core/types'
+import { registerControllers } from '@/core/create-app/register-controller'
+
+type Middleware = RequestHandler | ErrorRequestHandler
+
+export async function createApp(module: Type) {
+  const app: Application = express()
+
+  const beforeHandlers: Middleware[][] = []
+  const afterHandlers: Middleware[][] = []
+
+  return Promise.resolve({
+    _app: app,
+    set: app.set.bind(app),
+
+    beforeHandler: (...handler: Middleware[]) => {
+      beforeHandlers.push(handler)
+    },
+    afterHandler: (...handler: Middleware[]) => {
+      afterHandlers.push(handler)
+    },
+
+    listen: (port: number, cb?: () => void) => {
+      try {
+        beforeHandlers.forEach((handler) => app.use(...handler))
+        registerControllers(app, module)
+        afterHandlers.forEach((handler) => app.use(...handler))
+      } catch (error) {
+        if (error instanceof Error)
+          console.error('Error during app initialization:', error.message)
+        else console.error('Unknown error during app initialization')
+        process.exit(1)
+      }
+
+      app.listen(port, cb)
+    },
+  })
+}
+```
+
+### Conclusion
+
+With these application utilities in place, you now have a solid foundation for building structured and maintainable Express applications using decorators. The `createApp` function serves as the entry point, while `registerControllers` and `parseArgs` handle the intricacies of routing and parameter management.
+
+## Usage Example
+
+Now that we have built the core decorators and application utilities, let's see how to use them in a simple Express application.
+
+### Defining a App Module
+
+Defines a simple injectable service class. The `AppService` provides a method `getHello` that returns a greeting string. This service can be injected into controllers or other providers using the DI container.
+
+```ts title="server/app.service.ts"
+import { Injectable } from '@/core/common'
+
+@Injectable()
+export class AppService {
+  getHello(): string {
+    return 'Hello World!'
+  }
+}
+```
+
+Implements a controller class that handles HTTP requests. The `AppController` injects `AppService` and defines an endpoint for the root path (`/`). The `index` method returns the greeting from the service, demonstrating dependency injection and route handling.
+
+```ts title="server/app.controller.ts"
+import { AppService } from '@/app.service'
+import { Controller, Get } from '@/core/common'
+
+@Controller()
+export class AppController {
+  constructor(private readonly appService: AppService) {}
+
+  @Get('/')
+  index() {
+    return this.appService.getHello()
+  }
+}
+```
+
+Creates the main application module. `AppModule` registers controllers and providers, serving as the root module for bootstrapping the Express app. This module structure enables modular organization and scalable dependency management.
+
+```ts title="server/app.module.ts"
+import { AppController } from '@/app.controller'
+import { AppService } from '@/app.service'
+import { Module } from '@/core/common'
+
+@Module({
+  imports: [],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export default class AppModule {}
+```
+
+### Error Handling Middleware Example
+
+This code block provides a reusable Express error-handling middleware. It checks if the error is an instance of `HttpException` to determine the status code and details, otherwise defaults to a 500 Internal Server Error. The middleware sends a structured JSON response with status, message, and optional details, ensuring consistent error reporting across your application.
+
+```ts title="server/common/error-handler.ts"
+import type { NextFunction, Request, Response } from 'express'
+
+import { HttpException } from '@/core/common'
+
+export function errorHandler(
+  err: unknown,
+  _req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  if (err) {
+    const statusCode = err instanceof HttpException ? err.statusCode : 500
+    const message = err instanceof Error ? err.message : 'Internal Server Error'
+    const details =
+      err instanceof HttpException
+        ? err.details
+        : err instanceof Error
+          ? err.cause
+          : undefined
+    res.status(statusCode).json({ status: statusCode, message, details })
+  } else next()
+}
+```
+
+### Bootstrapping the Application
+
+Once the core utilities, dependency injection, and error handler are defined, we can set up the application entrypoint.
+Here we configure common Express middlewares, register global error handling, and start the server.
+
+### Install Required Middlewares
+
+```bash
+npm install cors cookie-parser morgan
+npm install -d @types/cors @types/cookie-parser @types/morgan
+```
+
+### Application Entrypoint
+
+```ts title="server/main.ts"
+import cookieParser from 'cookie-parser'
+import cors from 'cors'
+import express from 'express'
+import morgan from 'morgan'
+
+import AppModule from '@/app.module'
+import { errorHandler } from '@/common/error-handler'
+import { createApp } from '@/core/create-app'
+
+async function bootstrap() {
+  const app = await createApp(AppModule)
+
+  app.beforeHandler(cookieParser())
+  app.beforeHandler(cors())
+  app.beforeHandler(express.json())
+  app.beforeHandler(express.static('public'))
+  app.beforeHandler(express.urlencoded({ extended: true }))
+  app.beforeHandler(morgan('dev') as express.RequestHandler)
+  app.afterHandler(errorHandler)
+
+  app.listen(process.env.PORT, () => {
+    console.log('Server is running on http://localhost:3000')
+  })
+}
+
+void bootstrap()
+```
+
+**Key Points:**
+
+- `beforeHandler` → for middleware like `CORS`, `body parsing`, `static files`, and `logging`.
+- `afterHandler` → for global error handling, ensuring consistent API responses.
+- `createApp(AppModule)` → initializes the DI container, controllers, and providers.
+- `listen` → finalizes setup and starts the HTTP server.
+
+### Running the Application
+
+The following commands demonstrate how to start your Express application using different package managers. Choose the command that matches your setup to run the development server.
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+If you are using Bun as your package manager, you can run the DI-based Express app directly without compiling beforehand. Bun will handle TypeScript files natively, allowing you to start your server instantly.
+
+```bash
+bun run --hot server/main.ts
+```
+
+## Conclusion
+
+In this guide, we built a lightweight modular application framework on top of Express with the following features:
+
+- **Dependency Injection (DI)** for providers and controllers.
+- **Declarative Controllers** with route metadata.
+- **Custom Middleware Hooks** (`beforeHandler` and `afterHandler`).
+- **Centralized Error Handling** with consistent API responses.
+- **Bootstrap Entry Point** for clean and extensible startup.
+
+You can explore the full source code and examples here: [GitHub Repository](https://github.com/tiesen243/saciut.git)
