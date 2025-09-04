@@ -19,8 +19,9 @@ export function ShowcaseSection() {
       id="showcase"
       className="container mb-16 flex flex-col justify-center gap-4"
     >
-      <h2 className="sr-only">Showcase section</h2>
-      <Typography variant="h4">Featured Projects</Typography>
+      <Typography variant="h4" component="h2">
+        Featured Projects
+      </Typography>
       <Typography className="text-normal">
         Explore a collection of open-source projects and tools built with modern
         technologies.

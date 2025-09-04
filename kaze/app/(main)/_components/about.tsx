@@ -127,26 +127,28 @@ export async function AboutSection() {
       <section className="mt-10">
         <h3 className="sr-only">Experience section</h3>
 
-        <Typography variant="h4" className="mb-4">
-          Experiences
-        </Typography>
+        <section>
+          <Typography variant="h4" className="mb-4">
+            Experiences
+          </Typography>
 
-        {basic.experiences.map((exp) => (
-          <div
-            key={exp.company}
-            className="border-primary relative border-l-1 pb-6 pl-8 last:pb-0"
-          >
-            <div className="bg-primary absolute top-0 -left-1.5 size-2.5 rounded-full" />
-            <Typography variant="h5" className="font-medium">
-              {exp.company}
-            </Typography>
-            <Typography className="text-muted-foreground">
-              {exp.duration}
-            </Typography>
-            <Typography>{exp.position}</Typography>
-            <Typography>{exp.description}</Typography>
-          </div>
-        ))}
+          {basic.experiences.map((exp) => (
+            <div
+              key={exp.company}
+              className="border-primary relative border-l-1 pb-6 pl-8 last:pb-0"
+            >
+              <div className="bg-primary absolute top-0 -left-1.5 size-2.5 rounded-full" />
+              <Typography variant="h5" className="font-medium">
+                {exp.company}
+              </Typography>
+              <Typography className="text-muted-foreground">
+                {exp.duration}
+              </Typography>
+              <Typography>{exp.position}</Typography>
+              <Typography>{exp.description}</Typography>
+            </div>
+          ))}
+        </section>
       </section>
     </section>
   )

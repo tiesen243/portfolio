@@ -10,10 +10,9 @@ export function SkillSection() {
       id="skill"
       className="container mb-16 flex flex-col justify-center gap-4"
     >
-      <h2 className="sr-only">Skills section</h2>
-
-      <h3 className="sr-only">Skills section</h3>
-      <Typography variant="h4">Skills</Typography>
+      <Typography variant="h4" component="h2">
+        Skills
+      </Typography>
       <Typography className="text-normal">
         A collection of skills and technologies I work with, including
         programming languages, frameworks, libraries, and tools.
@@ -29,7 +28,9 @@ export function SkillSection() {
 function SkillList({ title, skills }: { title: string; skills: Skill[] }) {
   return (
     <div className="space-y-4">
-      <Typography variant="h5">{title}</Typography>
+      <Typography variant="h5" component="h3">
+        {title}
+      </Typography>
       <div className="flex flex-wrap gap-4">
         {skills.map((skill) => (
           <Badge

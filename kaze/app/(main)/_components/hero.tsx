@@ -19,7 +19,7 @@ export function HeroSection() {
       className="container flex min-h-dvh flex-col items-center justify-center"
       style={{ '--max-width': '650px' } as React.CSSProperties}
     >
-      <h1 className="sr-only">Hero section</h1>
+      <h2 className="sr-only">Hero section</h2>
 
       <Image
         src={Tiesen}
@@ -40,6 +40,7 @@ export function HeroSection() {
             key={nav.label}
             href={nav.href as unknown as UrlObject}
             className="flex items-center justify-between"
+            prefetch={!nav.href.endsWith('.pdf')}
           >
             <Typography className="inline-flex items-center gap-2 lg:text-base">
               <nav.icon className="size-4" />
