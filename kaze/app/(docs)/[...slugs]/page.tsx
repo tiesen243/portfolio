@@ -10,9 +10,7 @@ import { mdxComponents } from '@/components/mdx'
 import { createMetadata } from '@/lib/metadata'
 import { formatDate } from '@/lib/utils'
 
-export default async function ContentPage({
-  params,
-}: PageProps<'/[...slugs]'>) {
+export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
   const { slugs } = await params
 
   try {
@@ -82,16 +80,7 @@ export const generateMetadata = async ({
     return createMetadata({
       title: frontmatter.title,
       description: frontmatter.description,
-      keywords: [
-        'content',
-        'documentation',
-        'blog',
-        'project',
-        'tutorial',
-        'guide',
-        'article',
-        ...frontmatter.tags,
-      ],
+      keywords: ['content', 'blog', 'article', ...frontmatter.tags],
       openGraph: {
         images: [
           ...(frontmatter.image ? [frontmatter.image] : []),

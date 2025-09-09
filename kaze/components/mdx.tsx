@@ -98,7 +98,7 @@ export function mdxComponents() {
     code: ({ className, ...props }: Props) => (
       <code
         className={cn(
-          '[&:not(:has(span))]:bg-muted [&:not(:has(span))]:text-normal [&:not(:has(span))]:relative [&:not(:has(span))]:w-fit [&:not(:has(span))]:rounded-md [&:not(:has(span))]:px-[0.3rem] [&:not(:has(span))]:py-[0.2rem] [&:not(:has(span))]:font-mono [&:not(:has(span))]:text-sm [&:not(:has(span))]:font-medium',
+          '[&:not(:has(span))]:bg-muted [&:not(:has(span))]:text-normal font-mono [&:not(:has(span))]:relative [&:not(:has(span))]:w-fit [&:not(:has(span))]:rounded-md [&:not(:has(span))]:px-[0.3rem] [&:not(:has(span))]:py-[0.2rem] [&:not(:has(span))]:text-sm [&:not(:has(span))]:font-medium',
           className,
         )}
         {...props}

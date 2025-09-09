@@ -3,7 +3,7 @@
 import * as React from 'react'
 
 import { cn } from '@yuki/ui'
-import { useMobile } from '@yuki/ui/hooks/use-mobile'
+import { useMediaQuery } from '@yuki/ui/hooks/use-media-query'
 import { useMounted } from '@yuki/ui/hooks/use-mounted'
 
 const SIDEBAR_WIDTH = '16rem'
@@ -23,27 +23,30 @@ export const useSidebar = () => {
 }
 
 export function SidebarProvider({ children }: { children: React.ReactNode }) {
+  const isMobile = useMediaQuery('(max-width: 767px)')
   const [open, setOpen] = React.useState(false)
-  const isMobile = useMobile()
 
   const toggleSidebar = React.useCallback(() => {
     setOpen((prev) => !prev)
   }, [])
 
   React.useEffect(() => {
-    function handleKeydown(e: KeyboardEvent) {
-      if (e.ctrlKey && e.key === 'e') {
-        e.preventDefault()
-        toggleSidebar()
-      } else if (e.key === 'Escape') {
-        setOpen(false)
-      }
-    }
-
     const abortController = new AbortController()
-    document.addEventListener('keydown', handleKeydown, {
-      signal: abortController.signal,
-    })
+
+    document.addEventListener(
+      'keydown',
+      (e: KeyboardEvent) => {
+        if (e.ctrlKey && e.key === 'e') {
+          e.preventDefault()
+          toggleSidebar()
+        } else if (e.key === 'Escape') {
+          e.preventDefault()
+          setOpen(false)
+        }
+      },
+      { signal: abortController.signal },
+    )
+
     return () => {
       abortController.abort()
     }
@@ -83,7 +86,7 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
           data-state={open ? 'open' : 'closed'}
           style={{ '--sidebar-width': SIDEBAR_WIDTH } as React.CSSProperties}
           className={cn(
-            'bg-background text-sidebar-foreground fixed inset-0 z-40 flex flex-col overflow-y-auto border border-l md:hidden',
+            'bg-background text-foreground fixed inset-0 z-40 flex flex-col overflow-y-auto border border-l md:hidden',
             'transition-transform duration-200 ease-linear',
             'w-(--sidebar-width) data-[state=closed]:-translate-x-full data-[state=open]:translate-x-0',
           )}

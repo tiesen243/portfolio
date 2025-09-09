@@ -1,4 +1,4 @@
-import type { UrlObject } from 'node:url'
+import type { ComponentProps } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -8,6 +8,7 @@ import {
   FolderKanbanIcon,
   RssIcon,
 } from '@yuki/ui/icons'
+import { ShortcutKey } from '@yuki/ui/shortcut-key'
 import { Typography } from '@yuki/ui/typography'
 
 import Tiesen from '@/public/assets/images/tiesen.png'
@@ -36,19 +37,27 @@ export function HeroSection() {
 
       <nav className="mt-8 flex w-full max-w-(--max-width) flex-col gap-4">
         {navs.map((nav) => (
-          <Link
-            key={nav.label}
-            href={nav.href as unknown as UrlObject}
-            className="flex items-center justify-between"
-            prefetch={!nav.href.endsWith('.pdf')}
-          >
-            <Typography className="inline-flex items-center gap-2 lg:text-base">
+          <div key={nav.label} className="flex items-center justify-between">
+            <Typography
+              className="inline-flex items-center gap-2 lg:text-base"
+              component={Link}
+              {...({
+                href: nav.href,
+                prefetch: !nav.href.endsWith('.pdf'),
+              } satisfies ComponentProps<typeof Link>)}
+            >
               <nav.icon className="size-4" />
               <span>{nav.label}</span>
             </Typography>
 
-            <Typography className="text-normal">{nav.shortcut}</Typography>
-          </Link>
+            <ShortcutKey
+              data-shortcut={nav.shortcut}
+              className="text-normal"
+              href={nav.href}
+            >
+              {nav.shortcut}
+            </ShortcutKey>
+          </div>
         ))}
       </nav>
     </section>
@@ -58,8 +67,8 @@ export function HeroSection() {
 const navs = [
   {
     icon: DownloadIcon,
-    label: 'Dowload CV',
-    shortcut: 'd',
+    label: 'Dowload Resume',
+    shortcut: 'r',
     href: '/assets/cv.pdf',
   },
   {
@@ -80,4 +89,4 @@ const navs = [
     shortcut: 'b',
     href: '/blogs',
   },
-]
+] as const
