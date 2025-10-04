@@ -1,4 +1,5 @@
 import reactPlugin from '@eslint-react/eslint-plugin'
+// @ts-ignore
 import a11yPlugin from 'eslint-plugin-jsx-a11y'
 import hooksPlugin from 'eslint-plugin-react-hooks'
 
@@ -7,38 +8,28 @@ export default [
   {
     files: ['**/*.ts', '**/*.tsx'],
     plugins: {
-      ...reactPlugin.configs['recommended-typescript'].plugins,
+      ...reactPlugin.configs.all.plugins,
       'react-hooks': hooksPlugin,
       'jsx-a11y': a11yPlugin,
     },
     rules: {
       ...reactPlugin.configs['recommended-type-checked'].rules,
-      ...reactPlugin.configs['recommended-typescript'].rules,
-      ...hooksPlugin.configs['recommended-latest'].rules,
+      // @ts-ignore
+      ...hooksPlugin.configs.recommended.rules,
       ...a11yPlugin.flatConfigs.strict.rules,
 
-      '@eslint-react/jsx-no-iife': 'error',
+      '@eslint-react/jsx-shorthand-boolean': 'warn',
+      '@eslint-react/jsx-shorthand-fragment': 'warn',
       '@eslint-react/no-children-prop': 'error',
-      '@eslint-react/no-class-component': 'error',
-      '@eslint-react/no-complex-conditional-rendering': 'error',
+      '@eslint-react/no-unnecessary-key': 'warn',
       '@eslint-react/no-useless-fragment': 'warn',
       '@eslint-react/prefer-destructuring-assignment': 'warn',
-      '@eslint-react/prefer-react-namespace-import': 'warn',
-      '@eslint-react/prefer-shorthand-boolean': 'warn',
-      '@eslint-react/prefer-shorthand-fragment': 'warn',
-      '@eslint-react/dom/no-unknown-property': ['error', { ignore: ['tw'] }],
+      '@eslint-react/prefer-namespace-import': 'warn',
       '@eslint-react/naming-convention/component-name': [
         'warn',
         { rule: 'PascalCase', allowAllCaps: true },
       ],
-      '@eslint-react/naming-convention/use-state': 'error',
     },
     settings: reactPlugin.configs['recommended-typescript'].settings,
-  },
-  {
-    files: ['**/use-*.tsx'],
-    rules: {
-      '@eslint-react/naming-convention/filename-extension': ['warn', 'always'],
-    },
   },
 ]
