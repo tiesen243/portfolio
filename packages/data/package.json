@@ -19,16 +19,18 @@
     "typecheck": "tsc --noEmit"
   },
   "prettier": "@yuki/prettier-config",
-  "dependencies": {
-    "react": "catalog:react"
-  },
   "devDependencies": {
-    "@types/react": "catalog:react",
     "@yuki/eslint-config": "workspace:*",
     "@yuki/prettier-config": "workspace:*",
     "@yuki/tsconfig": "workspace:*",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "catalog:",
+    "@types/react": "catalog:react",
+    "prettier-plugin-tailwindcss": "catalog:",
+    "react": "catalog:react"
   }
 }

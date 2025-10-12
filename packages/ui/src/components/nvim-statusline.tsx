@@ -24,7 +24,7 @@ const FILL_COLORS =
 interface NvimStatuslineContextValue {
   mode: Mode
   modes: typeof MODES
-  setMode: React.Dispatch<React.SetStateAction<Mode>>
+  setMode: (value: React.SetStateAction<Mode>) => void
 }
 
 const NvimStatuslineContext =
@@ -46,7 +46,6 @@ function NvimStatuslineProvider({
 }>) {
   const [mode, setMode] = React.useState<Mode>('normal')
   const value = React.useMemo(() => ({ mode, modes: MODES, setMode }), [mode])
-
   return <NvimStatuslineContext value={value}>{children}</NvimStatuslineContext>
 }
 

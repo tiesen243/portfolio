@@ -6,9 +6,9 @@
   "scripts": {
     "build": "bun with-env next build",
     "clean": "git clean -xdf .cache .next .turbo node_modules",
-    "dev": "bun with-env next dev --turbopack --port 3000",
+    "dev": "bun with-env next dev --port 3000",
     "format": "prettier --check . --ignore-path ../.gitignore",
-    "lint": "eslint",
+    "lint": "bun with-env next typegen && eslint",
     "start": "bun with-env next start --port 3000",
     "typecheck": "bun with-env next typegen && tsc --noEmit",
     "with-env": "dotenv -e ../.env --"
@@ -20,8 +20,8 @@
     "@yuki/data": "workspace:*",
     "@yuki/ui": "workspace:*",
     "@yuki/validators": "workspace:*",
-    "fumadocs-ui": "^15.8.3",
-    "next": "^15.5.4",
+    "fumadocs-ui": "^15.8.5",
+    "next": "catalog:react",
     "react": "catalog:react",
     "react-dom": "catalog:react",
     "resend": "^6.1.2"
@@ -39,5 +39,10 @@
     "prettier": "catalog:",
     "tailwindcss": "catalog:tailwind",
     "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "catalog:",
+    "@react-email/render": "^1.3.2",
+    "prettier-plugin-tailwindcss": "catalog:"
   }
 }

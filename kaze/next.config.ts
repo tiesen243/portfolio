@@ -9,6 +9,15 @@ const nextConfig = {
     remotePatterns: [{ protocol: 'https', hostname: 'gravatar.com' }],
   },
 
+  typescript: { ignoreBuildErrors: true },
+  serverExternalPackages: ['shiki'],
+  transpilePackages: [
+    '@yuki/content',
+    '@yuki/data',
+    '@yuki/ui',
+    '@yuki/validators',
+  ],
+
   async redirects() {
     return [
       {
@@ -23,11 +32,6 @@ const nextConfig = {
       })),
     ]
   },
-
-  typescript: { ignoreBuildErrors: true },
-  eslint: { ignoreDuringBuilds: true },
-
-  transpilePackages: ['@yuki/data', '@yuki/ui', '@yuki/validators'],
 } satisfies NextConfig
 
 export default nextConfig

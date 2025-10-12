@@ -1,5 +1,7 @@
 [install]
 linkWorkspacePackages = true
+linker = "isolated"
 
 [run]
-bun = true
+bun = false
+silent = true

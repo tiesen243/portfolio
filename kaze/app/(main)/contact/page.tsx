@@ -9,7 +9,7 @@ import {
 } from '@yuki/ui/icons'
 import { Typography } from '@yuki/ui/typography'
 
-import { ContactForm } from '@/app/(main)/_components/contact-form'
+import { ContactForm } from '@/app/(main)/contact/page.client'
 import { createMetadata } from '@/lib/metadata'
 
 const TITILE = 'Contact'
