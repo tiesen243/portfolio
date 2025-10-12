@@ -4,14 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "bun with-env next build",
+    "build": "bun --env-file ../.env next build",
     "clean": "git clean -xdf .cache .next .turbo node_modules",
-    "dev": "bun with-env next dev --port 3000",
+    "dev": "bun --env-file ../.env next dev --port 3000",
     "format": "prettier --check . --ignore-path ../.gitignore",
-    "lint": "bun with-env next typegen && eslint",
-    "start": "bun with-env next start --port 3000",
-    "typecheck": "bun with-env next typegen && tsc --noEmit",
-    "with-env": "dotenv -e ../.env --"
+    "lint": "bun --env-file ../.env next typegen && eslint",
+    "start": "bun --env-file ../.env next start --port 3000",
+    "typecheck": "bun --env-file ../.env next typegen && tsc --noEmit"
   },
   "prettier": "@yuki/prettier-config",
   "dependencies": {
@@ -34,7 +33,6 @@
     "@yuki/eslint-config": "workspace:*",
     "@yuki/prettier-config": "workspace:*",
     "@yuki/tsconfig": "workspace:*",
-    "dotenv-cli": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "tailwindcss": "catalog:tailwind",
@@ -43,6 +41,7 @@
   "peerDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "catalog:",
     "@react-email/render": "^1.3.2",
-    "prettier-plugin-tailwindcss": "catalog:"
+    "prettier-plugin-tailwindcss": "catalog:",
+    "shiki": "^3.13.0"
   }
 }
