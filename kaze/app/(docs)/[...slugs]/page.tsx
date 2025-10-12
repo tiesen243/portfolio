@@ -59,13 +59,8 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
 }
 
 export async function generateStaticParams() {
-  const sections = ['blogs', 'projects'] as const
-  const pages = await Promise.all(sections.map((section) => getPages(section)))
-  return pages.flatMap((sectionPages, i) =>
-    sectionPages.map((page) => ({
-      slugs: [sections[i], ...page.slug.split('/').filter(Boolean)],
-    })),
-  )
+  const pages = await getPages()
+  return pages.map((page) => ({ slugs: page.slugs }))
 }
 
 export const generateMetadata = async ({

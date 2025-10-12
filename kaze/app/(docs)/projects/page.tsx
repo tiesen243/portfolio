@@ -22,15 +22,15 @@ export default async function ProjectListPage() {
       </Typography>
       <Typography className="text-muted-foreground">{DESCRIPTION}</Typography>
 
-      <section className="mt-12 flex flex-col gap-6">
+      <section className="mt-12 flex flex-col gap-8">
         <Typography variant="h4" component="h2">
           Featured Projects
         </Typography>
 
         {pages.map((page) => (
           <Link
-            key={page.slug}
-            href={`/projects/${page.slug}`}
+            key={page.slugs.join('/')}
+            href={page.slugs.join('/') as '/projects/[...slug]'}
             className="group/project"
           >
             <div className="flex items-start justify-between gap-4">

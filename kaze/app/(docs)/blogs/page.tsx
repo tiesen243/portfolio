@@ -21,11 +21,11 @@ export default async function BlogListPage() {
       </Typography>
       <Typography className="text-muted-foreground">{DESCRIPTION}</Typography>
 
-      <div className="mt-12 flex flex-col gap-4">
+      <div className="mt-12 flex flex-col gap-8">
         {pages.map((page) => (
           <Link
-            key={page.slug}
-            href={`/blogs/${page.slug}`}
+            key={page.slugs.join('/')}
+            href={page.slugs.join('/') as '/blogs/[...slug]'}
             className="group/blog"
           >
             <div className="flex items-start justify-between gap-4">

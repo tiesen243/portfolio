@@ -7,8 +7,13 @@ import { usePathname } from 'next/navigation'
 import { buttonVariants } from '@yuki/ui/button'
 import { Typography } from '@yuki/ui/typography'
 
-export default function NotFound() {
+export default function DocsNotFoundError() {
   const pathName = usePathname()
+
+  const target = {
+    blogs: { label: 'Go to blogs', href: '/blogs' as const },
+    projects: { label: 'Go to projects', href: '/projects' as const },
+  }[pathName.split('/')[1] ?? ''] ?? { label: 'Take me home', href: '/' }
 
   return (
     <main className="container flex min-h-[calc(100dvh-1.5rem)] flex-col items-center justify-center gap-8">
@@ -17,6 +22,7 @@ export default function NotFound() {
         alt="Yuki Not Found"
         width={500}
         height={500}
+        priority
       />
 
       <Typography variant="h2" className="text-center">
@@ -24,14 +30,11 @@ export default function NotFound() {
       </Typography>
 
       <Typography className="text-muted-foreground text-center">
-        Sorry, the blog page you are looking for does not exist.
+        Sorry, the page you are looking for does not exist.
       </Typography>
 
-      <Link
-        href={pathName.startsWith('/blogs') ? '/blogs' : '/projects'}
-        className={buttonVariants({ size: 'lg' })}
-      >
-        Go back to {pathName.startsWith('/blogs') ? 'Blogs' : 'Projects'}
+      <Link href={target.href} className={buttonVariants({ size: 'lg' })}>
+        {target.label}
       </Link>
     </main>
   )

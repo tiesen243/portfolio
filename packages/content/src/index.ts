@@ -77,23 +77,29 @@ async function uncachedGetPage(slugs: string[]) {
   }
 }
 
-async function uncachedGetPages(contentType: 'blogs' | 'projects') {
-  const sourcePath = path.resolve(`../packages/content/${contentType}`)
+async function uncachedGetPages(contentType?: 'blogs' | 'projects') {
+  const sourcePath = path.resolve(`../packages/content/${contentType ?? ''}`)
 
   try {
-    const files = await fs.readdir(sourcePath, { withFileTypes: true })
+    const files = await fs.readdir(sourcePath, {
+      withFileTypes: true,
+      recursive: true,
+    })
 
     const mdxFiles = files.filter(
       (file) =>
         file.isFile() &&
-        file.name.endsWith('.mdx') &&
-        file.name !== 'index.mdx',
+        /\.(mdx?|MDX?)$/.test(file.name) &&
+        !/^index\.mdx?$/i.test(file.name),
     )
 
     const pages = await Promise.allSettled(
       mdxFiles.map(async (file) => {
-        const slug = file.name.slice(0, -4)
-        const filePath = path.join(sourcePath, file.name)
+        const filePath = path.join(file.parentPath, file.name)
+        const slugParts = filePath
+          .slice(filePath.indexOf('content'))
+          .replace(/\.mdx?$/i, '')
+        const slugs = slugParts.split('/').slice(1)
 
         try {
           const source = await fs.readFile(filePath, 'utf-8')
@@ -101,17 +107,13 @@ async function uncachedGetPages(contentType: 'blogs' | 'projects') {
 
           const compiled = await compileMDX.compile({ source, filePath })
           const frontmatter = frontmatterSchema.parse(compiled.frontmatter)
-
-          return { filePath, frontmatter, slug }
+          return { filePath, frontmatter, slugs }
         } catch {
           return {
-            slug,
+            slugs,
             filePath,
             frontmatter: {
-              title: slug
-                .split('-')
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' '),
+              title: slugParts.replace(/-/g, ' '),
               description: '',
               publishedAt: new Date(),
               tags: [],
