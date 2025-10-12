@@ -13,7 +13,10 @@ import { formatDate } from '@/lib/utils'
 export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
   const { slugs } = await params
 
-  const { frontmatter, toc, MDXContent } = await getPage(slugs)
+  const page = await getPage(slugs)
+  if (!page) notFound()
+
+  const { frontmatter, toc, MDXContent } = page
 
   return (
     <article className="container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col py-8 font-sans">

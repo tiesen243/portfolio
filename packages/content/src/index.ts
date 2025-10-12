@@ -70,10 +70,7 @@ async function uncachedGetPage(slugs: string[]) {
   } catch (error) {
     if (process.env.NODE_ENV === 'development')
       console.log(`Error reading page: ${filePath}`, error)
-
-    if (error instanceof Error)
-      throw new Error(`Failed to compile page ${filePath}: ${error.message}`)
-    throw new Error(`Unexpected error while reading page: ${filePath}`)
+    return undefined
   }
 }
 

@@ -17,10 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/contact/linkedin',
     '/contact/x',
   ]
-  const [blogs, projects] = await Promise.all([
-    getPages('blogs'),
-    getPages('projects'),
-  ])
+  const pages = await getPages()
 
   return [
     {
@@ -33,17 +30,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'yearly' as const,
       priority: 0.8,
     })),
-    ...blogs.map((blog) => ({
-      url: url(`/blogs/${blog.slug}`),
+    ...pages.map((page) => ({
+      url: url(`/${page.slugs.join('/')}`),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
-      lastModified: new Date(blog.frontmatter.publishedAt).toISOString(),
-    })),
-    ...projects.map((project) => ({
-      url: url(`/projects/${project.slug}`),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-      lastModified: new Date(project.frontmatter.publishedAt).toISOString(),
+      lastModified: new Date(page.frontmatter.publishedAt).toISOString(),
     })),
   ]
 }
