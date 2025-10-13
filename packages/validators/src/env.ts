@@ -16,6 +16,7 @@ export const env = createEnv({
     VERCEL_PROJECT_PRODUCTION_URL: z.optional(z.string()),
   },
 
+  clientPrefix: 'NEXT_PUBLIC_',
   client: {},
 
   runtimeEnv: process.env,
@@ -27,28 +28,33 @@ export const env = createEnv({
 })
 
 function createEnv<
-  TPrefix extends 'NEXT_PUBLIC_',
+  TPrefix extends string,
   TServer extends Record<string, z.ZodMiniType>,
   TClient extends Record<string, z.ZodMiniType>,
   TResult extends {
     [TKey in keyof (TServer & TClient)]: z.infer<(TServer & TClient)[TKey]>
   },
->(opts: {
-  server: {
-    [TKey in keyof TServer]: TKey extends `${TPrefix}${string}`
-      ? `${TKey} should not prefix with ${TPrefix}`
-      : TServer[TKey]
-  }
-  client: {
-    [TKey in keyof TClient]: TKey extends `${TPrefix}${string}`
-      ? TClient[TKey]
-      : `${TKey extends string ? TKey : never} should prefix with ${TPrefix}`
-  }
-  runtimeEnv:
-    | { [TKey in keyof TResult]: string | undefined }
-    | Record<string, unknown>
-  skipValidation: boolean
-}): TResult {
+  TDeriveEnv extends Record<string, unknown> = Record<string, unknown>,
+>(
+  opts: {
+    server: {
+      [TKey in keyof TServer]: TKey extends `${TPrefix}${string}`
+        ? `${TKey} should not prefix with ${TPrefix}`
+        : TServer[TKey]
+    }
+    clientPrefix: TPrefix
+    client: {
+      [TKey in keyof TClient]: TKey extends `${TPrefix}${string}`
+        ? TClient[TKey]
+        : `${TKey extends string ? TKey : never} should prefix with ${TPrefix}`
+    }
+    runtimeEnv:
+      | { [TKey in keyof TResult]: string | undefined }
+      | Record<string, unknown>
+    skipValidation: boolean
+  },
+  deriveEnv: (env: TResult) => TDeriveEnv = () => ({}) as TDeriveEnv,
+): TResult & TDeriveEnv {
   for (const [key, value] of Object.entries(opts.runtimeEnv)) {
     // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
     if (value === '') delete opts.runtimeEnv[key]
@@ -66,7 +72,9 @@ function createEnv<
     )
 
   const envData = parsedEnvs.success ? parsedEnvs.data : {}
-  return new Proxy(envData as TResult, {
+  Object.assign(envData, deriveEnv(envData as TResult))
+
+  return new Proxy(envData as TResult & TDeriveEnv, {
     get(target, prop) {
       if (!isServer && prop in opts.server)
         throw new Error(

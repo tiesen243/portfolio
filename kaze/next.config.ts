@@ -3,13 +3,13 @@ import '@yuki/validators/env'
 import type { NextConfig } from 'next'
 
 const nextConfig = {
-  reactStrictMode: true,
   typedRoutes: true,
+  reactStrictMode: true,
+  typescript: { ignoreBuildErrors: true },
   images: {
     remotePatterns: [{ protocol: 'https', hostname: 'gravatar.com' }],
   },
 
-  typescript: { ignoreBuildErrors: true },
   serverExternalPackages: ['shiki'],
   transpilePackages: [
     '@yuki/content',
