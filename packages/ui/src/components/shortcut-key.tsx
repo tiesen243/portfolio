@@ -37,7 +37,7 @@ export function ShortcutKey({ href, className, ...props }: KeyProps) {
           e.metaKey === meta
         ) {
           e.preventDefault()
-          router.push(href)
+          router.push(href as never)
         }
       },
       { signal: abortController.signal },

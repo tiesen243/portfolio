@@ -71,22 +71,21 @@ export const generateMetadata = async ({
 }: PageProps<'/[...slugs]'>) => {
   const { slugs } = await params
 
-  try {
-    const { frontmatter, url } = await getPage(slugs)
+  const page = await getPage(slugs)
+  if (!page) notFound()
 
-    return createMetadata({
-      title: frontmatter.title,
-      description: frontmatter.description,
-      keywords: ['content', 'blog', 'article', ...frontmatter.tags],
-      openGraph: {
-        images: [
-          ...(frontmatter.image ? [frontmatter.image] : []),
-          `/api/og?title=${frontmatter.title}&description=${frontmatter.description}`,
-        ],
-        url,
-      },
-    })
-  } catch {
-    notFound()
-  }
+  const { frontmatter, url } = page
+
+  return createMetadata({
+    title: frontmatter.title,
+    description: frontmatter.description,
+    keywords: ['content', 'blog', 'article', ...frontmatter.tags],
+    openGraph: {
+      images: [
+        ...(frontmatter.image ? [frontmatter.image] : []),
+        `/api/og?title=${frontmatter.title}&description=${frontmatter.description}`,
+      ],
+      url,
+    },
+  })
 }
