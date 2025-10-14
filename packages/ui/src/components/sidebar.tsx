@@ -70,23 +70,23 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
       <>
         <button
-          data-slot="sidebar-toggle"
-          type="button"
+          data-slot='sidebar-toggle'
+          type='button'
           onClick={() => {
             setOpen(!open)
           }}
           className={cn(
-            'bg-background/10 fixed inset-0 z-30 w-full backdrop-blur-xl',
+            'fixed inset-0 z-30 w-full bg-background/10 backdrop-blur-xl',
             'transition-opacity duration-200 ease-linear',
             open ? 'block opacity-100' : 'hidden opacity-0',
           )}
         />
         <aside
-          data-slot="sidebar"
+          data-slot='sidebar'
           data-state={open ? 'open' : 'closed'}
           style={{ '--sidebar-width': SIDEBAR_WIDTH } as React.CSSProperties}
           className={cn(
-            'bg-background text-foreground fixed inset-0 z-40 flex flex-col overflow-y-auto border border-l md:hidden',
+            'fixed inset-0 z-40 flex flex-col overflow-y-auto border border-l bg-background text-foreground md:hidden',
             'transition-transform duration-200 ease-linear',
             'w-(--sidebar-width) data-[state=closed]:-translate-x-full data-[state=open]:translate-x-0',
           )}
@@ -98,13 +98,13 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
 
   return (
     <div
-      data-slot="sidebar"
+      data-slot='sidebar'
       data-state={open ? 'open' : 'closed'}
-      className="text-sidebar-foreground group hidden md:block"
+      className='group hidden text-sidebar-foreground md:block'
       style={{ '--sidebar-width': SIDEBAR_WIDTH } as React.CSSProperties}
     >
       <div
-        data-slot="sidebar-gap"
+        data-slot='sidebar-gap'
         className={cn(
           'relative h-svh w-0 bg-transparent',
           'transition-[width] duration-200 ease-linear',
@@ -113,9 +113,9 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
       />
 
       <aside
-        data-slot="sidebar-content"
+        data-slot='sidebar-content'
         className={cn(
-          'border-l-secondary bg-background fixed inset-y-0 z-10 flex w-(--sidebar-width) flex-col border',
+          'fixed inset-y-0 z-10 flex w-(--sidebar-width) flex-col border border-l-secondary bg-background',
           'transition-[left] duration-200 ease-linear',
           'left-0 group-data-[state=closed]:left-[calc(var(--sidebar-width)*-1)]',
         )}
@@ -131,7 +131,7 @@ export function SidebarInset({ children }: { children: React.ReactNode }) {
 
   return (
     <main
-      data-slot="sidebar-inset"
+      data-slot='sidebar-inset'
       data-state={open ? 'open' : 'closed'}
       className={cn(
         'group flex min-h-[calc(100dvh-1.5rem)] w-full flex-col',

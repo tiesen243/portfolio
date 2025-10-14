@@ -9,14 +9,14 @@ export async function AboutSection() {
   const hashedEmail = await hash256(basic.email)
 
   return (
-    <section id="about" className="container min-h-dvh py-16">
-      <h2 className="sr-only">About section</h2>
+    <section id='about' className='container min-h-dvh py-16'>
+      <h2 className='sr-only'>About section</h2>
 
-      <section className="grid md:grid-cols-3">
-        <h3 className="sr-only">Basic Information section</h3>
+      <section className='grid md:grid-cols-3'>
+        <h3 className='sr-only'>Basic Information section</h3>
 
-        <section className="md:col-span-2">
-          <Typography variant="h4">About Me</Typography>
+        <section className='md:col-span-2'>
+          <Typography variant='h4'>About Me</Typography>
           <Typography>
             Hi, I&apos;m Tiesen, a weeb devalopa with a passion for building
             innovative solutions. I love working with TypeScript and Next.js to
@@ -24,18 +24,18 @@ export async function AboutSection() {
             find me exploring new technologies or contributing to open-source
             projects.
           </Typography>
-          <Typography className="text-normal">
+          <Typography className='text-normal'>
             Feel free to reach out if you want to collaborate or just chat about
             tech!
           </Typography>
 
-          <Typography variant="ul">
+          <Typography variant='ul'>
             <li>
               <strong>Name:</strong> {basic.name}
             </li>
             <li>
               <strong>Email:</strong>{' '}
-              <a href={`mailto:${basic.email}`} className="hover:underline">
+              <a href={`mailto:${basic.email}`} className='hover:underline'>
                 {basic.email}
               </a>
             </li>
@@ -51,37 +51,37 @@ export async function AboutSection() {
           </Typography>
         </section>
 
-        <section className="relative aspect-square max-w-full">
-          <h4 className="sr-only">Profile Picture section</h4>
+        <section className='relative aspect-square max-w-full'>
+          <h4 className='sr-only'>Profile Picture section</h4>
 
           <Image
             src={`https://gravatar.com/avatar/${hashedEmail}?s=400`}
             alt={basic.nickname}
-            className="rounded-xl object-cover"
+            className='rounded-xl object-cover'
             priority
             fill
           />
         </section>
       </section>
 
-      <section className="mt-10">
-        <h3 className="sr-only">Educations & Certifications section</h3>
+      <section className='mt-10'>
+        <h3 className='sr-only'>Educations & Certifications section</h3>
 
         <section>
-          <Typography variant="h4" className="mb-4">
+          <Typography variant='h4' className='mb-4'>
             Educations
           </Typography>
 
           {basic.educations.map((education) => (
             <div
               key={education.school}
-              className="border-primary relative border-l-1 pb-6 pl-8 last:pb-0"
+              className='relative border-l-1 border-primary pb-6 pl-8 last:pb-0'
             >
-              <div className="bg-primary absolute top-0 -left-1.5 size-2.5 rounded-full" />
-              <Typography variant="h5" className="font-medium">
+              <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-primary' />
+              <Typography variant='h5' className='font-medium'>
                 {education.school}
               </Typography>
-              <Typography className="text-muted-foreground">
+              <Typography className='text-muted-foreground'>
                 {education.duration}
               </Typography>
               <Typography>
@@ -91,31 +91,31 @@ export async function AboutSection() {
           ))}
         </section>
 
-        <section className="mt-10">
-          <Typography variant="h4" className="mb-4">
+        <section className='mt-10'>
+          <Typography variant='h4' className='mb-4'>
             Certifications
           </Typography>
 
           {basic.certifications.map((certification) => (
             <div
               key={certification.name}
-              className="border-primary relative border-l-1 pb-6 pl-8 last:pb-0"
+              className='relative border-l-1 border-primary pb-6 pl-8 last:pb-0'
             >
-              <div className="bg-primary absolute top-0 -left-1.5 size-2.5 rounded-full" />
-              <Typography variant="h5" className="font-medium">
+              <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-primary' />
+              <Typography variant='h5' className='font-medium'>
                 {certification.name}
               </Typography>
-              <Typography className="text-muted-foreground">
+              <Typography className='text-muted-foreground'>
                 Issued by {certification.issuer} on {certification.date}
               </Typography>
               <Typography>{certification.description}</Typography>
               <Typography
-                component="a"
+                component='a'
                 // @ts-expect-error - `href` is not recognized by Typography
                 href={certification.link}
-                className="text-sm hover:underline lg:text-base"
-                target="_blank"
-                rel="noopener noreferrer"
+                className='text-sm hover:underline lg:text-base'
+                target='_blank'
+                rel='noopener noreferrer'
               >
                 View Certificate
               </Typography>
@@ -124,24 +124,24 @@ export async function AboutSection() {
         </section>
       </section>
 
-      <section className="mt-10">
-        <h3 className="sr-only">Experience section</h3>
+      <section className='mt-10'>
+        <h3 className='sr-only'>Experience section</h3>
 
         <section>
-          <Typography variant="h4" className="mb-4">
+          <Typography variant='h4' className='mb-4'>
             Experiences
           </Typography>
 
           {basic.experiences.map((exp) => (
             <div
               key={exp.company}
-              className="border-primary relative border-l-1 pb-6 pl-8 last:pb-0"
+              className='relative border-l-1 border-primary pb-6 pl-8 last:pb-0'
             >
-              <div className="bg-primary absolute top-0 -left-1.5 size-2.5 rounded-full" />
-              <Typography variant="h5" className="font-medium">
+              <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-primary' />
+              <Typography variant='h5' className='font-medium'>
                 {exp.company}
               </Typography>
-              <Typography className="text-muted-foreground">
+              <Typography className='text-muted-foreground'>
                 {exp.duration}
               </Typography>
               <Typography>{exp.position}</Typography>

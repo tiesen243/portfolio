@@ -17,24 +17,24 @@ export function mdxComponents() {
     ...defaultMdxComponents,
     h2: ({ className, ...props }: Props) => (
       <Typography
-        variant="h4"
-        component="h2"
+        variant='h4'
+        component='h2'
         className={cn('mt-4', className)}
         {...props}
       />
     ),
     h3: ({ className, ...props }: Props) => (
       <Typography
-        variant="h5"
-        component="h3"
+        variant='h5'
+        component='h3'
         className={cn('mt-3', className)}
         {...props}
       />
     ),
     h4: ({ className, ...props }: Props) => (
       <Typography
-        variant="h6"
-        component="h4"
+        variant='h6'
+        component='h4'
         className={cn('mt-2', className)}
         {...props}
       />
@@ -46,14 +46,14 @@ export function mdxComponents() {
       />
     ),
     ul: ({ className, ...props }: Props) => (
-      <Typography variant="ul" className={cn('mt-1', className)} {...props} />
+      <Typography variant='ul' className={cn('mt-1', className)} {...props} />
     ),
     ol: ({ className, ...props }: Props) => (
-      <Typography variant="ol" className={cn('mt-1', className)} {...props} />
+      <Typography variant='ol' className={cn('mt-1', className)} {...props} />
     ),
     blockquote: ({ className, ...props }: Props) => (
       <Typography
-        variant="blockquote"
+        variant='blockquote'
         className={cn(
           '[&_p]:before:content-["“"] [&_p]:after:content-["”"]',
           className,
@@ -61,7 +61,7 @@ export function mdxComponents() {
         {...props}
       />
     ),
-    caption: (props: Props) => <Typography variant="caption" {...props} />,
+    caption: (props: Props) => <Typography variant='caption' {...props} />,
     a: ({
       href,
       className,
@@ -77,7 +77,7 @@ export function mdxComponents() {
           href={href as unknown as UrlObject}
           className={cn(
             typographyVariants({ variant: 'p' }),
-            'hover:text-normal inline-flex items-center gap-2 underline underline-offset-4',
+            'inline-flex items-center gap-2 underline underline-offset-4 hover:text-normal',
             className,
           )}
           {...(isExternalLink
@@ -85,7 +85,7 @@ export function mdxComponents() {
             : {})}
           {...props}
         >
-          {children} {isExternalLink && <ExternalLinkIcon className="size-4" />}
+          {children} {isExternalLink && <ExternalLinkIcon className='size-4' />}
         </Link>
       )
     },
@@ -98,7 +98,7 @@ export function mdxComponents() {
     code: ({ className, ...props }: Props) => (
       <code
         className={cn(
-          '[&:not(:has(span))]:bg-muted [&:not(:has(span))]:text-normal font-mono [&:not(:has(span))]:relative [&:not(:has(span))]:w-fit [&:not(:has(span))]:rounded-md [&:not(:has(span))]:px-[0.3rem] [&:not(:has(span))]:py-[0.2rem] [&:not(:has(span))]:text-sm [&:not(:has(span))]:font-medium',
+          'font-mono [&:not(:has(span))]:relative [&:not(:has(span))]:w-fit [&:not(:has(span))]:rounded-md [&:not(:has(span))]:bg-muted [&:not(:has(span))]:px-[0.3rem] [&:not(:has(span))]:py-[0.2rem] [&:not(:has(span))]:text-sm [&:not(:has(span))]:font-medium [&:not(:has(span))]:text-normal',
           className,
         )}
         {...props}

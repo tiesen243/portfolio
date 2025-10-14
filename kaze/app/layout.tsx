@@ -25,7 +25,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang='en' suppressHydrationWarning>
       <body
         className={cn(
           'flex min-h-dvh w-full font-mono antialiased',
@@ -34,8 +34,8 @@ export default function RootLayout({
         )}
       >
         <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
+          attribute='class'
+          defaultTheme='dark'
           disableTransitionOnChange
           enableColorScheme
           enableSystem
@@ -54,7 +54,7 @@ export default function RootLayout({
           </SidebarProvider>
         </ThemeProvider>
 
-        <Analytics mode="production" />
+        <Analytics mode='production' />
       </body>
     </html>
   )

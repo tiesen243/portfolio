@@ -16,43 +16,43 @@ import Tiesen from '@/public/assets/images/tiesen.png'
 export function HeroSection() {
   return (
     <section
-      id="hero"
-      className="container flex min-h-dvh flex-col items-center justify-center"
+      id='hero'
+      className='container flex min-h-dvh flex-col items-center justify-center'
       style={{ '--max-width': '650px' } as React.CSSProperties}
     >
-      <h2 className="sr-only">Hero section</h2>
+      <h2 className='sr-only'>Hero section</h2>
 
       <Image
         src={Tiesen}
-        alt="Tiesen"
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        className="mx-auto h-auto w-(--max-width)"
+        alt='Tiesen'
+        sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+        className='mx-auto h-auto w-(--max-width)'
       />
 
-      <Typography className="mt-6 max-w-(--max-width) text-center text-pretty">
+      <Typography className='mt-6 max-w-(--max-width) text-center text-pretty'>
         I believe this world is{' '}
-        <span className="text-normal font-medium">flat</span>, because{' '}
-        <span className="text-normal font-medium">loli</span> is my world OwO
+        <span className='font-medium text-normal'>flat</span>, because{' '}
+        <span className='font-medium text-normal'>loli</span> is my world OwO
       </Typography>
 
-      <nav className="mt-8 flex w-full max-w-(--max-width) flex-col gap-4">
+      <nav className='mt-8 flex w-full max-w-(--max-width) flex-col gap-4'>
         {navs.map((nav) => (
-          <div key={nav.label} className="flex items-center justify-between">
+          <div key={nav.label} className='flex items-center justify-between'>
             <Typography
-              className="inline-flex items-center gap-2 lg:text-base"
+              className='inline-flex items-center gap-2 lg:text-base'
               component={Link}
               {...({
                 href: nav.href,
                 prefetch: !nav.href.endsWith('.pdf'),
               } satisfies ComponentProps<typeof Link>)}
             >
-              <nav.icon className="size-4" />
+              <nav.icon className='size-4' />
               <span>{nav.label}</span>
             </Typography>
 
             <ShortcutKey
               data-shortcut={nav.shortcut}
-              className="text-normal"
+              className='text-normal'
               href={nav.href}
             >
               {nav.shortcut}

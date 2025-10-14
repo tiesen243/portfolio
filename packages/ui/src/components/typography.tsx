@@ -17,7 +17,7 @@ const typographyVariants = cva('mb-1 text-base leading-7 font-normal', {
       ul: 'my-4 ml-6 list-disc text-base lg:text-lg [&>li]:mt-2 [&>li]:first:mt-0',
       ol: '"my-4 ml-6 list-decimal text-base lg:text-lg [&>li]:mt-2 [&>li]:first:mt-0',
       blockquote: 'my-2 border-l-2 pl-6 italic',
-      code: 'bg-muted relative w-fit rounded-md px-[0.3rem] py-[0.2rem] font-mono text-sm font-medium',
+      code: 'relative w-fit rounded-md bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-medium',
       caption: 'block text-sm tracking-wide',
     },
   },
@@ -42,7 +42,7 @@ function Typography({
 
   return (
     <Comp
-      data-slot="typography"
+      data-slot='typography'
       className={cn(typographyVariants({ variant }), className)}
       {...props}
     />

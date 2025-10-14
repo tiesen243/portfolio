@@ -16,20 +16,20 @@ export default function DocsNotFoundError() {
   }[pathName.split('/')[1] ?? ''] ?? { label: 'Take me home', href: '/' }
 
   return (
-    <main className="container flex min-h-[calc(100dvh-1.5rem)] flex-col items-center justify-center gap-8">
+    <main className='container flex min-h-[calc(100dvh-1.5rem)] flex-col items-center justify-center gap-8'>
       <Image
-        src="/assets/images/yuki.webp"
-        alt="Yuki Not Found"
+        src='/assets/images/yuki.webp'
+        alt='Yuki Not Found'
         width={500}
         height={500}
         priority
       />
 
-      <Typography variant="h2" className="text-center">
+      <Typography variant='h2' className='text-center'>
         404 - Page Not Found
       </Typography>
 
-      <Typography className="text-muted-foreground text-center">
+      <Typography className='text-center text-muted-foreground'>
         Sorry, the page you are looking for does not exist.
       </Typography>
 

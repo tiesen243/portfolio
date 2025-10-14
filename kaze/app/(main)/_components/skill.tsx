@@ -7,35 +7,35 @@ import { Typography } from '@yuki/ui/typography'
 export function SkillSection() {
   return (
     <section
-      id="skill"
-      className="container mb-16 flex flex-col justify-center gap-4"
+      id='skill'
+      className='container mb-16 flex flex-col justify-center gap-4'
     >
-      <Typography variant="h4" component="h2">
+      <Typography variant='h4' component='h2'>
         Skills
       </Typography>
-      <Typography className="text-normal">
+      <Typography className='text-normal'>
         A collection of skills and technologies I work with, including
         programming languages, frameworks, libraries, and tools.
       </Typography>
 
-      <SkillList title="Programming Languages" skills={skills.languages} />
-      <SkillList title="Frameworks & Libraries" skills={skills.frameworks} />
-      <SkillList title="Tools & Technologies" skills={skills.tools} />
+      <SkillList title='Programming Languages' skills={skills.languages} />
+      <SkillList title='Frameworks & Libraries' skills={skills.frameworks} />
+      <SkillList title='Tools & Technologies' skills={skills.tools} />
     </section>
   )
 }
 
 function SkillList({ title, skills }: { title: string; skills: Skill[] }) {
   return (
-    <div className="space-y-4">
-      <Typography variant="h5" component="h3">
+    <div className='space-y-4'>
+      <Typography variant='h5' component='h3'>
         {title}
       </Typography>
-      <div className="flex flex-wrap gap-4">
+      <div className='flex flex-wrap gap-4'>
         {skills.map((skill) => (
           <Badge
             key={skill.name}
-            variant="secondary"
+            variant='secondary'
             className={cn(
               'flex items-center gap-2 px-3 py-2 text-lg font-medium transition-all [&>svg]:size-6',
               skill.isInverted ? 'dark:invert' : '',
@@ -46,7 +46,7 @@ function SkillList({ title, skills }: { title: string; skills: Skill[] }) {
               color: skill.color,
             }}
           >
-            <skill.icon className="fill-current" />
+            <skill.icon className='fill-current' />
             {skill.name}
           </Badge>
         ))}

@@ -19,40 +19,40 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
   const { frontmatter, toc, MDXContent } = page
 
   return (
-    <article className="container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col py-8 font-sans">
-      <Typography variant="h2" component="h1">
+    <article className='container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col py-8 font-sans'>
+      <Typography variant='h2' component='h1'>
         {frontmatter.title}
       </Typography>
 
-      <Typography className="text-muted-foreground">
+      <Typography className='text-muted-foreground'>
         {frontmatter.description}
       </Typography>
 
-      <div className="mt-2 flex flex-wrap gap-1">
+      <div className='mt-2 flex flex-wrap gap-1'>
         {frontmatter.tags.map((tag) => (
-          <Badge key={tag} variant="secondary">
+          <Badge key={tag} variant='secondary'>
             {tag}
           </Badge>
         ))}
       </div>
 
-      <Typography className="text-muted-foreground mt-2 shrink-0 text-xs lg:text-sm">
+      <Typography className='mt-2 shrink-0 text-xs text-muted-foreground lg:text-sm'>
         {formatDate(frontmatter.publishedAt)}
       </Typography>
 
       {frontmatter.image && (
-        <div className="relative mt-4 aspect-video w-full">
+        <div className='relative mt-4 aspect-video w-full'>
           <Image
             src={frontmatter.image}
             alt={frontmatter.title}
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="rounded-lg object-cover shadow-md"
+            sizes='(max-width: 768px) 100vw, 50vw'
+            className='rounded-lg object-cover shadow-md'
             priority
             fill
           />
         </div>
       )}
-      <hr className="my-4" />
+      <hr className='my-4' />
 
       <InlineTOC items={toc} />
 

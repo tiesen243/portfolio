@@ -40,27 +40,27 @@ export function ContactForm() {
 
   return (
     <form
-      className="bg-card text-card-foreground rounded-xl border p-6 shadow-md"
+      className='rounded-xl border bg-card p-6 text-card-foreground shadow-md'
       onSubmit={form.handleSubmit}
     >
-      <h3 className="sr-only">Contact Form</h3>
+      <h3 className='sr-only'>Contact Form</h3>
 
-      <FieldSet className="flex h-full flex-col">
+      <FieldSet className='flex h-full flex-col'>
         <FieldLegend>Send a Message</FieldLegend>
         <FieldDescription>
           Fill out the form below and I&apos;ll get back to you as soon as
           possible.
         </FieldDescription>
 
-        <FieldGroup className="flex-1 gap-4">
+        <FieldGroup className='flex-1 gap-4'>
           <form.Field
-            name="name"
+            name='name'
             render={({ meta, field }) => (
               <Field data-invalid={meta.errors.length > 0}>
                 <FieldLabel htmlFor={meta.fieldId}>Name</FieldLabel>
                 <Input
                   {...field}
-                  placeholder="Yukikaze"
+                  placeholder='Yukikaze'
                   onFocus={handleFocus}
                   onBlur={async (e) => {
                     await field.onBlur(e)
@@ -73,14 +73,14 @@ export function ContactForm() {
           />
 
           <form.Field
-            name="email"
+            name='email'
             render={({ meta, field }) => (
               <Field data-invalid={meta.errors.length > 0}>
                 <FieldLabel htmlFor={meta.fieldId}>Email</FieldLabel>
                 <Input
                   {...field}
-                  type="email"
-                  placeholder="yuki@example.com"
+                  type='email'
+                  placeholder='yuki@example.com'
                   onFocus={handleFocus}
                   onBlur={async (e) => {
                     await field.onBlur(e)
@@ -93,13 +93,13 @@ export function ContactForm() {
           />
 
           <form.Field
-            name="subject"
+            name='subject'
             render={({ meta, field }) => (
               <Field data-invalid={meta.errors.length > 0}>
                 <FieldLabel htmlFor={meta.fieldId}>Subject</FieldLabel>
                 <Input
                   {...field}
-                  placeholder="Project Inquiry"
+                  placeholder='Project Inquiry'
                   onFocus={handleFocus}
                   onBlur={async (e) => {
                     await field.onBlur(e)
@@ -112,13 +112,13 @@ export function ContactForm() {
           />
 
           <form.Field<'message', HTMLTextAreaElement>
-            name="message"
+            name='message'
             render={({ meta, field }) => (
               <Field data-invalid={meta.errors.length > 0}>
                 <FieldLabel htmlFor={meta.fieldId}>Message</FieldLabel>
                 <Textarea
                   {...field}
-                  placeholder="Tell me more about your project or question..."
+                  placeholder='Tell me more about your project or question...'
                   onFocus={handleFocus}
                   onBlur={async (e) => {
                     await field.onBlur(e)
@@ -132,7 +132,7 @@ export function ContactForm() {
         </FieldGroup>
 
         <Field>
-          <Button className="w-full" disabled={form.state.isPending}>
+          <Button className='w-full' disabled={form.state.isPending}>
             <SendIcon />
             Send Message
           </Button>

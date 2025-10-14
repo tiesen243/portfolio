@@ -6,7 +6,7 @@ import { SkillSection } from '@/app/(main)/_components/skill'
 export default function HomePage() {
   return (
     <>
-      <h1 className="sr-only">Tiesen's Personal Website</h1>
+      <h1 className='sr-only'>Tiesen's Personal Website</h1>
       <HeroSection />
       <AboutSection />
       <SkillSection />

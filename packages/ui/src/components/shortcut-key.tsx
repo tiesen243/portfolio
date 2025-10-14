@@ -50,7 +50,7 @@ export function ShortcutKey({ href, className, ...props }: KeyProps) {
 
   return (
     <kbd
-      data-slot="key"
+      data-slot='key'
       className={cn(
         'inline-flex gap-2 font-mono text-sm font-medium',
         className,

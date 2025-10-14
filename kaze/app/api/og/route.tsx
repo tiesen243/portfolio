@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
             >
               <img
                 src={logoUrl}
-                alt="Logo"
+                alt='Logo'
                 style={{
                   width: '80%',
                   height: '80%',
@@ -85,7 +85,7 @@ export async function GET(request: NextRequest) {
           {isUwU ? (
             <img
               src={logoTypeUrl}
-              alt="UwU Logo"
+              alt='UwU Logo'
               style={{
                 flex: 1,
                 margin: '0 auto',

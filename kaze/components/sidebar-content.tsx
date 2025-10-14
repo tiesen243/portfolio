@@ -19,40 +19,40 @@ import Tiesen from '@/public/assets/images/tiesen.png'
 export function SidebarContent() {
   return (
     <>
-      <section className="border-b">
+      <section className='border-b'>
         <Image
           src={Tiesen}
-          alt="Tiesen Logo"
-          className="m-4 w-2/3 object-cover"
+          alt='Tiesen Logo'
+          className='m-4 w-2/3 object-cover'
         />
       </section>
 
-      <section className="flex-1">
-        <nav className="flex flex-col gap-2 px-2 py-4">
+      <section className='flex-1'>
+        <nav className='flex flex-col gap-2 px-2 py-4'>
           {navs.map((nav) => (
             <Link
               key={nav.label}
               href={nav.href as unknown as UrlObject}
-              className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm transition-colors"
+              className='inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
             >
-              <nav.icon className="size-4" />
+              <nav.icon className='size-4' />
               <span>{nav.label}</span>
             </Link>
           ))}
         </nav>
       </section>
 
-      <section className="flex items-center justify-between gap-4 border pt-4 pb-10 md:pb-4">
-        <nav className="flex items-center gap-4 pl-2">
+      <section className='flex items-center justify-between gap-4 border pt-4 pb-10 md:pb-4'>
+        <nav className='flex items-center gap-4 pl-2'>
           {Object.entries(socials).map(([key, Icon]) => (
             <a
               key={key}
               href={`/contact/${key}`}
-              target="_blank"
-              rel="noopener noreferrer"
+              target='_blank'
+              rel='noopener noreferrer'
             >
-              <Icon className="hover:fill-muted-foreground size-4" />
-              <span className="sr-only">
+              <Icon className='size-4 hover:fill-muted-foreground' />
+              <span className='sr-only'>
                 {key.charAt(0).toUpperCase() + key.slice(1)}
               </span>
             </a>

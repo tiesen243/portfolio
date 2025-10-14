@@ -16,18 +16,18 @@ import { Typography } from '@yuki/ui/typography'
 export function ShowcaseSection() {
   return (
     <section
-      id="showcase"
-      className="container mb-16 flex flex-col justify-center gap-4"
+      id='showcase'
+      className='container mb-16 flex flex-col justify-center gap-4'
     >
-      <Typography variant="h4" component="h2">
+      <Typography variant='h4' component='h2'>
         Featured Projects
       </Typography>
-      <Typography className="text-normal">
+      <Typography className='text-normal'>
         Explore a collection of open-source projects and tools built with modern
         technologies.
       </Typography>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
         {showcases.map((showcase) => (
           <ShowcaseCard key={showcase.title} showcase={showcase} />
         ))}
@@ -38,26 +38,26 @@ export function ShowcaseSection() {
 
 function ShowcaseCard({ showcase }: { showcase: Showcase }) {
   return (
-    <Card className="group/showcase h-full overflow-hidden pt-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-      <div className="relative aspect-video overflow-hidden">
+    <Card className='group/showcase h-full overflow-hidden pt-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg'>
+      <div className='relative aspect-video overflow-hidden'>
         <Image
           src={showcase.image}
           alt={showcase.title}
-          className="object-cover transition-transform duration-300 group-hover/showcase:scale-105"
+          className='object-cover transition-transform duration-300 group-hover/showcase:scale-105'
           fill
         />
       </div>
 
-      <CardHeader className="flex-1">
-        <CardTitle className="text-xl">{showcase.title}</CardTitle>
-        <CardDescription className="text-muted-foreground line-clamp-3 flex-1 text-sm">
+      <CardHeader className='flex-1'>
+        <CardTitle className='text-xl'>{showcase.title}</CardTitle>
+        <CardDescription className='line-clamp-3 flex-1 text-sm text-muted-foreground'>
           {showcase.description}
         </CardDescription>
       </CardHeader>
 
-      <CardFooter className="pt-0">
-        <Button variant="outline" className="w-full" asChild>
-          <a href={showcase.url} target="_blank" rel="noopener noreferrer">
+      <CardFooter className='pt-0'>
+        <Button variant='outline' className='w-full' asChild>
+          <a href={showcase.url} target='_blank' rel='noopener noreferrer'>
             View Project
             <ExternalLinkIcon />
           </a>

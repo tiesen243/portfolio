@@ -15,40 +15,40 @@ export default async function BlogListPage() {
   const pages = await getPages('blogs')
 
   return (
-    <article className="container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col py-8">
-      <Typography variant="h3" component="h1">
+    <article className='container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col py-8'>
+      <Typography variant='h3' component='h1'>
         {TITLE}
       </Typography>
-      <Typography className="text-muted-foreground">{DESCRIPTION}</Typography>
+      <Typography className='text-muted-foreground'>{DESCRIPTION}</Typography>
 
-      <div className="mt-12 flex flex-col gap-8">
+      <div className='mt-12 flex flex-col gap-8'>
         {pages.map((page) => (
           <Link
             key={page.slugs.join('/')}
             href={page.slugs.join('/') as '/blogs/[...slug]'}
-            className="group/blog"
+            className='group/blog'
           >
-            <div className="flex items-start justify-between gap-4">
+            <div className='flex items-start justify-between gap-4'>
               <Typography
-                variant="h4"
-                component="h2"
-                className="line-clamp-2 group-hover/blog:underline"
+                variant='h4'
+                component='h2'
+                className='line-clamp-2 group-hover/blog:underline'
               >
                 {page.frontmatter.title}
               </Typography>
 
-              <Typography className="text-muted-foreground shrink-0 text-sm">
+              <Typography className='shrink-0 text-sm text-muted-foreground'>
                 {formatDate(page.frontmatter.publishedAt)}
               </Typography>
             </div>
 
-            <Typography className="text-muted-foreground line-clamp-3">
+            <Typography className='line-clamp-3 text-muted-foreground'>
               {page.frontmatter.description}
             </Typography>
 
-            <div className="mt-2 flex flex-wrap gap-1">
+            <div className='mt-2 flex flex-wrap gap-1'>
               {page.frontmatter.tags.map((tag) => (
-                <Badge key={tag} variant="secondary">
+                <Badge key={tag} variant='secondary'>
                   {tag}
                 </Badge>
               ))}

@@ -59,10 +59,10 @@ function NvimStatusline({
 
   return (
     <Comp
-      data-slot="nvim-statusline"
+      data-slot='nvim-statusline'
       data-mode={mode}
       className={cn(
-        'group/statusline bg-secondary text-secondary-foreground sticky bottom-0 left-0 z-50 flex h-6 w-full items-center justify-between gap-0 px-4 font-mono md:bottom-4',
+        'group/statusline sticky bottom-0 left-0 z-50 flex h-6 w-full items-center justify-between gap-0 bg-secondary px-4 font-mono text-secondary-foreground md:bottom-4',
         "[&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
@@ -78,21 +78,21 @@ function NvimStatuslineSectionA({
 }: React.ComponentProps<'div'>) {
   return (
     <div
-      data-slot="nvim-statusline-section-a"
+      data-slot='nvim-statusline-section-a'
       className={cn('inline-flex h-full shrink-0 items-center', className)}
       {...props}
     >
       <div
         className={cn(
-          'text-background inline-flex h-full items-center gap-2 px-2',
+          'inline-flex h-full items-center gap-2 px-2 text-background',
           BG_COLORS,
         )}
       >
         {children}
       </div>
       <NvimStatuslineSectionSeparator
-        data-slot="nvim-statusline-section-a-separator"
-        className={cn('bg-background size-6 rotate-90', FILL_COLORS)}
+        data-slot='nvim-statusline-section-a-separator'
+        className={cn('size-6 rotate-90 bg-background', FILL_COLORS)}
       />
     </div>
   )
@@ -105,7 +105,7 @@ function NvimStatuslineSectionB({
 }: React.ComponentProps<'div'>) {
   return (
     <div
-      data-slot="nvim-statusline-section-b"
+      data-slot='nvim-statusline-section-b'
       className={cn(
         'inline-flex h-full items-center overflow-hidden',
         className,
@@ -114,15 +114,15 @@ function NvimStatuslineSectionB({
     >
       <div
         className={cn(
-          'bg-background inline-flex h-full items-center gap-2 pr-2 whitespace-nowrap',
+          'inline-flex h-full items-center gap-2 bg-background pr-2 whitespace-nowrap',
           TEXT_COLORS,
         )}
       >
         {children}
       </div>
       <NvimStatuslineSectionSeparator
-        data-slot="nvim-statusline-section-b-separator"
-        className="fill-background bg-secondary size-6 rotate-90"
+        data-slot='nvim-statusline-section-b-separator'
+        className='size-6 rotate-90 bg-secondary fill-background'
       />
     </div>
   )
@@ -134,9 +134,9 @@ function NvimStatuslineSectionC({
 }: React.ComponentProps<'div'>) {
   return (
     <div
-      data-slot="nvim-statusline-section-c"
+      data-slot='nvim-statusline-section-c'
       className={cn(
-        'bg-secondary text-secondary-foreground inline-flex h-full max-w-full flex-1 items-center gap-2 truncate overflow-hidden pr-2 text-ellipsis whitespace-nowrap',
+        'inline-flex h-full max-w-full flex-1 items-center gap-2 truncate overflow-hidden bg-secondary pr-2 text-ellipsis whitespace-nowrap text-secondary-foreground',
         className,
       )}
       {...props}
@@ -150,9 +150,9 @@ function NvimStatuslineSectionX({
 }: React.ComponentProps<'div'>) {
   return (
     <div
-      data-slot="nvim-statusline-section-x"
+      data-slot='nvim-statusline-section-x'
       className={cn(
-        'bg-secondary text-secondary-foreground inline-flex h-full items-center gap-2 truncate overflow-hidden pl-2 text-ellipsis whitespace-nowrap',
+        'inline-flex h-full items-center gap-2 truncate overflow-hidden bg-secondary pl-2 text-ellipsis whitespace-nowrap text-secondary-foreground',
         className,
       )}
       {...props}
@@ -166,7 +166,7 @@ function NvimStatuslineSectionY({
 }: React.ComponentProps<'div'>) {
   return (
     <div
-      data-slot="nvim-statusline-section-y"
+      data-slot='nvim-statusline-section-y'
       className={cn(
         'inline-flex h-full items-center overflow-hidden',
         className,
@@ -174,12 +174,12 @@ function NvimStatuslineSectionY({
       {...props}
     >
       <NvimStatuslineSectionSeparator
-        data-slot="nvim-statusline-section-y-separator"
-        className="fill-background bg-secondary size-6 rotate-270"
+        data-slot='nvim-statusline-section-y-separator'
+        className='size-6 rotate-270 bg-secondary fill-background'
       />
       <div
         className={cn(
-          'bg-background inline-flex h-full items-center gap-2 pl-2 whitespace-nowrap',
+          'inline-flex h-full items-center gap-2 bg-background pl-2 whitespace-nowrap',
           TEXT_COLORS,
         )}
       >
@@ -195,17 +195,17 @@ function NvimStatuslineSectionZ({
 }: React.ComponentProps<'div'>) {
   return (
     <div
-      data-slot="nvim-statusline-section-z"
+      data-slot='nvim-statusline-section-z'
       className={cn('inline-flex h-full shrink-0 items-center', className)}
       {...props}
     >
       <NvimStatuslineSectionSeparator
-        data-slot="nvim-statusline-section-z-separator"
-        className={cn('bg-background size-6 rotate-270', FILL_COLORS)}
+        data-slot='nvim-statusline-section-z-separator'
+        className={cn('size-6 rotate-270 bg-background', FILL_COLORS)}
       />
       <div
         className={cn(
-          'text-background inline-flex h-full items-center gap-2 px-2 whitespace-nowrap',
+          'inline-flex h-full items-center gap-2 px-2 whitespace-nowrap text-background',
           BG_COLORS,
         )}
       >
@@ -219,12 +219,12 @@ const NvimStatuslineSectionSeparator = (props: React.ComponentProps<'svg'>) => {
   return (
     <svg
       {...props}
-      role="img"
-      viewBox="0 0 24 4"
-      xmlns="http://www.w3.org/2000/svg"
+      role='img'
+      viewBox='0 0 24 4'
+      xmlns='http://www.w3.org/2000/svg'
     >
       <title>Nvim Statusline Section Separator</title>
-      <path d="m12 3.4 12 10.784H0Z" />
+      <path d='m12 3.4 12 10.784H0Z' />
     </svg>
   )
 }
