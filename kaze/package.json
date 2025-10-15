@@ -23,7 +23,7 @@
     "next": "catalog:react",
     "react": "catalog:react",
     "react-dom": "catalog:react",
-    "resend": "^6.1.2"
+    "resend": "^6.1.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:tailwind",
