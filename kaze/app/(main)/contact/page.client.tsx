@@ -12,7 +12,7 @@ import {
   FieldLegend,
   FieldSet,
 } from '@yuki/ui/field'
-import { useForm } from '@yuki/ui/form'
+import { useForm } from '@yuki/ui/hooks/use-form'
 import { SendIcon } from '@yuki/ui/icons'
 import { Input } from '@yuki/ui/input'
 import { useNvimStatusline } from '@yuki/ui/nvim-statusline'
@@ -111,7 +111,7 @@ export function ContactForm() {
             )}
           />
 
-          <form.Field<'message', HTMLTextAreaElement>
+          <form.Field
             name='message'
             render={({ meta, field }) => (
               <Field data-invalid={meta.errors.length > 0}>
