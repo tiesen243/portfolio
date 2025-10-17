@@ -40,7 +40,7 @@
   },
   "peerDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "catalog:",
-    "@react-email/render": "^1.3.2",
+    "@react-email/render": "^1.4.0",
     "prettier-plugin-tailwindcss": "catalog:",
     "shiki": "^3.13.0"
   }

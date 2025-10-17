@@ -218,11 +218,11 @@ Now, you can reboot the computer and can see the Windows 11 in the boot menu.
 
    ```bash
    yes | yay -S --answerclean All --answerdiff None \
-   hypridle hyprlock hyprpaper hyprpicker xdg-desktop-portal-hyprland-git rofi-wayland waybar ffmpeg \
+   hypridle hyprlock hyprpaper hyprpicker xdg-desktop-portal-hyprland rofi-wayland waybar ffmpeg \
+   fastfetch zsh brightnessctl nwg-look playerctl libnotify matugen-bin swaync system76-power \
    noto-fonts noto-fonts-cjk noto-fonts-emoji otf-geist otf-geist-mono-nerd \
-   fastfetch zsh brightnessctl nwg-look playerctl libnotify swaync \
    github-cli lazygit lsd ripgrep unzip 7zip \
-   grim slurp cliphist wl-clipboard \
+   grim slurp jq cliphist wl-clipboard \
    thunar gvfs tumbler
    ```
 
@@ -287,13 +287,13 @@ Now, you can reboot the computer and can see the Windows 11 in the boot menu.
 
    ```bash
    rm ~/.zshrc
-   rm -rf ~/.config/{Code,Thunar,fastfetch,git,hypr,kitty,lazygit,lsd,nvim,rofi,swaync,waybar}
+   rm -rf ~/.config/{Thunar,fastfetch,git,hypr,kitty,lazygit,lsd,matugen,nvim,rofi,swaync,waybar}
 
-   ln -s ~/dotfiles/{Code,Thunar,fastfetch,git,hypr,kitty,lazygit,lsd,nvim,rofi,swaync,waybar} ~/.config
+   ln -s ~/dotfiles/{Thunar,fastfetch,git,hypr,kitty,lazygit,lsd,matugen,nvim,rofi,swaync,waybar} ~/.config
    ln -s ~/dotfiles/zsh/themes/yuki.zsh-theme ~/.oh-my-zsh/custom/themes
    ln -s ~/dotfiles/zsh/config.zsh ~/.zshrc
 
-   ln -s ~/dotfiles/.local/share/{icons,themes} ~/.local/share
+   cp -r ~/dotfiles/matugen/templates/GTK-colors ~/.local/share/themes/Matugen
    ```
 
    Final, make all scripts in the `dotfiles/scripts` directory executable
@@ -311,8 +311,21 @@ Now, you can reboot the computer and can see the Windows 11 in the boot menu.
    Or change file in `~/dotfiles/assets/_background.png`
 
 3. Add your avatar to `~/dotfiles/assets/_avatar.png` to show in the lock screen
+4. Enable `system76-power` service
 
-4. Laptop Fan Control (optional)
+   ```bash
+   systemctl enable --now com.system76.PowerDaemon.service
+   ```
+
+5. Generate `colorschema`
+
+   ```bash
+   matugen image /path/to/your/wallpaper
+   # or
+   matugen image ~/dotfiles/assets/_background.png
+   ```
+
+6. Laptop Fan Control (optional)
 
    If you're using a laptop and want to control your fans for better thermal management or noise reduction, install `nbfc` and configure it to your liking.
 
@@ -341,6 +354,12 @@ Now, you can reboot the computer and can see the Windows 11 in the boot menu.
      nbfc set -s [fan_speed in percentage]
      nbfc set -a #auto fan speed
      ```
+
+7. Restart the computer to apply all changes
+
+   ```bash
+   reboot
+   ```
 
 :::info
 
@@ -398,3 +417,4 @@ In this tutorial, you have learned how to install Arch Linux with Hyprland OS on
 ## References
 
 Document: [Hyprland](https://hyprland.org/)
+My dotfiles: [GitHub - tiesen243/dotfiles](https://github.com/tiesen243/dotfiles)
