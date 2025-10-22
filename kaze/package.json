@@ -40,6 +40,7 @@
   },
   "peerDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "catalog:",
-    "prettier-plugin-tailwindcss": "catalog:"
+    "prettier-plugin-tailwindcss": "catalog:",
+    "shiki": "^3.13.0"
   }
 }

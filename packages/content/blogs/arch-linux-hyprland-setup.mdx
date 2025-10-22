@@ -101,7 +101,15 @@ Create the partitions on the drive.
 - Select `type` to `EFI System` and press `Enter`
 - Go to the free space again and select the `New` option and press `Enter`
 - Set the size of the partition is at least `40GB` and press `Enter`
-  > Note: this partition is used to home directory
+
+  :::info
+
+  This partition is used to home directory
+
+  You can set the size according to your needs. If you have more storage, you can set a larger size for this partition.
+
+  :::
+
 - Select `write` and press `Enter` to write the changes to the disk then `quit` to exit the cfdisk
 
 ```bash
@@ -384,7 +392,7 @@ Here are the essential keybindings for navigating and controlling your Hyprland 
 | `Super + Space`           | Application launcher (Rofi)         |
 | `Super + X`               | Power menu (Rofi)                   |
 | `Super + R`               | Window switcher (Rofi)              |
-| `Super + N`               | Web search (Rofi)                   |
+| `Super + G`               | Google search (Rofi)                |
 | `Super + V`               | Clipboard history (Rofi)            |
 | `Super + F`               | Toggle floating window              |
 | `Super + Shift + F`       | Toggle fullscreen                   |
@@ -407,6 +415,12 @@ Here are the essential keybindings for navigating and controlling your Hyprland 
 | `XF86AudioMute`           | Toggle mute                         |
 | `XF86MonBrightnessUp`     | Brightness up                       |
 | `XF86MonBrightnessDown`   | Brightness down                     |
+
+:::info
+
+You can find all keybindings in your configuration file at `~/.config/hypr/core/keymaps.conf`.
+
+:::
 
 ## Conclusion
 

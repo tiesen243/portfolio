@@ -5,8 +5,8 @@ import { useMemo } from 'react'
 import { cva } from 'class-variance-authority'
 
 import { cn } from '@yuki/ui'
-import { Label } from '@yuki/ui/label'
-import { Separator } from '@yuki/ui/separator'
+import { Label } from '@yuki/ui/components/label'
+import { Separator } from '@yuki/ui/components/separator'
 
 function FieldSet({ className, ...props }: React.ComponentProps<'fieldset'>) {
   return (
@@ -191,21 +191,18 @@ function FieldError({
   errors?: ({ message?: string } | undefined)[]
 }) {
   const content = useMemo(() => {
-    if (children) {
-      return children
-    }
+    if (children) return children
+    if (!errors?.length) return null
 
-    if (!errors) {
-      return null
-    }
+    const uniqueErrors = [
+      ...new Map(errors.map((error) => [error?.message, error])).values(),
+    ]
 
-    if (errors.length === 1 && errors[0]?.message) {
-      return errors[0].message
-    }
+    if (uniqueErrors.length == 1) return uniqueErrors[0]?.message
 
     return (
       <ul className='ml-4 flex list-disc flex-col gap-1'>
-        {errors.map(
+        {uniqueErrors.map(
           (error, index) =>
             // eslint-disable-next-line @eslint-react/no-array-index-key
             error?.message && <li key={index}>{error.message}</li>,
