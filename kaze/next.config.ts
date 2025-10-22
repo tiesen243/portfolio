@@ -10,7 +10,6 @@ const nextConfig = {
     remotePatterns: [{ protocol: 'https', hostname: 'gravatar.com' }],
   },
 
-  serverExternalPackages: ['shiki'],
   transpilePackages: [
     '@yuki/content',
     '@yuki/data',
