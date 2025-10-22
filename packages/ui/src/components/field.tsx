@@ -5,8 +5,8 @@ import { useMemo } from 'react'
 import { cva } from 'class-variance-authority'
 
 import { cn } from '@yuki/ui'
-import { Label } from '@yuki/ui/components/label'
-import { Separator } from '@yuki/ui/components/separator'
+import { Label } from '@yuki/ui/label'
+import { Separator } from '@yuki/ui/separator'
 
 function FieldSet({ className, ...props }: React.ComponentProps<'fieldset'>) {
   return (
