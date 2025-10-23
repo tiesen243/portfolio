@@ -48,7 +48,10 @@ export default function ContactPage() {
       <section className='mx-auto grid max-w-6xl gap-12 lg:grid-cols-2'>
         <h2 className='sr-only'>Contact Methods section</h2>
 
-        <ContactForm />
+        <section className='flex flex-col rounded-xl border bg-card p-6 text-card-foreground shadow-md'>
+          <h3 className='sr-only'>Contact Form section</h3>
+          <ContactForm />
+        </section>
 
         <section className='space-y-8'>
           <h3 className='sr-only'>Direct Contact Information section</h3>

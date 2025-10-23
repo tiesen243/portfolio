@@ -39,20 +39,15 @@ export function ContactForm() {
   }
 
   return (
-    <form
-      className='rounded-xl border bg-card p-6 text-card-foreground shadow-md'
-      onSubmit={form.handleSubmit}
-    >
-      <h3 className='sr-only'>Contact Form</h3>
-
-      <FieldSet className='flex h-full flex-col'>
+    <form className='flex-1' onSubmit={form.handleSubmit}>
+      <FieldSet className='h-full'>
         <FieldLegend>Send a Message</FieldLegend>
         <FieldDescription>
           Fill out the form below and I&apos;ll get back to you as soon as
           possible.
         </FieldDescription>
 
-        <FieldGroup className='flex-1 gap-4'>
+        <FieldGroup className='flex-1'>
           <form.Field
             name='name'
             render={({ meta, field }) => (
@@ -114,10 +109,11 @@ export function ContactForm() {
           <form.Field
             name='message'
             render={({ meta, field }) => (
-              <Field data-invalid={meta.errors.length > 0}>
+              <Field className='flex-1' data-invalid={meta.errors.length > 0}>
                 <FieldLabel htmlFor={meta.fieldId}>Message</FieldLabel>
                 <Textarea
                   {...field}
+                  className='h-full resize-none'
                   placeholder='Tell me more about your project or question...'
                   onFocus={handleFocus}
                   onBlur={async (e) => {
@@ -129,14 +125,14 @@ export function ContactForm() {
               </Field>
             )}
           />
-        </FieldGroup>
 
-        <Field>
-          <Button className='w-full' disabled={form.state.isPending}>
-            <SendIcon />
-            Send Message
-          </Button>
-        </Field>
+          <Field>
+            <Button className='w-full' disabled={form.state.isPending}>
+              <SendIcon />
+              Send Message
+            </Button>
+          </Field>
+        </FieldGroup>
       </FieldSet>
     </form>
   )

@@ -11,7 +11,7 @@ export function Breadcrumb() {
   return (
     <nav className='flex max-w-full flex-1 items-center gap-1 truncate overflow-hidden'>
       <svg
-        className='mr-2 size-4 fill-normal'
+        className='mr-2 size-4 fill-primary'
         role='img'
         viewBox='0 0 24 24'
         xmlns='http://www.w3.org/2000/svg'
