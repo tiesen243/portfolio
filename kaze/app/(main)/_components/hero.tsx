@@ -31,8 +31,8 @@ export function HeroSection() {
 
       <Typography className='mt-6 max-w-(--max-width) text-center text-pretty'>
         I believe this world is{' '}
-        <span className='font-medium text-normal'>flat</span>, because{' '}
-        <span className='font-medium text-normal'>loli</span> is my world OwO
+        <span className='font-medium text-primary'>flat</span>, because{' '}
+        <span className='font-medium text-primary'>loli</span> is my world OwO
       </Typography>
 
       <nav className='mt-8 flex w-full max-w-(--max-width) flex-col gap-4'>
@@ -52,7 +52,7 @@ export function HeroSection() {
 
             <ShortcutKey
               data-shortcut={nav.shortcut}
-              className='text-normal'
+              className='text-primary'
               href={nav.href}
             >
               {nav.shortcut}

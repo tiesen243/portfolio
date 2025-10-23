@@ -24,7 +24,7 @@ export async function AboutSection() {
             find me exploring new technologies or contributing to open-source
             projects.
           </Typography>
-          <Typography className='text-normal'>
+          <Typography className='text-primary'>
             Feel free to reach out if you want to collaborate or just chat about
             tech!
           </Typography>

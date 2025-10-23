@@ -13,7 +13,7 @@ export function SkillSection() {
       <Typography variant='h4' component='h2'>
         Skills
       </Typography>
-      <Typography className='text-normal'>
+      <Typography className='text-primary'>
         A collection of skills and technologies I work with, including
         programming languages, frameworks, libraries, and tools.
       </Typography>
