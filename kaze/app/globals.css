@@ -1,10 +1,10 @@
-@import 'tailwindcss';
+@import '@yuki/ui/tailwind.css';
 @import 'fumadocs-ui/css/shadcn.css';
 @import 'fumadocs-ui/css/preset.css';
 
-@import '@yuki/ui/tailwind.css';
-@source '../../packages/ui/src/**/*.tsx';
 @source '../../packages/content/**/*.mdx';
+@source '../../packages/data/**/*.tsx';
+@source '../../packages/ui/src/**/*.tsx';
 
 @theme inline {
   --font-sans: var(--font-geist-sans), sans-serif;

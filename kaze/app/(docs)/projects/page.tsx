@@ -37,7 +37,7 @@ export default async function ProjectListPage() {
               <Typography
                 variant='h4'
                 component='h2'
-                className='line-clamp-2 group-hover/project:underline'
+                className='line-clamp-1 group-hover/project:underline'
               >
                 {page.frontmatter.title}
               </Typography>

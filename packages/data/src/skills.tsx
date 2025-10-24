@@ -2,7 +2,8 @@ export const skills = {
   languages: [
     {
       name: 'JavaScript',
-      color: '#F7DF1E',
+      color: 'hsl(53, 93%, 44%)',
+      colorDark: 'hsl(53, 93%, 54%)',
       icon: (props) => (
         <svg
           {...props}
@@ -18,7 +19,8 @@ export const skills = {
     },
     {
       name: 'TypeScript',
-      color: '#3178C6',
+      color: 'hsl(211, 60%, 38%)',
+      colorDark: 'hsl(211, 60%, 48%)',
       icon: (props) => (
         <svg
           {...props}
@@ -34,7 +36,8 @@ export const skills = {
     },
     {
       name: 'Python',
-      color: '#3776AB',
+      color: 'hsl(207, 51%, 34%)',
+      colorDark: 'hsl(207, 51%, 44%)',
       icon: (props) => (
         <svg
           {...props}
@@ -50,7 +53,8 @@ export const skills = {
     },
     {
       name: 'C/C++',
-      color: '#00599C',
+      color: 'hsl(206, 100%, 31%)',
+      colorDark: 'hsl(212, 26%, 73%)',
       icon: (props) => (
         <svg
           {...props}
@@ -68,7 +72,8 @@ export const skills = {
   frameworks: [
     {
       name: 'React',
-      color: '#61DAFB',
+      color: 'hsl(193, 95%, 38%)',
+      colorDark: 'hsl(193, 95%, 68%)',
       icon: (props) => (
         <svg
           {...props}
@@ -84,8 +89,8 @@ export const skills = {
     },
     {
       name: 'Next.js',
-      color: '#000000',
-      isInverted: true,
+      color: 'hsl(0, 0%, 0%)',
+      colorDark: 'hsl(0, 0%, 100%)',
       icon: (props) => (
         <svg
           {...props}
@@ -101,7 +106,8 @@ export const skills = {
     },
     {
       name: 'Tailwind CSS',
-      color: '#06B6D4',
+      color: 'hsl(189, 94%, 33%)',
+      colorDark: 'hsl(189, 94%, 43%)',
       icon: (props) => (
         <svg
           {...props}
@@ -117,7 +123,8 @@ export const skills = {
     },
     {
       name: 'Drizzle',
-      color: '#C5F74F',
+      color: 'hsl(78, 91%, 34%)',
+      colorDark: 'hsl(78, 91%, 64%)',
       icon: (props) => (
         <svg
           {...props}
@@ -132,25 +139,9 @@ export const skills = {
       ),
     },
     {
-      name: 'Prisma',
-      color: '#2D3748',
-      isInverted: true,
-      icon: (props) => (
-        <svg
-          {...props}
-          data-slot='prisma-icon'
-          role='img'
-          viewBox='0 0 24 24'
-          xmlns='http://www.w3.org/2000/svg'
-        >
-          <title>Prisma</title>
-          <path d='M21.8068 18.2848L13.5528.7565c-.207-.4382-.639-.7273-1.1286-.7541-.5023-.0293-.9523.213-1.2062.6253L2.266 15.1271c-.2773.4518-.2718 1.0091.0158 1.4555l4.3759 6.7786c.2608.4046.7127.6388 1.1823.6388.1332 0 .267-.0188.3987-.0577l12.7019-3.7568c.3891-.1151.7072-.3904.8737-.7553s.1633-.7828-.0075-1.1454zm-1.8481.7519L9.1814 22.2242c-.3292.0975-.6448-.1873-.5756-.5194l3.8501-18.4386c.072-.3448.5486-.3996.699-.0803l7.1288 15.138c.1344.2856-.019.6224-.325.7128z' />
-        </svg>
-      ),
-    },
-    {
       name: 'tRPC',
-      color: '#2596BE',
+      color: 'hsl(196, 67%, 35%)',
+      colorDark: 'hsl(196, 67%, 45%)',
       icon: (props) => (
         <svg
           {...props}
@@ -166,7 +157,8 @@ export const skills = {
     },
     {
       name: 'React Query',
-      color: '#FF4154',
+      color: 'hsl(354, 100%, 53%)',
+      colorDark: 'hsl(354, 100%, 63%)',
       icon: (props) => (
         <svg
           {...props}
@@ -184,7 +176,8 @@ export const skills = {
   tools: [
     {
       name: 'Arch Linux',
-      color: '#1793D1',
+      color: 'hsl(200, 80%, 35%)',
+      colorDark: 'hsl(200, 80%, 45%)',
       icon: (props) => (
         <svg
           {...props}
@@ -200,7 +193,8 @@ export const skills = {
     },
     {
       name: 'Neovim',
-      color: '#57A143',
+      color: 'hsl(107, 41%, 35%)',
+      colorDark: 'hsl(107, 41%, 45%)',
       icon: (props) => (
         <svg
           {...props}
@@ -216,7 +210,8 @@ export const skills = {
     },
     {
       name: 'Git',
-      color: '#F05032',
+      color: 'hsl(9, 86%, 47%)',
+      colorDark: 'hsl(9, 86%, 57%)',
       icon: (props) => (
         <svg
           {...props}
@@ -232,8 +227,8 @@ export const skills = {
     },
     {
       name: 'GitHub',
-      color: '#181717',
-      isInverted: true,
+      color: 'hsl(0, 2%, 9%)',
+      colorDark: 'hsl(0, 2%, 91%)',
       icon: (props) => (
         <svg
           {...props}
@@ -249,8 +244,8 @@ export const skills = {
     },
     {
       name: 'Vercel',
-      color: '#000000',
-      isInverted: true,
+      color: 'hsl(0, 0%, 0%)',
+      colorDark: 'hsl(0, 0%, 100%)',
       icon: (props) => (
         <svg
           {...props}
@@ -266,7 +261,8 @@ export const skills = {
     },
     {
       name: 'Docker',
-      color: '#2496ED',
+      color: 'hsl(206, 85%, 34%)',
+      colorDark: 'hsl(206, 85%, 54%)',
       icon: (props) => (
         <svg
           {...props}
@@ -290,6 +286,6 @@ export const skills = {
 export interface Skill {
   name: string
   color: string
-  isInverted?: boolean
+  colorDark: string
   icon: (props: React.ComponentProps<'svg'>) => React.JSX.Element
 }

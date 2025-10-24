@@ -7,12 +7,6 @@ export interface Showcase {
 
 export const showcases = [
   {
-    title: 'Vercel.nvim',
-    description: 'Vercel theme for Neovim, inspired by Vercel’s design system.',
-    image: '/assets/images/showcases/vercel-nvim.png',
-    url: 'https://github.com/tiesen243/vercel.nvim',
-  },
-  {
     title: 'Create Yuki Stack',
     description:
       'A CLI tool for scaffolding type-safe, full-stack TypeScript applications with best practices and customizable.',
@@ -27,9 +21,9 @@ export const showcases = [
     url: 'https://yuki-ui.vercel.app',
   },
   {
-    title: 'Yuki DB',
-    description: 'Type-safe query database in client-side',
-    image: '/assets/images/showcases/yuki-db.png',
-    url: 'https://npmjs.com/package/yuki-db',
+    title: 'Vercel.nvim',
+    description: 'Vercel theme for Neovim, inspired by Vercel’s design system.',
+    image: '/assets/images/showcases/vercel-nvim.png',
+    url: 'https://github.com/tiesen243/vercel.nvim',
   },
 ] satisfies Showcase[]

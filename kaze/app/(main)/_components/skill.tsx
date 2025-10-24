@@ -35,16 +35,18 @@ function SkillList({ title, skills }: { title: string; skills: Skill[] }) {
         {skills.map((skill) => (
           <Badge
             key={skill.name}
-            variant='secondary'
+            variant='outline'
+            style={
+              {
+                '--skill-color': skill.color,
+                '--skill-color-dark': skill.colorDark,
+              } as React.CSSProperties
+            }
             className={cn(
-              'flex items-center gap-2 px-3 py-2 text-lg font-medium transition-all [&>svg]:size-6',
-              skill.isInverted ? 'dark:invert' : '',
+              'text-lg transition-colors select-none [&>svg]:size-5',
+              'border-[var(--skill-color)] bg-[var(--skill-color)]/10 text-[var(--skill-color)] hover:bg-[var(--skill-color)]/20',
+              'dark:border-[var(--skill-color-dark)] dark:bg-[var(--skill-color-dark)]/10 dark:text-[var(--skill-color-dark)] dark:hover:bg-[var(--skill-color-dark)]/20',
             )}
-            style={{
-              backgroundColor: `${skill.color}10`,
-              borderColor: skill.color,
-              color: skill.color,
-            }}
           >
             <skill.icon className='fill-current' />
             {skill.name}

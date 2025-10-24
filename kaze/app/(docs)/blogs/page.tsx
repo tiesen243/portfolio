@@ -32,7 +32,7 @@ export default async function BlogListPage() {
               <Typography
                 variant='h4'
                 component='h2'
-                className='line-clamp-2 group-hover/blog:underline'
+                className='line-clamp-1 group-hover/blog:underline'
               >
                 {page.frontmatter.title}
               </Typography>
