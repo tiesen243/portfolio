@@ -19,7 +19,7 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
   const { frontmatter, toc, MDXContent } = page
 
   return (
-    <article className='container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col py-8 font-sans'>
+    <article className='container flex min-h-[calc(100dvh-1.5rem)] max-w-prose flex-col py-8 font-sans'>
       <Typography variant='h2' component='h1'>
         {frontmatter.title}
       </Typography>
@@ -30,11 +30,7 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
 
       <div className='mt-2 flex flex-wrap gap-1'>
         {frontmatter.tags.map((tag) => (
-          <Badge
-            key={tag}
-            variant='outline'
-            className='border-primary bg-primary/10 text-primary'
-          >
+          <Badge key={tag} variant='outline'>
             {tag}
           </Badge>
         ))}

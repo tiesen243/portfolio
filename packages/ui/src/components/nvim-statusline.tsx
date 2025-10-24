@@ -62,7 +62,7 @@ function NvimStatusline({
       data-slot='nvim-statusline'
       data-mode={mode}
       className={cn(
-        'group/statusline sticky bottom-0 left-0 z-50 flex h-6 w-full items-center justify-between gap-0 bg-secondary px-4 font-mono text-secondary-foreground md:bottom-4',
+        'group/statusline sticky bottom-0 left-0 z-50 flex h-6 w-full items-center justify-between gap-0 bg-input px-4 font-mono text-secondary-foreground md:bottom-4',
         "[&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
@@ -122,7 +122,7 @@ function NvimStatuslineSectionB({
       </div>
       <NvimStatuslineSectionSeparator
         data-slot='nvim-statusline-section-b-separator'
-        className='size-6 rotate-90 bg-secondary fill-background'
+        className='size-6 rotate-90 bg-input fill-background'
       />
     </div>
   )
@@ -136,7 +136,7 @@ function NvimStatuslineSectionC({
     <div
       data-slot='nvim-statusline-section-c'
       className={cn(
-        'inline-flex h-full max-w-full flex-1 items-center gap-2 truncate overflow-hidden bg-secondary pr-2 text-ellipsis whitespace-nowrap text-secondary-foreground',
+        'inline-flex h-full max-w-full flex-1 items-center gap-2 truncate overflow-hidden bg-input pr-2 text-ellipsis whitespace-nowrap text-secondary-foreground',
         className,
       )}
       {...props}
@@ -152,7 +152,7 @@ function NvimStatuslineSectionX({
     <div
       data-slot='nvim-statusline-section-x'
       className={cn(
-        'inline-flex h-full items-center gap-2 truncate overflow-hidden bg-secondary pl-2 text-ellipsis whitespace-nowrap text-secondary-foreground',
+        'inline-flex h-full items-center gap-2 truncate overflow-hidden bg-input pl-2 text-ellipsis whitespace-nowrap text-secondary-foreground',
         className,
       )}
       {...props}
@@ -175,7 +175,7 @@ function NvimStatuslineSectionY({
     >
       <NvimStatuslineSectionSeparator
         data-slot='nvim-statusline-section-y-separator'
-        className='size-6 rotate-270 bg-secondary fill-background'
+        className='size-6 rotate-270 bg-input fill-background'
       />
       <div
         className={cn(
@@ -215,7 +215,7 @@ function NvimStatuslineSectionZ({
   )
 }
 
-const NvimStatuslineSectionSeparator = (props: React.ComponentProps<'svg'>) => {
+function NvimStatuslineSectionSeparator(props: React.ComponentProps<'svg'>) {
   return (
     <svg
       {...props}

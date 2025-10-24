@@ -48,11 +48,7 @@ export default async function BlogListPage() {
 
             <div className='mt-2 flex flex-wrap gap-1'>
               {page.frontmatter.tags.map((tag) => (
-                <Badge
-                  key={tag}
-                  variant='outline'
-                  className='border-primary bg-primary/10 text-primary'
-                >
+                <Badge key={tag} variant='outline'>
                   {tag}
                 </Badge>
               ))}

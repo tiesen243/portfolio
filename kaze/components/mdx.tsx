@@ -7,7 +7,6 @@ import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
 import defaultMdxComponents from 'fumadocs-ui/mdx'
 
 import { cn } from '@yuki/ui'
-import { Blockquote } from '@yuki/ui/blockquote'
 import { ExternalLinkIcon } from '@yuki/ui/icons'
 import { Typography, typographyVariants } from '@yuki/ui/typography'
 
@@ -52,7 +51,9 @@ export function mdxComponents() {
     ol: ({ className, ...props }: Props) => (
       <Typography variant='ol' className={cn('mt-1', className)} {...props} />
     ),
-    blockquote: ({ ...props }: Props) => <Blockquote {...props} />,
+    blockquote: ({ ...props }: Props) => (
+      <Typography variant='blockquote' {...props} />
+    ),
     caption: (props: Props) => <Typography variant='caption' {...props} />,
     a: ({
       href,
@@ -69,7 +70,7 @@ export function mdxComponents() {
           href={href as unknown as UrlObject}
           className={cn(
             typographyVariants({ variant: 'p' }),
-            'inline-flex items-center gap-2 underline underline-offset-4 hover:text-normal',
+            'inline-flex items-center gap-2 underline underline-offset-4 hover:text-primary',
             className,
           )}
           {...(isExternalLink
