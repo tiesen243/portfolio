@@ -1,6 +1,6 @@
 ---
-title: 'Yukinu: High-Performance, Modern E-Commerce Platform'
-description: 'Yukinu is a next-generation e-commerce ecosystem with a blazing-fast frontend (Kaze), built on Next.js, React 19, tRPC, Tailwind CSS, and a robust backend. Explore its architecture, features, and how to get started.'
+title: 'Yukinu: Modern Multi-Vendor E-Commerce Platform'
+description: 'Yukinu is a next-generation multi-vendor e-commerce ecosystem featuring a blazing-fast frontend, built with Next.js, React 19, tRPC, Tailwind CSS, and a robust backend. Discover its architecture, marketplace features, and how to launch your own multi-vendor store.'
 image: '/assets/images/showcases/yukinu.png'
 tags:
   - e-commerce
@@ -17,18 +17,20 @@ publishedAt: 2025-01-27
 
 ## Introduction
 
-**Yukinu** is a modern, high-performance e-commerce platform designed for enterprise-grade shopping experiences. Its flagship frontend application, **Kaze**, delivers a seamless user journey with the latest React and Next.js features, type safety, advanced SEO, and a flexible, scalable backend.
+**Yukinu** is a modern, high-performance multi-vendor e-commerce platform designed for scalable online marketplaces. Its flagship frontend, delivers seamless user and vendor experiences using the latest React and Next.js features, type safety, advanced SEO, and a flexible, extensible backend.
 
 [View the repo on GitHub](https://github.com/tiesen243/yukinu)
 
-[View the live demo](https://yukinu.vercel.app)
+[View the live demo](https://yukinu.tiesen.id.vn)
 
-## Features
+## Marketplace Features
 
-- **Product Catalog**: Advanced filtering, search, and browsing.
-- **Shopping Cart**: Real-time, persistent cart management.
-- **User Authentication**: Secure registration, login, and sessions.
-- **Checkout & Orders**: Smooth checkout flow with order tracking.
+- **Multi-Vendor Support**: Vendors can register, manage their own stores, and list products independently.
+- **Product Catalog**: Advanced filtering, search, and category browsing across multiple vendors.
+- **Shopping Cart**: Real-time, persistent cart supporting products from different vendors.
+- **Vendor Dashboard**: Each vendor gets a dedicated dashboard for managing products, orders, and analytics.
+- **User Authentication**: Secure registration, login, and sessions for both buyers and vendors.
+- **Checkout & Orders**: Smooth checkout flow, split orders by vendor, and order tracking.
 - **Personalization**: AI-powered recommendations and user preferences.
 - **Mobile-First**: Fully responsive, mobile-optimized design.
 - **SEO & Marketing**: Landing pages, structured data, analytics, and meta tags.
@@ -36,43 +38,36 @@ publishedAt: 2025-01-27
 
 ## Technical Highlights
 
-- **Frontend**: Next.js 15, React 19, server components, and App Router.
+- **Frontend**:
+  - **Web**: Next.js 15, React 19, server components, and App Router.
+  - **Dashboard**: React Router 7, React 19, and Vite.
 - **API Layer**: End-to-end typesafe communication with tRPC.
-- **Backend & DB**: Modular backend (via `@yuki/api`), Drizzle ORM, and scalable schema.
+- **Backend & DB**: Modular backend (via `@yuki/api`), Drizzle ORM, and scalable schema for multi-vendor data.
 - **UI/UX**: Tailwind CSS and shadcn/ui for visually stunning, accessible components.
-- **Tooling**: Bun runtime, Turbopack for speedy builds, and a strict monorepo structure for maintainability.
+- **Tooling**: Bun runtime, Turborepo for speedy builds, and a strict monorepo structure for maintainability.
 - **Advanced SEO**: Dynamic sitemap, Open Graph image generation, and robust metadata support.
 - **Automation**: Includes seed scripts and type-safe DB migrations.
-
-## Project Structure
-
-Example from the Kaze frontend app:
-
-```
-app/
-├── (auth)/          # Authentication pages (login, register)
-├── (main)/          # Main app (dashboard, profile, product listing)
-├── (marketing)/     # Landing pages, about, home, etc.
-├── _components/     # Shared UI components
-├── api/             # API routes and Open Graph handlers
-```
 
 ## Getting Started
 
 **Prerequisites:**
 
-- Node.js 18+ or Bun runtime
-- The `@yuki/api` backend service running
+- Node.js 20+ or Bun runtime
+- Git
+- Docker (for database setup)
 
 **Setup Steps:**
 
 ```sh
+git clone https://github.com/tiesen243/yukinu.git
+cd yukinu
 bun install
-cp ../../.env.example ../../.env  # Set your environment variables
+cp .env.example .env  # Set your environment variables
 bun dev
 ```
 
-App will be available at `http://localhost:3000`
+- Web will be available at `http://localhost:3000`
+- Dashboard will be available at `http://localhost:5173`
 
 **Available Scripts:**
 
@@ -83,20 +78,20 @@ App will be available at `http://localhost:3000`
 - `bun lint`: Linting
 - `bun format`: Prettier format check
 
-## Example: Home Page Logic
+## Example: Marketplace Home Page Logic
 
-- Pre-fetches top products with React Suspense
+- Pre-fetches featured vendors and top products with React Suspense
 - Uses server-rendered and streamed UI for instant interaction
-- Modular product card skeletons for fast perceived performance
+- Modular product and vendor card skeletons for fast perceived performance
 
 ## Why Choose Yukinu?
 
-- **Enterprise-Ready**: Battle-tested stack with modern features.
+- **Marketplace-Ready**: Built from the ground up for multi-vendor scenarios.
 - **Blazing Fast**: Server-side rendering, streaming, and optimal performance.
-- **Customizable**: Built for extension and integration with any backend.
+- **Customizable**: Easily extend for unique marketplace needs and integrations.
 - **Type Safe**: TypeScript and end-to-end type safety with tRPC and Drizzle.
 - **Beautiful UI**: Ready-to-ship design powered by shadcn/ui and Tailwind CSS.
 
 ## Conclusion
 
-Yukinu is more than just an e-commerce starter—it’s a foundation for your next big online store, combining developer happiness with customer delight.
+Yukinu is more than just an e-commerce starter—it’s a foundation for your next big online marketplace, empowering both vendors and customers with a modern, scalable, and delightful experience.

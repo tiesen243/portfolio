@@ -30,11 +30,12 @@ export const basic = {
       link: 'https://nextjs.org/learn/certificate?course=dashboard-app&user=47455&certId=dashboard-app-47455-1752746461959',
     },
     {
-      name: 'Microsoft Office Specialist (MOS)',
-      issuer: 'Microsoft',
-      description: 'Demonstrated proficiency in Microsoft Office applications.',
-      date: '2025-??-??',
-      link: '/asstes/pdf/mos-certificate.pdf',
+      name: 'IUH Informatics Certificate',
+      issuer: 'Industrial University of Ho Chi Minh City',
+      description:
+        'Demonstrated proficiency in Microsoft Word, Excel, PowerPoint, and Windows as certified by IUH.',
+      date: '2025-07-??',
+      link: '/#itc',
     },
   ],
 

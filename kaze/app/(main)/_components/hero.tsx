@@ -22,6 +22,8 @@ export function HeroSection() {
     >
       <h2 className='sr-only'>Hero section</h2>
 
+      <code className='mb-6 text-primary'>"use portfolio"</code>
+
       <Image
         src={Tiesen}
         alt='Tiesen'
