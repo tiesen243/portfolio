@@ -2,9 +2,9 @@
 
 import * as React from 'react'
 
-import { cn } from '@yuki/ui'
-import { useMediaQuery } from '@yuki/ui/hooks/use-media-query'
-import { useMounted } from '@yuki/ui/hooks/use-mounted'
+import { useMediaQuery } from '@/hooks/use-media-query'
+import { useMounted } from '@/hooks/use-mounted'
+import { cn } from '@/utils'
 
 const SIDEBAR_WIDTH = '16rem'
 

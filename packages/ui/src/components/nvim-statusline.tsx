@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { Slot } from '@radix-ui/react-slot'
 
-import { cn } from '@yuki/ui'
+import { cn } from '@/utils'
 
 const MODES = [
   'normal',

@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { useRouter } from 'next/navigation'
 
-import { cn } from '@yuki/ui'
+import { cn } from '@/utils'
 
 interface KeyProps extends React.ComponentProps<'kbd'> {
   href: string

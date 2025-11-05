@@ -54,7 +54,7 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
       )}
       <hr className='my-4' />
 
-      <InlineTOC items={toc} />
+      <InlineTOC items={toc} className='mb-4' />
 
       <MDXContent components={mdxComponents()} />
     </article>
