@@ -1,11 +1,13 @@
 import '@/app/globals.css'
 
+import { Activity } from 'react'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 
 import { cn, ThemeProvider } from '@yuki/ui'
 import { NvimStatuslineProvider } from '@yuki/ui/nvim-statusline'
 import { Sidebar, SidebarInset, SidebarProvider } from '@yuki/ui/sidebar'
+import { env } from '@yuki/validators/env'
 
 import { Footer } from '@/components/footer'
 import { SidebarContent } from '@/components/sidebar-content'
@@ -54,7 +56,9 @@ export default function RootLayout({
           </SidebarProvider>
         </ThemeProvider>
 
-        <Analytics mode='production' />
+        <Activity mode={env.NODE_ENV === 'production' ? 'visible' : 'hidden'}>
+          <Analytics />
+        </Activity>
       </body>
     </html>
   )
