@@ -1,5 +1,6 @@
 import '@yuki/validators/env'
 
+import path from 'node:path'
 import type { NextConfig } from 'next'
 
 const nextConfig = {
@@ -31,6 +32,13 @@ const nextConfig = {
       })),
     ]
   },
+
+  ...(process.env.NEXT_BUILD_OUTPUT === 'standalone'
+    ? {
+        output: 'standalone',
+        outputFileTracingRoot: path.join(__dirname, '../'),
+      }
+    : {}),
 } satisfies NextConfig
 
 export default nextConfig
