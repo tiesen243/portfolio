@@ -6,7 +6,7 @@ import { getPage, getPages } from '@yuki/content'
 import { Badge } from '@yuki/ui/badge'
 import { Typography } from '@yuki/ui/typography'
 
-import { mdxComponents } from '@/components/mdx'
+import { mdxComponents } from '@/app/_components/mdx'
 import { createMetadata } from '@/lib/metadata'
 import { formatDate } from '@/lib/utils'
 

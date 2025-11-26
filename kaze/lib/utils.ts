@@ -1,5 +1,3 @@
-import { cache } from 'react'
-
 import { env } from '@yuki/validators/env'
 
 export function getBaseUrl(): string {
@@ -10,14 +8,6 @@ export function getBaseUrl(): string {
   // eslint-disable-next-line no-restricted-properties
   return `http://localhost:${process.env.PORT ?? 3000}`
 }
-
-async function uncachedHash256(data: string): Promise<string> {
-  const encodedData = new TextEncoder().encode(data)
-  const hashBuffer = await crypto.subtle.digest('SHA-256', encodedData)
-  const hashArray = Array.from(new Uint8Array(hashBuffer))
-  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')
-}
-export const hash256 = cache(uncachedHash256)
 
 export function formatDate(
   date: Date | string,

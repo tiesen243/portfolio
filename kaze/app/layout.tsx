@@ -1,7 +1,7 @@
 import '@/app/globals.css'
 
 import { Activity } from 'react'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, Yuji_Syuku } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 
 import { cn, ThemeProvider } from '@yuki/ui'
@@ -9,13 +9,19 @@ import { NvimStatuslineProvider } from '@yuki/ui/nvim-statusline'
 import { Sidebar, SidebarInset, SidebarProvider } from '@yuki/ui/sidebar'
 import { env } from '@yuki/validators/env'
 
-import { Footer } from '@/components/footer'
-import { SidebarContent } from '@/components/sidebar-content'
+import { Footer } from '@/app/_components/footer'
+import { SidebarContent } from '@/app/_components/sidebar-content'
 import { createMetadata } from '@/lib/metadata'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
+})
+
+const yujiSyuku = Yuji_Syuku({
+  variable: '--font-yuji-serif',
+  subsets: ['latin'],
+  weight: '400',
 })
 
 const geistMono = Geist_Mono({
@@ -32,6 +38,7 @@ export default function RootLayout({
         className={cn(
           'flex min-h-dvh w-full font-mono antialiased',
           geistSans.variable,
+          yujiSyuku.variable,
           geistMono.variable,
         )}
       >

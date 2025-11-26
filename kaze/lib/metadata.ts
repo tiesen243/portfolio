@@ -57,13 +57,13 @@ export function createMetadata(override: Metadata = {}): Metadata {
     },
     icons: {
       icon: '/favicon.ico',
-      shortcut: '/favicon-32x32.png',
+      shortcut: '/favicon.ico',
       apple: '/apple-touch-icon.png',
     },
     facebook: { appId: '625246206988524' },
     verification: { google: 'dfsGgsTDdq4IwdTzb4p69XHyrPXvzFNmUMRxpuV4M8Q' },
     other: { 'dmca-site-verification': 'OWtVUlcrSVcreXYvOHpqcytheE0xQT090' },
-    manifest: `${baseUrl}/manifest.webmanifest`,
+    manifest: `${baseUrl}/site.webmanifest`,
     alternates: { canonical: url, ...override.alternates },
   }
 }

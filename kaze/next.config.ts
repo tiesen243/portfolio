@@ -8,7 +8,7 @@ const nextConfig = {
   reactStrictMode: true,
   typescript: { ignoreBuildErrors: true },
   images: {
-    remotePatterns: [{ protocol: 'https', hostname: 'gravatar.com' }],
+    remotePatterns: [{ protocol: 'https', hostname: '1.gravatar.com' }],
   },
 
   transpilePackages: [

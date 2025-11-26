@@ -2,7 +2,7 @@ export const basic = {
   handle: 'tiesen243',
   nickname: 'Tiesen',
   name: 'Tran Tien',
-  email: 'ttien56906@gmail.com',
+  email: 'tiesen243@tiesen.id.vn',
   dateOfBirth: '2004-06-??',
   location: 'Ho Chi Minh City, Vietnam',
   languages: ['Vietnamese', 'English'],

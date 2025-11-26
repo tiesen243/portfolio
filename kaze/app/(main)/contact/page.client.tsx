@@ -127,7 +127,7 @@ export function ContactForm() {
           />
 
           <Field>
-            <Button className='w-full' disabled={form.state.isPending}>
+            <Button disabled={form.state.isPending}>
               <SendIcon />
               Send Message
             </Button>

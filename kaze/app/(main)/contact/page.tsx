@@ -69,8 +69,8 @@ export default function ContactPage() {
             <div className='mt-4 space-y-6 px-6'>
               {contactInfo.map((info) => (
                 <div key={info.href} className='flex items-center space-x-4'>
-                  <div className='flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10'>
-                    <info.icon className='h-6 w-6' />
+                  <div className='flex size-12 items-center justify-center rounded-lg bg-primary/20'>
+                    <info.icon className='size-6' />
                   </div>
                   <div>
                     <Typography className='font-medium'>
@@ -113,10 +113,10 @@ export default function ContactPage() {
                   href={`/contact/${key}`}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='group flex items-center gap-4 rounded-lg border p-4 transition-colors duration-200 hover:border-primary/50 hover:bg-muted/50'
+                  className='group flex items-center gap-4 rounded-lg border p-4 transition-colors duration-200 hover:border-accent hover:bg-accent/50 hover:text-accent-foreground'
                 >
                   <Icon className='size-6' />
-                  <span className='font-medium group-hover:text-primary'>
+                  <span className='font-medium'>
                     {key.charAt(0).toUpperCase() + key.slice(1)}
                   </span>
                 </a>

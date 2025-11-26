@@ -95,8 +95,9 @@ export const metadata = createMetadata({
 })
 
 const images = [
-  '/assets/images/showcases/tiesen-v2.png',
-  '/assets/images/showcases/goldenglow.png',
-  '/assets/images/showcases/lin-yushia.png',
-  '/assets/images/showcases/tiesen-v1.png',
+  '/assets/images/designs/tiesen-v3.png',
+  '/assets/images/designs/tiesen-v2.png',
+  '/assets/images/designs/goldenglow.png',
+  '/assets/images/designs/lin-yushia.png',
+  '/assets/images/designs/tiesen-v1.png',
 ]
