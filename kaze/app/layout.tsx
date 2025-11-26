@@ -19,7 +19,7 @@ const geistSans = Geist({
 })
 
 const yujiSyuku = Yuji_Syuku({
-  variable: '--font-yuji-serif',
+  variable: '--font-yuji-syuku',
   subsets: ['latin'],
   weight: '400',
 })
