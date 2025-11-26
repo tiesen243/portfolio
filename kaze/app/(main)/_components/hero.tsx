@@ -11,7 +11,7 @@ import {
 import { ShortcutKey } from '@yuki/ui/shortcut-key'
 import { Typography } from '@yuki/ui/typography'
 
-import Tiesen from '@/public/assets/images/tiesen.png'
+import Tiesen from '@/public/assets/logotype.png'
 
 export function HeroSection() {
   return (

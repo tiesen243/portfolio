@@ -14,7 +14,7 @@ import {
 } from '@yuki/ui/icons'
 
 import { ToggleTheme } from '@/components/toggle-theme'
-import Tiesen from '@/public/assets/images/tiesen.png'
+import Tiesen from '@/public/assets/logotype.png'
 
 export function SidebarContent() {
   return (
