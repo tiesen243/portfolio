@@ -2,71 +2,35 @@
 
 A modern, full-stack portfolio website showcasing my projects, blog posts, and technical expertise. Built with cutting-edge web technologies and featuring interactive components, code examples, and comprehensive documentation.
 
-## 🚀 Features
+## Installation
 
-- **Modern Tech Stack**: Built with Next.js, React, and TypeScript
-- **Interactive Blog**: Technical articles with syntax highlighting and interactive code examples
-- **Component Library**: Custom UI components with accessibility features
-- **Form Validation**: Advanced form handling with Standard Schema validation
-- **Responsive Design**: Mobile-first approach with modern CSS
-- **SEO Optimized**: Metadata management and structured content
-- **Package Management**: Monorepo structure with organized content packages
+1. Clone the repository:
 
-## 🛠️ Tech Stack
+   ```bash
+   git clone https://github.com/tiesen243/portfolio.git
+   cd portfolio
+   ```
 
-- **Framework**: Next.js with App Router
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Content**: MDX for blog posts
-- **Validation**: Standard Schema with Zod
-- **UI Components**: shadcn/ui
+2. Install dependencies:
 
-## 📦 Project Structure
+   ```bash
+   bun ci
+   ```
 
-```
-├── packages
-    ├── content/
-│   │   ├── blogs         # Blog posts in MDX format
-│   │   └── projects      # Project posts in MDX format
-    ├── data              # My information
-│   ├── ui                # Reusable UI components
-│   └── validators        # Reusable validate data
-├── www                   # Website
-└── README.md
-```
+3. Set up environment variables:
 
-## 🔧 Installation
+   Create a `.env` file in the root directory and add the necessary environment variables as specified in the `.env.example` file.
 
-Choose your preferred package manager:
+   ```bash
+   cp .env.example .env
+   ```
 
-### npm
+4. Start the development server:
 
-```bash
-npm install
-npm run dev
-```
+   ```bash
+   bun dev
+   ```
 
-### pnpm
-
-```bash
-pnpm install
-pnpm dev
-```
-
-### yarn
-
-```bash
-yarn install
-yarn dev
-```
-
-### bun
-
-```bash
-bun install
-bun dev
-```
-
-## 📄 License
+## License
 
 This project is open source and available under the [MIT](./LICENSE) License.
