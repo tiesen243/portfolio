@@ -1,5 +1,5 @@
 {
-  "name": "@yuki/validators",
+  "name": "@yuki/lib",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -11,20 +11,16 @@
     },
     "./package.json": "./package.json"
   },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
   "scripts": {
     "build": "tsdown",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "~dev": "tsdown --watch ./src"
+    "~dev": "tsdown --watch"
   },
   "prettier": "@yuki/prettier-config",
   "dependencies": {
-    "@yuki/lib": "workspace:*",
     "zod": "^4.1.13"
   },
   "devDependencies": {

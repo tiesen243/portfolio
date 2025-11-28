@@ -69,7 +69,7 @@ export default function ContactPage() {
             <div className='mt-4 space-y-6 px-6'>
               {contactInfo.map((info) => (
                 <div key={info.href} className='flex items-center space-x-4'>
-                  <div className='flex size-12 items-center justify-center rounded-lg bg-primary/20'>
+                  <div className='flex size-12 items-center justify-center rounded-lg bg-accent text-accent-foreground'>
                     <info.icon className='size-6' />
                   </div>
                   <div>

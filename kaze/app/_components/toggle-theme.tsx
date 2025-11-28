@@ -9,7 +9,7 @@ export const ToggleTheme: React.FC = () => {
   return (
     <button
       type='button'
-      className="pr-2 hover:text-muted-foreground [&_svg:not([class*='size-'])]:size-4"
+      className="pr-2 hover:text-accent-foreground [&_svg:not([class*='size-'])]:size-4"
       onClick={() => {
         setTheme(theme === 'dark' ? 'light' : 'dark')
       }}

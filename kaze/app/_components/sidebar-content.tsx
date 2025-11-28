@@ -33,7 +33,7 @@ export function SidebarContent() {
             <Link
               key={nav.label}
               href={nav.href as unknown as UrlObject}
-              className='inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+              className='inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground dark:hover:bg-sidebar-accent/50'
             >
               <nav.icon className='size-4' />
               <span>{nav.label}</span>
@@ -51,7 +51,7 @@ export function SidebarContent() {
               target='_blank'
               rel='noopener noreferrer'
             >
-              <Icon className='size-4 hover:fill-muted-foreground' />
+              <Icon className='size-4 hover:fill-accent-foreground' />
               <span className='sr-only'>
                 {key.charAt(0).toUpperCase() + key.slice(1)}
               </span>
