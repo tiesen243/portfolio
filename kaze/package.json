@@ -14,7 +14,6 @@
   },
   "prettier": "@yuki/prettier-config",
   "dependencies": {
-    "@vercel/analytics": "^1.5.0",
     "@yuki/content": "workspace:*",
     "@yuki/data": "workspace:*",
     "@yuki/ui": "workspace:*",

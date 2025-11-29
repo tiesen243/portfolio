@@ -31,183 +31,181 @@ export async function GET(request: NextRequest) {
     ])
 
     return new ImageResponse(
-      (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            justifyContent: 'space-between',
-            gap: '32px',
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          gap: '32px',
 
-            width: '100%',
-            height: '100%',
-            padding: '32px 40px',
+          width: '100%',
+          height: '100%',
+          padding: '32px 40px',
 
-            backgroundColor,
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+          backgroundColor,
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
 
-                width: '48px',
-                height: '48px',
-                borderRadius: '8px',
+              width: '48px',
+              height: '48px',
+              borderRadius: '8px',
 
-                backgroundColor: primaryColor,
-              }}
-            >
-              <img
-                src={logoUrl}
-                alt='Logo'
-                style={{
-                  width: '80%',
-                  height: '80%',
-                  margin: 0,
-
-                  objectFit: 'contain',
-                  filter: theme === 'dark' ? 'none' : 'invert(1)',
-                }}
-              />
-            </div>
-
-            <h1
-              style={{
-                fontFamily: 'Geist-Medium, sans-serif',
-                fontSize: '28px',
-                fontWeight: '500',
-                color: foregroundColor,
-              }}
-            >
-              {appName}
-            </h1>
-          </div>
-
-          {isUwU ? (
+              backgroundColor: primaryColor,
+            }}
+          >
             <img
-              src={`${request.nextUrl.origin}/assets/logotype.png`}
-              alt='UwU Logotype'
+              src={logoUrl}
+              alt='Logo'
               style={{
                 width: '80%',
+                height: '80%',
+                margin: 0,
+
                 objectFit: 'contain',
-                margin: '0 auto',
+                filter: theme === 'dark' ? 'none' : 'invert(1)',
               }}
             />
-          ) : (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: '32px',
+          </div>
 
-                flex: 1,
-                width: '100%',
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
+          <h1
+            style={{
+              fontFamily: 'Geist-Medium, sans-serif',
+              fontSize: '28px',
+              fontWeight: '500',
+              color: foregroundColor,
+            }}
+          >
+            {appName}
+          </h1>
+        </div>
 
-                  width: image ? '65%' : '100%',
-                  height: '100%',
-                }}
-              >
-                <h2
-                  style={{
-                    fontFamily: 'Geist-Bold, sans-serif',
-                    fontSize: '48px',
-                    lineHeight: '1.1',
-                    fontWeight: '700',
-                    color: foregroundColor,
-
-                    margin: '0 0 24px 0',
-                  }}
-                >
-                  {title}
-                </h2>
-                <p
-                  style={{
-                    fontFamily: 'Geist-Regular, sans-serif',
-                    fontSize: '24px',
-                    lineHeight: '1.2',
-                    fontWeight: '400',
-                    color: foregroundColor,
-
-                    height: '100%',
-                    overflow: 'hidden',
-                    margin: 0,
-                    opacity: 0.75,
-                  }}
-                >
-                  {description}
-                </p>
-              </div>
-              {image && (
-                <img
-                  src={image}
-                  alt={title}
-                  style={{
-                    flex: 1,
-                    border: `0.5px solid ${foregroundColor}`,
-                    borderRadius: '16px',
-                    aspectRatio: '1 / 1',
-                    objectFit: 'cover',
-                  }}
-                />
-              )}
-            </div>
-          )}
-
+        {isUwU ? (
+          <img
+            src={`${request.nextUrl.origin}/assets/logotype.png`}
+            alt='UwU Logotype'
+            style={{
+              width: '80%',
+              objectFit: 'contain',
+              margin: '0 auto',
+            }}
+          />
+        ) : (
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
+              gap: '32px',
 
+              flex: 1,
               width: '100%',
             }}
           >
             <div
               style={{
                 display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: '16px',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+
+                width: image ? '65%' : '100%',
+                height: '100%',
               }}
             >
-              <hr
+              <h2
                 style={{
-                  width: '60px',
-                  height: '4px',
-                  borderRadius: '2px',
-
-                  background: `linear-gradient(90deg, ${primaryColor}, ${backgroundColor})`,
-                }}
-              />
-              <p
-                style={{
-                  fontFamily: 'Geist-Medium, sans-serif',
-                  fontSize: '16px',
-                  fontWeight: '500',
+                  fontFamily: 'Geist-Bold, sans-serif',
+                  fontSize: '48px',
+                  lineHeight: '1.1',
+                  fontWeight: '700',
                   color: foregroundColor,
 
+                  margin: '0 0 24px 0',
+                }}
+              >
+                {title}
+              </h2>
+              <p
+                style={{
+                  fontFamily: 'Geist-Regular, sans-serif',
+                  fontSize: '24px',
+                  lineHeight: '1.2',
+                  fontWeight: '400',
+                  color: foregroundColor,
+
+                  height: '100%',
+                  overflow: 'hidden',
                   margin: 0,
                   opacity: 0.75,
                 }}
               >
-                {new URL(request.url).hostname}
+                {description}
               </p>
             </div>
+            {image && (
+              <img
+                src={image}
+                alt={title}
+                style={{
+                  flex: 1,
+                  border: `0.5px solid ${foregroundColor}`,
+                  borderRadius: '16px',
+                  aspectRatio: '1 / 1',
+                  objectFit: 'cover',
+                }}
+              />
+            )}
+          </div>
+        )}
+
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+
+            width: '100%',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: '16px',
+            }}
+          >
+            <hr
+              style={{
+                width: '60px',
+                height: '4px',
+                borderRadius: '2px',
+
+                background: `linear-gradient(90deg, ${primaryColor}, ${backgroundColor})`,
+              }}
+            />
+            <p
+              style={{
+                fontFamily: 'Geist-Medium, sans-serif',
+                fontSize: '16px',
+                fontWeight: '500',
+                color: foregroundColor,
+
+                margin: 0,
+                opacity: 0.75,
+              }}
+            >
+              {new URL(request.url).hostname}
+            </p>
           </div>
         </div>
-      ),
+      </div>,
       {
         width: 1200,
         height: 630,
