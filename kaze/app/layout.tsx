@@ -1,13 +1,10 @@
 import '@/app/globals.css'
 
-import { Activity } from 'react'
-import { Geist, Geist_Mono, Yuji_Syuku } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
+import { Geist, Geist_Mono } from 'next/font/google'
 
 import { cn, ThemeProvider } from '@yuki/ui'
 import { NvimStatuslineProvider } from '@yuki/ui/nvim-statusline'
 import { Sidebar, SidebarInset, SidebarProvider } from '@yuki/ui/sidebar'
-import { env } from '@yuki/validators/env'
 
 import { Footer } from '@/app/_components/footer'
 import { SidebarContent } from '@/app/_components/sidebar-content'
@@ -16,12 +13,6 @@ import { createMetadata } from '@/lib/metadata'
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
-})
-
-const yujiSyuku = Yuji_Syuku({
-  variable: '--font-yuji-syuku',
-  subsets: ['latin'],
-  weight: '400',
 })
 
 const geistMono = Geist_Mono({
@@ -38,7 +29,6 @@ export default function RootLayout({
         className={cn(
           'flex min-h-dvh w-full font-mono antialiased',
           geistSans.variable,
-          yujiSyuku.variable,
           geistMono.variable,
         )}
       >
@@ -46,7 +36,6 @@ export default function RootLayout({
           attribute='class'
           defaultTheme='dark'
           disableTransitionOnChange
-          enableColorScheme
           enableSystem
         >
           <SidebarProvider>
@@ -62,10 +51,6 @@ export default function RootLayout({
             </NvimStatuslineProvider>
           </SidebarProvider>
         </ThemeProvider>
-
-        <Activity mode={env.NODE_ENV === 'production' ? 'visible' : 'hidden'}>
-          <Analytics />
-        </Activity>
       </body>
     </html>
   )
