@@ -18,8 +18,8 @@
     "@yuki/data": "workspace:*",
     "@yuki/ui": "workspace:*",
     "@yuki/validators": "workspace:*",
-    "fumadocs-ui": "^16.2.0",
-    "next": "^16.0.5",
+    "fumadocs-ui": "^16.2.1",
+    "next": "^16.0.6",
     "react": "catalog:react",
     "react-dom": "catalog:react",
     "resend": "^6.5.2"
@@ -40,6 +40,6 @@
   "peerDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "catalog:",
     "prettier-plugin-tailwindcss": "catalog:",
-    "shiki": "^3.15.0"
+    "shiki": "^3.18.0"
   }
 }

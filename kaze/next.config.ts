@@ -45,7 +45,7 @@ export default nextConfig
 
 const socials = {
   github: 'https://github.com/tiesen243',
-  facebook: 'https://facebook.com/tiesen243.nanoda',
+  facebook: 'https://facebook.com/tiesen243',
   linkedin: 'https://www.linkedin.com/in/tiesen243',
   x: 'https://x.com/tiesen243',
 }
