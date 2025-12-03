@@ -4,11 +4,8 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./dist/index.mjs",
-    "./*": {
-      "default": "./dist/*.mjs",
-      "types": "./dist/*.d.mts"
-    },
+    "./create-env": "./dist/create-env.mjs",
+    "./create-id": "./dist/create-id.mjs",
     "./package.json": "./package.json"
   },
   "scripts": {
@@ -33,8 +30,6 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@ianvs/prettier-plugin-sort-imports": "catalog:",
-    "@types/node": "catalog:",
-    "prettier-plugin-tailwindcss": "catalog:"
+    "@types/node": "catalog:"
   }
 }

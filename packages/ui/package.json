@@ -50,10 +50,8 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@ianvs/prettier-plugin-sort-imports": "catalog:",
     "@types/react": "catalog:react",
-    "next": ">=16.0.7",
-    "prettier-plugin-tailwindcss": "catalog:",
+    "next": ">=16.0.0",
     "react": "catalog:react"
   }
 }
