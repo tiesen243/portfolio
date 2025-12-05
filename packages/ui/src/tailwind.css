@@ -5,6 +5,7 @@
 
 @theme inline {
   --font-sans: var(--font-geist-sans), 'Geist', sans-serif;
+  --font-serif: var(--font-noto-serif-georgian), 'Noto Serif Georgian', serif;
   --font-mono: var(--font-geist-mono), 'Geist Mono', monospace;
 
   --radius-sm: calc(var(--radius) - 4px);

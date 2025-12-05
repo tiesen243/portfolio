@@ -20,7 +20,7 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
 
   return (
     <article className='container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col py-8 font-sans'>
-      <Typography variant='h2' component='h1'>
+      <Typography variant='h2' component='h1' className='font-serif'>
         {frontmatter.title}
       </Typography>
 

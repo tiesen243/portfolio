@@ -18,7 +18,7 @@
     "@yuki/data": "workspace:*",
     "@yuki/ui": "workspace:*",
     "@yuki/validators": "workspace:*",
-    "fumadocs-ui": "^16.2.2",
+    "fumadocs-ui": "^16.2.3",
     "next": "^16.0.7",
     "react": "catalog:react",
     "react-dom": "catalog:react",
@@ -36,5 +36,8 @@
     "prettier": "catalog:",
     "tailwindcss": "catalog:tailwind",
     "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "shiki": "^3.19.0"
   }
 }
