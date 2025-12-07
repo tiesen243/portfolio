@@ -1,6 +1,6 @@
 import '@/app/globals.css'
 
-import { Geist, Geist_Mono, Noto_Serif_Georgian } from 'next/font/google'
+import { Geist, Geist_Mono } from 'next/font/google'
 
 import { cn, ThemeProvider } from '@yuki/ui'
 import { NvimStatuslineProvider } from '@yuki/ui/nvim-statusline'
@@ -13,11 +13,6 @@ import { createMetadata } from '@/lib/metadata'
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
-})
-
-const notoSerifGeorgian = Noto_Serif_Georgian({
-  variable: '--font-noto-serif-georgian',
-  subsets: ['latin', 'georgian'],
 })
 
 const geistMono = Geist_Mono({
@@ -34,7 +29,6 @@ export default function RootLayout({
         className={cn(
           'flex min-h-dvh w-full font-mono antialiased',
           geistSans.variable,
-          notoSerifGeorgian.variable,
           geistMono.variable,
         )}
       >

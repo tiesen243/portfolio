@@ -19,30 +19,30 @@ import Tiesen from '@/public/assets/logotype.png'
 export function SidebarContent() {
   return (
     <>
-      <section className='border-b'>
+      <div className='border-b'>
         <Image
           src={Tiesen}
           alt='Tiesen Logo'
           className='m-4 w-2/3 object-cover'
+          sizes='(max-width: 768px) 100vw, 50vw'
+          priority
         />
-      </section>
+      </div>
 
-      <section className='flex-1'>
-        <nav className='flex flex-col gap-2 px-2 py-4'>
-          {navs.map((nav) => (
-            <Link
-              key={nav.label}
-              href={nav.href as unknown as UrlObject}
-              className='inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground dark:hover:bg-sidebar-accent/50'
-            >
-              <nav.icon className='size-4' />
-              <span>{nav.label}</span>
-            </Link>
-          ))}
-        </nav>
-      </section>
+      <nav className='flex flex-1 flex-col gap-2 px-2 py-4'>
+        {navs.map((nav) => (
+          <Link
+            key={nav.label}
+            href={nav.href as unknown as UrlObject}
+            className='inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground dark:hover:bg-sidebar-accent/50'
+          >
+            <nav.icon className='size-4' />
+            <span>{nav.label}</span>
+          </Link>
+        ))}
+      </nav>
 
-      <section className='flex items-center justify-between gap-4 border pt-4 pb-10 md:pb-4'>
+      <div className='flex items-center justify-between gap-4 border pt-4 pb-10 md:pb-4'>
         <nav className='flex items-center gap-4 pl-2'>
           {Object.entries(socials).map(([key, Icon]) => (
             <a
@@ -60,7 +60,7 @@ export function SidebarContent() {
         </nav>
 
         <ToggleTheme />
-      </section>
+      </div>
     </>
   )
 }
