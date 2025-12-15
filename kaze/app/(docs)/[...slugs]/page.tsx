@@ -19,23 +19,22 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
   const { frontmatter, toc, MDXContent } = page
 
   return (
-    <main className='container flex min-h-[calc(100dvh-1.5rem)] max-w-[100ch] flex-col gap-6 pt-8 pb-12 text-lg'>
+    <main className='container min-h-[calc(100dvh-1.5rem)] max-w-[100ch] pt-8 pb-12'>
       <Typography variant='h1'>{frontmatter.title}</Typography>
-      <Typography className='-mt-6 text-muted-foreground'>
+      <Typography className='shrink-0 text-xs text-muted-foreground lg:text-sm'>
+        {formatDate(frontmatter.publishedAt)}
+      </Typography>
+      <Typography className='text-muted-foreground'>
         {frontmatter.description}
       </Typography>
 
-      <div className='flex flex-wrap gap-2'>
+      <div className='my-4 flex flex-wrap gap-2'>
         {frontmatter.tags.map((tag) => (
           <Badge key={tag} variant='outline'>
             {tag}
           </Badge>
         ))}
       </div>
-
-      <Typography className='shrink-0 text-xs text-muted-foreground lg:text-sm'>
-        {formatDate(frontmatter.publishedAt)}
-      </Typography>
 
       {frontmatter.image && (
         <div className='relative mb-4 aspect-video w-full rounded-lg shadow-sm'>
@@ -52,7 +51,7 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
 
       <InlineTOC items={toc} />
 
-      <hr />
+      <hr className='my-4' />
 
       <article className='[&_figure]:mb-6'>
         <MDXContent components={mdxComponents()} />

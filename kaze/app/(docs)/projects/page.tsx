@@ -21,10 +21,8 @@ export default async function ProjectListPage() {
       <Typography className='text-muted-foreground'>{DESCRIPTION}</Typography>
 
       <section className='mt-12 flex flex-col gap-8'>
-        <Typography variant='h2'>Featured Projects</Typography>
-        <Typography className='-mt-8 text-muted-foreground'>
-          Here are some of my notable projects that demonstrate my skills and
-          creativity.
+        <Typography variant='h2' className='mb-0'>
+          Featured Projects
         </Typography>
 
         {pages.map((page) => (
@@ -34,10 +32,10 @@ export default async function ProjectListPage() {
             className='group/project'
             aria-label={`View project: ${page.frontmatter.title}`}
           >
-            <div className='flex items-baseline justify-between gap-4'>
+            <div className='flex items-start justify-between gap-4'>
               <Typography
                 variant='h3'
-                className='line-clamp-1 group-hover/project:underline'
+                className='my-0 line-clamp-1 group-hover/project:underline'
               >
                 {page.frontmatter.title}
               </Typography>
@@ -63,10 +61,8 @@ export default async function ProjectListPage() {
       </section>
 
       <section className='mt-12 grid gap-8'>
-        <Typography variant='h2'>Design Showcase</Typography>
-        <Typography className='-mt-8 text-muted-foreground'>
-          A selection of my design works, highlighting my creativity and
-          attention to detail.
+        <Typography variant='h2' className='mb-0'>
+          Design Showcase
         </Typography>
 
         {images.map((image, index) => (
