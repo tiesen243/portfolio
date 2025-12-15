@@ -19,15 +19,16 @@ import Tiesen from '@/public/assets/logotype.png'
 export function SidebarContent() {
   return (
     <>
-      <div className='border-b'>
+      <figure className='border-b p-4'>
         <Image
           src={Tiesen}
           alt='Tiesen Logo'
-          className='m-4 w-2/3 object-cover'
-          sizes='(max-width: 768px) 100vw, 50vw'
+          className='w-2/3 object-cover'
+          sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
           priority
         />
-      </div>
+        <figcaption className='sr-only'>Tiesen Logo</figcaption>
+      </figure>
 
       <nav className='flex flex-1 flex-col gap-2 px-2 py-4'>
         {navs.map((nav) => (
@@ -42,8 +43,8 @@ export function SidebarContent() {
         ))}
       </nav>
 
-      <div className='flex items-center justify-between gap-4 border-t pt-4 pb-10 md:pb-4'>
-        <nav className='flex items-center gap-4 pl-2'>
+      <div className='flex items-center justify-between gap-4 border-t px-4 pt-5 pb-10 md:pb-5'>
+        <nav className='flex items-center gap-4'>
           {Object.entries(socials).map(([key, Icon]) => (
             <a
               key={key}
