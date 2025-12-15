@@ -32,8 +32,9 @@ export default async function ProjectListPage() {
             key={page.slugs.join('/')}
             href={page.slugs.join('/') as '/projects/[...slug]'}
             className='group/project'
+            aria-label={`View project: ${page.frontmatter.title}`}
           >
-            <div className='flex items-center justify-between gap-4'>
+            <div className='flex items-baseline justify-between gap-4'>
               <Typography
                 variant='h3'
                 className='line-clamp-1 group-hover/project:underline'

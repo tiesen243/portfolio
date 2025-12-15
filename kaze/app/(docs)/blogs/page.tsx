@@ -27,7 +27,7 @@ export default async function BlogListPage() {
             className='group/blog'
             aria-label={`Read blog post: ${page.frontmatter.title}`}
           >
-            <div className='flex items-center justify-between gap-4'>
+            <div className='flex items-baseline justify-between gap-4'>
               <Typography
                 variant='h2'
                 className='line-clamp-1 group-hover/blog:underline'
