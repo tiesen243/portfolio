@@ -57,13 +57,10 @@ function NvimStatusline({
 }: useRender.ComponentProps<'footer'>) {
   const { mode } = useNvimStatusline()
 
-  const element = useRender({
+  return useRender({
     defaultTagName: 'footer',
-    render,
-    props: mergeProps(
+    props: mergeProps<'footer'>(
       {
-        'data-slot': 'nvim-statusline',
-        'data-mode': mode,
         className: cn(
           'group/statusline sticky bottom-0 left-0 z-50 flex h-6 w-full items-center justify-between gap-0 bg-popover px-4 font-mono text-popover-foreground md:bottom-4',
           "[&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
@@ -72,9 +69,12 @@ function NvimStatusline({
       },
       props,
     ),
+    render,
+    state: {
+      slot: 'nvim-statusline',
+      mode,
+    },
   })
-
-  return element
 }
 
 function NvimStatuslineSectionA({
