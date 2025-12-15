@@ -1,4 +1,3 @@
-import type { ComponentProps } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -17,7 +16,7 @@ export function HeroSection() {
     <section
       id='hero'
       className='container flex min-h-dvh flex-col items-center justify-center'
-      style={{ '--max-width': '650px' } as React.CSSProperties}
+      style={{ '--max-width': '800px' } as React.CSSProperties}
     >
       <h2 className='sr-only'>Hero section</h2>
 
@@ -38,15 +37,13 @@ export function HeroSection() {
 
       <nav className='mt-8 flex w-full max-w-(--max-width) flex-col gap-4'>
         {navs.map((nav) => (
-          <div key={nav.label} className='flex items-center justify-between'>
-            <Typography
-              className='inline-flex items-center gap-2 lg:text-base'
-              component={Link}
-              {...({
-                href: nav.href,
-                prefetch: !nav.href.endsWith('.pdf'),
-              } satisfies ComponentProps<typeof Link>)}
-            >
+          <Link
+            key={nav.label}
+            href={nav.href}
+            prefetch={nav.href.endsWith('.pdf') ? false : true}
+            className='flex items-center justify-between'
+          >
+            <Typography className='inline-flex items-center gap-2'>
               <nav.icon className='size-4' />
               <span>{nav.label}</span>
             </Typography>
@@ -54,7 +51,7 @@ export function HeroSection() {
             <kbd data-shortcut={nav.shortcut} className='text-primary'>
               {nav.shortcut}
             </kbd>
-          </div>
+          </Link>
         ))}
       </nav>
     </section>

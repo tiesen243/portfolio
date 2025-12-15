@@ -19,7 +19,7 @@ import { useNvimStatusline } from '@yuki/ui/nvim-statusline'
 import { Textarea } from '@yuki/ui/textarea'
 import { contactSchema } from '@yuki/validators/contact'
 
-import { sendEmail } from '@/app/(main)/contact/page.action'
+import { sendEmail } from '@/app/_components/contact/action'
 
 export function ContactForm() {
   const { mode, setMode } = useNvimStatusline()

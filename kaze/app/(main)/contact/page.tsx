@@ -9,7 +9,7 @@ import {
 } from '@yuki/ui/icons'
 import { Typography } from '@yuki/ui/typography'
 
-import { ContactForm } from '@/app/(main)/contact/page.client'
+import { ContactForm } from '@/app/_components/contact/client'
 import { createMetadata } from '@/lib/metadata'
 
 const TITILE = 'Contact Me'
@@ -52,7 +52,7 @@ export default function ContactPage() {
           <h3 className='sr-only'>Direct Contact Information section</h3>
 
           <section className='rounded-xl border bg-card p-4 text-card-foreground shadow-md'>
-            <Typography variant='h5' component='h4'>
+            <Typography variant='h5' render={<h4 />}>
               Contact Information
             </Typography>
             <Typography className='-mt-1 text-muted-foreground'>
@@ -75,9 +75,7 @@ export default function ContactPage() {
                       </Typography>
                     ) : (
                       <Typography
-                        component='a'
-                        // @ts-expect-error - treated as a anchor tag
-                        href={info.href}
+                        render={<a href={info.href} />}
                         className='text-muted-foreground transition-colors hover:text-primary'
                       >
                         {info.value}
@@ -90,7 +88,7 @@ export default function ContactPage() {
           </section>
 
           <section className='rounded-xl border bg-card p-4 text-card-foreground shadow-md'>
-            <Typography variant='h5' component='h4'>
+            <Typography variant='h5' render={<h4 />}>
               Follow Me
             </Typography>
             <Typography className='-mt-1 text-muted-foreground'>
