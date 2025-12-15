@@ -39,7 +39,7 @@ export function ContactForm() {
   }
 
   return (
-    <form className='flex-1' onSubmit={form.handleSubmit}>
+    <form className='flex-1 text-lg' onSubmit={form.handleSubmit}>
       <FieldSet className='h-full'>
         <FieldLegend>Send a Message</FieldLegend>
         <FieldDescription>

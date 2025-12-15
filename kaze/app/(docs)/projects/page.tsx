@@ -16,17 +16,13 @@ export default async function ProjectListPage() {
   const pages = await getPages('projects')
 
   return (
-    <main className='container flex min-h-[calc(100dvh-1.5rem)] max-w-[100ch] flex-col py-8 text-lg'>
-      <Typography variant='h2' component='h1'>
-        {TITLE}
-      </Typography>
+    <main className='container flex min-h-[calc(100dvh-1.5rem)] max-w-[100ch] flex-col pt-8 pb-12 text-lg'>
+      <Typography variant='h1'>{TITLE}</Typography>
       <Typography className='text-muted-foreground'>{DESCRIPTION}</Typography>
 
       <section className='mt-12 flex flex-col gap-8'>
-        <Typography variant='h3' component='h2'>
-          Featured Projects
-        </Typography>
-        <Typography className='-mt-6 text-muted-foreground'>
+        <Typography variant='h2'>Featured Projects</Typography>
+        <Typography className='-mt-8 text-muted-foreground'>
           Here are some of my notable projects that demonstrate my skills and
           creativity.
         </Typography>
@@ -39,8 +35,7 @@ export default async function ProjectListPage() {
           >
             <div className='flex items-center justify-between gap-4'>
               <Typography
-                variant='h4'
-                component='h2'
+                variant='h3'
                 className='line-clamp-1 group-hover/project:underline'
               >
                 {page.frontmatter.title}
@@ -66,11 +61,9 @@ export default async function ProjectListPage() {
         ))}
       </section>
 
-      <section className='mt-12 grid gap-6'>
-        <Typography variant='h3' component='h2'>
-          Design Showcase
-        </Typography>
-        <Typography className='-mt-6 text-muted-foreground'>
+      <section className='mt-12 grid gap-8'>
+        <Typography variant='h2'>Design Showcase</Typography>
+        <Typography className='-mt-8 text-muted-foreground'>
           A selection of my design works, highlighting my creativity and
           attention to detail.
         </Typography>

@@ -5,12 +5,12 @@ import { SkillSection } from '@/app/_components/home/skill'
 
 export default function HomePage() {
   return (
-    <>
+    <main>
       <h1 className='sr-only'>Tiesen's Personal Website</h1>
       <HeroSection />
       <AboutSection />
       <SkillSection />
       <ShowcaseSection />
-    </>
+    </main>
   )
 }

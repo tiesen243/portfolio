@@ -23,6 +23,8 @@ export function Mode() {
   return (
     <NvimStatuslineSectionA className='cursor-pointer' onClick={toggleSidebar}>
       {mode.toUpperCase()}
+
+      <span className='sr-only'>Toggle Sidebar</span>
     </NvimStatuslineSectionA>
   )
 }

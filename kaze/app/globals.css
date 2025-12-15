@@ -3,5 +3,4 @@
 @import '@yuki/ui/tailwind.css';
 
 @source '../../packages/content/**/*.mdx';
-@source '../../packages/data/**/*.tsx';
 @source '../../packages/ui/src/**/*.tsx';

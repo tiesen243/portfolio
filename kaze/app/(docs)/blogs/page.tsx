@@ -16,9 +16,7 @@ export default async function BlogListPage() {
 
   return (
     <main className='container flex min-h-[calc(100dvh-1.5rem)] max-w-[100ch] flex-col py-8 text-lg'>
-      <Typography variant='h2' component='h1'>
-        {TITLE}
-      </Typography>
+      <Typography variant='h1'>{TITLE}</Typography>
       <Typography className='text-muted-foreground'>{DESCRIPTION}</Typography>
 
       <div className='mt-12 flex flex-col gap-8'>
@@ -31,8 +29,7 @@ export default async function BlogListPage() {
           >
             <div className='flex items-center justify-between gap-4'>
               <Typography
-                variant='h4'
-                component='h2'
+                variant='h2'
                 className='line-clamp-1 group-hover/blog:underline'
               >
                 {page.frontmatter.title}

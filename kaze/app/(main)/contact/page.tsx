@@ -12,7 +12,7 @@ import { Typography } from '@yuki/ui/typography'
 import { ContactForm } from '@/app/(main)/contact/page.client'
 import { createMetadata } from '@/lib/metadata'
 
-const TITILE = 'Contact'
+const TITILE = 'Contact Me'
 const DESCRIPTION =
   'Get in touch with me for inquiries or collaborations. Whether you have a question, feedback, or just want to say hello, I’d love to hear from you!'
 
@@ -34,44 +34,35 @@ export const metadata = createMetadata({
 
 export default function ContactPage() {
   return (
-    <section className='container flex min-h-[calc(100svh-1.5rem)] flex-col items-center justify-center py-12'>
-      <h1 className='sr-only'>Contact page</h1>
+    <main className='container flex min-h-[calc(100dvh-1.5rem)] flex-col items-center justify-center py-12'>
+      <Typography variant='h1'>Get In Touch</Typography>
+      <Typography className='mb-12 max-w-2xl text-center text-lg text-muted-foreground'>
+        {DESCRIPTION}
+      </Typography>
 
-      <section className='mb-12 text-center'>
-        <Typography variant='h3' component='h2'>
-          Get In Touch
-        </Typography>
-        <Typography className='mx-auto max-w-2xl text-xl text-muted-foreground'>
-          Have a question or want to work together? I&apos;d love to hear from
-          you.
-        </Typography>
-      </section>
-
-      <section className='mx-auto grid max-w-6xl gap-12 lg:grid-cols-2'>
+      <section className='grid w-full gap-4 lg:grid-cols-2'>
         <h2 className='sr-only'>Contact Methods section</h2>
 
-        <section className='flex flex-col rounded-xl border bg-card p-6 text-card-foreground shadow-md'>
+        <section className='flex flex-col rounded-xl border bg-card p-4 text-card-foreground shadow-md'>
           <h3 className='sr-only'>Contact Form section</h3>
           <ContactForm />
         </section>
 
-        <section className='space-y-8'>
+        <section className='space-y-4'>
           <h3 className='sr-only'>Direct Contact Information section</h3>
 
-          <section className='rounded-xl border bg-card py-6 text-card-foreground shadow-md'>
-            <h4 className='sr-only'>Email and Location Details section</h4>
+          <section className='rounded-xl border bg-card p-4 text-card-foreground shadow-md'>
+            <Typography variant='h5' component='h4'>
+              Contact Information
+            </Typography>
+            <Typography className='-mt-1 text-muted-foreground'>
+              You can also reach me through these channels.
+            </Typography>
 
-            <section className='px-6'>
-              <Typography variant='h5'>Contact Information</Typography>
-              <Typography className='text-muted-foreground'>
-                You can also reach me through these channels.
-              </Typography>
-            </section>
-
-            <div className='mt-4 space-y-6 px-6'>
+            <div className='mt-4 space-y-4'>
               {contactInfo.map((info) => (
                 <div key={info.href} className='flex items-center space-x-4'>
-                  <div className='flex size-12 items-center justify-center rounded-lg bg-accent text-accent-foreground'>
+                  <div className='flex size-12 items-center justify-center rounded-lg border border-accent bg-accent/20 text-accent-foreground'>
                     <info.icon className='size-6' />
                   </div>
                   <div>
@@ -98,24 +89,22 @@ export default function ContactPage() {
             </div>
           </section>
 
-          <section className='rounded-xl border bg-card py-6 text-card-foreground shadow-md'>
-            <h4 className='sr-only'>Social Media Links section</h4>
+          <section className='rounded-xl border bg-card p-4 text-card-foreground shadow-md'>
+            <Typography variant='h5' component='h4'>
+              Follow Me
+            </Typography>
+            <Typography className='-mt-1 text-muted-foreground'>
+              Connect with me on social media for updates and insights.
+            </Typography>
 
-            <section className='px-6'>
-              <Typography variant='h5'>Follow Me</Typography>
-              <Typography className='text-muted-foreground'>
-                Connect with me on social media for updates and insights.
-              </Typography>
-            </section>
-
-            <div className='grid grid-cols-2 gap-4 px-6 pt-6'>
+            <div className='grid gap-4 pt-6 sm:grid-cols-2'>
               {Object.entries(socials).map(([key, Icon]) => (
                 <a
                   key={key}
                   href={`/contact/${key}`}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='group flex items-center gap-4 rounded-lg border p-4 transition-colors duration-200 hover:border-accent hover:bg-accent/50 hover:text-accent-foreground'
+                  className='group flex items-center gap-4 rounded-lg border p-4 transition-colors hover:border-accent hover:bg-accent/20 hover:text-accent-foreground'
                 >
                   <Icon className='size-6' />
                   <span className='font-medium'>
@@ -127,7 +116,7 @@ export default function ContactPage() {
           </section>
         </section>
       </section>
-    </section>
+    </main>
   )
 }
 
@@ -150,5 +139,5 @@ const socials = {
   github: GithubIcon,
   facebook: FacebookIcon,
   linkedin: LinkedinIcon,
-  x: XFormerTwitterIcon,
+  'x (formerly Twitter)': XFormerTwitterIcon,
 }

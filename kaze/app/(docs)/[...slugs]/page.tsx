@@ -19,12 +19,9 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
   const { frontmatter, toc, MDXContent } = page
 
   return (
-    <main className='container flex min-h-[calc(100dvh-1.5rem)] max-w-[100ch] flex-col gap-6 py-8 text-lg'>
-      <Typography variant='h2' component='h1'>
-        {frontmatter.title}
-      </Typography>
-
-      <Typography className='text-muted-foreground'>
+    <main className='container flex min-h-[calc(100dvh-1.5rem)] max-w-[100ch] flex-col gap-6 pt-8 pb-12 text-lg'>
+      <Typography variant='h1'>{frontmatter.title}</Typography>
+      <Typography className='-mt-6 text-muted-foreground'>
         {frontmatter.description}
       </Typography>
 
