@@ -54,7 +54,7 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
 
       <hr />
 
-      <article className='prose'>
+      <article className='[&_figure]:mb-6'>
         <MDXContent components={mdxComponents()} />
       </article>
     </main>
