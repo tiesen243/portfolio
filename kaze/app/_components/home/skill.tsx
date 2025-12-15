@@ -6,14 +6,9 @@ import { Typography } from '@yuki/ui/typography'
 
 export function SkillSection() {
   return (
-    <section
-      id='skill'
-      className='container mb-16 flex flex-col justify-center gap-4'
-    >
-      <Typography variant='h4' component='h2'>
-        Skills
-      </Typography>
-      <Typography className='text-primary'>
+    <section id='skill' className='container mt-12'>
+      <Typography variant='h2'>Skills</Typography>
+      <Typography className='text-accent-foreground'>
         A collection of skills and technologies I work with, including
         programming languages, frameworks, libraries, and tools.
       </Typography>
@@ -27,10 +22,9 @@ export function SkillSection() {
 
 function SkillList({ title, skills }: { title: string; skills: Skill[] }) {
   return (
-    <div className='space-y-4'>
-      <Typography variant='h5' component='h3'>
-        {title}
-      </Typography>
+    <section className='mt-6 space-y-4'>
+      <Typography variant='h3'>{title}</Typography>
+
       <div className='flex flex-wrap gap-4'>
         {skills.map((skill) => (
           <Badge
@@ -53,6 +47,6 @@ function SkillList({ title, skills }: { title: string; skills: Skill[] }) {
           </Badge>
         ))}
       </div>
-    </div>
+    </section>
   )
 }

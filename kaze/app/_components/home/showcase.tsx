@@ -17,17 +17,15 @@ export function ShowcaseSection() {
   return (
     <section
       id='showcase'
-      className='container mb-16 flex flex-col justify-center gap-4'
+      className='container my-12 flex flex-col justify-center'
     >
-      <Typography variant='h4' component='h2'>
-        Featured Projects
-      </Typography>
-      <Typography className='text-primary'>
+      <Typography variant='h2'>Featured Projects</Typography>
+      <Typography className='text-accent-foreground'>
         Explore a collection of open-source projects and tools built with modern
         technologies.
       </Typography>
 
-      <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
+      <div className='mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
         {showcases.map((showcase) => (
           <ShowcaseCard key={showcase.title} showcase={showcase} />
         ))}

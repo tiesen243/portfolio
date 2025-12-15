@@ -1,7 +1,5 @@
-'use client'
-
 import type { VariantProps } from 'class-variance-authority'
-import { useMemo } from 'react'
+import { Activity, useMemo } from 'react'
 import { cva } from 'class-variance-authority'
 
 import { Label } from '@/components/label'
@@ -162,14 +160,14 @@ function FieldSeparator({
       {...props}
     >
       <Separator className='absolute inset-0 top-1/2' />
-      {children && (
+      <Activity mode={children ? 'visible' : 'hidden'}>
         <span
           className='relative mx-auto block w-fit bg-background px-2 text-muted-foreground'
           data-slot='field-separator-content'
         >
           {children}
         </span>
-      )}
+      </Activity>
     </div>
   )
 }
@@ -180,22 +178,18 @@ function FieldError({
   errors,
   ...props
 }: React.ComponentProps<'div'> & {
-  errors?: Array<{ message?: string } | undefined>
+  errors?: ({ message?: string } | undefined)[]
 }) {
   const content = useMemo(() => {
-    if (children) {
-      return children
-    }
+    if (children) return children
 
-    if (!errors?.length) {
-      return null
-    }
+    if (!errors?.length) return null
 
     const uniqueErrors = [
       ...new Map(errors.map((error) => [error?.message, error])).values(),
     ]
 
-    if (uniqueErrors?.length == 1) {
+    if (uniqueErrors.length == 1) {
       return uniqueErrors[0]?.message
     }
 

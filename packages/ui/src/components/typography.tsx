@@ -4,15 +4,15 @@ import { cva } from 'class-variance-authority'
 
 import { cn } from '@/utils'
 
-const typographyVariants = cva('mb-1 text-base leading-7 font-normal', {
+const typographyVariants = cva('mb-1', {
   variants: {
     variant: {
-      h1: 'mb-8 scroll-m-20 text-7xl font-extrabold tracking-tight text-balance lg:text-8xl',
-      h2: 'mb-5 scroll-m-20 text-5xl font-bold tracking-tight text-balance first:mt-0 lg:text-6xl',
-      h3: 'mb-4 scroll-m-20 text-4xl font-semibold tracking-tight text-balance lg:text-5xl',
-      h4: 'mb-3 scroll-m-20 text-3xl font-semibold tracking-tight text-balance lg:text-4xl',
-      h5: 'mb-2.5 scroll-m-20 text-xl font-semibold tracking-tight text-balance lg:text-2xl',
-      h6: 'mb-2 scroll-m-20 text-lg font-semibold tracking-tight text-balance lg:text-xl',
+      h1: 'mb-8 scroll-m-20 text-4xl font-extrabold tracking-tight text-balance lg:text-5xl',
+      h2: 'mb-5 scroll-m-20 text-3xl font-bold tracking-tight text-balance first:mt-0 lg:text-4xl',
+      h3: 'mb-4 scroll-m-20 text-2xl font-semibold tracking-tight text-balance lg:text-3xl',
+      h4: 'mb-3 scroll-m-20 text-xl font-semibold tracking-tight text-balance lg:text-2xl',
+      h5: 'mb-2.5 scroll-m-20 text-lg font-semibold tracking-tight text-balance lg:text-xl',
+      h6: 'mb-2 scroll-m-20 text-base font-semibold tracking-tight text-balance lg:text-lg',
       p: 'text-base text-pretty lg:text-lg',
       ul: 'my-4 ml-6 list-disc text-base lg:text-lg [&>li]:mt-2 [&>li]:first:mt-0',
       ol: '"my-4 ml-6 list-decimal text-base lg:text-lg [&>li]:mt-2 [&>li]:first:mt-0',

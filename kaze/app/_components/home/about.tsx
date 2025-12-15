@@ -5,14 +5,10 @@ import { Typography } from '@yuki/ui/typography'
 
 export function AboutSection() {
   return (
-    <section id='about' className='container min-h-dvh py-16'>
-      <h2 className='sr-only'>About section</h2>
-
-      <section className='grid md:grid-cols-3'>
-        <h3 className='sr-only'>Basic Information section</h3>
-
-        <section className='md:col-span-2'>
-          <Typography variant='h4'>About Me</Typography>
+    <>
+      <section id='about' className='container grid md:grid-cols-3'>
+        <div className='md:col-span-2'>
+          <Typography variant='h2'>About Me</Typography>
           <Typography>
             Hi, I&apos;m Tiesen, a weeb devalopa with a passion for building
             innovative solutions. I love working with TypeScript and Next.js to
@@ -20,7 +16,7 @@ export function AboutSection() {
             find me exploring new technologies or contributing to open-source
             projects.
           </Typography>
-          <Typography className='text-primary'>
+          <Typography className='text-accent-foreground'>
             Feel free to reach out if you want to collaborate or just chat about
             tech!
           </Typography>
@@ -45,11 +41,9 @@ export function AboutSection() {
               <strong>Languages:</strong> {basic.languages.join(', ')}
             </li>
           </Typography>
-        </section>
+        </div>
 
-        <section className='relative aspect-square max-w-full'>
-          <h4 className='sr-only'>Profile Picture section</h4>
-
+        <div className='relative aspect-square max-w-full'>
           <Image
             src='https://1.gravatar.com/avatar/48b8ec4ce6c85e06c11bda4381a3ac6cb8161a23e5ea540544c809063090815d?s=400'
             alt={basic.nickname}
@@ -57,93 +51,79 @@ export function AboutSection() {
             priority
             fill
           />
-        </section>
+        </div>
       </section>
 
-      <section className='mt-10'>
-        <h3 className='sr-only'>Educations & Certifications section</h3>
+      <section id='certifications' className='container mt-12'>
+        <Typography variant='h3'>Certifications</Typography>
 
-        <section>
-          <Typography variant='h4' className='mb-4'>
-            Educations
-          </Typography>
-
-          {basic.educations.map((education) => (
-            <div
-              key={education.school}
-              className='relative border-l border-accent pb-6 pl-8 last:pb-0'
+        {basic.certifications.map((certification) => (
+          <div
+            key={certification.name}
+            className='relative border-l border-accent-foreground pb-6 pl-8 last:pb-0'
+          >
+            <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-accent-foreground' />
+            <Typography variant='h5' className='font-medium'>
+              {certification.name}
+            </Typography>
+            <Typography className='text-muted-foreground'>
+              Issued by {certification.issuer} on {certification.date}
+            </Typography>
+            <Typography>{certification.description}</Typography>
+            <a
+              href={certification.link}
+              className='text-sm hover:underline lg:text-base'
+              target='_blank'
+              rel='noopener noreferrer'
             >
-              <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-accent' />
-              <Typography variant='h5' className='font-medium'>
-                {education.school}
-              </Typography>
-              <Typography className='text-muted-foreground'>
-                {education.duration}
-              </Typography>
-              <Typography>
-                {education.major} {education.gpa && `- GPA: ${education.gpa}`}
-              </Typography>
-            </div>
-          ))}
-        </section>
-
-        <section className='mt-10'>
-          <Typography variant='h4' className='mb-4'>
-            Certifications
-          </Typography>
-
-          {basic.certifications.map((certification) => (
-            <div
-              key={certification.name}
-              className='relative border-l border-accent pb-6 pl-8 last:pb-0'
-            >
-              <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-accent' />
-              <Typography variant='h5' className='font-medium'>
-                {certification.name}
-              </Typography>
-              <Typography className='text-muted-foreground'>
-                Issued by {certification.issuer} on {certification.date}
-              </Typography>
-              <Typography>{certification.description}</Typography>
-              <a
-                href={certification.link}
-                className='text-sm hover:underline lg:text-base'
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                View Certificate
-              </a>
-            </div>
-          ))}
-        </section>
+              View Certificate
+            </a>
+          </div>
+        ))}
       </section>
 
-      <section className='mt-10'>
-        <h3 className='sr-only'>Experience section</h3>
+      <section id='education' className='container mt-12'>
+        <Typography variant='h2'>Educations</Typography>
 
-        <section>
-          <Typography variant='h4' className='mb-4'>
-            Experiences
-          </Typography>
-
-          {basic.experiences.map((exp) => (
-            <div
-              key={exp.company}
-              className='relative border-l border-accent pb-6 pl-8 last:pb-0'
-            >
-              <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-accent' />
-              <Typography variant='h5' className='font-medium'>
-                {exp.company}
-              </Typography>
-              <Typography className='text-muted-foreground'>
-                {exp.duration}
-              </Typography>
-              <Typography>{exp.position}</Typography>
-              <Typography>{exp.description}</Typography>
-            </div>
-          ))}
-        </section>
+        {basic.educations.map((education) => (
+          <div
+            key={education.school}
+            className='relative border-l border-accent-foreground pb-6 pl-8 last:pb-0'
+          >
+            <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-accent-foreground' />
+            <Typography variant='h5' className='font-medium'>
+              {education.school}
+            </Typography>
+            <Typography className='text-muted-foreground'>
+              {education.duration}
+            </Typography>
+            <Typography>
+              {education.major} {education.gpa && `- GPA: ${education.gpa}`}
+            </Typography>
+          </div>
+        ))}
       </section>
-    </section>
+
+      <section id='experience' className='container mt-12'>
+        <Typography variant='h2'>Experiences</Typography>
+
+        {basic.experiences.map((exp) => (
+          <div
+            key={exp.company}
+            className='relative border-l border-accent-foreground pb-6 pl-8 last:pb-0'
+          >
+            <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-accent-foreground' />
+            <Typography variant='h5' className='font-medium'>
+              {exp.company}
+            </Typography>
+            <Typography className='text-muted-foreground'>
+              {exp.duration}
+            </Typography>
+            <Typography>{exp.position}</Typography>
+            <Typography>{exp.description}</Typography>
+          </div>
+        ))}
+      </section>
+    </>
   )
 }
