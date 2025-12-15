@@ -8,7 +8,6 @@ import {
   FolderKanbanIcon,
   RssIcon,
 } from '@yuki/ui/icons'
-import { ShortcutKey } from '@yuki/ui/shortcut-key'
 import { Typography } from '@yuki/ui/typography'
 
 import Tiesen from '@/public/assets/logotype.png'
@@ -52,13 +51,9 @@ export function HeroSection() {
               <span>{nav.label}</span>
             </Typography>
 
-            <ShortcutKey
-              data-shortcut={nav.shortcut}
-              className='text-primary'
-              href={nav.href}
-            >
+            <kbd data-shortcut={nav.shortcut} className='text-primary'>
               {nav.shortcut}
-            </ShortcutKey>
+            </kbd>
           </div>
         ))}
       </nav>

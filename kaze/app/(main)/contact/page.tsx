@@ -37,8 +37,10 @@ export default function ContactPage() {
     <section className='container flex min-h-[calc(100svh-1.5rem)] flex-col items-center justify-center py-12'>
       <h1 className='sr-only'>Contact page</h1>
 
-      <section className='mb-16 text-center'>
-        <Typography variant='h2'>Get In Touch</Typography>
+      <section className='mb-12 text-center'>
+        <Typography variant='h3' component='h2'>
+          Get In Touch
+        </Typography>
         <Typography className='mx-auto max-w-2xl text-xl text-muted-foreground'>
           Have a question or want to work together? I&apos;d love to hear from
           you.

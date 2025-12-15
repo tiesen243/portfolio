@@ -2,11 +2,11 @@ import '@/app/globals.css'
 
 import { Geist, Geist_Mono } from 'next/font/google'
 
-import { cn, ThemeProvider } from '@yuki/ui'
-import { NvimStatuslineProvider } from '@yuki/ui/nvim-statusline'
-import { Sidebar, SidebarInset, SidebarProvider } from '@yuki/ui/sidebar'
+import { cn } from '@yuki/ui'
+import { Sidebar, SidebarInset } from '@yuki/ui/sidebar'
 
 import { Footer } from '@/app/_components/footer'
+import { Providers } from '@/app/_components/providers'
 import { SidebarContent } from '@/app/_components/sidebar-content'
 import { createMetadata } from '@/lib/metadata'
 
@@ -32,25 +32,15 @@ export default function RootLayout({
           geistMono.variable,
         )}
       >
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='dark'
-          disableTransitionOnChange
-          enableSystem
-        >
-          <SidebarProvider>
-            <NvimStatuslineProvider>
-              <Sidebar>
-                <SidebarContent />
-              </Sidebar>
+        <Providers>
+          <Sidebar>
+            <SidebarContent />
+          </Sidebar>
 
-              <SidebarInset>
-                {children}
-                <Footer />
-              </SidebarInset>
-            </NvimStatuslineProvider>
-          </SidebarProvider>
-        </ThemeProvider>
+          <SidebarInset>
+            {children} <Footer />
+          </SidebarInset>
+        </Providers>
       </body>
     </html>
   )

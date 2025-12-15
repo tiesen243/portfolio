@@ -15,8 +15,8 @@ export default async function BlogListPage() {
   const pages = await getPages('blogs')
 
   return (
-    <article className='container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col py-8'>
-      <Typography variant='h3' component='h1'>
+    <main className='container flex min-h-[calc(100dvh-1.5rem)] max-w-[100ch] flex-col py-8 text-lg'>
+      <Typography variant='h2' component='h1'>
         {TITLE}
       </Typography>
       <Typography className='text-muted-foreground'>{DESCRIPTION}</Typography>
@@ -27,8 +27,9 @@ export default async function BlogListPage() {
             key={page.slugs.join('/')}
             href={page.slugs.join('/') as '/blogs/[...slug]'}
             className='group/blog'
+            aria-label={`Read blog post: ${page.frontmatter.title}`}
           >
-            <div className='flex items-start justify-between gap-4'>
+            <div className='flex items-center justify-between gap-4'>
               <Typography
                 variant='h4'
                 component='h2'
@@ -42,11 +43,11 @@ export default async function BlogListPage() {
               </Typography>
             </div>
 
-            <Typography className='line-clamp-3 text-muted-foreground'>
+            <Typography className='line-clamp-2 text-muted-foreground'>
               {page.frontmatter.description}
             </Typography>
 
-            <div className='mt-2 flex flex-wrap gap-1'>
+            <div className='mt-2 flex flex-wrap gap-2'>
               {page.frontmatter.tags.map((tag) => (
                 <Badge key={tag} variant='outline'>
                   {tag}
@@ -56,7 +57,7 @@ export default async function BlogListPage() {
           </Link>
         ))}
       </div>
-    </article>
+    </main>
   )
 }
 

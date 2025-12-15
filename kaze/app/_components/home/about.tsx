@@ -105,16 +105,14 @@ export function AboutSection() {
                 Issued by {certification.issuer} on {certification.date}
               </Typography>
               <Typography>{certification.description}</Typography>
-              <Typography
-                component='a'
-                // @ts-expect-error - `href` is not recognized by Typography
+              <a
                 href={certification.link}
                 className='text-sm hover:underline lg:text-base'
                 target='_blank'
                 rel='noopener noreferrer'
               >
                 View Certificate
-              </Typography>
+              </a>
             </div>
           ))}
         </section>

@@ -42,7 +42,7 @@ export function SidebarContent() {
         ))}
       </nav>
 
-      <div className='flex items-center justify-between gap-4 border pt-4 pb-10 md:pb-4'>
+      <div className='flex items-center justify-between gap-4 border-t pt-4 pb-10 md:pb-4'>
         <nav className='flex items-center gap-4 pl-2'>
           {Object.entries(socials).map(([key, Icon]) => (
             <a

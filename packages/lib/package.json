@@ -18,7 +18,7 @@
   },
   "prettier": "@yuki/prettier-config",
   "dependencies": {
-    "zod": "^4.1.13"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@yuki/eslint-config": "workspace:*",

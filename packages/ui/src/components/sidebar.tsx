@@ -1,8 +1,8 @@
 'use client'
 
 import * as React from 'react'
+import { useMediaQuery } from '@base-ui/react/unstable-use-media-query'
 
-import { useMediaQuery } from '@/hooks/use-media-query'
 import { useMounted } from '@/hooks/use-mounted'
 import { cn } from '@/utils'
 
@@ -23,7 +23,7 @@ export const useSidebar = () => {
 }
 
 export function SidebarProvider({ children }: { children: React.ReactNode }) {
-  const isMobile = useMediaQuery('(max-width: 767px)')
+  const isMobile = useMediaQuery('(max-width: 767px)', { defaultMatches: true })
   const [open, setOpen] = React.useState(false)
 
   const toggleSidebar = React.useCallback(() => {
@@ -76,20 +76,21 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
             setOpen(!open)
           }}
           className={cn(
-            'fixed inset-0 z-30 w-full bg-background/10 backdrop-blur-xl',
-            'transition-opacity duration-200 ease-linear',
+            'fixed inset-0 z-40 h-dvh w-full bg-background/10 backdrop-blur-xl',
+            'transition-opacity ease-out',
             open ? 'block opacity-100' : 'hidden opacity-0',
           )}
         />
+
         <aside
-          data-slot='sidebar'
+          data-slot='sidebar-content'
           data-state={open ? 'open' : 'closed'}
-          style={{ '--sidebar-width': SIDEBAR_WIDTH } as React.CSSProperties}
           className={cn(
-            'fixed inset-0 z-40 flex flex-col overflow-y-auto border-r bg-background text-foreground md:hidden',
-            'transition-transform duration-200 ease-linear',
-            'w-(--sidebar-width) data-[state=closed]:-translate-x-full data-[state=open]:translate-x-0',
+            'group/sidebar fixed inset-0 z-50 flex w-(--sidebar-width) flex-col overflow-y-auto border-r bg-background text-foreground md:hidden',
+            'transition-transform ease-out',
+            'data-[state=closed]:-translate-x-full data-[state=open]:translate-x-0',
           )}
+          style={{ '--sidebar-width': SIDEBAR_WIDTH } as React.CSSProperties}
         >
           {children}
         </aside>
@@ -97,48 +98,55 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
     )
 
   return (
-    <div
-      data-slot='sidebar'
-      data-state={open ? 'open' : 'closed'}
-      className='group hidden text-sidebar-foreground md:block'
-      style={{ '--sidebar-width': SIDEBAR_WIDTH } as React.CSSProperties}
-    >
+    <>
       <div
         data-slot='sidebar-gap'
+        data-state={open ? 'open' : 'closed'}
         className={cn(
-          'relative h-svh w-0 bg-transparent',
-          'transition-[width] duration-200 ease-linear',
-          'group-data-[state=open]:w-(--sidebar-width)',
+          'h-dvh w-0',
+          'transition-[width] ease-linear',
+          'data-[state=open]:w-(--sidebar-width)',
         )}
+        style={{ '--sidebar-width': SIDEBAR_WIDTH } as React.CSSProperties}
       />
 
       <aside
-        data-slot='sidebar-content'
+        data-slot='sidebar'
+        data-state={open ? 'open' : 'closed'}
         className={cn(
-          'fixed inset-y-0 z-10 flex w-(--sidebar-width) flex-col border-r bg-background',
-          'transition-[left] duration-200 ease-linear',
-          'left-0 group-data-[state=closed]:left-[calc(var(--sidebar-width)*-1)]',
+          'group/sidebar fixed inset-y-0 z-50 hidden w-(--sidebar-width) flex-col overflow-y-auto border-r bg-background text-foreground md:flex',
+          'transition-[left] ease-out',
+          'data-[state=closed]:-left-(--sidebar-width) data-[state=open]:left-0',
         )}
+        style={{ '--sidebar-width': SIDEBAR_WIDTH } as React.CSSProperties}
       >
         {children}
       </aside>
-    </div>
+    </>
   )
 }
 
-export function SidebarInset({ children }: { children: React.ReactNode }) {
+export function SidebarInset({
+  children,
+  className,
+  ...props
+}: React.ComponentProps<'div'>) {
   const { open } = useSidebar()
 
   return (
-    <main
+    <div
       data-slot='sidebar-inset'
       data-state={open ? 'open' : 'closed'}
       className={cn(
-        'group flex min-h-[calc(100dvh-1.5rem)] w-full flex-col',
-        'transition-[width] duration-200 ease-linear',
+        'flex min-h-dvh w-full flex-col',
+        'transition-[width] ease-linear',
+        'md:data-[state=open]:w-[calc(100%-var(--sidebar-width))]',
+        className,
       )}
+      style={{ '--sidebar-width': SIDEBAR_WIDTH } as React.CSSProperties}
+      {...props}
     >
       {children}
-    </main>
+    </div>
   )
 }

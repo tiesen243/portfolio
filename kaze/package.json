@@ -18,11 +18,11 @@
     "@yuki/data": "workspace:*",
     "@yuki/ui": "workspace:*",
     "@yuki/validators": "workspace:*",
-    "fumadocs-ui": "^16.2.3",
-    "next": "^16.0.8",
+    "fumadocs-ui": "^16.2.5",
+    "next": "^16.0.10",
     "react": "catalog:react",
     "react-dom": "catalog:react",
-    "resend": "^6.5.2"
+    "resend": "^6.6.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:tailwind",
@@ -38,6 +38,6 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "shiki": "^3.19.0"
+    "shiki": "^3.20.0"
   }
 }

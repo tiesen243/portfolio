@@ -214,7 +214,6 @@
   --terminal: oklch(0.6986 0.1786 309.44);
   --command: oklch(0.8124 0.1238 55.54);
 }
-
 @utility container {
   padding-inline: 1rem;
   margin-inline: auto;
@@ -230,6 +229,9 @@
   * {
     border-color: var(--color-border);
     outline-color: color-mix(in oklab, var(--color-ring) 50%, transparent);
+
+    scrollbar-color: var(--color-accent-foreground) var(--color-accent);
+    scrollbar-width: thin;
 
     ::selection {
       background-color: var(--color-accent);

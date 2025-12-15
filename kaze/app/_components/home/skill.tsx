@@ -43,7 +43,7 @@ function SkillList({ title, skills }: { title: string; skills: Skill[] }) {
               } as React.CSSProperties
             }
             className={cn(
-              'text-lg transition-colors select-none [&>svg]:size-5',
+              'h-8 text-lg transition-colors select-none',
               'border-[var(--skill-color)] bg-[var(--skill-color)]/10 text-[var(--skill-color)] hover:bg-[var(--skill-color)]/20',
               'dark:border-[var(--skill-color-dark)] dark:bg-[var(--skill-color-dark)]/10 dark:text-[var(--skill-color-dark)] dark:hover:bg-[var(--skill-color-dark)]/20',
             )}

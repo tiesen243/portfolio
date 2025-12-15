@@ -56,11 +56,21 @@ function ShowcaseCard({ showcase }: { showcase: Showcase }) {
       </CardHeader>
 
       <CardFooter>
-        <Button variant='outline' className='w-full' asChild>
-          <a href={showcase.url} target='_blank' rel='noopener noreferrer'>
-            View Project
-            <ExternalLinkIcon />
-          </a>
+        <Button
+          variant='outline'
+          className='w-full'
+          nativeButton={false}
+          render={
+            <a
+              href={showcase.url}
+              target='_blank'
+              rel='noopener noreferrer'
+              aria-label={`View project: ${showcase.title}`}
+            />
+          }
+        >
+          View Project
+          <ExternalLinkIcon />
         </Button>
       </CardFooter>
     </Card>

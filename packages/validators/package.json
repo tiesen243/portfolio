@@ -23,7 +23,7 @@
   "prettier": "@yuki/prettier-config",
   "dependencies": {
     "@yuki/lib": "workspace:*",
-    "zod": "^4.1.13"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@yuki/eslint-config": "workspace:*",
@@ -33,8 +33,5 @@
     "prettier": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:"
-  },
-  "peerDependencies": {
-    "@types/node": "catalog:"
   }
 }

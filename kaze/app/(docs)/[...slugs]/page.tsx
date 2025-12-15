@@ -19,7 +19,7 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
   const { frontmatter, toc, MDXContent } = page
 
   return (
-    <article className='container flex min-h-[calc(100dvh-1.5rem)] max-w-[80ch] flex-col py-8'>
+    <main className='container flex min-h-[calc(100dvh-1.5rem)] max-w-[100ch] flex-col gap-6 py-8 text-lg'>
       <Typography variant='h2' component='h1'>
         {frontmatter.title}
       </Typography>
@@ -28,7 +28,7 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
         {frontmatter.description}
       </Typography>
 
-      <div className='mt-2 flex flex-wrap gap-1'>
+      <div className='flex flex-wrap gap-2'>
         {frontmatter.tags.map((tag) => (
           <Badge key={tag} variant='outline'>
             {tag}
@@ -36,28 +36,31 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
         ))}
       </div>
 
-      <Typography className='mt-2 shrink-0 text-xs text-muted-foreground lg:text-sm'>
+      <Typography className='shrink-0 text-xs text-muted-foreground lg:text-sm'>
         {formatDate(frontmatter.publishedAt)}
       </Typography>
 
       {frontmatter.image && (
-        <div className='relative mt-4 aspect-video w-full'>
+        <div className='relative mb-4 aspect-video w-full rounded-lg shadow-sm'>
           <Image
             src={frontmatter.image}
             alt={frontmatter.title}
             sizes='(max-width: 768px) 100vw, 50vw'
-            className='rounded-lg object-cover shadow-md'
+            className='rounded-lg object-cover'
             priority
             fill
           />
         </div>
       )}
-      <hr className='my-4' />
 
-      <InlineTOC items={toc} className='mb-4' />
+      <InlineTOC items={toc} />
 
-      <MDXContent components={mdxComponents()} />
-    </article>
+      <hr />
+
+      <article className='prose'>
+        <MDXContent components={mdxComponents()} />
+      </article>
+    </main>
   )
 }
 
