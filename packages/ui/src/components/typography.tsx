@@ -3,7 +3,7 @@ import { mergeProps } from '@base-ui/react'
 import { useRender } from '@base-ui/react/use-render'
 import { cva } from 'class-variance-authority'
 
-import { cn } from '@/utils'
+import { cn } from '@yuki/ui'
 
 const typographyVariants = cva('mb-1', {
   variants: {
@@ -32,15 +32,22 @@ interface TypographyProps
     useRender.ComponentProps<'p'>,
     VariantProps<typeof typographyVariants> {}
 
-function Typography({ className, variant = 'p', ...props }: TypographyProps) {
+function Typography({
+  className,
+  variant = 'p',
+  render,
+  ...props
+}: TypographyProps) {
   return useRender({
-    defaultTagName: variant ?? 'p',
-    props: mergeProps(
-      { className: cn(typographyVariants({ variant }), className) },
+    defaultTagName: 'p',
+    props: mergeProps<'p'>(
+      { className: cn(typographyVariants({ variant, className })) },
       props,
     ),
+    render,
     state: {
       slot: 'typography',
+      variant,
     },
   })
 }
