@@ -18,8 +18,8 @@
     "@yuki/data": "workspace:*",
     "@yuki/ui": "workspace:*",
     "@yuki/validators": "workspace:*",
-    "fumadocs-ui": "^16.2.5",
-    "next": "^16.0.10",
+    "fumadocs-ui": "^16.3.1",
+    "next": "^16.1.0",
     "react": "catalog:react",
     "react-dom": "catalog:react",
     "resend": "^6.6.0"
