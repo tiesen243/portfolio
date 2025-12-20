@@ -5,8 +5,8 @@ import { cache } from 'react'
 import { createCompiler } from '@fumadocs/mdx-remote'
 import {
   rehypeToc,
-  remarkAdmonition,
   remarkCodeTab,
+  remarkDirectiveAdmonition,
   remarkGfm,
   remarkHeading,
   remarkImage,
@@ -27,8 +27,8 @@ const compileMDX = createCompiler({
   },
   rehypePlugins: [rehypeToc],
   remarkPlugins: [
-    remarkAdmonition,
     remarkCodeTab,
+    remarkDirectiveAdmonition,
     remarkGfm,
     remarkHeading,
     [
