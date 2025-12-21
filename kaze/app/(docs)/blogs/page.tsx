@@ -1,8 +1,7 @@
-import Link from 'next/link'
-
 import { getPages } from '@yuki/content'
 import { Badge } from '@yuki/ui/badge'
 import { Typography } from '@yuki/ui/typography'
+import Link from 'next/link'
 
 import { createMetadata } from '@/lib/metadata'
 import { formatDate } from '@/lib/utils'

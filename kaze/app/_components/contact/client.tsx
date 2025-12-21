@@ -1,7 +1,5 @@
 'use client'
 
-import { useRef } from 'react'
-
 import { Button } from '@yuki/ui/button'
 import {
   Field,
@@ -18,6 +16,7 @@ import { Input } from '@yuki/ui/input'
 import { useNvimStatusline } from '@yuki/ui/nvim-statusline'
 import { Textarea } from '@yuki/ui/textarea'
 import { contactSchema } from '@yuki/validators/contact'
+import { useRef } from 'react'
 
 import { sendEmail } from '@/app/_components/contact/action'
 

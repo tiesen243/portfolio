@@ -1,8 +1,6 @@
-import fs from 'node:fs/promises'
-import path from 'node:path'
-import type { RemarkImageOptions } from 'fumadocs-core/mdx-plugins'
-import { cache } from 'react'
 import { createCompiler } from '@fumadocs/mdx-remote'
+import { frontmatterSchema } from '@yuki/validators/mdx'
+import type { RemarkImageOptions } from 'fumadocs-core/mdx-plugins'
 import {
   rehypeToc,
   remarkCodeTab,
@@ -14,8 +12,10 @@ import {
   remarkSteps,
   remarkStructure,
 } from 'fumadocs-core/mdx-plugins'
+import { cache } from 'react'
 
-import { frontmatterSchema } from '@yuki/validators/mdx'
+import fs from 'node:fs/promises'
+import path from 'node:path'
 
 const compileMDX = createCompiler({
   rehypeCodeOptions: {

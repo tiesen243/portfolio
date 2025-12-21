@@ -1,6 +1,5 @@
-import type { MetadataRoute } from 'next'
-
 import { getPages } from '@yuki/content'
+import type { MetadataRoute } from 'next'
 
 import { getBaseUrl } from '@/lib/utils'
 

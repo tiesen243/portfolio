@@ -1,8 +1,8 @@
 'use client'
 
-import { Fragment } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Fragment } from 'react'
 
 export function Breadcrumb() {
   const pathName = usePathname()

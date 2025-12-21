@@ -7,12 +7,9 @@
     "build": "bun --env-file ../.env next build",
     "clean": "git clean -xdf .cache .next .turbo node_modules",
     "dev": "bun --env-file ../.env next dev --port 3000",
-    "format": "prettier --check . --ignore-path ../.gitignore",
-    "lint": "bun --env-file ../.env next typegen && eslint",
     "start": "bun --env-file ../.env next start --port 3000",
     "typecheck": "bun --env-file ../.env next typegen && tsc --noEmit"
   },
-  "prettier": "@yuki/prettier-config",
   "dependencies": {
     "@yuki/content": "workspace:*",
     "@yuki/data": "workspace:*",
@@ -29,15 +26,13 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:react",
     "@types/react-dom": "catalog:react",
-    "@yuki/eslint-config": "workspace:*",
-    "@yuki/prettier-config": "workspace:*",
+    "@yuki/oxc-config": "workspace:*",
     "@yuki/tsconfig": "workspace:*",
-    "eslint": "catalog:",
-    "prettier": "catalog:",
     "tailwindcss": "catalog:tailwind",
     "typescript": "catalog:"
   },
   "peerDependencies": {
     "shiki": "^3.20.0"
-  }
+  },
+  "prettier": "@yuki/oxc-config/format.json"
 }

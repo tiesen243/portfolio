@@ -9,9 +9,6 @@
     "./mdx": "./dist/mdx.mjs",
     "./package.json": "./package.json"
   },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
   "scripts": {
     "build": "tsdown",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
@@ -20,18 +17,16 @@
     "typecheck": "tsc --noEmit",
     "~dev": "tsdown --watch ./src"
   },
-  "prettier": "@yuki/prettier-config",
   "dependencies": {
     "@yuki/lib": "workspace:*",
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@yuki/eslint-config": "workspace:*",
-    "@yuki/prettier-config": "workspace:*",
+    "@types/node": "catalog:",
+    "@yuki/oxc-config": "workspace:*",
     "@yuki/tsconfig": "workspace:*",
-    "eslint": "catalog:",
-    "prettier": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:"
-  }
+  },
+  "prettier": "@yuki/oxc-config/format.json"
 }

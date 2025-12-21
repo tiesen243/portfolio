@@ -1,7 +1,3 @@
-import type { UrlObject } from 'node:url'
-import Image from 'next/image'
-import Link from 'next/link'
-
 import {
   FacebookIcon,
   FolderKanbanIcon,
@@ -12,9 +8,13 @@ import {
   RssIcon,
   XFormerTwitterIcon,
 } from '@yuki/ui/icons'
+import Image from 'next/image'
+import Link from 'next/link'
 
 import { ToggleTheme } from '@/app/_components/toggle-theme'
 import Tiesen from '@/public/assets/logotype.png'
+
+import type { UrlObject } from 'node:url'
 
 export function SidebarContent() {
   return (
@@ -46,7 +46,7 @@ export function SidebarContent() {
       <div className='flex items-center justify-between gap-4 border-t px-4 pt-5 pb-10 md:pb-5'>
         <nav className='flex items-center gap-4'>
           {Object.entries(socials).map(([key, Icon]) => (
-            <a
+            <Link
               key={key}
               href={`/contact/${key}`}
               target='_blank'
@@ -56,7 +56,7 @@ export function SidebarContent() {
               <span className='sr-only'>
                 {key.charAt(0).toUpperCase() + key.slice(1)}
               </span>
-            </a>
+            </Link>
           ))}
         </nav>
 

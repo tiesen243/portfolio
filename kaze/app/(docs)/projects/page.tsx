@@ -1,9 +1,8 @@
-import Link from 'next/link'
-import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
-
 import { getPages } from '@yuki/content'
 import { Badge } from '@yuki/ui/badge'
 import { Typography } from '@yuki/ui/typography'
+import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
+import Link from 'next/link'
 
 import { createMetadata } from '@/lib/metadata'
 import { formatDate } from '@/lib/utils'

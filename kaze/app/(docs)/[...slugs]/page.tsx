@@ -1,10 +1,9 @@
-import Image from 'next/image'
-import { notFound } from 'next/navigation'
-import { InlineTOC } from 'fumadocs-ui/components/inline-toc'
-
 import { getPage, getPages } from '@yuki/content'
 import { Badge } from '@yuki/ui/badge'
 import { Typography } from '@yuki/ui/typography'
+import { InlineTOC } from 'fumadocs-ui/components/inline-toc'
+import Image from 'next/image'
+import { notFound } from 'next/navigation'
 
 import { mdxComponents } from '@/app/_components/mdx'
 import { createMetadata } from '@/lib/metadata'

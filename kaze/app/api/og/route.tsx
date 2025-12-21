@@ -1,6 +1,6 @@
+import { ImageResponse } from 'next/og'
 /* eslint-disable @next/next/no-img-element */
 import type { NextRequest } from 'next/server'
-import { ImageResponse } from 'next/og'
 
 import { createMetadata } from '@/lib/metadata'
 

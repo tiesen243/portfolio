@@ -1,11 +1,10 @@
 'use client'
 
+import { buttonVariants } from '@yuki/ui/button'
+import { Typography } from '@yuki/ui/typography'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-
-import { buttonVariants } from '@yuki/ui/button'
-import { Typography } from '@yuki/ui/typography'
 
 export default function DocsNotFoundError() {
   const pathName = usePathname()

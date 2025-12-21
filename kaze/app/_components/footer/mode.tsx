@@ -1,12 +1,11 @@
 'use client'
 
-import { useEffect } from 'react'
-
 import {
   NvimStatuslineSectionA,
   useNvimStatusline,
 } from '@yuki/ui/nvim-statusline'
 import { useSidebar } from '@yuki/ui/sidebar'
+import { useEffect } from 'react'
 
 export function Mode() {
   const { open, toggleSidebar } = useSidebar()

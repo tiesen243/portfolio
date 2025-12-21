@@ -1,8 +1,8 @@
 'use client'
 
-import * as React from 'react'
 import { mergeProps } from '@base-ui/react'
 import { useRender } from '@base-ui/react/use-render'
+import * as React from 'react'
 
 import { cn } from '@/utils'
 

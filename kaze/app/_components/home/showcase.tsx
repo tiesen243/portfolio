@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 import type { Showcase } from '@yuki/data'
 import { showcases } from '@yuki/data'
 import { Button } from '@yuki/ui/button'
@@ -12,6 +10,8 @@ import {
 } from '@yuki/ui/card'
 import { ExternalLinkIcon } from '@yuki/ui/icons'
 import { Typography } from '@yuki/ui/typography'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export function ShowcaseSection() {
   return (
@@ -59,7 +59,7 @@ function ShowcaseCard({ showcase }: { showcase: Showcase }) {
           className='w-full'
           nativeButton={false}
           render={
-            <a
+            <Link
               href={showcase.url}
               target='_blank'
               rel='noopener noreferrer'

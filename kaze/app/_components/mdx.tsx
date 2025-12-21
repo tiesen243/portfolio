@@ -1,8 +1,7 @@
+import { Typography } from '@yuki/ui/typography'
 import { Callout } from 'fumadocs-ui/components/callout'
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
 import defaultMdxComponents from 'fumadocs-ui/mdx'
-
-import { Typography } from '@yuki/ui/typography'
 
 type Props = React.ComponentProps<'p'>
 

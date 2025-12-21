@@ -8,6 +8,7 @@ import {
   XFormerTwitterIcon,
 } from '@yuki/ui/icons'
 import { Typography } from '@yuki/ui/typography'
+import Link from 'next/link'
 
 import { ContactForm } from '@/app/_components/contact/client'
 import { createMetadata } from '@/lib/metadata'
@@ -52,9 +53,7 @@ export default function ContactPage() {
           <h3 className='sr-only'>Direct Contact Information section</h3>
 
           <section className='rounded-xl border bg-card p-4 text-card-foreground shadow-md'>
-            <Typography variant='h5' render={<h4 />}>
-              Contact Information
-            </Typography>
+            <Typography variant='h5' render={<h4> Contact Information</h4>} />
             <Typography className='-mt-1 text-muted-foreground'>
               You can also reach me through these channels.
             </Typography>
@@ -75,7 +74,7 @@ export default function ContactPage() {
                       </Typography>
                     ) : (
                       <Typography
-                        render={<a href={info.href} />}
+                        render={<Link href={info.href} />}
                         className='text-muted-foreground transition-colors hover:text-primary'
                       >
                         {info.value}
@@ -88,16 +87,14 @@ export default function ContactPage() {
           </section>
 
           <section className='rounded-xl border bg-card p-4 text-card-foreground shadow-md'>
-            <Typography variant='h5' render={<h4 />}>
-              Follow Me
-            </Typography>
+            <Typography variant='h5' render={<h4> Follow Me</h4>} />
             <Typography className='-mt-1 text-muted-foreground'>
               Connect with me on social media for updates and insights.
             </Typography>
 
             <div className='grid gap-4 pt-6 sm:grid-cols-2'>
               {Object.entries(socials).map(([key, Icon]) => (
-                <a
+                <Link
                   key={key}
                   href={`/contact/${key}`}
                   target='_blank'
@@ -108,7 +105,7 @@ export default function ContactPage() {
                   <span className='font-medium'>
                     {key.charAt(0).toUpperCase() + key.slice(1)}
                   </span>
-                </a>
+                </Link>
               ))}
             </div>
           </section>
