@@ -1,7 +1,7 @@
-import { AboutSection } from '@/app/_components/home/about'
-import { HeroSection } from '@/app/_components/home/hero'
-import { ShowcaseSection } from '@/app/_components/home/showcase'
-import { SkillSection } from '@/app/_components/home/skill'
+import { AboutSection } from '@/app/(main)/_components/about'
+import { HeroSection } from '@/app/(main)/_components/hero'
+import { ShowcaseSection } from '@/app/(main)/_components/showcase'
+import { SkillSection } from '@/app/(main)/_components/skill'
 
 export default function HomePage() {
   return (
