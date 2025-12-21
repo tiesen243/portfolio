@@ -15,23 +15,47 @@
     {
       "files": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
       "rules": {
-        "no-unassigned-import": "off"
+        "@typescript-eslint/consistent-type-imports": [
+          "warn",
+          { "prefer": "type-imports", "fixStyle": "separate-type-imports" }
+        ],
+        "@typescript-eslint/no-misused-promises": [
+          "error",
+          { "checksVoidReturn": { "attributes": false } }
+        ],
+        "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/no-unnecessary-condition": [
+          "error",
+          { "allowConstantLoopConditions": true }
+        ],
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+        ],
+        "@typescript-eslint/prefer-promise-reject-errors": "off",
+        "@typescript-eslint/restrict-template-expressions": "off",
+        "@typescript-eslint/unified-signatures": "off",
+        "import/no-anonymous-default-export": "warn",
+        "import/no-unassigned-import": "off"
       },
       "plugins": ["import"]
     },
     {
       "files": ["**/*.jsx", "**/*.tsx"],
       "rules": {
-        "button-has-type": "error",
-        "jsx-filename-extension": ["error", { "extensions": ["jsx", "tsx"] }],
-        "jsx-no-target-blank": "warn",
-        "jsx-no-useless-fragment": "warn",
-        "no-array-index-key": "off",
-        "no-danger": "warn",
-        "no-unescaped-entities": "error",
-        "no-unknown-property": "error",
-        "react-in-jsx-scope": "off",
-        "rules-of-hooks": "error"
+        "react/button-has-type": "error",
+        "react/jsx-filename-extension": [
+          "error",
+          { "extensions": ["jsx", "tsx"] }
+        ],
+        "react/jsx-no-target-blank": "warn",
+        "react/jsx-no-useless-fragment": "warn",
+        "react/no-array-index-key": "off",
+        "react/no-danger": "warn",
+        "react/no-unescaped-entities": "error",
+        "react/no-unknown-property": "error",
+        "react/react-in-jsx-scope": "off",
+        "react/rules-of-hooks": "error"
       },
       "plugins": ["react"]
     }
