@@ -39,7 +39,7 @@ The compositor is particularly appealing for power users and developers who appr
 
 **First**, you need to download the Arch Linux ISO image from the Arch Linux website. You can download the ISO image from the Arch Linux website by clicking on the download link on the Arch Linux website.
 
-**Second**, use `Ventoy` to burn the ISO image to the USB drive. You can download Ventoy from this [website](https://www.ventoy.net/en/download.html) . Once you have downloaded Ventoy, you can craete bootable USB, then copy the ISO file to this.
+**Second**, use `Ventoy` to burn the ISO image to the USB drive. You can download Ventoy from this [website](https://www.ventoy.net/en/download.html). Once you have downloaded Ventoy, you can craete bootable USB, then copy the ISO file to this.
 
 **Third**, plug the USB drive into the computer that you want to install Arch Linux on. Then, you need to boot the computer from the USB drive. You can do this by restarting the computer and pressing the boot menu key when the computer starts up. The boot menu key is usually F12, but it can vary depending on the computer. Once you have booted the computer from the USB drive, you need to select the Arch Linux installation option from the boot menu.
 
@@ -102,13 +102,13 @@ Create the partitions on the drive.
 - Go to the free space again and select the `New` option and press `Enter`
 - Set the size of the partition is at least `40GB` and press `Enter`
 
-  :::info
+  <Callout>
 
   This partition is used to home directory
 
   You can set the size according to your needs. If you have more storage, you can set a larger size for this partition.
 
-  :::
+  </Callout>
 
 - Select `write` and press `Enter` to write the changes to the disk then `quit` to exit the cfdisk
 
@@ -143,7 +143,7 @@ Run `archinstall` script to start the installation. In archinstall script, you c
 - `Timezone`: Choose the timezone for your location.
 - Finally, choose `Install` to start the installation process
 
-:::warning
+<Callout type="warning">
 
 If you encounter a "Failed to install packages to new root" error when running `archinstall`, you may need to update the Arch Linux keyring before proceeding:
 
@@ -151,7 +151,7 @@ If you encounter a "Failed to install packages to new root" error when running `
 pacman -S archlinux-keyring
 ```
 
-:::
+</Callout>
 
 After that, configure the system to boot into Arch Linux.
 
@@ -367,7 +367,7 @@ Now, you can reboot the computer and can see the Windows 11 in the boot menu.
    reboot
    ```
 
-:::info
+<Callout>
 
 If it show wrong time on Windows, you can run the following command to fix it
 
@@ -375,7 +375,7 @@ If it show wrong time on Windows, you can run the following command to fix it
 timedatectl set-local-rtc 1
 ```
 
-:::
+</Callout>
 
 ## Keybindings
 
@@ -416,11 +416,11 @@ Here are the essential keybindings for navigating and controlling your Hyprland 
 | `XF86MonBrightnessUp`     | Brightness up                       |
 | `XF86MonBrightnessDown`   | Brightness down                     |
 
-:::info
+<Callout>
 
 You can find all keybindings in your configuration file at `~/.config/hypr/core/keymaps.conf`.
 
-:::
+</Callout>
 
 ## Conclusion
 
