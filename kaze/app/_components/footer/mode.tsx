@@ -1,9 +1,6 @@
 'use client'
 
-import {
-  NvimStatuslineSectionA,
-  useNvimStatusline,
-} from '@yuki/ui/nvim-statusline'
+import { useNvimStatusline } from '@yuki/ui/nvim-statusline'
 import { useSidebar } from '@yuki/ui/sidebar'
 import { useEffect } from 'react'
 
@@ -23,10 +20,10 @@ export function Mode() {
   }, [open, setMode])
 
   return (
-    <NvimStatuslineSectionA className='cursor-pointer' onClick={toggleSidebar}>
+    <button type='button' className='cursor-pointer' onClick={toggleSidebar}>
       {mode.toUpperCase()}
 
       <span className='sr-only'>Toggle Sidebar</span>
-    </NvimStatuslineSectionA>
+    </button>
   )
 }

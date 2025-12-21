@@ -1,6 +1,7 @@
 import { GitBranchIcon } from '@yuki/ui/icons'
 import {
   NvimStatusline,
+  NvimStatuslineSectionA,
   NvimStatuslineSectionB,
   NvimStatuslineSectionC,
   NvimStatuslineSectionY,
@@ -12,8 +13,10 @@ import { Mode } from './mode'
 
 export function Footer() {
   return (
-    <NvimStatusline>
-      <Mode />
+    <NvimStatusline className='[&_[data-slot=nvim-statusline-section-separator-1]]:bg-border md:[&_[data-slot=nvim-statusline-section-separator-1]]:bg-background'>
+      <NvimStatuslineSectionA>
+        <Mode />
+      </NvimStatuslineSectionA>
       <NvimStatuslineSectionB className='hidden md:inline-flex'>
         <GitBranchIcon /> main
       </NvimStatuslineSectionB>
