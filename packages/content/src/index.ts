@@ -129,7 +129,7 @@ async function uncachedGetPages(contentType?: 'blogs' | 'projects') {
     return pages
       .filter((result) => result.status === 'fulfilled')
       .map((result) => result.value)
-      .sort((a, b) => {
+      .toSorted((a, b) => {
         const dateA = new Date(a.frontmatter.publishedAt)
         const dateB = new Date(b.frontmatter.publishedAt)
         return dateB.getTime() - dateA.getTime()

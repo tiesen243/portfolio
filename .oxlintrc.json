@@ -20,13 +20,6 @@
       "plugins": ["import"]
     },
     {
-      "files": ["**/*.ts", "**/*.js", "**/*.tsx", "**/*.jsx"],
-      "rules": {
-        "no-array-sort": "off"
-      },
-      "plugins": ["unicorn"]
-    },
-    {
       "files": ["**/*.jsx", "**/*.tsx"],
       "rules": {
         "button-has-type": "error",
