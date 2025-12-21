@@ -1,5 +1,7 @@
 import type { MetadataRoute } from 'next'
+
 import { getPages } from '@yuki/content'
+
 import { getBaseUrl } from '@/lib/utils'
 
 export const revalidate = false

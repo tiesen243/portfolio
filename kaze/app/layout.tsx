@@ -1,7 +1,9 @@
 import '@/app/globals.css'
+
 import { cn } from '@yuki/ui'
 import { Sidebar, SidebarInset } from '@yuki/ui/sidebar'
 import { Geist, Geist_Mono } from 'next/font/google'
+
 import { Footer } from '@/app/_components/footer'
 import { Providers } from '@/app/_components/providers'
 import { SidebarContent } from '@/app/_components/sidebar-content'

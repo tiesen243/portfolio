@@ -4,6 +4,7 @@ import { Typography } from '@yuki/ui/typography'
 import { InlineTOC } from 'fumadocs-ui/components/inline-toc'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
+
 import { mdxComponents } from '@/app/_components/mdx'
 import { createMetadata } from '@/lib/metadata'
 import { formatDate } from '@/lib/utils'

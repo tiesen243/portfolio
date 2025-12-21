@@ -2,6 +2,7 @@
 
 import { useMediaQuery } from '@base-ui/react/unstable-use-media-query'
 import * as React from 'react'
+
 import { useMounted } from '@/hooks/use-mounted'
 import { cn } from '@/utils'
 

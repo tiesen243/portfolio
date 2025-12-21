@@ -1,4 +1,5 @@
 import type { Skill } from '@yuki/data'
+
 import { skills } from '@yuki/data'
 import { cn } from '@yuki/ui'
 import { Badge } from '@yuki/ui/badge'

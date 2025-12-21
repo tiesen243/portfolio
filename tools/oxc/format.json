@@ -1,10 +1,11 @@
 {
   "$schema": "../../node_modules/oxfmt/configuration_schema.json",
   "experimentalSortImports": {
-    "newlinesBetween": false,
+    "newlinesBetween": true,
     "groups": [
       "side-effect",
       "type-external",
+      "builtin",
       "external",
       "type-internal",
       "tsconfig-path",

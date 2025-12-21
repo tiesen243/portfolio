@@ -6,6 +6,7 @@ import {
   NvimStatuslineSectionY,
   NvimStatuslineSectionZ,
 } from '@yuki/ui/nvim-statusline'
+
 import { Breadcrumb } from './breadcrumb'
 import { Mode } from './mode'
 
