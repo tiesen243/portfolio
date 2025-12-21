@@ -29,6 +29,8 @@ export async function sendEmail(options: ContactSchema) {
     `,
   })
 
-  if (error) throw new Error(error.message)
+  if (error) {
+    throw new Error(error.message)
+  }
   return { message: 'Email sent successfully' }
 }

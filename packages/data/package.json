@@ -18,7 +18,6 @@
     "~dev": "tsdown --watch ./src"
   },
   "devDependencies": {
-    "@yuki/oxc-config": "workspace:*",
     "@yuki/tsconfig": "workspace:*",
     "tsdown": "catalog:",
     "typescript": "catalog:"
@@ -26,6 +25,5 @@
   "peerDependencies": {
     "@types/react": "catalog:react",
     "react": "catalog:react"
-  },
-  "prettier": "@yuki/oxc-config/format.json"
+  }
 }

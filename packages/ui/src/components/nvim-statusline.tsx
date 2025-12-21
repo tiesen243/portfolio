@@ -33,10 +33,11 @@ const NvimStatuslineContext =
 
 function useNvimStatusline() {
   const context = React.use(NvimStatuslineContext)
-  if (context === null)
+  if (context === null) {
     throw new Error(
       'useNvimStatusline must be used within a NvimStatuslineProvider',
     )
+  }
   return context
 }
 

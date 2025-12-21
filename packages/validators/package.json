@@ -23,10 +23,8 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "@yuki/oxc-config": "workspace:*",
     "@yuki/tsconfig": "workspace:*",
     "tsdown": "catalog:",
     "typescript": "catalog:"
-  },
-  "prettier": "@yuki/oxc-config/format.json"
+  }
 }

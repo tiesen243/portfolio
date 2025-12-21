@@ -52,7 +52,9 @@ async function uncachedGetPage(slugs: string[]) {
 
   try {
     const source = await fs.readFile(filePath, 'utf-8')
-    if (!source.trim()) throw new Error('File is empty')
+    if (!source.trim()) {
+      throw new Error('File is empty')
+    }
 
     const compiled = await compileMDX.compile({
       source,
@@ -69,8 +71,9 @@ async function uncachedGetPage(slugs: string[]) {
       url: `/${slugs.join('/')}`,
     }
   } catch (error) {
-    if (process.env.NODE_ENV === 'development')
+    if (process.env.NODE_ENV === 'development') {
       console.log(`Error reading page: ${filePath}`, error)
+    }
     return undefined
   }
 }
@@ -101,7 +104,9 @@ async function uncachedGetPages(contentType?: 'blogs' | 'projects') {
 
         try {
           const source = await fs.readFile(filePath, 'utf-8')
-          if (!source.trim()) throw new Error('Empty file')
+          if (!source.trim()) {
+            throw new Error('Empty file')
+          }
 
           const compiled = await compileMDX.compile({ source, filePath })
           const frontmatter = frontmatterSchema.parse(compiled.frontmatter)
@@ -124,16 +129,23 @@ async function uncachedGetPages(contentType?: 'blogs' | 'projects') {
     return pages
       .filter((result) => result.status === 'fulfilled')
       .map((result) => result.value)
-      .sort((a, b) => {
+      .toSorted((a, b) => {
         const dateA = new Date(a.frontmatter.publishedAt)
         const dateB = new Date(b.frontmatter.publishedAt)
         return dateB.getTime() - dateA.getTime()
       })
   } catch (error) {
-    if (process.env.NODE_ENV === 'development') console.log(error)
-    if (error instanceof Error)
-      throw new Error(`Source directory not found: ${sourcePath}`)
-    throw new Error(`Failed to read source directory: ${sourcePath}`)
+    if (process.env.NODE_ENV === 'development') {
+      console.log(error)
+    }
+    if (error instanceof Error) {
+      throw new Error(`Source directory not found: ${sourcePath}`, {
+        cause: error,
+      })
+    }
+    throw new Error(`Failed to read source directory: ${sourcePath}`, {
+      cause: error,
+    })
   }
 }
 
@@ -141,11 +153,14 @@ export const getPage = cache(uncachedGetPage)
 export const getPages = cache(uncachedGetPages)
 
 function validateSlugs(slugs: string[]): void {
-  if (slugs.length === 0) throw new Error('Slugs array cannot be empty')
+  if (slugs.length === 0) {
+    throw new Error('Slugs array cannot be empty')
+  }
 
   const hasInvalidPath = slugs.some(
     (slug) => slug.includes('..') || slug.includes('/') || slug.includes('\\'),
   )
-  if (hasInvalidPath)
+  if (hasInvalidPath) {
     throw new Error('Invalid slug: contains path traversal characters')
+  }
 }

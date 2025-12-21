@@ -26,10 +26,8 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:react",
     "@types/react-dom": "catalog:react",
-    "@yuki/oxc-config": "workspace:*",
     "@yuki/tsconfig": "workspace:*",
     "tailwindcss": "catalog:tailwind",
     "typescript": "catalog:"
-  },
-  "prettier": "@yuki/oxc-config/format.json"
+  }
 }

@@ -65,17 +65,11 @@ const useForm = <
   const errorRef = React.useRef<TError>({ message: null, errors: {} } as TError)
   const [isPending, startTransition] = React.useTransition()
 
-  const getValues = React.useCallback(() => {
-    return valuesRef.current
-  }, [])
+  const getValues = React.useCallback(() => valuesRef.current, [])
 
-  const getData = React.useCallback(() => {
-    return dataRef.current
-  }, [])
+  const getData = React.useCallback(() => dataRef.current, [])
 
-  const getError = React.useCallback(() => {
-    return errorRef.current
-  }, [])
+  const getError = React.useCallback(() => errorRef.current, [])
 
   const setValue = React.useCallback(
     <K extends keyof TValues>(key: K, value: TValues[K]) => {
@@ -91,14 +85,18 @@ const useForm = <
       | { success: true; data: TValues; error: null }
       | { success: false; data: null; error: TError }
     > => {
-      if (!schema) return { success: true, data: values, error: null }
+      if (!schema) {
+        return { success: true, data: values, error: null }
+      }
 
       let result: TResults
-      if ('~standard' in schema)
+      if ('~standard' in schema) {
         result = (await schema['~standard'].validate(values)) as TResults
-      else result = await schema(values)
+      } else {
+        result = await schema(values)
+      }
 
-      if (result.issues)
+      if (result.issues) {
         return {
           success: false,
           data: null,
@@ -119,6 +117,7 @@ const useForm = <
             }, {}),
           } as TError,
         }
+      }
 
       return { success: true, data: result.value, error: null }
     },
@@ -135,7 +134,9 @@ const useForm = <
         errorRef.current = { message: null, errors: {} } as TError
 
         const { success, data, error } = await validateValues(valuesRef.current)
-        if (!success) return void (errorRef.current = error)
+        if (!success) {
+          return void (errorRef.current = error)
+        }
 
         try {
           dataRef.current = await onSubmit(data)
@@ -174,10 +175,13 @@ const useForm = <
         let newValue
         const { type, checked, value, valueAsNumber } =
           event.target as unknown as HTMLInputElement
-        if (type === 'checkbox') newValue = checked
-        else if (type === 'number')
+        if (type === 'checkbox') {
+          newValue = checked
+        } else if (type === 'number') {
           newValue = isNaN(valueAsNumber) ? '' : valueAsNumber
-        else newValue = value
+        } else {
+          newValue = value
+        }
 
         setLocalValue(newValue as TValues[TFieldName])
         setValue(props.name, newValue as TValues[TFieldName])
@@ -187,15 +191,20 @@ const useForm = <
         event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
       ) => {
         event.persist()
-        if (prevLocalValueRef.current === localValue) return
+        if (prevLocalValueRef.current === localValue) {
+          return
+        }
         prevLocalValueRef.current = localValue
 
         const { success, error } = await validateValues({
           ...valuesRef.current,
           [props.name]: localValue,
         })
-        if (success) setValue(props.name, localValue)
-        else setErrors(error.errors?.[props.name] ?? [])
+        if (success) {
+          setValue(props.name, localValue)
+        } else {
+          setErrors(error.errors?.[props.name] ?? [])
+        }
       }
 
       return props.render({

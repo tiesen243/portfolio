@@ -212,7 +212,7 @@ export async function GET(request: NextRequest) {
         width: 1200,
         height: 630,
         // @ts-expect-error The 'weight' property in the returned font object is a number,
-        // but 'FontOptions' expects a specific type. This is intentional for font loading.
+        // But 'FontOptions' expects a specific type. This is intentional for font loading.
         fonts: [geistRegular, geistMedium, geistBold],
       },
     )

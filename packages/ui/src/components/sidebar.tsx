@@ -17,13 +17,16 @@ const SidebarContext = React.createContext<{
 
 export const useSidebar = () => {
   const context = React.use(SidebarContext)
-  if (!context)
+  if (!context) {
     throw new Error('useSidebar must be used within a SidebarProvider')
+  }
   return context
 }
 
 export function SidebarProvider({ children }: { children: React.ReactNode }) {
-  const isMobile = useMediaQuery('(max-width: 767px)', { defaultMatches: true })
+  const isMobile = useMediaQuery('(max-width: 767px)', {
+    defaultMatches: true,
+  })
   const [open, setOpen] = React.useState(false)
 
   const toggleSidebar = React.useCallback(() => {
@@ -64,9 +67,11 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
   const { open, setOpen, isMobile } = useSidebar()
 
   const isMounted = useMounted()
-  if (!isMounted) return null
+  if (!isMounted) {
+    return null
+  }
 
-  if (isMobile)
+  if (isMobile) {
     return (
       <>
         <button
@@ -96,6 +101,7 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
         </aside>
       </>
     )
+  }
 
   return (
     <>

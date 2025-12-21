@@ -153,7 +153,7 @@ function FieldSeparator({
   return (
     <div
       data-slot='field-separator'
-      data-content={!!children}
+      data-content={Boolean(children)}
       className={cn(
         'relative -my-2 h-5 text-sm group-data-[variant=outline]/field-group:-mb-2',
         className,
@@ -182,9 +182,13 @@ function FieldError({
   errors?: ({ message?: string } | undefined)[]
 }) {
   const content = useMemo(() => {
-    if (children) return children
+    if (children) {
+      return children
+    }
 
-    if (!errors?.length) return null
+    if (!errors?.length) {
+      return null
+    }
 
     const uniqueErrors = [
       ...new Map(errors.map((error) => [error?.message, error])).values(),

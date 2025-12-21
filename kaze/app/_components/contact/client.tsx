@@ -14,6 +14,7 @@ import { useForm } from '@yuki/ui/hooks/use-form'
 import { SendIcon } from '@yuki/ui/icons'
 import { Input } from '@yuki/ui/input'
 import { useNvimStatusline } from '@yuki/ui/nvim-statusline'
+import { toast } from '@yuki/ui/sonner'
 import { Textarea } from '@yuki/ui/textarea'
 import { contactSchema } from '@yuki/validators/contact'
 import { useRef } from 'react'
@@ -28,8 +29,8 @@ export function ContactForm() {
     defaultValues: { name: '', email: '', subject: '', message: '' },
     schema: contactSchema,
     onSubmit: sendEmail,
-    onError: (error) => (alert(error.message), undefined),
-    onSuccess: (data) => (alert(data.message), undefined),
+    onSuccess: (data) => toast.success(data.message),
+    onError: (error) => toast.error(error.message),
   })
 
   const handleFocus = () => {
@@ -58,7 +59,9 @@ export function ContactForm() {
                   onFocus={handleFocus}
                   onBlur={async (e) => {
                     await field.onBlur(e)
-                    if (mode === 'insert') setMode(previousMode.current)
+                    if (mode === 'insert') {
+                      setMode(previousMode.current)
+                    }
                   }}
                 />
                 <FieldError id={meta.errorId} errors={meta.errors} />
@@ -78,7 +81,9 @@ export function ContactForm() {
                   onFocus={handleFocus}
                   onBlur={async (e) => {
                     await field.onBlur(e)
-                    if (mode === 'insert') setMode(previousMode.current)
+                    if (mode === 'insert') {
+                      setMode(previousMode.current)
+                    }
                   }}
                 />
                 <FieldError id={meta.errorId} errors={meta.errors} />
@@ -97,7 +102,9 @@ export function ContactForm() {
                   onFocus={handleFocus}
                   onBlur={async (e) => {
                     await field.onBlur(e)
-                    if (mode === 'insert') setMode(previousMode.current)
+                    if (mode === 'insert') {
+                      setMode(previousMode.current)
+                    }
                   }}
                 />
                 <FieldError id={meta.errorId} errors={meta.errors} />
@@ -117,7 +124,9 @@ export function ContactForm() {
                   onFocus={handleFocus}
                   onBlur={async (e) => {
                     await field.onBlur(e)
-                    if (mode === 'insert') setMode(previousMode.current)
+                    if (mode === 'insert') {
+                      setMode(previousMode.current)
+                    }
                   }}
                 />
                 <FieldError id={meta.errorId} errors={meta.errors} />

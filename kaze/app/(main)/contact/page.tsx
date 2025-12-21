@@ -74,6 +74,7 @@ export default function ContactPage() {
                       </Typography>
                     ) : (
                       <Typography
+                        // oxlint-disable-next-line no-html-link-for-pages
                         render={<a href={info.href} />}
                         className='text-muted-foreground transition-colors hover:text-primary'
                       >

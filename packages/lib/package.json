@@ -18,13 +18,11 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@yuki/oxc-config": "workspace:*",
     "@yuki/tsconfig": "workspace:*",
     "tsdown": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
     "@types/node": "catalog:"
-  },
-  "prettier": "@yuki/oxc-config/format.json"
+  }
 }

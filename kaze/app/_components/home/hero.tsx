@@ -19,7 +19,7 @@ export function HeroSection() {
     >
       <h2 className='sr-only'>Hero section</h2>
 
-      <code className='mb-6 text-primary'>"use portfolio"</code>
+      <code className='mb-6 text-primary'>&quot;use portfolio&quot;</code>
 
       <Image
         src={Tiesen}
@@ -39,7 +39,7 @@ export function HeroSection() {
           <Link
             key={nav.label}
             href={nav.href}
-            prefetch={nav.href.endsWith('.pdf') ? false : true}
+            prefetch={!nav.href.endsWith('.pdf')}
             className='flex items-center justify-between'
           >
             <Typography className='inline-flex items-center gap-2'>

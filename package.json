@@ -20,25 +20,24 @@
     "container:start": "docker run --env-file .env -p 3000:3000 --rm -d portfolio",
     "container:stop": "docker stop $(docker ps -q --filter ancestor=portfolio)",
     "dev": "turbo dev --continue",
-    "format": "oxfmt --check --config ./tools/oxc/format.json",
-    "format:fix": "oxfmt --write --config ./tools/oxc/format.json",
+    "format": "oxfmt --check",
+    "format:fix": "oxfmt --write",
     "postinstall": "bun run lint:ws",
-    "lint": "oxlint --type-aware --config ./tools/oxc/lint.json",
-    "lint:fix": "oxlint --fix --type-aware --config ./tools/oxc/lint.json",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
     "lint:ws": "bunx sherif@latest",
     "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
     "oxfmt": "^0.19.0",
     "oxlint": "^1.34.0",
-    "oxlint-tsgolint": "^0.10.0",
-    "turbo": "^2.7.0"
+    "turbo": "^2.7.1"
   },
   "packageManager": "bun@1.3.0",
   "catalog": {
     "@tanstack/react-query": "^5.90.11",
     "@types/node": "^25.0.3",
-    "tsdown": "^0.18.1",
+    "tsdown": "^0.18.2",
     "typescript": "^5.9.3",
     "zod": "^4.2.1"
   },

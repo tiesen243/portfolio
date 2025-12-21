@@ -1,0 +1,62 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["unicorn", "typescript", "oxc"],
+  "categories": {
+    "correctness": "error",
+    "perf": "error",
+    "suspicious": "error"
+  },
+  "env": {
+    "builtin": true
+  },
+  "globals": {},
+  "ignorePatterns": [],
+  "overrides": [
+    {
+      "files": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
+      "rules": {
+        "no-unassigned-import": "off"
+      },
+      "plugins": ["import"]
+    },
+    {
+      "files": ["**/*.jsx", "**/*.tsx"],
+      "rules": {
+        "button-has-type": "error",
+        "jsx-filename-extension": ["error", { "extensions": ["jsx", "tsx"] }],
+        "jsx-no-target-blank": "warn",
+        "jsx-no-useless-fragment": "warn",
+        "no-array-index-key": "off",
+        "no-danger": "warn",
+        "no-unescaped-entities": "error",
+        "no-unknown-property": "error",
+        "react-in-jsx-scope": "off",
+        "rules-of-hooks": "error"
+      },
+      "plugins": ["react"]
+    }
+  ],
+  "settings": {
+    "jsx-a11y": {
+      "polymorphicPropName": null,
+      "components": {
+        "Button": "button"
+      },
+      "attributes": {}
+    },
+    "react": {
+      "formComponents": [],
+      "linkComponents": [{ "name": "Link", "attributes": ["href", "to"] }]
+    },
+    "jsdoc": {
+      "ignorePrivate": false,
+      "ignoreInternal": false,
+      "ignoreReplacesDocs": true,
+      "overrideReplacesDocs": true,
+      "augmentsExtendsReplacesDocs": false,
+      "implementsReplacesDocs": false,
+      "exemptDestructuredRootsFromChecks": false,
+      "tagNamePreference": {}
+    }
+  }
+}

@@ -20,15 +20,18 @@ const random = createRandom()
 const createEntropy = (length = 4, rand = random) => {
   let entropy = ''
 
-  while (entropy.length < length)
+  while (entropy.length < length) {
     entropy = entropy + Math.floor(rand() * 36).toString(36)
+  }
 
   return entropy
 }
 
 const bufToBigInt = (buf: Buffer) => {
   let v = 0n
-  for (const i of buf) v = (v << 8n) + BigInt(i)
+  for (const i of buf) {
+    v = (v << 8n) + BigInt(i)
+  }
   return v
 }
 
@@ -49,9 +52,7 @@ const createFingerprint = ({
   return hash(sourceString).substring(0, 32)
 }
 
-const createCounter = (count: number) => () => {
-  return count++
-}
+const createCounter = (count: number) => () => count++
 
 export function createId(rand = random): string {
   const time = Date.now().toString(36)
