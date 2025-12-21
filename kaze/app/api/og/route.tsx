@@ -1,5 +1,6 @@
+// oxlint-disable no-img-element
+
 import { ImageResponse } from 'next/og'
-/* eslint-disable @next/next/no-img-element */
 import type { NextRequest } from 'next/server'
 
 import { createMetadata } from '@/lib/metadata'

@@ -31,8 +31,5 @@
     "tailwindcss": "catalog:tailwind",
     "typescript": "catalog:"
   },
-  "peerDependencies": {
-    "shiki": "^3.20.0"
-  },
   "prettier": "@yuki/oxc-config/format.json"
 }

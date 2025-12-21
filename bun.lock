@@ -35,9 +35,6 @@
         "tailwindcss": "catalog:tailwind",
         "typescript": "catalog:",
       },
-      "peerDependencies": {
-        "shiki": "^3.20.0",
-      },
     },
     "packages/content": {
       "name": "@yuki/content",
