@@ -119,6 +119,10 @@
         "typescript": "catalog:",
       },
     },
+    "tools/github": {
+      "name": "@yuki/github",
+      "version": "0.0.1",
+    },
     "tools/typescript": {
       "name": "@yuki/tsconfig",
       "version": "1.0.0",
@@ -503,6 +507,8 @@
     "@yuki/content": ["@yuki/content@workspace:packages/content"],
 
     "@yuki/data": ["@yuki/data@workspace:packages/data"],
+
+    "@yuki/github": ["@yuki/github@workspace:tools/github"],
 
     "@yuki/kaze": ["@yuki/kaze@workspace:kaze"],
 
