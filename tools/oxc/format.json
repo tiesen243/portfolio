@@ -1,7 +1,16 @@
 {
   "$schema": "../../node_modules/oxfmt/configuration_schema.json",
   "experimentalSortImports": {
-    "groups": [["side-effect"], ["external"], ["internal"]]
+    "newlinesBetween": false,
+    "groups": [
+      "side-effect",
+      "type-external",
+      "external",
+      "type-internal",
+      "tsconfig-path",
+      "parent",
+      "sibling"
+    ]
   },
   "jsxSingleQuote": true,
   "printWidth": 80,

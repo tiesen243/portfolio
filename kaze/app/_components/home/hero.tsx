@@ -7,7 +7,6 @@ import {
 import { Typography } from '@yuki/ui/typography'
 import Image from 'next/image'
 import Link from 'next/link'
-
 import Tiesen from '@/public/assets/logotype.png'
 
 export function HeroSection() {

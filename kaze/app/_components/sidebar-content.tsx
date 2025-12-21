@@ -10,10 +10,8 @@ import {
 } from '@yuki/ui/icons'
 import Image from 'next/image'
 import Link from 'next/link'
-
 import { ToggleTheme } from '@/app/_components/toggle-theme'
 import Tiesen from '@/public/assets/logotype.png'
-
 import type { UrlObject } from 'node:url'
 
 export function SidebarContent() {

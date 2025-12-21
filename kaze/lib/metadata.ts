@@ -1,5 +1,4 @@
 import type { Metadata as NextMetadata } from 'next'
-
 import { getBaseUrl } from '@/lib/utils'
 
 export interface Metadata extends NextMetadata {

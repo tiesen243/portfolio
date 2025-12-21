@@ -9,7 +9,6 @@ import {
 } from '@yuki/ui/icons'
 import { Typography } from '@yuki/ui/typography'
 import Link from 'next/link'
-
 import { ContactForm } from '@/app/_components/contact/client'
 import { createMetadata } from '@/lib/metadata'
 

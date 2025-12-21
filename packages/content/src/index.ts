@@ -1,6 +1,6 @@
+import type { RemarkImageOptions } from 'fumadocs-core/mdx-plugins'
 import { createCompiler } from '@fumadocs/mdx-remote'
 import { frontmatterSchema } from '@yuki/validators/mdx'
-import type { RemarkImageOptions } from 'fumadocs-core/mdx-plugins'
 import {
   rehypeToc,
   remarkCodeTab,
@@ -13,7 +13,6 @@ import {
   remarkStructure,
 } from 'fumadocs-core/mdx-plugins'
 import { cache } from 'react'
-
 import fs from 'node:fs/promises'
 import path from 'node:path'
 
