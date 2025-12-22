@@ -11,7 +11,7 @@
     "builtin": true
   },
   "globals": {},
-  "ignorePatterns": ["*.config.js", "*.config.ts", "env*.ts"],
+  "ignorePatterns": ["*.config.js", "*.config.ts"],
   "overrides": [
     {
       "files": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
@@ -64,6 +64,13 @@
       "files": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
       "rules": {
         "node/no-process-env": "error"
+      },
+      "plugins": ["node"]
+    },
+    {
+      "files": ["**/env*.ts"],
+      "rules": {
+        "node/no-process-env": "off"
       },
       "plugins": ["node"]
     },
