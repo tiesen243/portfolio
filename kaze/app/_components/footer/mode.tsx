@@ -9,14 +9,9 @@ export function Mode() {
   const { setMode, mode } = useNvimStatusline()
 
   useEffect(() => {
-    if (open) {
-      setMode('command')
-    } else {
-      setMode('normal')
-    }
-    return () => {
-      setMode('normal')
-    }
+    if (open) setMode('command')
+    else setMode('normal')
+    return () => setMode('normal')
   }, [open, setMode])
 
   return (

@@ -68,30 +68,30 @@ export function SidebarContent() {
 
 const navs = [
   {
-    label: 'Home',
     href: '/',
     icon: HomeIcon,
+    label: 'Home',
   },
   {
-    label: 'Contact',
     href: '/contact',
     icon: MailIcon,
+    label: 'Contact',
   },
   {
-    label: 'Blogs',
     href: '/blogs',
     icon: RssIcon,
+    label: 'Blogs',
   },
   {
-    label: 'Projects',
     href: '/projects',
     icon: FolderKanbanIcon,
+    label: 'Projects',
   },
 ]
 
 const socials = {
-  github: GithubIcon,
   facebook: FacebookIcon,
+  github: GithubIcon,
   linkedin: LinkedinIcon,
   x: XFormerTwitterIcon,
 }

@@ -21,20 +21,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     {
-      url: url('/'),
       changeFrequency: 'yearly',
       priority: 1,
+      url: url('/'),
     },
     ...statics.map((path) => ({
-      url: url(path),
       changeFrequency: 'yearly' as const,
       priority: 0.8,
+      url: url(path),
     })),
     ...pages.map((page) => ({
-      url: url(`/${page.slugs.join('/')}`),
       changeFrequency: 'monthly' as const,
-      priority: 0.7,
       lastModified: new Date(page.frontmatter.publishedAt).toISOString(),
+      priority: 0.7,
+      url: url(`/${page.slugs.join('/')}`),
     })),
   ]
 }

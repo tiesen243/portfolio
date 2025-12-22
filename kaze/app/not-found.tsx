@@ -10,9 +10,9 @@ export default function DocsNotFoundError() {
   const pathName = usePathname()
 
   const target = {
-    blogs: { label: 'Go to blogs', href: '/blogs' as const },
-    projects: { label: 'Go to projects', href: '/projects' as const },
-  }[pathName.split('/')[1] ?? ''] ?? { label: 'Take me home', href: '/' }
+    blogs: { href: '/blogs' as const, label: 'Go to blogs' },
+    projects: { href: '/projects' as const, label: 'Go to projects' },
+  }[pathName.split('/')[1] ?? ''] ?? { href: '/', label: 'Take me home' }
 
   return (
     <main className='container flex min-h-[calc(100dvh-1.5rem)] flex-col items-center justify-center gap-8'>

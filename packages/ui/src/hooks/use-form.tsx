@@ -62,7 +62,10 @@ const useForm = <
 
   const valuesRef = React.useRef<TValues>(defaultValues)
   const dataRef = React.useRef<TData | null>(null)
-  const errorRef = React.useRef<TError>({ message: null, errors: {} } as TError)
+  const errorRef = React.useRef<TError>({
+    errors: {},
+    message: null,
+  } as TError)
   const [isPending, startTransition] = React.useTransition()
 
   const getValues = React.useCallback(() => valuesRef.current, [])
@@ -85,23 +88,17 @@ const useForm = <
       | { success: true; data: TValues; error: null }
       | { success: false; data: null; error: TError }
     > => {
-      if (!schema) {
-        return { success: true, data: values, error: null }
-      }
+      if (!schema) return { data: values, error: null, success: true }
 
       let result: TResults
-      if ('~standard' in schema) {
+      if ('~standard' in schema)
         result = (await schema['~standard'].validate(values)) as TResults
-      } else {
-        result = await schema(values)
-      }
+      else result = await schema(values)
 
-      if (result.issues) {
+      if (result.issues)
         return {
-          success: false,
           data: null,
           error: {
-            message: 'Validation error',
             errors: result.issues.reduce<
               Record<string, StandardSchemaV1.Issue[]>
             >((acc, issue) => {
@@ -115,11 +112,12 @@ const useForm = <
               acc[key].push(issue)
               return acc
             }, {}),
+            message: 'Validation error',
           } as TError,
+          success: false,
         }
-      }
 
-      return { success: true, data: result.value, error: null }
+      return { data: result.value, error: null, success: true }
     },
     [schema],
   )
@@ -131,21 +129,19 @@ const useForm = <
 
       startTransition(async () => {
         dataRef.current = null
-        errorRef.current = { message: null, errors: {} } as TError
+        errorRef.current = { errors: {}, message: null } as TError
 
         const { success, data, error } = await validateValues(valuesRef.current)
-        if (!success) {
-          return void (errorRef.current = error)
-        }
+        if (!success) return void (errorRef.current = error)
 
         try {
           dataRef.current = await onSubmit(data)
-          errorRef.current = { message: null, errors: {} } as TError
+          errorRef.current = { errors: {}, message: null } as TError
           return onSuccess?.(dataRef.current)
-        } catch (e: unknown) {
-          const message = e instanceof Error ? e.message : String(e)
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error)
           dataRef.current = null
-          errorRef.current = { message, errors: {} } as TError
+          errorRef.current = { errors: {}, message } as TError
           return onError?.(errorRef.current)
         }
       })
@@ -175,13 +171,10 @@ const useForm = <
         let newValue
         const { type, checked, value, valueAsNumber } =
           event.target as unknown as HTMLInputElement
-        if (type === 'checkbox') {
-          newValue = checked
-        } else if (type === 'number') {
+        if (type === 'checkbox') newValue = checked
+        else if (type === 'number')
           newValue = isNaN(valueAsNumber) ? '' : valueAsNumber
-        } else {
-          newValue = value
-        }
+        else newValue = value
 
         setLocalValue(newValue as TValues[TFieldName])
         setValue(props.name, newValue as TValues[TFieldName])
@@ -191,41 +184,37 @@ const useForm = <
         event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
       ) => {
         event.persist()
-        if (prevLocalValueRef.current === localValue) {
-          return
-        }
+        if (prevLocalValueRef.current === localValue) return
+
         prevLocalValueRef.current = localValue
 
         const { success, error } = await validateValues({
           ...valuesRef.current,
           [props.name]: localValue,
         })
-        if (success) {
-          setValue(props.name, localValue)
-        } else {
-          setErrors(error.errors?.[props.name] ?? [])
-        }
+        if (success) setValue(props.name, localValue)
+        else setErrors(error.errors?.[props.name] ?? [])
       }
 
       return props.render({
-        meta: {
-          fieldId: `${String(props.name)}-field`,
-          descriptionId: `${String(props.name)}-description`,
-          errorId: `${String(props.name)}-error`,
-          errors,
-          isPending,
-        },
         field: {
-          id: `${String(props.name)}-field`,
-          name: props.name,
-          value: localValue,
-          onChange: handleChange,
-          onBlur: handleBlur,
-          'aria-invalid': errors.length > 0,
           'aria-describedby':
             errors.length > 0
               ? `${String(props.name)}-error ${String(props.name)}-description`
               : `${String(props.name)}-description`,
+          'aria-invalid': errors.length > 0,
+          id: `${String(props.name)}-field`,
+          name: props.name,
+          onBlur: handleBlur,
+          onChange: handleChange,
+          value: localValue,
+        },
+        meta: {
+          descriptionId: `${String(props.name)}-description`,
+          errorId: `${String(props.name)}-error`,
+          errors,
+          fieldId: `${String(props.name)}-field`,
+          isPending,
         },
       })
     },
@@ -234,10 +223,10 @@ const useForm = <
 
   return React.useMemo(
     () => ({
-      state: { getValues, getData, getError, isPending },
       Field,
-      setValue,
       handleSubmit,
+      setValue,
+      state: { getData, getError, getValues, isPending },
     }),
     [Field, getData, getError, getValues, handleSubmit, isPending, setValue],
   )

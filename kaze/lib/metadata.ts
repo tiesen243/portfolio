@@ -25,7 +25,7 @@ export function createMetadata(override: Metadata = {}): Metadata {
         ? override.openGraph.images
         : [override.openGraph.images]
       : []),
-    { url: '/api/og?uwu=true', alt: 'Open Graph Image' },
+    { alt: 'Open Graph Image', url: '/api/og?uwu=true' },
   ]
 
   return {
@@ -56,9 +56,9 @@ export function createMetadata(override: Metadata = {}): Metadata {
       creatorId: '@tiesen243',
     },
     icons: {
+      apple: '/apple-touch-icon.png',
       icon: '/favicon.ico',
       shortcut: '/favicon.ico',
-      apple: '/apple-touch-icon.png',
     },
     facebook: { appId: '625246206988524' },
     verification: { google: 'dfsGgsTDdq4IwdTzb4p69XHyrPXvzFNmUMRxpuV4M8Q' },

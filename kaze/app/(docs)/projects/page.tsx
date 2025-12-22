@@ -82,13 +82,13 @@ export default async function ProjectListPage() {
 }
 
 export const metadata = createMetadata({
-  title: TITLE,
   description: DESCRIPTION,
   keywords: ['projects', 'web development', 'design', 'open-source'],
   openGraph: {
     images: `/api/og?title=${TITLE}&description=${DESCRIPTION}`,
     url: '/projects',
   },
+  title: TITLE,
 })
 
 const images = [

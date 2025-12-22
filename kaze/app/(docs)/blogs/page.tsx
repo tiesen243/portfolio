@@ -58,11 +58,11 @@ export default async function BlogListPage() {
 }
 
 export const metadata = createMetadata({
-  title: TITLE,
   description: DESCRIPTION,
   keywords: ['blogs', 'web development', 'design', 'technology'],
   openGraph: {
     images: `/api/og?title=${TITLE}&description=${DESCRIPTION}`,
     url: '/blogs',
   },
+  title: TITLE,
 })

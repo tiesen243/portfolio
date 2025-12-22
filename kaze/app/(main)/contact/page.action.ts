@@ -11,10 +11,6 @@ const resend = new Resend(env.RESEND_TOKEN)
 export async function sendEmail(options: ContactSchema) {
   const { error } = await resend.emails.send({
     from: 'contact-form@tiesen.id.vn',
-    to: basic.email,
-    replyTo: options.email,
-    subject: options.subject,
-    text: options.message,
     html: /* HTML */ `
       <div
         style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;"
@@ -27,10 +23,12 @@ export async function sendEmail(options: ContactSchema) {
         <div>${options.message}</div>
       </div>
     `,
+    replyTo: options.email,
+    subject: options.subject,
+    text: options.message,
+    to: basic.email,
   })
 
-  if (error) {
-    throw new Error(error.message)
-  }
+  if (error) throw new Error(error.message)
   return { message: 'Email sent successfully' }
 }

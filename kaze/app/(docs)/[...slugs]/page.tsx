@@ -13,9 +13,7 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
   const { slugs } = await params
 
   const page = await getPage(slugs)
-  if (!page) {
-    notFound()
-  }
+  if (!page) notFound()
 
   const { frontmatter, toc, MDXContent } = page
 
@@ -72,14 +70,11 @@ export const generateMetadata = async ({
   const { slugs } = await params
 
   const page = await getPage(slugs)
-  if (!page) {
-    notFound()
-  }
+  if (!page) notFound()
 
   const { frontmatter, url } = page
 
   return createMetadata({
-    title: frontmatter.title,
     description: frontmatter.description,
     keywords: ['content', 'blog', 'article', ...frontmatter.tags],
     openGraph: {
@@ -89,5 +84,6 @@ export const generateMetadata = async ({
       ],
       url,
     },
+    title: frontmatter.title,
   })
 }

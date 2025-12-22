@@ -1,5 +1,3 @@
-// oxlint-disable no-html-link-for-pages
-
 import { basic } from '@yuki/data'
 import { Typography } from '@yuki/ui/typography'
 import Image from 'next/image'

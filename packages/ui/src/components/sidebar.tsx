@@ -17,9 +17,8 @@ const SidebarContext = React.createContext<{
 
 export const useSidebar = () => {
   const context = React.use(SidebarContext)
-  if (!context) {
+  if (!context)
     throw new Error('useSidebar must be used within a SidebarProvider')
-  }
   return context
 }
 
@@ -56,7 +55,7 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
   })
 
   const value = React.useMemo(
-    () => ({ open, isMobile, setOpen, toggleSidebar }),
+    () => ({ isMobile, open, setOpen, toggleSidebar }),
     [isMobile, open, toggleSidebar],
   )
 
@@ -67,11 +66,9 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
   const { open, setOpen, isMobile } = useSidebar()
 
   const isMounted = useMounted()
-  if (!isMounted) {
-    return null
-  }
+  if (!isMounted) return
 
-  if (isMobile) {
+  if (isMobile)
     return (
       <>
         <button
@@ -101,7 +98,6 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
         </aside>
       </>
     )
-  }
 
   return (
     <>

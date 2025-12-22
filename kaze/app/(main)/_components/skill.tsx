@@ -39,8 +39,8 @@ function SkillList({ title, skills }: { title: string; skills: Skill[] }) {
             }
             className={cn(
               'h-8 text-lg transition-colors select-none',
-              'border-[var(--skill-color)] bg-[var(--skill-color)]/10 text-[var(--skill-color)] hover:bg-[var(--skill-color)]/20',
-              'dark:border-[var(--skill-color-dark)] dark:bg-[var(--skill-color-dark)]/10 dark:text-[var(--skill-color-dark)] dark:hover:bg-[var(--skill-color-dark)]/20',
+              'border-(--skill-color) bg-(--skill-color)/10 text-(--skill-color) hover:bg-(--skill-color)/20',
+              'dark:border-(--skill-color-dark) dark:bg-(--skill-color-dark)/10 dark:text-(--skill-color-dark) dark:hover:bg-(--skill-color-dark)/20',
             )}
           >
             <skill.icon className='fill-current' />

@@ -59,27 +59,27 @@ export function HeroSection() {
 
 const navs = [
   {
+    href: '/assets/cv.pdf',
     icon: DownloadIcon,
     label: 'Dowload Resume',
     shortcut: 'r',
-    href: '/assets/cv.pdf',
   },
   {
+    href: '/contact',
     icon: ContactIcon,
     label: 'Contact Me',
     shortcut: 'c',
-    href: '/contact',
   },
   {
+    href: '/projects',
     icon: FolderKanbanIcon,
     label: 'Projects',
     shortcut: 'p',
-    href: '/projects',
   },
   {
+    href: '/blogs',
     icon: RssIcon,
     label: 'Blogs',
     shortcut: 'b',
-    href: '/blogs',
   },
 ] as const

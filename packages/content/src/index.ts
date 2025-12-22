@@ -1,8 +1,5 @@
 import type { RemarkImageOptions } from 'fumadocs-core/mdx-plugins'
 
-import fs from 'node:fs/promises'
-import path from 'node:path'
-
 import { createCompiler } from '@fumadocs/mdx-remote'
 import { frontmatterSchema } from '@yuki/validators/mdx'
 import {
@@ -18,13 +15,16 @@ import {
 } from 'fumadocs-core/mdx-plugins'
 import { cache } from 'react'
 
+import fs from 'node:fs/promises'
+import path from 'node:path'
+
 const compileMDX = createCompiler({
   rehypeCodeOptions: {
-    themes: {
-      light: 'github-light-default',
-      dark: 'github-dark-default',
-    },
     cache: new Map(),
+    themes: {
+      dark: 'github-dark-default',
+      light: 'github-light-default',
+    },
   },
   rehypePlugins: [rehypeToc],
   remarkPlugins: [
@@ -51,30 +51,25 @@ async function uncachedGetPage(slugs: string[]) {
   const filePath = path.join(sourcePath, ...slugs) + '.mdx'
 
   try {
-    const source = await fs.readFile(filePath, 'utf-8')
-    if (!source.trim()) {
-      throw new Error('File is empty')
-    }
+    const source = await fs.readFile(filePath, 'utf8')
+    if (!source.trim()) throw new Error('File is empty')
 
     const compiled = await compileMDX.compile({
-      source,
       filePath,
+      source,
     })
 
     const frontmatter = frontmatterSchema.parse(compiled.frontmatter)
 
     return {
-      path: filePath,
-      frontmatter,
-      toc: compiled.toc,
       MDXContent: compiled.body,
+      frontmatter,
+      path: filePath,
+      toc: compiled.toc,
       url: `/${slugs.join('/')}`,
     }
-  } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`Error reading page: ${filePath}`, error)
-    }
-    return undefined
+  } catch {
+    return null
   }
 }
 
@@ -83,8 +78,8 @@ async function uncachedGetPages(contentType?: 'blogs' | 'projects') {
 
   try {
     const files = await fs.readdir(sourcePath, {
-      withFileTypes: true,
       recursive: true,
+      withFileTypes: true,
     })
 
     const mdxFiles = files.filter(
@@ -103,24 +98,22 @@ async function uncachedGetPages(contentType?: 'blogs' | 'projects') {
         const slugs = slugParts.split('/').slice(1)
 
         try {
-          const source = await fs.readFile(filePath, 'utf-8')
-          if (!source.trim()) {
-            throw new Error('Empty file')
-          }
+          const source = await fs.readFile(filePath, 'utf8')
+          if (!source.trim()) throw new Error('Empty file')
 
-          const compiled = await compileMDX.compile({ source, filePath })
+          const compiled = await compileMDX.compile({ filePath, source })
           const frontmatter = frontmatterSchema.parse(compiled.frontmatter)
           return { filePath, frontmatter, slugs }
         } catch {
           return {
-            slugs,
             filePath,
             frontmatter: {
-              title: slugParts.replace(/-/g, ' '),
               description: '',
               publishedAt: new Date(),
               tags: [],
+              title: slugParts.replaceAll('-', ' '),
             },
+            slugs,
           }
         }
       }),
@@ -135,14 +128,11 @@ async function uncachedGetPages(contentType?: 'blogs' | 'projects') {
         return dateB.getTime() - dateA.getTime()
       })
   } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
-      console.log(error)
-    }
-    if (error instanceof Error) {
-      throw new Error(`Source directory not found: ${sourcePath}`, {
+    if (error instanceof Error)
+      throw new TypeError(`Source directory not found: ${sourcePath}`, {
         cause: error,
       })
-    }
+
     throw new Error(`Failed to read source directory: ${sourcePath}`, {
       cause: error,
     })
@@ -153,14 +143,12 @@ export const getPage = cache(uncachedGetPage)
 export const getPages = cache(uncachedGetPages)
 
 function validateSlugs(slugs: string[]): void {
-  if (slugs.length === 0) {
-    throw new Error('Slugs array cannot be empty')
-  }
+  if (slugs.length === 0) throw new Error('Slugs array cannot be empty')
 
   const hasInvalidPath = slugs.some(
     (slug) => slug.includes('..') || slug.includes('/') || slug.includes('\\'),
   )
-  if (hasInvalidPath) {
+
+  if (hasInvalidPath)
     throw new Error('Invalid slug: contains path traversal characters')
-  }
 }

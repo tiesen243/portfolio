@@ -8,7 +8,7 @@ const createRandom = () => {
     return () => {
       const buffer = new Uint32Array(1)
       globalThis.crypto.getRandomValues(buffer)
-      return (buffer[0] ?? 0) / 0x100000000
+      return (buffer[0] ?? 0) / 0x1_00_00_00_00
     }
   }
 
@@ -21,7 +21,7 @@ const createEntropy = (length = 4, rand = random) => {
   let entropy = ''
 
   while (entropy.length < length) {
-    entropy = entropy + Math.floor(rand() * 36).toString(36)
+    entropy += Math.floor(rand() * 36).toString(36)
   }
 
   return entropy
@@ -45,22 +45,23 @@ const createFingerprint = ({
   random: rand = random,
 }) => {
   const globals = Object.keys(globalObj).toString()
-  const sourceString = globals.length
-    ? globals + createEntropy(32, rand)
-    : createEntropy(32, rand)
+  const sourceString =
+    globals.length > 0
+      ? globals + createEntropy(32, rand)
+      : createEntropy(32, rand)
 
-  return hash(sourceString).substring(0, 32)
+  return hash(sourceString).slice(0, 32)
 }
 
 const createCounter = (count: number) => () => count++
 
 export function createId(rand = random): string {
   const time = Date.now().toString(36)
-  const count = createCounter(Math.floor(rand() * 476782367))().toString(36)
+  const count = createCounter(Math.floor(rand() * 476_782_367))().toString(36)
   const fingerprint = createFingerprint({ random: rand })
 
   const salt = createEntropy(24, rand)
   const hashInput = `${time}${salt}${count}${fingerprint}`
 
-  return `c${hash(hashInput).substring(1, 24)}`
+  return `c${hash(hashInput).slice(1, 24)}`
 }

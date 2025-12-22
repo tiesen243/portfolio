@@ -37,6 +37,7 @@ function useNvimStatusline() {
     throw new Error(
       'useNvimStatusline must be used within a NvimStatuslineProvider',
     )
+
   return context
 }
 
@@ -69,8 +70,8 @@ function NvimStatusline({
     ),
     render,
     state: {
-      slot: 'nvim-statusline',
       mode,
+      slot: 'nvim-statusline',
     },
   })
 }

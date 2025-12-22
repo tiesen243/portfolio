@@ -35,53 +35,53 @@ export async function GET(request: NextRequest) {
     return new ImageResponse(
       <div
         style={{
+          alignItems: 'flex-start',
+          backgroundColor,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'flex-start',
-          justifyContent: 'space-between',
           gap: '32px',
 
-          width: '100%',
           height: '100%',
+          justifyContent: 'space-between',
           padding: '32px 40px',
 
-          backgroundColor,
+          width: '100%',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <div style={{ alignItems: 'center', display: 'flex', gap: '16px' }}>
           <div
             style={{
-              display: 'flex',
               alignItems: 'center',
+              backgroundColor: primaryColor,
+              borderRadius: '8px',
+
+              display: 'flex',
+              height: '48px',
               justifyContent: 'center',
 
               width: '48px',
-              height: '48px',
-              borderRadius: '8px',
-
-              backgroundColor: primaryColor,
             }}
           >
             <img
               src={logoUrl}
               alt='Logo'
               style={{
-                width: '80%',
+                filter: theme === 'dark' ? 'none' : 'invert(1)',
                 height: '80%',
                 margin: 0,
 
                 objectFit: 'contain',
-                filter: theme === 'dark' ? 'none' : 'invert(1)',
+                width: '80%',
               }}
             />
           </div>
 
           <h1
             style={{
+              color: foregroundColor,
               fontFamily: 'Geist-Medium, sans-serif',
               fontSize: '28px',
               fontWeight: '500',
-              color: foregroundColor,
             }}
           >
             {appName}
@@ -93,40 +93,40 @@ export async function GET(request: NextRequest) {
             src={`${request.nextUrl.origin}/assets/logotype.png`}
             alt='UwU Logotype'
             style={{
-              width: '80%',
-              objectFit: 'contain',
               margin: '0 auto',
+              objectFit: 'contain',
+              width: '80%',
             }}
           />
         ) : (
           <div
             style={{
-              display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between',
+              display: 'flex',
+              flex: 1,
               gap: '32px',
 
-              flex: 1,
+              justifyContent: 'space-between',
               width: '100%',
             }}
           >
             <div
               style={{
+                alignItems: 'flex-start',
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'flex-start',
 
-                width: image ? '65%' : '100%',
                 height: '100%',
+                width: image ? '65%' : '100%',
               }}
             >
               <h2
                 style={{
+                  color: foregroundColor,
                   fontFamily: 'Geist-Bold, sans-serif',
                   fontSize: '48px',
-                  lineHeight: '1.1',
                   fontWeight: '700',
-                  color: foregroundColor,
+                  lineHeight: '1.1',
 
                   margin: '0 0 24px 0',
                 }}
@@ -135,16 +135,16 @@ export async function GET(request: NextRequest) {
               </h2>
               <p
                 style={{
+                  color: foregroundColor,
                   fontFamily: 'Geist-Regular, sans-serif',
                   fontSize: '24px',
-                  lineHeight: '1.2',
                   fontWeight: '400',
-                  color: foregroundColor,
-
                   height: '100%',
-                  overflow: 'hidden',
+
+                  lineHeight: '1.2',
                   margin: 0,
                   opacity: 0.75,
+                  overflow: 'hidden',
                 }}
               >
                 {description}
@@ -155,10 +155,10 @@ export async function GET(request: NextRequest) {
                 src={image}
                 alt={title}
                 style={{
-                  flex: 1,
+                  aspectRatio: '1 / 1',
                   border: `0.5px solid ${foregroundColor}`,
                   borderRadius: '16px',
-                  aspectRatio: '1 / 1',
+                  flex: 1,
                   objectFit: 'cover',
                 }}
               />
@@ -168,8 +168,8 @@ export async function GET(request: NextRequest) {
 
         <div
           style={{
-            display: 'flex',
             alignItems: 'center',
+            display: 'flex',
             justifyContent: 'space-between',
 
             width: '100%',
@@ -177,27 +177,27 @@ export async function GET(request: NextRequest) {
         >
           <div
             style={{
+              alignItems: 'center',
               display: 'flex',
               flexDirection: 'row',
-              alignItems: 'center',
               gap: '16px',
             }}
           >
             <hr
               style={{
-                width: '60px',
-                height: '4px',
-                borderRadius: '2px',
-
                 background: `linear-gradient(90deg, ${primaryColor}, ${backgroundColor})`,
+                borderRadius: '2px',
+                height: '4px',
+
+                width: '60px',
               }}
             />
             <p
               style={{
+                color: foregroundColor,
                 fontFamily: 'Geist-Medium, sans-serif',
                 fontSize: '16px',
                 fontWeight: '500',
-                color: foregroundColor,
 
                 margin: 0,
                 opacity: 0.75,
@@ -216,8 +216,8 @@ export async function GET(request: NextRequest) {
         fonts: [geistRegular, geistMedium, geistBold],
       },
     )
-  } catch (e: unknown) {
-    console.error(e)
+  } catch (error) {
+    console.error(error)
     return new Response(`Failed to generate the image`, { status: 500 })
   }
 }
@@ -227,8 +227,8 @@ async function getFont(font: string, weight = 400) {
     new URL(`../../../public/assets/fonts/${font}.ttf`, import.meta.url),
   )
   return {
-    name: font,
     data: await response.arrayBuffer(),
+    name: font,
     style: 'normal' as const,
     weight,
   }

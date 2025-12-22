@@ -54,17 +54,17 @@ function FieldGroup({ className, ...props }: React.ComponentProps<'div'>) {
 const fieldVariants = cva(
   'group/field flex w-full gap-2 data-[invalid=true]:text-destructive',
   {
+    defaultVariants: {
+      orientation: 'vertical',
+    },
     variants: {
       orientation: {
-        vertical: 'flex-col [&>*]:w-full [&>.sr-only]:w-auto',
         horizontal:
           'flex-row items-center has-[>[data-slot=field-content]]:items-start [&>[data-slot=field-label]]:flex-auto has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px',
         responsive:
           'flex-col @md/field-group:flex-row @md/field-group:items-center @md/field-group:has-[>[data-slot=field-content]]:items-start [&>*]:w-full @md/field-group:[&>*]:w-auto [&>.sr-only]:w-auto @md/field-group:[&>[data-slot=field-label]]:flex-auto @md/field-group:has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px',
+        vertical: 'flex-col [&>*]:w-full [&>.sr-only]:w-auto',
       },
-    },
-    defaultVariants: {
-      orientation: 'vertical',
     },
   },
 )
@@ -182,35 +182,28 @@ function FieldError({
   errors?: ({ message?: string } | undefined)[]
 }) {
   const content = useMemo(() => {
-    if (children) {
-      return children
-    }
+    if (children) return children
 
-    if (!errors?.length) {
-      return null
-    }
+    if (!errors?.length) return
 
     const uniqueErrors = [
       ...new Map(errors.map((error) => [error?.message, error])).values(),
     ]
 
-    if (uniqueErrors.length == 1) {
-      return uniqueErrors[0]?.message
-    }
+    if (uniqueErrors.length === 1) return uniqueErrors[0]?.message
 
     return (
       <ul className='ml-4 flex list-disc flex-col gap-1'>
         {uniqueErrors.map(
           (error, index) =>
+            // oxlint-disable-next-line no-array-index-key
             error?.message && <li key={index}>{error.message}</li>,
         )}
       </ul>
     )
   }, [children, errors])
 
-  if (!content) {
-    return null
-  }
+  if (!content) return
 
   return (
     <div

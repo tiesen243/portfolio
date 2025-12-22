@@ -18,7 +18,6 @@ const DESCRIPTION =
   'Get in touch with me for inquiries or collaborations. Whether you have a question, feedback, or just want to say hello, I’d love to hear from you!'
 
 export const metadata = createMetadata({
-  title: TITILE,
   description: DESCRIPTION,
   keywords: [
     'contact',
@@ -31,6 +30,7 @@ export const metadata = createMetadata({
     images: `/api/og?title=${TITILE}&description=${DESCRIPTION}`,
     url: '/contact',
   },
+  title: TITILE,
 })
 
 export default function ContactPage() {
@@ -118,22 +118,22 @@ export default function ContactPage() {
 
 const contactInfo = [
   {
+    href: `mailto:${basic.email}`,
     icon: MailIcon,
     label: 'Email',
     value: basic.email,
-    href: `mailto:${basic.email}`,
   },
   {
+    href: '#',
     icon: MapPinIcon,
     label: 'Location',
     value: basic.location,
-    href: '#',
   },
 ]
 
 const socials = {
-  github: GithubIcon,
   facebook: FacebookIcon,
+  github: GithubIcon,
   linkedin: LinkedinIcon,
   'x (formerly Twitter)': XFormerTwitterIcon,
 }

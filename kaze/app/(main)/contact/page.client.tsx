@@ -26,11 +26,11 @@ export function ContactForm() {
   const previousMode = useRef(mode)
 
   const form = useForm({
-    defaultValues: { name: '', email: '', subject: '', message: '' },
-    schema: contactSchema,
+    defaultValues: { email: '', message: '', name: '', subject: '' },
+    onError: (error) => toast.error(error.message),
     onSubmit: sendEmail,
     onSuccess: (data) => toast.success(data.message),
-    onError: (error) => toast.error(error.message),
+    schema: contactSchema,
   })
 
   const handleFocus = () => {
@@ -59,9 +59,7 @@ export function ContactForm() {
                   onFocus={handleFocus}
                   onBlur={async (e) => {
                     await field.onBlur(e)
-                    if (mode === 'insert') {
-                      setMode(previousMode.current)
-                    }
+                    if (mode === 'insert') setMode(previousMode.current)
                   }}
                 />
                 <FieldError id={meta.errorId} errors={meta.errors} />
@@ -81,9 +79,7 @@ export function ContactForm() {
                   onFocus={handleFocus}
                   onBlur={async (e) => {
                     await field.onBlur(e)
-                    if (mode === 'insert') {
-                      setMode(previousMode.current)
-                    }
+                    if (mode === 'insert') setMode(previousMode.current)
                   }}
                 />
                 <FieldError id={meta.errorId} errors={meta.errors} />
@@ -102,9 +98,7 @@ export function ContactForm() {
                   onFocus={handleFocus}
                   onBlur={async (e) => {
                     await field.onBlur(e)
-                    if (mode === 'insert') {
-                      setMode(previousMode.current)
-                    }
+                    if (mode === 'insert') setMode(previousMode.current)
                   }}
                 />
                 <FieldError id={meta.errorId} errors={meta.errors} />
@@ -124,9 +118,7 @@ export function ContactForm() {
                   onFocus={handleFocus}
                   onBlur={async (e) => {
                     await field.onBlur(e)
-                    if (mode === 'insert') {
-                      setMode(previousMode.current)
-                    }
+                    if (mode === 'insert') setMode(previousMode.current)
                   }}
                 />
                 <FieldError id={meta.errorId} errors={meta.errors} />
