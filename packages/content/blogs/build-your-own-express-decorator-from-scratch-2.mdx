@@ -327,8 +327,6 @@ export function registerControllers(app: Application, module: Type) {
       handlers.push(async (req, res, next) => {
         try {
           const args = parseArgs(prototype, key, req, res, next)
-          // @ts-expect-error -- we know that instance[key] is a function
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
           const result = await instance[key](...args)
           if (res.headersSent) return
 

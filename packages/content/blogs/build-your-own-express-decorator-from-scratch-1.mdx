@@ -155,8 +155,6 @@ These TypeScript types help with type inference for your Express decorators and 
 - `InferRouterOutputs<TControllers>`: Infers the output (return) types for each method in your controller objects, unwrapping Promises if present.
 
 ```ts title="server/core/types.d.ts"
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 export type Type<T = any> = new (...args: any[]) => T
 
 export type InterRouterInpuuts<TServices extends Record<string, any>> = {
@@ -515,7 +513,6 @@ The `Guard` decorator allows us to attach guard classes to controllers or specif
 
 ```ts title="server/core/common/guard.ts"
 export function Guard(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ...guards: (new (...args: any[]) => CanActivate)[]
 ): ClassDecorator & MethodDecorator {
   return (target: object, propertyKey?: string | symbol) => {
