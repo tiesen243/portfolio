@@ -14,8 +14,7 @@ export function HeroSection() {
   return (
     <section
       id='hero'
-      className='container flex min-h-dvh flex-col items-center justify-center'
-      style={{ '--max-width': '800px' } as React.CSSProperties}
+      className='container flex min-h-dvh max-w-2xl flex-col items-center justify-center'
     >
       <h2 className='sr-only'>Hero section</h2>
 
@@ -25,16 +24,16 @@ export function HeroSection() {
         src={Tiesen}
         alt='Tiesen'
         sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-        className='mx-auto h-auto w-(--max-width)'
+        className='mx-auto h-auto'
       />
 
-      <Typography className='mt-6 max-w-(--max-width) text-center text-pretty'>
-        I believe this world is{' '}
-        <span className='font-medium text-primary'>flat</span>, because{' '}
-        <span className='font-medium text-primary'>loli</span> is my world OwO
+      <Typography className='mt-6 text-center max-w-xl text-pretty'>
+        You can&apos;t change your <span className='text-primary'>past</span>,
+        but luckily you can still destroy your{' '}
+        <span className='text-primary'>future</span> OwO.
       </Typography>
 
-      <nav className='mt-8 flex w-full max-w-(--max-width) flex-col gap-4'>
+      <nav className='mt-8 flex w-full flex-col gap-4'>
         {navs.map((nav) => (
           <Link
             key={nav.label}
