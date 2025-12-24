@@ -1,4 +1,3 @@
-import { basic } from '@yuki/data'
 import {
   FacebookIcon,
   GithubIcon,
@@ -11,6 +10,7 @@ import { Typography } from '@yuki/ui/typography'
 import Link from 'next/link'
 
 import { ContactForm } from '@/app/(main)/contact/page.client'
+import { basic } from '@/lib/data'
 import { createMetadata } from '@/lib/metadata'
 
 const TITILE = 'Contact Me'

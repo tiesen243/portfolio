@@ -14,12 +14,12 @@ const nextConfig = {
 
   transpilePackages: [
     '@yuki/content',
-    '@yuki/data',
+    '@yuki/lib',
     '@yuki/ui',
     '@yuki/validators',
   ],
 
-  async redirects() {
+  redirects() {
     return [
       {
         source: '/assets/cv.pdf',
@@ -34,6 +34,7 @@ const nextConfig = {
     ]
   },
 
+  // oxlint-disable-next-line no-process-env
   ...(process.env.NEXT_BUILD_OUTPUT === 'standalone'
     ? {
         output: 'standalone',
@@ -46,7 +47,7 @@ export default nextConfig
 
 const socials = {
   github: 'https://github.com/tiesen243',
-  facebook: 'https://facebook.com/tiesen243',
+  facebook: 'https://facebook.com/tiesen243.tsx',
   linkedin: 'https://www.linkedin.com/in/tiesen243',
   x: 'https://x.com/tiesen243',
 }

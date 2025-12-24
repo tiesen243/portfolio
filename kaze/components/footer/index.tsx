@@ -8,8 +8,8 @@ import {
   NvimStatuslineSectionZ,
 } from '@yuki/ui/nvim-statusline'
 
-import { Breadcrumb } from '@/app/_components/footer/breadcrumb'
-import { Mode } from '@/app/_components/footer/mode'
+import { Breadcrumb } from '@/components/footer/breadcrumb'
+import { Mode } from '@/components/footer/mode'
 
 export function Footer() {
   return (

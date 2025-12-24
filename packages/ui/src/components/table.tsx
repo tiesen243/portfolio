@@ -1,5 +1,3 @@
-'use client'
-
 import * as React from 'react'
 
 import { cn } from '@/utils'
@@ -8,7 +6,9 @@ function Table({
   className,
   containerClassName,
   ...props
-}: React.ComponentProps<'table'> & { containerClassName?: string }) {
+}: React.ComponentProps<'table'> & {
+  containerClassName?: string
+}) {
   return (
     <div
       data-slot='table-container'

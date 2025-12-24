@@ -1,6 +1,9 @@
-import { basic } from '@yuki/data'
+// oxlint-disable no-html-link-for-pages
+
 import { Typography } from '@yuki/ui/typography'
 import Image from 'next/image'
+
+import { basic } from '@/lib/data'
 
 export function AboutSection() {
   return (

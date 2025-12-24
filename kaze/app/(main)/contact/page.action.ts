@@ -2,9 +2,10 @@
 
 import type { ContactSchema } from '@yuki/validators/contact'
 
-import { basic } from '@yuki/data'
 import { env } from '@yuki/validators/env'
 import { Resend } from 'resend'
+
+import { basic } from '@/lib/data'
 
 const resend = new Resend(env.RESEND_TOKEN)
 

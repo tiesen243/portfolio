@@ -1,9 +1,10 @@
 import type { Skill } from '@yuki/data'
 
-import { skills } from '@yuki/data'
 import { cn } from '@yuki/ui'
 import { Badge } from '@yuki/ui/badge'
 import { Typography } from '@yuki/ui/typography'
+
+import { skills } from '@/lib/data'
 
 export function SkillSection() {
   return (
