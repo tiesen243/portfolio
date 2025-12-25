@@ -7,7 +7,6 @@ import {
   FieldError,
   FieldGroup,
   FieldLabel,
-  FieldLegend,
   FieldSet,
 } from '@yuki/ui/field'
 import { useForm } from '@yuki/ui/hooks/use-form'
