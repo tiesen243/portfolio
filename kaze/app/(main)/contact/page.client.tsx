@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@yuki/ui/button'
+import { Card } from '@yuki/ui/card'
 import {
   Field,
   FieldDescription,
@@ -39,8 +40,10 @@ export function ContactForm() {
   }
 
   return (
-    <form className='flex-1 text-lg' onSubmit={form.handleSubmit}>
-      <FieldSet className='h-full'>
+    <Card render={<form onSubmit={form.handleSubmit} />}>
+      <h3 className='sr-only'>Contact Form</h3>
+
+      <FieldSet className='px-4 h-full'>
         <FieldLegend>Send a Message</FieldLegend>
         <FieldDescription>
           Fill out the form below and I&apos;ll get back to you as soon as
@@ -127,13 +130,12 @@ export function ContactForm() {
           />
 
           <Field>
-            <Button disabled={form.state.isPending}>
-              <SendIcon />
-              Send Message
+            <Button type='submit' disabled={form.state.isPending}>
+              <SendIcon /> Send Message
             </Button>
           </Field>
         </FieldGroup>
       </FieldSet>
-    </form>
+    </Card>
   )
 }

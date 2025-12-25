@@ -18,7 +18,9 @@ export function HeroSection() {
     >
       <h2 className='sr-only'>Hero section</h2>
 
-      <code className='mb-6 text-primary'>&quot;use portfolio&quot;</code>
+      <code className='mb-6 text-primary dark:brightness-125'>
+        &quot;use portfolio&quot;
+      </code>
 
       <Image
         src={Tiesen}
@@ -27,10 +29,9 @@ export function HeroSection() {
         className='mx-auto h-auto'
       />
 
-      <Typography className='mt-6 text-center max-w-xl text-pretty'>
-        You can&apos;t change your <span className='text-primary'>past</span>,
-        but luckily you can still destroy your{' '}
-        <span className='text-primary'>future</span> OwO.
+      <Typography className='mt-6 text-center max-w-xl text-pretty [&_span]:text-primary dark:[&_span]:brightness-125'>
+        You can&apos;t change your <span>past</span>, but luckily you can still
+        destroy your <span>future</span> OwO.
       </Typography>
 
       <nav className='mt-8 flex w-full flex-col gap-4'>

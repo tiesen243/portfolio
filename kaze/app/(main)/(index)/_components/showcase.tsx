@@ -23,7 +23,7 @@ export function ShowcaseSection() {
       className='container my-12 flex flex-col justify-center'
     >
       <Typography variant='h2'>Featured Projects</Typography>
-      <Typography className='text-accent-foreground'>
+      <Typography className='text-muted-foreground'>
         Explore a collection of open-source projects and tools built with modern
         technologies.
       </Typography>
@@ -48,7 +48,9 @@ const ShowcaseCard: React.FC<{ showcase: Showcase }> = ({ showcase }) => (
     />
 
     <CardHeader className='flex-1'>
-      <CardTitle className='text-xl'>{showcase.title}</CardTitle>
+      <CardTitle className='text-xl' render={<h3 />}>
+        {showcase.title}
+      </CardTitle>
       <CardDescription className='line-clamp-3'>
         {showcase.description}
       </CardDescription>

@@ -42,7 +42,7 @@ export default function RootLayout({
             <Footer />
           </SidebarInset>
 
-          <Toaster />
+          <Toaster richColors />
         </Providers>
       </body>
     </html>

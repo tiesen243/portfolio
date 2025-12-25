@@ -18,7 +18,7 @@ export function AboutSection() {
             find me exploring new technologies or contributing to open-source
             projects.
           </Typography>
-          <Typography className='text-accent-foreground'>
+          <Typography className='text-primary dark:brightness-125'>
             Feel free to reach out if you want to collaborate or just chat about
             tech!
           </Typography>

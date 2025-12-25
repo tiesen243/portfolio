@@ -10,7 +10,7 @@ export function SkillSection() {
   return (
     <section id='skill' className='container mt-12'>
       <Typography variant='h2'>Skills</Typography>
-      <Typography className='text-accent-foreground'>
+      <Typography className='text-muted-foreground'>
         A collection of skills and technologies I work with, including
         programming languages, frameworks, libraries, and tools.
       </Typography>
