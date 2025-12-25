@@ -1,3 +1,4 @@
+import { Card, CardContent, CardHeader } from '@yuki/ui/card'
 import {
   FacebookIcon,
   GithubIcon,
@@ -49,13 +50,17 @@ export default function ContactPage() {
         <section className='space-y-4'>
           <h3 className='sr-only'>Direct Contact Information section</h3>
 
-          <section className='rounded-xl border bg-card p-4 text-card-foreground shadow-md'>
-            <Typography variant='h5' render={<h4> Contact Information</h4>} />
-            <Typography className='-mt-1 text-muted-foreground'>
-              You can also reach me through these channels.
-            </Typography>
+          <Card render={<section />}>
+            <CardHeader>
+              <Typography variant='h5' render={<h4 />} className='my-0'>
+                Contact Information
+              </Typography>
+              <Typography className='[&:not(:first-child)]:mt-0 text-muted-foreground'>
+                You can also reach me through these channels.
+              </Typography>
+            </CardHeader>
 
-            <div className='mt-4 space-y-4'>
+            <CardContent className='space-y-4'>
               {contactInfo.map((info) => (
                 <div key={info.href} className='flex items-center space-x-4'>
                   <div className='flex size-12 items-center justify-center rounded-lg border border-accent bg-accent/20 text-accent-foreground'>
@@ -81,16 +86,20 @@ export default function ContactPage() {
                   </div>
                 </div>
               ))}
-            </div>
-          </section>
+            </CardContent>
+          </Card>
 
-          <section className='rounded-xl border bg-card p-4 text-card-foreground shadow-md'>
-            <Typography variant='h5' render={<h4> Follow Me</h4>} />
-            <Typography className='-mt-1 text-muted-foreground'>
-              Connect with me on social media for updates and insights.
-            </Typography>
+          <Card render={<section />}>
+            <CardHeader>
+              <Typography variant='h5' render={<h4 />} className='my-0'>
+                Follow Me
+              </Typography>
+              <Typography className='[&:not(:first-child)]:mt-0 text-muted-foreground'>
+                Connect with me on social media for updates and insights.
+              </Typography>
+            </CardHeader>
 
-            <div className='grid gap-4 pt-6 sm:grid-cols-2'>
+            <CardContent className='grid gap-4 sm:grid-cols-2'>
               {Object.entries(socials).map(([key, Icon]) => (
                 <Link
                   key={key}
@@ -105,8 +114,8 @@ export default function ContactPage() {
                   </span>
                 </Link>
               ))}
-            </div>
-          </section>
+            </CardContent>
+          </Card>
         </section>
       </section>
     </main>

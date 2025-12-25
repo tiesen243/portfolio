@@ -4,7 +4,6 @@ import { Button } from '@yuki/ui/button'
 import { Card } from '@yuki/ui/card'
 import {
   Field,
-  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
@@ -17,6 +16,7 @@ import { Input } from '@yuki/ui/input'
 import { useNvimStatusline } from '@yuki/ui/nvim-statusline'
 import { toast } from '@yuki/ui/sonner'
 import { Textarea } from '@yuki/ui/textarea'
+import { Typography } from '@yuki/ui/typography'
 import { contactSchema } from '@yuki/validators/contact'
 import { useRef } from 'react'
 
@@ -44,11 +44,13 @@ export function ContactForm() {
       <h3 className='sr-only'>Contact Form</h3>
 
       <FieldSet className='px-4 h-full'>
-        <FieldLegend>Send a Message</FieldLegend>
-        <FieldDescription>
+        <Typography variant='h5' render={<legend />} className='my-0'>
+          Send a Message
+        </Typography>
+        <Typography className='[&:not(:first-child)]:mt-1 text-muted-foreground'>
           Fill out the form below and I&apos;ll get back to you as soon as
           possible.
-        </FieldDescription>
+        </Typography>
 
         <FieldGroup className='flex-1'>
           <form.Field
