@@ -22,11 +22,11 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:tailwind",
-    "@types/node": "catalog:",
+    "@types/node": "catalog:dev",
     "@types/react": "catalog:react",
     "@types/react-dom": "catalog:react",
     "@yuki/tsconfig": "workspace:*",
     "tailwindcss": "catalog:tailwind",
-    "typescript": "catalog:"
+    "typescript": "catalog:dev"
   }
 }

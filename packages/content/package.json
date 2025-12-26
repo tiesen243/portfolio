@@ -22,13 +22,9 @@
     "fumadocs-core": "^16.4.0"
   },
   "devDependencies": {
+    "@types/node": "catalog:dev",
     "@yuki/tsconfig": "workspace:*",
-    "tsdown": "catalog:",
-    "typescript": "catalog:"
-  },
-  "peerDependencies": {
-    "@types/node": "catalog:",
-    "@types/react": "catalog:react",
-    "react": "catalog:react"
+    "tsdown": "catalog:dev",
+    "typescript": "catalog:dev"
   }
 }

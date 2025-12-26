@@ -17,12 +17,12 @@
   },
   "dependencies": {
     "@yuki/lib": "workspace:*",
-    "zod": "catalog:"
+    "zod": "catalog:prod"
   },
   "devDependencies": {
-    "@types/node": "catalog:",
+    "@types/node": "catalog:dev",
     "@yuki/tsconfig": "workspace:*",
-    "tsdown": "catalog:",
-    "typescript": "catalog:"
+    "tsdown": "catalog:dev",
+    "typescript": "catalog:dev"
   }
 }
