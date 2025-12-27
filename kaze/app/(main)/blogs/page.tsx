@@ -14,7 +14,7 @@ export default async function BlogListPage() {
   const pages = await getPages('blogs')
 
   return (
-    <main className='container flex min-h-[calc(100dvh-1.5rem)] max-w-[100ch] flex-col py-8 text-lg'>
+    <main className='container flex min-h-[calc(100dvh-1.5rem)] max-w-[100ch] flex-col pt-8 pb-12 text-lg'>
       <Typography variant='h1'>{TITLE}</Typography>
       <Typography className='text-muted-foreground'>{DESCRIPTION}</Typography>
 
