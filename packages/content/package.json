@@ -19,12 +19,15 @@
   "dependencies": {
     "@fumadocs/mdx-remote": "^1.4.3",
     "@yuki/validators": "workspace:*",
-    "fumadocs-core": "^16.4.0"
+    "fumadocs-core": "^16.4.1"
   },
   "devDependencies": {
     "@types/node": "catalog:dev",
     "@yuki/tsconfig": "workspace:*",
     "tsdown": "catalog:dev",
     "typescript": "catalog:dev"
+  },
+  "peerDependencies": {
+    "react": "catalog:react"
   }
 }
