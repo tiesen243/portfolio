@@ -48,6 +48,7 @@
         "typescript": "catalog:dev",
       },
       "peerDependencies": {
+        "@types/react": "catalog:react",
         "react": "catalog:react",
       },
     },
@@ -84,6 +85,7 @@
         "typescript": "catalog:dev",
       },
       "peerDependencies": {
+        "@types/react": "catalog:react",
         "react": "catalog:react",
       },
     },
