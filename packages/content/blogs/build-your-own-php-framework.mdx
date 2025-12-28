@@ -6,7 +6,7 @@ tags:
   - Framework
   - Web Development
   - Programming
-publishedAt: 2025-09-02
+publishedAt: 2025-12-28
 ---
 
 Most developers rely on frameworks like Laravel or Symfony, but have you ever wondered how they actually work under the hood?
@@ -33,30 +33,21 @@ composer init
 
 For convenience in development, install:
 
-```bash
-npm install --save-dev cross-env vite @types/node concurrently
+```package-install
+-d vite tailwindcss @tailwindcss/vite
 ```
 
 Update `composer.json` with autoloading and scripts:
 
 ```json title="composer.json"
 {
-  "scripts": {
-    "dev": [
-      "Composer\\Config::disableProcessTimeout",
-      "./node_modules/.bin/cross-env ENV=development npx concurrently -c=\"#FF2D20,#646CFF\" \"php -S 0.0.0.0:8000 -t public\" \"npm run dev\" --names=server,vite --kill-others"
-    ],
-    "serve": [
-      "Composer\\Config::disableProcessTimeout",
-      "./node_modules/.bin/cross-env ENV=production php -S 0.0.0.0:8000 -t public"
-    ]
-  },
+  // ...other composer.json settings...
   "autoload": {
     "psr-4": {
       "App\\": "app/",
-      "Framework\\": "src/"
+      "Core\\": "src/"
     }
-  }
+  },
 }
 ```
 
@@ -69,28 +60,38 @@ composer install
 Now create this structure:
 
 ```text
-my-php-framework/
-├── app/
-│   ├── Controllers/
-│   ├── Models/
-│   └── config.php
-├── public/
+.
+├── app
+│   ├── Contract
+│   ├── Controller
+│   ├── Entity
+│   ├── Repository
+│   ├── config.php
+│   └── routes.php
+├── migrations
+├── public
+│   ├── favicon.ico
 │   └── index.php
-├── resources/
-│   ├── css/
-│   ├── js/
-│   └── views/
-├── routes/
-│   ├── api.php
-│   └── web.php
-├── src/
-│   ├── Core/
-│   ├── Http/
-│   └── Application.php
+├── resources
+│   ├── css
+│   ├── js
+│   └── views
+├── src
+│   ├── Abstract
+│   ├── Attribute
+│   ├── Http
+│   ├── Kernel
+│   ├── Application.php
+│   └── helpers.php
+├── bun.lock
 ├── composer.json
+├── composer.lock
+├── docker-compose.yml
+├── Dockerfile
+├── LICENSE
 ├── package.json
-├── vite.config.ts
-└── ...
+├── README.md
+└── vite.config.ts
 ```
 
 ## Building the Framework
@@ -107,59 +108,42 @@ The request/response cycle is the heart of any framework.
 ```php title="src/Http/Request.php"
 <?php
 
-namespace Framework\Http;
+declare(strict_types=1);
+
+namespace Core\Http;
 
 class Request
 {
-  private static $instance = null;
+  private array $get;
+  private array $post;
+  private array $server;
 
-  private function __construct(
-    private array $server,
-    private array $cookies,
-    private array $get,
-    private array $post,
-    private array $files,
-  ) {}
-
-  public static function create(): static
-  {
-    if (self::$instance === null) {
-      self::$instance = new static($_SERVER, $_COOKIE, $_GET, $_POST, $_FILES);
-    }
-
-    return self::$instance;
+  public function __construct(array $get = [], array $post = [], array $server = []) {
+    $this->get = !empty($get) ? $get : $_GET;
+    $this->post = !empty($post) ? $post : $_POST;
+    $this->server = !empty($server) ? $server : $_SERVER;
   }
 
-  public function getUri(): string
-  {
-    $uri = $_SERVER['REQUEST_URI'] ?: '/';
-    $parsedUri = parse_url($uri) ?: '';
-    return $parsedUri['path'] ?? '/';
+  public function method(): string {
+    return $this->server['REQUEST_METHOD'] ?? 'GET';
   }
 
-  public function getMethod(): string
-  {
-    return $_SERVER['REQUEST_METHOD'] ?? 'GET';
+  public function uri(): string {
+    return $this->server['REQUEST_URI'] ?? '/';
   }
 
-  public function getServer(): array
-  {
-    return $this->server;
+  public function getQuery(string $key, $default = null) {
+    return $this->get[$key] ?? $default;
   }
 
-  public function getCookies(): array
-  {
-    return $this->cookies;
+  public function getPost(string $key, $default = null) {
+    return $this->post[$key] ?? $default;
   }
 
-  public function query(): array
-  {
-    return $this->get;
-  }
+  public function getArgv(int $index, $default = null) {
+    $argv = $this->server['argv'] ?? [];
 
-  public function body(): array
-  {
-    return array_merge($this->post, $this->files);
+    return $argv[$index] ?? $default;
   }
 }
 ```
@@ -169,118 +153,38 @@ class Request
 ```php title="src/Http/Response.php"
 <?php
 
-namespace Framework\Http;
+declare(strict_types=1);
+
+namespace Core\Http;
 
 class Response
 {
   public function __construct(
-    private ?string $content = null,
+    private string $body = '',
     private int $statusCode = 200,
     private array $headers = [],
-  ) {}
-
-  public function send(): void
-  {
-    http_response_code($this->statusCode);
-    foreach ($this->headers as $name => $value) {
-      header("$name: $value");
-    }
-
-    if ($this->content !== null) {
-      echo $this->content;
-    }
-  }
-
-  public function getStatusCode(): int
-  {
-    return $this->statusCode;
-  }
-  public function getBody(): ?string
-  {
-    return $this->content;
-  }
-}
-```
-
-3. Handling errors and exceptions.
-
-```php title="src/Core/HttpError.php"
-<?php
-
-namespace Framework\Http;
-
-class HttpError extends \Exception
-{
-  public function __construct(
-    int $code,
-    string $message,
-    protected ?string $details = null,
-    ?\Throwable $previous = null,
   ) {
-    parent::__construct($message, $code, $previous);
   }
 
-  public static function badRequest(
-    $message = 'Bad Request',
-    $details = null,
-  ): self {
-    return new self(400, $message, $details);
-  }
-
-  public static function unauthorized(
-    $message = 'Unauthorized',
-    $details = null,
-  ): self {
-    return new self(401, $message, $details);
-  }
-
-  public static function forbidden(
-    $message = 'Forbidden',
-    $details = null,
-  ): self {
-    return new self(403, $message, $details);
-  }
-
-  public static function notFound($message = 'Not Found', $details = null): self
-  {
-    return new self(404, $message, $details);
-  }
-
-  public static function conflict($message = 'Conflict', $details = null): self
-  {
-    return new self(409, $message, $details);
-  }
-
-  public static function unprocessableEntity(
-    $message = 'Unprocessable Entity',
-    $details = null,
-  ): self {
-    return new self(422, $message, $details);
-  }
-
-  public static function serverError(
-    $message = 'Internal Server Error',
-    $details = null,
-  ): self {
-    return new self(500, $message, $details);
-  }
-
-  public function getStatusCode(): int
-  {
-    return $this->code;
-  }
-
-  public function send(): void
-  {
-    http_response_code($this->code);
-    header('Content-Type: application/json; charset=UTF-8');
-
-    $response = ['error' => $this->message];
-    if ($this->details !== null) {
-      $response['details'] = $this->details;
+  public function send(): void {
+    http_response_code($this->statusCode);
+    foreach ($this->headers as $key => $value) {
+      header("{$key}: {$value}");
     }
+    echo $this->body;
+  }
 
-    echo json_encode($response);
+  public static function json(array $data, int $statusCode = 200, array $headers = []): self {
+    $headers['Content-Type'] = 'application/json';
+    $body = json_encode($data);
+
+    return new self($body, $statusCode, $headers);
+  }
+
+  public static function redirect(string $url, int $statusCode = 302, array $headers = []): self {
+    $headers['Location'] = $url;
+
+    return new self('', $statusCode, $headers);
   }
 }
 ```
@@ -289,98 +193,90 @@ class HttpError extends \Exception
 
 Create a base `Controller` class that other controllers will extend.
 
-```php title="src/Http/Controller.php"
+```php title="src/Abstract/Controller.php"
 <?php
 
-namespace Framework\Core;
+declare(strict_types=1);
 
-use Framework\Http\Request;
-use Framework\Http\Response;
+namespace Core\Abstract;
+
+use App\Entity\User;
+use Core\Http\{Request, Response};
+use Core\Kernel\Database;
 
 abstract class Controller
 {
-  protected ?Request $request = null;
+  protected \PDO $db;
 
-  public function setRequest(Request $request): void
-  {
-    $this->request = $request;
+  public function __construct(protected Request $request, private string $basePath) {
+    $this->db = Database::getInstance();
   }
 
-  protected function view(string $template, array $data = []): Response
-  {
-    $templateInstance = Template::getInstance();
-    $content = $templateInstance->render($template, $data);
-
-    return new Response($content, 200, [
-      'Content-Type' => 'text/html; charset=UTF-8',
-    ]);
-  }
-
-  protected function json(array $data): Response
-  {
-    return new Response(json_encode($data), 200, [
-      'Content-Type' => 'application/json',
-    ]);
-  }
-
-  protected function redirect(string $url): Response
-  {
-    return new Response(null, 302, [
-      'Location' => $url,
-    ]);
-  }
-}
-```
-
-### Setting Up Environment Configuration
-
-Create a configuration file to manage environment variables.
-
-```php title="src/Core/Env.php"
-<?php
-
-namespace Framework\Core;
-
-class Env
-{
-  private static $variables = [];
-
-  public static function load(string $filePath): void
-  {
-    if (!file_exists($filePath)) {
-      return;
+  protected function render(string $view, array $data = [], string $layout = 'main'): Response {
+    if (isset($_SESSION['redirect_data'])) {
+      $data = array_merge($data, $_SESSION['redirect_data']);
+      unset($_SESSION['redirect_data']);
     }
 
-    $lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-      // Ignore comments and empty lines
-      if (strpos($line, '#') === 0 || trim($line) === '') {
-        continue;
-      }
-
-      // Parse the line into key-value pairs
-      [$key, $value] = explode('=', $line, 2);
-      $key = trim($key);
-      $value = trim($value, " \t\n\r\0\x0B\"'");
-
-      // Store the variable in the static array
-      self::$variables[$key] = $value;
-      putenv("$key=$value");
+    if (!file_exists($this->basePath.'/resources/views/app/'.$view.'.php')) {
+      return new Response('View not found: '.$view, 400);
     }
+
+    ob_start();
+    extract($data);
+    $flash = $this->getFlash();
+    require $this->basePath.'/resources/views/app/'.$view.'.php';
+    $content = ob_get_clean();
+
+    ob_start();
+    require $this->basePath.'/resources/views/layouts/'.$layout.'.php';
+    $content = ob_get_clean();
+
+    return new Response($content);
   }
 
-  public static function get(string $key, ?string $fallback = null): ?string
-  {
-    if (array_key_exists($key, self::$variables)) {
-      return self::$variables[$key];
+  protected function json(array $data): Response {
+    $response = Response::json($data);
+
+    return $response;
+  }
+
+  protected function redirect(string $url, array $data = []): Response {
+    if (!empty($data)) {
+      $_SESSION['redirect_data'] = $data;
+    }
+    $response = Response::redirect($url);
+
+    return $response;
+  }
+
+  protected function getFlash(): ?array {
+    if (isset($_SESSION['flash'])) {
+      $flash = $_SESSION['flash'];
+      unset($_SESSION['flash']);
+
+      return $flash;
     }
 
-    $envValue = getenv($key);
-    if ($envValue !== false && $envValue !== '') {
-      return $envValue;
-    }
+    return null;
+  }
 
-    return $fallback;
+  /**
+   * @param "default"|"success"|"error"|"info"|"warn" $type
+   */
+  protected function setFlash(string $type = 'default', string $message = ''): void {
+    $_SESSION['flash'] = [
+      'type' => $type,
+      'message' => $message,
+    ];
+  }
+
+  protected function isAuthenticated(): bool {
+    return isset($_SESSION['user']);
+  }
+
+  protected function getUser(): ?User {
+    return $_SESSION['user'] ?? null;
   }
 }
 ```
@@ -389,443 +285,159 @@ class Env
 
 Create a `Router` class to handle routing logic.
 
-```php title="src/Core/Router.php"
+```php title="src/Kernel/Router.php"
 <?php
 
-namespace Framework\Core;
+declare(strict_types=1);
+
+namespace Core\Kernel;
 
 class Router
 {
-  private static Router $instance;
-  private static array $routes = [];
+  private static $routes = [];
 
-  public function get(string $path, $handler): static
-  {
-    self::$routes['GET'][$path] = $handler;
-    return $this;
+  /**
+   * Register a GET route.
+   *
+   * @param callable|array $handler Handler function or [Controller, method]
+   */
+  public static function get(string $path, callable|array $handler): self {
+    self::addRoute('GET', $path, $handler);
+
+    return new self();
   }
 
-  public function post(string $path, $handler): static
-  {
-    self::$routes['POST'][$path] = $handler;
-    return $this;
+  /**
+   * Register a POST route.
+   *
+   * @param string         $path
+   * @param callable|array $handler Handler function or [Controller, method]
+   */
+  public static function post($path, $handler): self {
+    self::addRoute('POST', $path, $handler);
+
+    return new self();
   }
 
-  public static function getInstance(): static
-  {
-    if (!isset(self::$instance)) {
-      self::$instance = new static();
-    }
-    return self::$instance;
+  private static function addRoute($method, $path, $handler) {
+    self::$routes[$method][$path] = $handler;
   }
 
-  public static function getRoute(string $method, string $path)
-  {
-    if (isset(self::$routes[$method][$path])) {
-      return [1, self::$routes[$method][$path], []];
-    }
-
-    foreach (self::$routes[$method] ?? [] as $route => $handler) {
-      if (strpos($route, '*') !== false || strpos($route, ':') === false) {
-        continue;
-      }
-
-      $pattern = preg_replace('#:([\w]+)#', '([^/]+)', $route);
-      $pattern = "#^$pattern$#";
-      if (preg_match($pattern, $path, $matches)) {
-        array_shift($matches);
-        preg_match_all('#:([\w]+)#', $route, $paramNames);
-        $paramNames = $paramNames[1];
-        $vars = array_combine($paramNames, $matches);
-        return [1, $handler, $vars ?: []];
-      }
-    }
-
-    foreach (self::$routes[$method] ?? [] as $route => $handler) {
-      if (substr($route, -2) === '/*') {
-        $base = rtrim(substr($route, 0, -2), '/');
-        if ($base === '' || strpos($path, $base) === 0) {
-          return [1, $handler, []];
-        }
-      }
-    }
-
-    return [0, null, []];
+  public static function getRoutes(): array {
+    return self::$routes;
   }
 }
 ```
 
-### Dependency Template Engine
-
-Create a simple template engine to render views.
-
-```php title="src/Core/Template.php"
-<?php
-
-namespace Framework\Core;
-
-class Template
-{
-  private static $instance = null;
-
-  protected string $extends = '';
-  protected array $sections = [];
-  protected array $resourceDeps = [];
-
-  public function __construct(
-    private string $templateDir,
-    private string $cacheDir,
-    private string $manifestPath,
-    private string $viteUrl,
-    private bool $isDev = false,
-  ) {
-    if (!is_dir($this->cacheDir)) {
-      if (!mkdir($this->cacheDir, 0775, true) && !is_dir($this->cacheDir)) {
-        throw new \RuntimeException(
-          "Cannot create cache directory: {$this->cacheDir}",
-        );
-      }
-    }
-  }
-
-  public static function create(
-    string $basePath,
-    string $viteUrl,
-    bool $isDev,
-  ): static {
-    if (self::$instance === null) {
-      self::$instance = new static(
-        $basePath . '/resources/views',
-        $basePath . '/.cache/views',
-        $basePath . '/public/build/.vite/manifest.json',
-        $viteUrl,
-        $isDev,
-      );
-    }
-    return self::$instance;
-  }
-
-  public static function getInstance(): static
-  {
-    if (self::$instance === null) {
-      throw new \RuntimeException('Template instance not created yet.');
-    }
-    return self::$instance;
-  }
-
-  public function render(string $template, array $data = []): string
-  {
-    $this->extends = '';
-    $content = $this->renderPartial($template, $data);
-    if (!empty($this->extends)) {
-      $content = $this->renderPartial($this->extends, $data);
-    }
-
-    return $content;
-  }
-
-  public function renderPartial(string $template, array $data = []): string
-  {
-    extract($data, EXTR_SKIP);
-
-    $cachedFile = $this->compile($template);
-    ob_start();
-    include $cachedFile;
-    return ob_get_clean();
-  }
-
-  private function compile(string $template): string
-  {
-    $templateFile =
-      $this->templateDir . '/' . str_replace('.', '/', $template) . '.tpl.php';
-    $cachedFile = $this->cacheDir . '/' . md5($templateFile) . '.php';
-
-    if (
-      !file_exists($cachedFile) ||
-      filemtime($cachedFile) < filemtime($templateFile)
-    ) {
-      if (file_exists($templateFile)) {
-        $content = file_get_contents($templateFile);
-        $parsed = $this->parse($content);
-        file_put_contents($cachedFile, $parsed);
-      } else {
-        echo 'could not find template file: ' . $templateFile;
-      }
-    }
-
-    return $cachedFile;
-  }
-
-  private function parse(string $content): string
-  {
-    /**
-     * @extends directive
-     *
-     * Usage:
-     *  - @extends('layout')
-     */
-    $content = preg_replace(
-      "/@extends\([\"'](.+?)[\"']\)/",
-      '<?php $this->extends = "$1" ?>',
-      $content,
-    );
-
-    /**
-     * @yield with optional default value
-     *
-     * Usage:
-     *  - @yield('section_name')
-     *  - @yield('section_name', 'default value')
-     */
-    $content = preg_replace_callback(
-      '/@yield\(\s*[\"\'](.+?)[\"\']\s*(?:,\s*[\"\'](.*?)[\"\'])?\s*\)/',
-      function ($matches) {
-        $name = $matches[1];
-        $default = isset($matches[2]) ? $matches[2] : '';
-        return '<?php echo $this->sections["' .
-          $name .
-          '"] ?? "' .
-          addslashes($default) .
-          '"; ?>';
-      },
-      $content,
-    );
-
-    /**
-     * @section directive
-     *
-     * Usage:
-     *  - @section('section_name')
-     *  - @endsection
-     */
-    $content = preg_replace(
-      "/@section\([\"'](.+?)[\"']\)/",
-      '<?php ob_start(); $name = "$1"; ?>',
-      $content,
-    );
-    $content = preg_replace(
-      '/@endsection/',
-      '<?php $this->sections[$name] = ob_get_clean(); ?>',
-      $content,
-    );
-
-    /**
-     * @include directive
-     *
-     * Usage:
-     *  - @include('partial')
-     *  - @include('partial', ['var' => $value])
-     */
-    $content = preg_replace_callback(
-      "/@include\(\s*['\"]([^'\"\)]+)['\"]\s*(?:,\s*(\[.*?\]))?\s*\)/s",
-      function ($matches) {
-        $view = $matches[1];
-        $props = $matches[2] ?? '[]';
-        return "<?php echo \$this->renderPartial('{$view}', {$props}); ?>";
-      },
-      $content,
-    );
-
-    /**
-     * {{ $variable }} syntax for escaping variables
-     */
-    $content = preg_replace(
-      '/\{\{\s*(.+?)\s*\}\}/',
-      '<?php echo htmlspecialchars($1); ?>',
-      $content,
-    );
-
-    /**
-     * {{!! $variable !!}} syntax for unescaped variables
-     */
-    $content = preg_replace(
-      '/\{\{\!\!\s*(.+?)\s*\!\!\}\}/',
-      '<?php echo $1; ?>',
-      $content,
-    );
-
-    /**
-     * @foreach directive
-     *
-     * Usage:
-     *  - @foreach($items as $item)
-     *  - @endforeach
-     */
-    $content = preg_replace(
-      '/@foreach\s*\((.+?)\)/',
-      '<?php foreach($1): ?>',
-      $content,
-    );
-    $content = preg_replace('/@endforeach/', '<?php endforeach; ?>', $content);
-
-    /**
-     * @if directive
-     *
-     * Usage:
-     *  - @if($condition)
-     *  - @elseif($anotherCondition)
-     *  - @else
-     *  - @endif
-     */
-    $content = preg_replace('/@if\s*\((.+?)\)/', '<?php if($1): ?>', $content);
-    $content = preg_replace(
-      '/@elseif\s*\((.+?)\)/',
-      '<?php elseif($1): ?>',
-      $content,
-    );
-    $content = preg_replace('/@else/', '<?php else: ?>', $content);
-    $content = preg_replace('/@endif/', '<?php endif; ?>', $content);
-
-    /**
-     * @vite directive for Vite asset management
-     *
-     * Usage:
-     *  - Development mode:
-     *       @vite
-     *         -> <script type="module" src="http://[::0]:5173/@vite/client"></script>
-     *       @vite(['resources/js/app.js', 'resources/css/app.css'])
-     *         -> <script type="module" src="http://[::0]:5173/resources/js/app.js"></script>
-     *         -> <link rel="stylesheet" href="http://[::0]:5173/resources/css/app.css">
-     *
-     *   - Production mode:
-     *       @vite
-     *         -> (no output)
-     *       @vite(['resources/js/app.js', 'resources/css/app.css'])
-     *         -> <script type="module" src="/build/app-somehash.js"></script>
-     *         -> <link rel="stylesheet" href="/build/app-somehash.css">
-     *
-     * Supports .js, .ts, .jsx, .tsx for scripts and .css, .sass, .scss, .less, .styl for styles.
-     */
-    $content = preg_replace_callback(
-      '/@vite(?!ReactRefresh)(?:\(\s*\[([^]]*)\]\s*\))?/',
-      function ($matches) {
-        if (empty($matches[1])) {
-          if ($this->isDev) {
-            return "<?php echo '<script type=\"module\" src=\"' . \$this->viteUrl . '/@vite/client\"></script>'; ?>";
-          } else {
-            return '';
-          }
-        }
-
-        $assets = array_map(
-          'trim',
-          explode(',', str_replace(['"', "'"], '', $matches[1])),
-        );
-
-        if ($this->isDev) {
-          $tags = [];
-          foreach ($assets as $asset) {
-            if (preg_match('/\.(js|ts|jsx|tsx)$/i', $asset)) {
-              $tags[] = "<?php echo '<script type=\"module\" src=\"' . \$this->viteUrl . '/' . '$asset' . '\"></script>'; ?>";
-            } elseif (preg_match('/\.(css|sass|scss|less|styl)$/i', $asset)) {
-              $tags[] = "<?php echo '<link rel=\"stylesheet\" href=\"' . \$this->viteUrl . '/' . '$asset' . '\">'; ?>";
-            }
-          }
-          return implode("\n", $tags);
-        }
-
-        if (!file_exists($this->manifestPath)) {
-          throw new \RuntimeException(
-            "Vite manifest file not found: {$this->manifestPath}",
-          );
-        }
-
-        $manifest = json_decode(file_get_contents($this->manifestPath), true);
-        $tags = [];
-        foreach ($assets as $asset) {
-          if (!isset($manifest[$asset])) {
-            throw new \RuntimeException(
-              "Vite asset not found in manifest: $asset",
-            );
-          }
-          $entry = $manifest[$asset];
-          $file = $entry['file'];
-          if (preg_match('/\.(js|ts|jsx|tsx)$/i', $asset)) {
-            $tags[] = "<?php echo '<script type=\"module\" src=\"/build/$file\"></script>'; ?>";
-          } elseif (preg_match('/\.(css|sass|scss|less|styl)$/i', $asset)) {
-            $tags[] = "<?php echo '<link rel=\"stylesheet\" href=\"/build/$file\">'; ?>";
-          }
-        }
-        return implode("\n", $tags);
-      },
-      $content,
-    );
-
-    /**
-     * @viteReactRefresh directive
-     *
-     * Usage:
-     *   - Development mode:
-     *       @viteReactRefresh
-     *         -> react-refresh preamble
-     *   - Production mode:
-     *       @viteReactRefresh
-     *         -> (no output)
-     */
-    $content = preg_replace_callback(
-      '/@viteReactRefresh/',
-      function () {
-        if ($this->isDev) {
-          return <<<HTML
-          <script type="module">
-            import RefreshRuntime from "<?php echo \$this->viteUrl; ?>/@react-refresh"
-            RefreshRuntime.injectIntoGlobalHook(window)
-            window.\$RefreshReg$ = () => {}
-            window.\$RefreshSig$ = () => (type) => type
-            window.__vite_plugin_react_preamble_installed__ = true
-          </script>
-          HTML;
-        }
-        return '';
-      },
-      $content,
-    );
-
-    return $content;
-  }
-}
-```
-
-### Implementing Database Connection (Optional)
+### Implementing Database Connection
 
 Create a simple database connection class using PDO.
 
-```php title="src/Core/Database.php"
+```php title="src/Kernel/Database.php"
 <?php
 
-namespace Framework\Core;
+declare(strict_types=1);
+
+namespace Core\Kernel;
 
 class Database
 {
-  private \PDO $pdo;
-  private static ?Database $instance = null;
+  private static $instance;
+  private \PDO $connection;
 
-  private function __construct(array $config)
-  {
-    $dsn = "mysql:host={$config['host']};port={$config['port']};dbname={$config['name']}";
-    $username = $config['username'] ?? '';
-    $password = $config['password'] ?? '';
-    $options = $config['options'] ?? [];
-
-    try {
-      $this->pdo = new \PDO($dsn, $username, $password, $options);
-      $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-    } catch (\PDOException $e) {
-      error_log('Database connection failed: ' . $e->getMessage());
-    }
+  private function __construct(array $config) {
+    $dsn = "{$config['driver']}:host={$config['host']};port={$config['port']};dbname={$config['name']};charset=utf8mb4";
+    $this->connection = new \PDO($dsn, $config['user'], $config['password']);
+    $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
   }
 
-  public static function connect(array $config): Database
-  {
-    if (self::$instance === null) {
-      self::$instance = new Database($config);
+  public static function connect(array $config): static {
+    if (null === self::$instance) {
+      self::$instance = new self($config);
     }
+
     return self::$instance;
   }
 
-  public static function pdo(): ?\PDO
-  {
-    return self::$instance->pdo ?? null;
+  public static function getInstance(): \PDO {
+    if (null === self::$instance) {
+      throw new \Exception('Database instance not created. Call createInstance() first.');
+    }
+
+    return self::$instance->connection;
+  }
+}
+```
+
+### Container for Dependency Injection
+
+Create a simple service container for managing dependencies.
+
+```php title="src/Kernel/Container.php"
+<?php
+
+declare(strict_types=1);
+
+namespace Core\Kernel;
+
+class Container
+{
+  protected array $bindings = [];
+
+  public function bind(string $abstract, string $concrete): void {
+    $this->bindings[$abstract] = $concrete;
+  }
+
+  public function make(string $class, array $parameters = []) {
+    if (isset($this->bindings[$class])) {
+      $class = $this->bindings[$class];
+    }
+
+    $reflector = new \ReflectionClass($class);
+
+    if (!$reflector->isInstantiable()) {
+      throw new \Exception("Class {$class} is not instantiable");
+    }
+
+    $constructor = $reflector->getConstructor();
+
+    if (!$constructor) {
+      return new $class();
+    }
+
+    $params = $constructor->getParameters();
+    $dependencies = $this->resolveParameters($params, $parameters);
+
+    return $reflector->newInstanceArgs($dependencies);
+  }
+
+  public function call($instance, string $method, array $manual = []) {
+    $reflector = new \ReflectionMethod($instance, $method);
+    $params = $reflector->getParameters();
+    $dependencies = $this->resolveParameters($params, $manual);
+
+    return $reflector->invokeArgs($instance, $dependencies);
+  }
+
+  protected function resolveParameters(array $params, array $manual = []): array {
+    $resolved = [];
+
+    foreach ($params as $param) {
+      $type = $param->getType();
+      $name = $param->getName();
+
+      if ($type && !$type->isBuiltin()) {
+        $resolved[] = $this->make($type->getName());
+      } elseif (isset($manual[$name])) {
+        $resolved[] = $manual[$name];
+      } elseif ($param->isDefaultValueAvailable()) {
+        $resolved[] = $param->getDefaultValue();
+      } else {
+        throw new \Exception("Cannot resolve parameter {$name}");
+      }
+    }
+
+    return $resolved;
   }
 }
 ```
@@ -837,91 +449,199 @@ Create an `Application` class to bootstrap the framework.
 ```php title="src/Application.php"
 <?php
 
-namespace Framework;
+declare(strict_types=1);
 
-use Framework\Core\Database;
-use Framework\Core\Router;
-use Framework\Core\Template;
-use Framework\Http\HttpError;
-use Framework\Http\Request;
-use Framework\Http\Response;
+namespace Core;
+
+use Core\Http\{Request,Response};
+use Core\Kernel\{Container, Database, Router};
 
 class Application
 {
-  public function __construct(private string $basePath)
-  {
-    $config = require_once $basePath . '/app/config.php';
+  private string $basePath;
+  private array $config;
 
-    if ($config['database']['enabled']) {
-      Database::connect($config['database']);
-    }
+  protected Container $container;
+  protected Request $request;
 
-    Template::create(
-      $basePath,
-      $config['vite_url'],
-      $config['env'] === 'development',
-    );
+  public function __construct(string $basePath) {
+    $this->basePath = rtrim($basePath, '/');
 
-    $this->loadRoutes();
+    $this->loadEnv();
+    $this->config = getConfig();
+    Database::connect($this->config['database']);
   }
 
-  public function run()
-  {
-    $request = Request::create();
-    [$found, $handler, $vars] = Router::getRoute(
-      $request->getMethod(),
-      $request->getUri(),
-    );
+  public function register(callable $callback): self {
+    $this->container = new Container();
+    call_user_func($callback, $this->container);
 
-    if (!$found) {
-      return HttpError::notFound()->send();
+    return $this;
+  }
+
+  public function run(): void {
+    require_once $this->basePath.'/app/routes.php';
+
+    $this->request = new Request($_GET, $_POST, $_SERVER);
+    $routes = Router::getRoutes();
+
+    $method = $this->request->method();
+    $uri = parse_url($this->request->uri(), PHP_URL_PATH);
+    if ('/' !== $uri && '/' === substr($uri, -1)) {
+      $uri = rtrim($uri, '/');
     }
 
-    try {
-      if (is_callable($handler)) {
-        $response = call_user_func($handler, $vars);
-      } elseif (is_array($handler) && count($handler) === 2) {
-        [$controller, $method] = $handler;
-        $controller = new $controller();
-        $controller->setRequest($request);
-
-        if (method_exists($controller, $method)) {
-          $response = call_user_func_array([$controller, $method], $vars);
-        } else {
-          $response = HttpError::notFound('Method Not Found');
+    if (isset($routes[$method][$uri])) {
+      $response = $this->dispatch($routes[$method][$uri]);
+    } else {
+      foreach ($routes[$method] as $routePattern => $handler) {
+        $pattern = preg_replace('#:([\w]+)#', '(?P<$1>[^/]+)', $routePattern);
+        $pattern = '#^'.$pattern.'$#';
+        if (preg_match($pattern, $uri, $matches)) {
+          $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
+          $response = $this->dispatch($handler, $params);
         }
-      } else {
-        $response = HttpError::forbidden('Invalid Handler');
-      }
-
-      if (!$response instanceof Response && !$response instanceof HttpError) {
-        $response = new Response($response);
-      }
-    } catch (\Throwable $e) {
-      error_log('Error: ' . $e->getMessage());
-      if ($e instanceof HttpError) {
-        $response = $e;
-      } else {
-        $response = HttpError::serverError(
-          'Internal Server Error',
-          $e->getMessage(),
-        );
       }
     }
 
+    if (!$response instanceof Response) {
+      $response = new Response($response);
+    }
+    $this->setCorsHeaders();
     $response->send();
   }
 
-  private function loadRoutes()
-  {
-    $routesDir = $this->basePath . '/routes';
-    $files = scandir($routesDir);
-    foreach ($files as $file) {
-      if (pathinfo($file, PATHINFO_EXTENSION) === 'php') {
-        require_once $routesDir . '/' . $file;
+  private function dispatch(callable|array $handler, array $params = []): Response {
+    $response = Response::json(['message' => 'Not Found'], 404);
+
+    if (is_callable($handler)) {
+      $response = call_user_func($handler, $this->request, ...array_values($params));
+    } elseif (is_array($handler) && 2 === count($handler)) {
+      if (!is_subclass_of($handler[0], Abstract\Controller::class)) {
+        $response = Response::json(['message' => 'Controller Not Found'], 404);
+      } else {
+        $controller = $this->container->make($handler[0], [
+          'request' => $this->request,
+          'basePath' => $this->basePath,
+        ]);
+
+        if (!method_exists($controller, $handler[1])) {
+          $response = Response::json(['message' => 'Method Not Found'], 404);
+        } else {
+          $response = $this->container->call($controller, $handler[1], $params);
+        }
+      }
+    }
+
+    return $response;
+  }
+
+  private function loadEnv(string $envPath = '.env'): void {
+    $envFile = $this->basePath.DIRECTORY_SEPARATOR.$envPath;
+    if (!file_exists($envFile)) {
+      return;
+    }
+
+    $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+      if (0 === strpos(trim($line), '#')) {
+        continue;
+      }
+      list($key, $value) = explode('=', $line, 2);
+      $key = trim($key);
+      $value = trim($value, "\"'");
+      if (!getenv($key)) {
+        putenv("{$key}={$value}");
       }
     }
   }
+
+  private function setCorsHeaders(): void {
+    $corsConfig = $this->config['cors'] ?? [];
+    $allowedOrigins = $corsConfig['allowed_origins'] ?? [];
+    $allowedMethods = $corsConfig['allowed_methods'] ?? [];
+    $allowedHeaders = $corsConfig['allowed_headers'] ?? [];
+    $allowCredentials = $corsConfig['allow_credentials'] ?? false;
+
+    header('Access-Control-Allow-Origin: '.implode(',', $allowedOrigins));
+    header('Access-Control-Allow-Methods: '.implode(',', $allowedMethods));
+    header('Access-Control-Allow-Headers: '.implode(',', $allowedHeaders));
+    if ($allowCredentials) {
+      header('Access-Control-Allow-Credentials: true');
+    }
+  }
+}
+```
+
+#### Helpers functions
+
+Create a `helpers.php` file for utility functions.
+
+```php title="src/helpers.php"
+<?php
+
+function createId(): string {
+  $timestamp = base_convert((string) floor(microtime(true) * 1000), 10, 36);
+  $random = substr(bin2hex(random_bytes(8)), 0, 23 - strlen($timestamp));
+
+  return 'c'.str_pad($timestamp, 8, '0', STR_PAD_LEFT).$random;
+}
+
+function getConfig() {
+  $configPath = dirname(__DIR__).'/app/config.php';
+  if (!file_exists($configPath)) {
+    throw new Exception("Configuration file not found at {$configPath}");
+  }
+
+  return require $configPath;
+}
+
+function vite_entry_client() {
+  $config = getConfig();
+  if ('production' === $config['app']['env']) {
+    return '';
+  }
+
+  return '<script type="module" src="'.$config['app']['viteUrl'].'/@vite/client"></script>';
+}
+
+function vite_entry_script(string $entryName, string $ext = 'ts'): string {
+  $config = getConfig();
+
+  $jsPath = $config['app']['viteUrl'].'/resources/js/'.$entryName.'.'.$ext;
+  if ('production' === $config['app']['env']) {
+    $manifest = getManifest();
+    $jsPath = '/build/'.$manifest['resources/js/'.$entryName]['file'];
+  }
+
+  return '<script type="module" src="'.$jsPath.'"></script>';
+}
+
+function vite_entry_link(string $entryName, string $ext = 'css'): string {
+  $config = getConfig();
+
+  $cssPath = $config['app']['viteUrl'].'/resources/css/'.$entryName.'.'.$ext;
+  if ('production' === $config['app']['env']) {
+    $manifest = getManifest();
+    $cssPath = '/build/'.$manifest['resources/js/'.$entryName]['css'][0];
+  }
+
+  return '<link rel="stylesheet" href="'.$cssPath.'">';
+}
+
+function getManifest(): array {
+  $manifestPath = dirname(__DIR__).'/public/build/.vite/manifest.json';
+  if (!file_exists($manifestPath)) {
+    throw new Exception("Vite manifest file not found at {$manifestPath}");
+  }
+
+  $manifest = json_decode(file_get_contents($manifestPath), true);
+  $newManifest = [];
+  foreach ($manifest as $key => $value) {
+    $newManifest[preg_replace('/\.[^.\/]+$/', '', $key)] = $value;
+  }
+
+  return $newManifest;
 }
 ```
 
@@ -930,56 +650,26 @@ class Application
 Create a `vite.config.ts` file in the root directory.
 
 ```ts title="vite.config.ts"
-import fs from 'node:fs'
-import path from 'node:path'
-import { defineConfig } from 'vite'
+import { defineConfig } from "vite";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
+  plugins: [tailwindcss()],
+
   build: {
-    outDir: 'public/build',
-    assetsDir: '.',
-    manifest: true,
+    outDir: "public/build",
     copyPublicDir: false,
-    modulePreload: { resolveDependencies: (dep) => [`build/${dep}`] },
-    rollupOptions: { input: getInputs() },
+    manifest: true,
+    rollupOptions: {
+      input: { main: "resources/js/main.ts" },
+    },
   },
-})
-
-function getInputs() {
-  const inputs: Record<string, string> = {}
-
-  function scan(dir: string, exts: string[]) {
-    const absDir = path.resolve(__dirname, dir)
-    if (!fs.existsSync(absDir)) return
-
-    for (const file of fs.readdirSync(absDir)) {
-      const ext = path.extname(file)
-      if (exts.includes(ext)) {
-        const name = path.basename(file, ext)
-        inputs[name] = path.join(absDir, file)
-      }
-    }
-  }
-
-  scan('resources/js', ['.js', '.jsx', '.ts', '.tsx'])
-  scan('resources/css', ['.css', '.scss', '.sass', '.less'])
-
-  return inputs
-}
+});
 ```
 
 ## Defining Routes
 
 Routes act as the map of your application: they determine how incoming HTTP requests (like visiting `/`, `/about`, or `/user/123`) are dispatched to controllers or closures. In our framework, the Router listens to the request’s URI and method (GET, POST, etc.) and matches it with the defined routes.
-
-### Views & Layouts
-
-We’re using a simple templating approach (with Blade-like directives such as `@extends`, `@yield`, and `@include`) to keep HTML pages clean and reusable:
-
-- [`_layout.tpl.php`](https://github.com/tiesen243/hatshepsut/blob/main/resources/views/routes/_layout.tpl.php) → The base HTML structure (meta tags, fonts, assets, header, etc.).
-- [`index.tpl.php`](https://github.com/tiesen243/hatshepsut/blob/main/resources/views/routes/index.tpl.php) → A child view extending the layout, injecting custom scripts and page content.
-
-This separation makes it easy to keep a consistent UI across the whole app.
 
 ### Controller Example
 
@@ -988,16 +678,17 @@ Our `HomeController` is a simple example:
 
 ```php title="app/Controllers/HomeController.php"
 <?php
+namespace App\Controller;
 
-namespace App\Controllers;
-
-use Framework\Core\Controller;
+use Core\Abstract\Controller;
+use Core\Http\Response;
 
 class HomeController extends Controller
 {
-  public function index()
-  {
-    return $this->view('routes.index');
+  public function index(): Response {
+    return $this->render('home/index', [
+      'title' => 'Home Page',
+    ]);
   }
 }
 ```
@@ -1008,27 +699,19 @@ Instead of echoing HTML directly, controllers return a view, which the framework
 
 The `routes/web.php` file is where you register your routes:
 
-```php title="routes/web.php"
+```php title="app/routes.php"
 <?php
 
-use App\Controllers\HomeController;
-use Framework\Core\Router;
+use Core\Kernel\Router;
 
-$router = Router::getInstance();
+Router::get('/', [App\Controller\HomeController::class, 'index']);
 
-$router->get('/', [HomeController::class, 'index']);
-
-$router->get('/about', function () {
-  return 'This is the about page.';
-});
-
-$router->get('/user/:id', function ($vars) {
-  return 'User ID: ' . htmlspecialchars($vars['id']);
+Router::get('/user/:id', function ($id) {
+  return "User ID: {$id}";
 });
 ```
 
 - `/` → Calls `HomeController@index`
-- `/about` → Returns a simple string response
 - `/user/:id` → Demonstrates dynamic route parameters (e.g. /user/42)
 
 ## Bootstrapping the Application
@@ -1038,18 +721,28 @@ Finally, the `public/index.php` file is our entry point. It loads environment va
 ```php title="public/index.php"
 <?php
 
-use Framework\Application;
-use Framework\Core\Env;
+declare(strict_types=1);
 
-require_once __DIR__ . '/../vendor/autoload.php';
+$basePath = dirname(__DIR__);
 
-Env::load(__DIR__ . '/../.env');
+require_once $basePath.'/vendor/autoload.php';
+require_once $basePath.'/src/helpers.php';
 
-$app = new Application(__DIR__ . '/..');
-$app->run();
+session_start();
+$application = new Core\Application($basePath);
+$application->register(function (Core\Kernel\Container $container) {
+  $container->bind(
+    App\Contract\Repository\IPostRepository::class,
+    App\Repository\PostRepository::class
+  );
+  $container->bind(
+    App\Contract\Repository\IUserRepository::class,
+    App\Repository\UserRepository::class
+  );
+})->run();
 ```
 
 ## Conclusion
 
 And there you have it! A minimal PHP framework that covers the essentials: routing, controllers, dependency injection, error handling, and application bootstrapping. From here, you can expand this foundation by adding features like middleware, authentication, database ORM, caching, and more.
-Feel free to explore the complete code on [GitHub](https://github.com/tiesen243/hatshepsut)
+Feel free to explore the complete code on [GitHub](https://github.com/tiesen243/mizuki)
