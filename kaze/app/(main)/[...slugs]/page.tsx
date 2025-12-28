@@ -48,7 +48,7 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
         </div>
       )}
 
-      <InlineTOC items={toc} />
+      <InlineTOC items={toc} suppressHydrationWarning />
 
       <hr className='my-4' />
 
