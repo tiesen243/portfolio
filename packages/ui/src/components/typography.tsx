@@ -13,7 +13,7 @@ const typographyVariants = cva('text-base font-normal', {
   variants: {
     variant: {
       blockquote:
-        'my-2 border-l-2 pl-6 italic before:content-["“"] after:content-["”"]',
+        'my-2 inline-flex border-l-2 pl-6 italic before:content-["“"] after:content-["”"]',
       caption: 'block text-sm tracking-wide',
       code: 'relative w-fit border border-accent rounded-sm bg-accent/40 text-accent-foreground px-[0.3rem] py-[0.2rem] font-mono text-sm font-medium',
       h1: 'my-8 scroll-m-20 text-4xl font-extrabold tracking-tight text-balance',

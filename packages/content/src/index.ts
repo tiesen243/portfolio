@@ -10,7 +10,6 @@ import {
   remarkHeading,
   remarkImage,
   remarkNpm,
-  remarkSteps,
   remarkStructure,
 } from 'fumadocs-core/mdx-plugins'
 import { cache } from 'react'
@@ -39,7 +38,6 @@ const compileMDX = createCompiler({
       } satisfies RemarkImageOptions,
     ],
     remarkNpm,
-    remarkSteps,
     remarkStructure,
   ],
 })

@@ -1,6 +1,6 @@
 ---
-title: Build Your Own PHP Framework
-description: Learn how to create a minimal PHP framework from scratch, covering routing, controllers, dependency injection, error handling, and application bootstrapping.
+title: Building a Minimal PHP Framework from Scratch
+description: A hands-on guide to understanding how PHP frameworks work by building your own—from routing and controllers to dependency injection and application bootstrapping.
 tags:
   - PHP
   - Framework
@@ -9,21 +9,28 @@ tags:
 publishedAt: 2025-12-28
 ---
 
-Most developers rely on frameworks like Laravel or Symfony, but have you ever wondered how they actually work under the hood?
+Most PHP developers rely on powerful frameworks like Laravel or Symfony to ship features quickly. They handle routing, dependency injection, templating, database access, and much more—often with a single command.
 
-In this guide, we’ll walk step by step through building a minimal PHP framework from scratch. You’ll learn the fundamentals of:
+But sooner or later, a question shows up:
 
-- Handling requests and responses
-- Defining routes
-- Creating controllers
-- Managing templates
+> How do PHP frameworks actually work under the hood?
+
+In this article, we’ll answer that question by building a minimal PHP framework from scratch.
+Not to compete with Laravel—but to understand it.
+
+You’ll implement the core concepts shared by almost every modern PHP framework:
+
+- Handling HTTP requests and responses
+- Defining routes and dispatching controllers
+- Rendering views
+- Managing dependencies
 - Bootstrapping the application
 
-By the end, you’ll have a working, lightweight foundation that you can extend into your own framework.
+By the end, you’ll have a lightweight, extensible foundation and a much clearer mental model of what frameworks really do.
 
-## Setting Up the Project
+## 1. Setting Up the Project
 
-Create a new directory and initialize Composer:
+Let’s begin with a clean project and initialize Composer:
 
 ```bash
 mkdir my-php-framework
@@ -31,13 +38,13 @@ cd my-php-framework
 composer init
 ```
 
-For convenience in development, install:
+For modern frontend development, we’ll use Vite and Tailwind CSS:
 
 ```package-install
 -d vite tailwindcss @tailwindcss/vite
 ```
 
-Update `composer.json` with autoloading and scripts:
+Next, configure autoloading so PHP can resolve classes automatically:
 
 ```json title="composer.json"
 {
@@ -51,13 +58,13 @@ Update `composer.json` with autoloading and scripts:
 }
 ```
 
-Install dependencies:
+Install dependencies and generate the autoloader:
 
 ```bash
 composer install
 ```
 
-Now create this structure:
+Now create the following directory structure:
 
 ```text
 .
@@ -94,16 +101,15 @@ Now create this structure:
 └── vite.config.ts
 ```
 
-## Building the Framework
+This layout separates application code, framework core, public entry point, and assets, just like a real-world framework.
 
-### Handling Requests and Responses
+## 2. Building the Framework
 
-The request/response cycle is the heart of any framework.
+### 2.1. Handling Requests and Responses
 
-- `Request` wraps superglobals (`$_SERVER`, `$_GET`, `$\_POST, etc.)
-- `Response` handles status codes, headers, and output
+At the heart of every framework is the request–response cycle.
 
-1. Create a `Request` class to encapsulate HTTP request data.
+Instead of working directly with PHP superglobals, we wrap them in a `Request` object:
 
 ```php title="src/Http/Request.php"
 <?php
@@ -148,7 +154,7 @@ class Request
 }
 ```
 
-2. Create a `Response` class to manage HTTP responses.
+To send data back to the client, we introduce a `Response` class:
 
 ```php title="src/Http/Response.php"
 <?php
@@ -189,9 +195,13 @@ class Response
 }
 ```
 
-### Implementing Controllers
+This gives us a clean and consistent API for HTML, JSON, and redirects.
 
-Create a base `Controller` class that other controllers will extend.
+### 2.2. Controllers
+
+Controllers coordinate request handling and response generation.
+
+We define a base controller that provides shared utilities like rendering views, returning JSON, redirects, and flash messages:
 
 ```php title="src/Abstract/Controller.php"
 <?php
@@ -281,9 +291,17 @@ abstract class Controller
 }
 ```
 
-### Implementing Router
+This keeps application controllers small, readable, and focused on business logic.
 
-Create a `Router` class to handle routing logic.
+### 2.3. Routing
+
+Routing maps incoming requests to handlers.
+
+Our router supports:
+
+- HTTP method-based routing
+- Controller actions
+- Dynamic parameters like `/user/:id`
 
 ```php title="src/Kernel/Router.php"
 <?php
@@ -329,9 +347,11 @@ class Router
 }
 ```
 
-### Implementing Database Connection
+Despite its simplicity, this router already behaves like those found in full frameworks.
 
-Create a simple database connection class using PDO.
+### 2.4. Database Connection
+
+We use PDO and wrap it in a small database manager:
 
 ```php title="src/Kernel/Database.php"
 <?php
@@ -369,9 +389,11 @@ class Database
 }
 ```
 
-### Container for Dependency Injection
+This centralizes database access and ensures a single shared connection.
 
-Create a simple service container for managing dependencies.
+### 2.5. Dependency Injection Container
+
+To avoid tight coupling, we implement a simple dependency injection container using PHP reflection:
 
 ```php title="src/Kernel/Container.php"
 <?php
@@ -442,9 +464,11 @@ class Container
 }
 ```
 
-### Application Bootstrapping Helper
+The container automatically resolves constructor dependencies and method parameters—one of the most important features of modern frameworks.
 
-Create an `Application` class to bootstrap the framework.
+### 2.6. Application Bootstrapping
+
+The `Application` class ties everything together:
 
 ```php title="src/Application.php"
 <?php
@@ -573,7 +597,51 @@ class Application
 }
 ```
 
-#### Helpers functions
+Its responsibilities include:
+
+- Loading environment variables
+- Initializing configuration and database
+- Resolving routes
+- Dispatching controllers
+- Sending the final response
+
+This is effectively the kernel of the framework.
+
+#### 2.6.1. Config File
+
+Create a `config.php` file in the `app` directory.
+
+```php title="app/config.php"
+<?php
+
+return [
+  'app' => [
+    'name' => getenv('APP_NAME') ?: '',
+    'description' => getenv('APP_DESCRIPTION') ?: '',
+    'env' => getenv('APP_ENV') ?: 'development',
+    'url' => getenv('APP_URL') ?: '',
+    'viteUrl' => 'http://[::1]:5173',
+  ],
+
+  'cors' => [
+    'allowed_origins' => explode(',', getenv('CORS_ALLOWED_ORIGINS') ?: '*'),
+    'allowed_methods' => explode(',', getenv('CORS_ALLOWED_METHODS') ?: ''),
+    'allowed_headers' => explode(',', getenv('CORS_ALLOWED_HEADERS') ?: ''),
+    'allow_credentials' => filter_var(getenv('CORS_ALLOW_CREDENTIALS') ?: 'false', FILTER_VALIDATE_BOOLEAN),
+  ],
+
+  'database' => [
+    'driver' => 'mysql',
+    'host' => getenv('MYSQL_HOST') ?: '127.0.0.1',
+    'port' => getenv('MYSQL_PORT') ?: '3306',
+    'name' => getenv('MYSQL_DATABASE') ?: 'mizuki',
+    'user' => getenv('MYSQL_USER') ?: 'root',
+    'password' => getenv('MYSQL_PASSWORD') ?: '',
+  ],
+];
+```
+
+#### 2.6.2. Helpers functions
 
 Create a `helpers.php` file for utility functions.
 
@@ -645,7 +713,7 @@ function getManifest(): array {
 }
 ```
 
-### Config `Vite` for Asset Management
+#### 2.6.3. Config `Vite`
 
 Create a `vite.config.ts` file in the root directory.
 
@@ -667,14 +735,13 @@ export default defineConfig({
 });
 ```
 
-## Defining Routes
+## 3. Defining Routes and Controllers
 
 Routes act as the map of your application: they determine how incoming HTTP requests (like visiting `/`, `/about`, or `/user/123`) are dispatched to controllers or closures. In our framework, the Router listens to the request’s URI and method (GET, POST, etc.) and matches it with the defined routes.
 
-### Controller Example
+### 3.1. Defining Controllers and Routes
 
-Controllers are PHP classes that handle request logic.
-Our `HomeController` is a simple example:
+Controllers are PHP classes that handle request logic. Our `HomeController` is a simple example:
 
 ```php title="app/Controllers/HomeController.php"
 <?php
@@ -693,11 +760,7 @@ class HomeController extends Controller
 }
 ```
 
-Instead of echoing HTML directly, controllers return a view, which the framework renders.
-
-### Registering Routes
-
-The `routes/web.php` file is where you register your routes:
+The `app/routes.php` file is where you register your routes:
 
 ```php title="app/routes.php"
 <?php
@@ -714,9 +777,83 @@ Router::get('/user/:id', function ($id) {
 - `/` → Calls `HomeController@index`
 - `/user/:id` → Demonstrates dynamic route parameters (e.g. /user/42)
 
-## Bootstrapping the Application
+### 3.2. Client-side Assets with Vite & Tailwind
 
-Finally, the `public/index.php` file is our entry point. It loads environment variables, initializes the application, and runs the request/response cycle:
+To give your PHP framework a modern look and feel, you’ll want to add some client-side assets—namely CSS and JavaScript. We’ll use [Vite](https://vitejs.dev/) for lightning-fast development and [Tailwind CSS](https://tailwindcss.com/) for utility-first styling.
+
+First, create your main JavaScript entry point:
+
+```ts title="resources/js/main.ts"
+import "../css/main.css";
+```
+
+This imports your main stylesheet, which will be processed by Vite.
+
+Next, set up your main CSS file to use Tailwind and enable automatic class scanning for your PHP views:
+
+```css title="resources/css/main.css"
+@import "tailwindcss";
+@source "../views/**/*.php";
+```
+
+The `@import "tailwindcss";` line brings in Tailwind’s utilities, while `@source` tells Tailwind where to look for class names in your PHP view files, ensuring unused styles are purged in production.
+
+Now, update your main layout to include the necessary asset links and scripts. This layout will be used by all your views:
+
+```php title="resources/views/layouts/main.php"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- SEO -->
+    <title><?php
+      if (isset($title) && $title) {
+        echo $title.' | '.getConfig()['app']['name'];
+      } else {
+        echo getConfig()['app']['name'];
+      }
+    ?></title>
+    <meta name="description" content="<?php
+      if (isset($meta_description) && $meta_description) {
+        echo $meta_description;
+      } else {
+        echo getConfig()['app']['description'];
+      }
+    ?>">
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- vite -->
+    <?= vite_entry_client(); ?>
+    <?= vite_entry_script('main'); ?>
+    <?= vite_entry_link('main'); ?>
+  </head>
+
+  <body class="flex flex-col min-h-dvh antialiased font-sans">
+    <?= $content; ?>
+  </body>
+</html>
+```
+
+Finally, create a simple home view to test your setup:
+
+```php title="resources/views/app/home/index.php"
+<main>
+  <h1 class="text-4xl font-bold text-center mt-10">Welcome to My PHP Framework!</h1>
+</main>
+```
+
+## 4. Bootstrapping the Application
+
+Bootstrapping is the process of preparing and loading everything your application needs before it can handle a request. In modern PHP frameworks, this means setting up autoloaders, loading environment variables, initializing configuration, starting sessions, and wiring up dependencies.
+
+Let’s break down what happens in the `public/index.php` file—our application’s entry point:
 
 ```php title="public/index.php"
 <?php
@@ -735,14 +872,45 @@ $application->register(function (Core\Kernel\Container $container) {
     App\Contract\Repository\IPostRepository::class,
     App\Repository\PostRepository::class
   );
-  $container->bind(
-    App\Contract\Repository\IUserRepository::class,
-    App\Repository\UserRepository::class
-  );
 })->run();
 ```
 
-## Conclusion
+Now, start the built-in PHP server for testing:
 
-And there you have it! A minimal PHP framework that covers the essentials: routing, controllers, dependency injection, error handling, and application bootstrapping. From here, you can expand this foundation by adding features like middleware, authentication, database ORM, caching, and more.
-Feel free to explore the complete code on [GitHub](https://github.com/tiesen243/mizuki)
+```bash
+bunx --bun concurrently --prefix-colors=\"#646CFF,#777BB4\" \"vite\" \"php -S localhost:8000 -t public\" --names \"VITE,PHP\"
+```
+
+You can now visit `http://localhost:8000` in your browser to see your minimal PHP framework in action!
+
+## 5. Conclusion
+
+You’ve just built a minimal PHP framework that covers the essentials:
+
+- Request/response handling
+- Routing
+- Controllers
+- Dependency injection
+- Application bootstrapping
+
+From here, you can extend it with middleware, authentication, ORM layers, caching, or CLI tooling. Full source code available on [GitHub](https://github.com/tiesen243/mizuki)
+
+### 5.1. Where to Go Next
+
+Building your own framework is a powerful way to demystify how tools like Laravel, Symfony, or Slim work under the hood. Now that you have a working foundation, here are some ideas for taking your framework further:
+
+- **Middleware:** Add support for middleware to handle cross-cutting concerns like authentication, logging, or CORS. Middleware can be implemented as a stack that wraps around your controllers.
+- **Advanced Routing:** Implement route groups, named routes, or route model binding for more flexibility and maintainability.
+- **Template Engine:** Integrate a template engine like Twig or Blade for more expressive and reusable views.
+- **Validation:** Add a validation layer for incoming requests to ensure data integrity and provide user-friendly error messages.
+- **Authentication & Authorization:** Build a simple authentication system (login, registration, sessions) and add role-based access control.
+- **ORM Integration:** Replace raw PDO with an ORM like Eloquent or Doctrine to simplify database interactions and migrations.
+- **Testing:** Set up PHPUnit and write tests for your controllers, models, and routes to ensure your framework is robust and maintainable.
+- **CLI Tooling:** Create a CLI tool (using Symfony Console or similar) for tasks like migrations, seeding, or scaffolding new components.
+- **Error Handling:** Implement a global error handler and custom exception classes for better debugging and user feedback.
+- **Configuration Management:** Support multiple environments (development, staging, production) and environment-specific configuration files.
+- **API Support:** Add helpers for building RESTful APIs, including JSON responses, API versioning, and rate limiting.
+
+### 5.2. Final Thoughts
+
+By understanding and building each piece yourself, you gain a much deeper appreciation for the design decisions and trade-offs in popular frameworks. Even if you never use your own framework in production, this exercise will make you a better, more confident PHP developer.
