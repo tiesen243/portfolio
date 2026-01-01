@@ -1,7 +1,9 @@
+import type { MdxContent } from '@fumadocs/mdx-remote/client'
 import type { RemarkImageOptions } from 'fumadocs-core/mdx-plugins'
+import type { TableOfContents } from 'fumadocs-core/toc'
 
 import { createCompiler } from '@fumadocs/mdx-remote'
-import { frontmatterSchema } from '@yuki/validators/mdx'
+import { frontmatterSchema, type Frontmatter } from '@yuki/validators/mdx'
 import {
   rehypeToc,
   remarkCodeTab,
@@ -42,7 +44,13 @@ const compileMDX = createCompiler({
   ],
 })
 
-async function uncachedGetPage(slugs: string[]) {
+async function uncachedGetPage(slugs: string[]): Promise<{
+  MDXContent: MdxContent
+  frontmatter: Frontmatter
+  path: string
+  toc: TableOfContents
+  url: string
+} | null> {
   validateSlugs(slugs)
 
   const sourcePath = path.resolve(`../packages/content/`)
