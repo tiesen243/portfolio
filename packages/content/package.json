@@ -17,9 +17,9 @@
     "~dev": "tsdown --watch ./src"
   },
   "dependencies": {
-    "@fumadocs/mdx-remote": "^1.4.3",
+    "@fumadocs/mdx-remote": "^1.4.4",
     "@yuki/validators": "workspace:*",
-    "fumadocs-core": "^16.4.1"
+    "fumadocs-core": "^16.4.2"
   },
   "devDependencies": {
     "@types/node": "catalog:dev",
