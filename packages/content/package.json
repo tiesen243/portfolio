@@ -19,7 +19,7 @@
   "dependencies": {
     "@fumadocs/mdx-remote": "^1.4.4",
     "@yuki/validators": "workspace:*",
-    "fumadocs-core": "^16.4.2"
+    "fumadocs-core": "^16.4.4"
   },
   "devDependencies": {
     "@types/node": "catalog:dev",
