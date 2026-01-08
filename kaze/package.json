@@ -26,7 +26,7 @@
     "@types/react": "catalog:react",
     "@types/react-dom": "catalog:react",
     "@yuki/tsconfig": "workspace:*",
-    "shiki": "^3.20.0",
+    "shiki": "^3.21.0",
     "tailwindcss": "catalog:tailwind",
     "typescript": "catalog:dev"
   }
