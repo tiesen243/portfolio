@@ -14,11 +14,11 @@
     "@yuki/content": "workspace:*",
     "@yuki/ui": "workspace:*",
     "@yuki/validators": "workspace:*",
-    "fumadocs-ui": "^16.4.4",
+    "fumadocs-ui": "^16.4.5",
     "next": "^16.1.1",
     "react": "catalog:react",
     "react-dom": "catalog:react",
-    "resend": "^6.6.0"
+    "resend": "^6.7.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:tailwind",
