@@ -2,12 +2,14 @@ import { createEnv } from '@yuki/lib/create-env'
 import * as z from 'zod/mini'
 
 export const env = createEnv({
-  server: {
+  shared: {
     NODE_ENV: z._default(
       z.enum(['development', 'production', 'test']),
       'development',
     ),
+  },
 
+  server: {
     RESEND_TOKEN: z.string(),
 
     // Vercel environment variables
@@ -23,7 +25,5 @@ export const env = createEnv({
   runtimeEnv: process.env,
 
   skipValidation:
-    Boolean(process.env.SKIP_ENV_VALIDATION) ||
-    Boolean(process.env.CI) ||
-    process.env.npm_lifecycle_event === 'lint',
+    !!process.env.CI || process.env.npm_lifecycle_event === 'lint',
 })

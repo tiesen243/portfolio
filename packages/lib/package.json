@@ -14,9 +14,7 @@
     "typecheck": "tsc --noEmit",
     "~dev": "tsdown --watch"
   },
-  "dependencies": {
-    "zod": "catalog:prod"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "catalog:dev",
     "@yuki/tsconfig": "workspace:*",
