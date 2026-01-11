@@ -53,12 +53,12 @@ export function mdxComponents() {
     ),
     table: ({ ...props }: React.ComponentProps<'table'>) => (
       <Table
-        containerClassName='bg-card/20 my-4 text-card-foreground rounded-xl text-sm ring-1 ring-border shadow-sm'
+        containerClassName='my-4 bg-card/40 rounded-xl text-sm border'
         {...props}
       />
     ),
     thead: ({ ...props }: React.ComponentProps<'thead'>) => (
-      <TableHeader className='bg-card' {...props} />
+      <TableHeader className='bg-muted' {...props} />
     ),
     tbody: ({ ...props }: React.ComponentProps<'tbody'>) => (
       <TableBody {...props} />
@@ -66,12 +66,20 @@ export function mdxComponents() {
     tfoot: ({ ...props }: React.ComponentProps<'tfoot'>) => (
       <TableFooter {...props} />
     ),
-    tr: ({ ...props }: React.ComponentProps<'tr'>) => <TableRow {...props} />,
+    tr: ({ ...props }: React.ComponentProps<'tr'>) => (
+      <TableRow className='last:[&_td]:pb-4' {...props} />
+    ),
     th: ({ ...props }: React.ComponentProps<'th'>) => (
-      <TableHead className='border-r last:border-r-0' {...props} />
+      <TableHead
+        className='text-card-foreground border-r last:border-r-0 p-3'
+        {...props}
+      />
     ),
     td: ({ ...props }: React.ComponentProps<'td'>) => (
-      <TableCell className='border-r last:border-r-0' {...props} />
+      <TableCell
+        className='text-card-foreground border-r last:border-r-0 p-3'
+        {...props}
+      />
     ),
     Callout,
     Tabs,
