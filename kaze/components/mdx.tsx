@@ -37,7 +37,7 @@ export function mdxComponents() {
 
       return (
         <Comp
-          className='underline underline-offset-4 transition-colors hover:text-primary dark:hover:brightness-125'
+          className='underline underline-offset-4 transition-colors hover:text-primary'
           href={href as never}
           target={isExternal ? '_blank' : undefined}
           rel={isExternal ? 'noopener noreferrer' : undefined}

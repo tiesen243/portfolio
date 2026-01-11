@@ -18,7 +18,7 @@ export function AboutSection() {
             find me exploring new technologies or contributing to open-source
             projects.
           </Typography>
-          <Typography className='text-primary dark:brightness-125'>
+          <Typography className='text-primary'>
             Feel free to reach out if you want to collaborate or just chat about
             tech!
           </Typography>
@@ -56,44 +56,51 @@ export function AboutSection() {
         </div>
       </section>
 
-      <section id='certifications' className='container mt-12'>
+      <section
+        id='certifications'
+        className='container mt-12 flex flex-col gap-0'
+      >
         <Typography variant='h3'>Certifications</Typography>
 
         {basic.certifications.map((certification) => (
           <div
             key={certification.name}
-            className='relative border-l border-accent-foreground pb-6 pl-8 last:pb-0'
+            className='relative border-l border-primary ml-4 p-8 pt-0 last:pb-0'
           >
-            <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-accent-foreground' />
-            <Typography variant='h5' className='font-medium'>
+            <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-primary' />
+            <Typography variant='h5' className='-mt-2'>
               {certification.name}
             </Typography>
             <Typography className='text-muted-foreground'>
               Issued by {certification.issuer} on {certification.date}
             </Typography>
             <Typography>{certification.description}</Typography>
-            <a
-              href={certification.link}
-              className='text-sm hover:underline lg:text-base'
-              target='_blank'
-              rel='noopener noreferrer'
+            <Typography
+              render={
+                <a
+                  href={certification.link}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                />
+              }
+              className='hover:underline'
             >
               View Certificate
-            </a>
+            </Typography>
           </div>
         ))}
       </section>
 
-      <section id='education' className='container mt-12'>
+      <section id='education' className='container mt-12 flex flex-col gap-0'>
         <Typography variant='h2'>Educations</Typography>
 
         {basic.educations.map((education) => (
           <div
             key={education.school}
-            className='relative border-l border-accent-foreground pb-6 pl-8 last:pb-0'
+            className='relative border-l border-primary ml-4 p-8 pt-0 last:pb-0'
           >
-            <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-accent-foreground' />
-            <Typography variant='h5' className='font-medium'>
+            <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-primary' />
+            <Typography variant='h5' className='-mt-2'>
               {education.school}
             </Typography>
             <Typography className='text-muted-foreground'>
@@ -106,16 +113,16 @@ export function AboutSection() {
         ))}
       </section>
 
-      <section id='experience' className='container mt-12'>
+      <section id='experience' className='container mt-12 flex flex-col gap-0'>
         <Typography variant='h2'>Experiences</Typography>
 
         {basic.experiences.map((exp) => (
           <div
             key={exp.company}
-            className='relative border-l border-accent-foreground pb-6 pl-8 last:pb-0'
+            className='relative border-l border-primary ml-4 p-8 pt-0 last:pb-0'
           >
-            <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-accent-foreground' />
-            <Typography variant='h5' className='font-medium'>
+            <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-primary' />
+            <Typography variant='h5' className='-mt-2'>
               {exp.company}
             </Typography>
             <Typography className='text-muted-foreground'>
