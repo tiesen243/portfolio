@@ -3,8 +3,6 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
   "exports": {
     ".": "./dist/index.mjs",
@@ -18,8 +16,9 @@
   },
   "dependencies": {
     "@fumadocs/mdx-remote": "^1.4.4",
+    "@yuki/ui": "workspace:*",
     "@yuki/validators": "workspace:*",
-    "fumadocs-core": "^16.4.5"
+    "fumadocs-core": "^16.4.6"
   },
   "devDependencies": {
     "@types/node": "catalog:dev",

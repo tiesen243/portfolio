@@ -1,8 +1,15 @@
 'use client'
 
+import { mergeProps, useRender } from '@base-ui/react'
 import { useMediaQuery } from '@base-ui/react/unstable-use-media-query'
+import { ChevronRightIcon } from 'lucide-react'
 import * as React from 'react'
 
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/collapsible'
 import { useMounted } from '@/hooks/use-mounted'
 import { cn } from '@/utils'
 
@@ -15,14 +22,14 @@ const SidebarContext = React.createContext<{
   toggleSidebar: () => void
 } | null>(null)
 
-export const useSidebar = () => {
+const useSidebar = () => {
   const context = React.use(SidebarContext)
   if (!context)
     throw new Error('useSidebar must be used within a SidebarProvider')
   return context
 }
 
-export function SidebarProvider({ children }: { children: React.ReactNode }) {
+function SidebarProvider({ children }: { children: React.ReactNode }) {
   const isMobile = useMediaQuery('(max-width: 767px)', {
     defaultMatches: true,
   })
@@ -62,7 +69,7 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
   return <SidebarContext value={value}>{children}</SidebarContext>
 }
 
-export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
+function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
   const { open, setOpen, isMobile } = useSidebar()
 
   const isMounted = useMounted()
@@ -128,7 +135,7 @@ export function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
   )
 }
 
-export function SidebarInset({
+function SidebarInset({
   children,
   className,
   ...props
@@ -151,4 +158,63 @@ export function SidebarInset({
       {children}
     </div>
   )
+}
+
+function SidebarItem({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<'div'>) {
+  return useRender({
+    defaultTagName: 'div',
+    props: mergeProps(
+      {
+        className: cn(
+          'inline-flex items-center gap-2 rounded-md border border-transparent px-2 py-1 text-sm transition-colors hover:border-sidebar-accent hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground [&_svg]:size-4',
+          className,
+        ),
+      },
+      props,
+    ),
+    render,
+    state: {
+      slot: 'sidebar-item',
+    },
+  })
+}
+
+function SidebarSubItem({
+  title,
+  className,
+  ...props
+}: React.ComponentProps<typeof CollapsibleContent> & {
+  title: React.ReactElement
+}) {
+  return (
+    <Collapsible>
+      <CollapsibleTrigger className='group w-full inline-flex items-center gap-2 rounded-md border border-transparent px-2 py-1 text-sm transition-colors hover:border-sidebar-accent hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground [&_svg]:size-4'>
+        {title}
+
+        <div className='flex-1' />
+
+        <ChevronRightIcon className='group-data-panel-open:rotate-90 transition-[rotate] duration-200 ease-out' />
+      </CollapsibleTrigger>
+      <CollapsibleContent
+        {...props}
+        className={cn(
+          'ml-4 pl-2 border-l h-(--collapsible-panel-height) [&[hidden]:not([hidden="until-found"])]:hidden data-ending-style:h-0 data-starting-style:h-0 duration-200 ease-out flex flex-col gap-1',
+          className,
+        )}
+      />
+    </Collapsible>
+  )
+}
+
+export {
+  Sidebar,
+  SidebarProvider,
+  SidebarInset,
+  SidebarItem,
+  SidebarSubItem,
+  useSidebar,
 }

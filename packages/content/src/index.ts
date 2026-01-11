@@ -3,6 +3,7 @@ import type { RemarkImageOptions } from 'fumadocs-core/mdx-plugins'
 import type { TableOfContents } from 'fumadocs-core/toc'
 
 import { createCompiler } from '@fumadocs/mdx-remote'
+import { FolderKanbanIcon, HomeIcon, MailIcon, RssIcon } from '@yuki/ui/icons'
 import { frontmatterSchema, type Frontmatter } from '@yuki/validators/mdx'
 import {
   rehypeToc,
@@ -145,8 +146,75 @@ async function uncachedGetPages(contentType?: 'blogs' | 'projects') {
   }
 }
 
+async function uncachedGetPageTree(): Promise<
+  Array<
+    {
+      name: string
+      icon: React.ComponentType
+    } & (
+      | { type: 'page'; url: string }
+      | {
+          type: 'folder'
+          children: Array<{ name: string; type: 'page'; url: string }>
+        }
+    )
+  >
+> {
+  const blogsDir = path.resolve(`../packages/content/blogs`)
+  const projectsDir = path.resolve(`../packages/content/projects`)
+
+  const [blogs, projects] = await Promise.all([
+    fs.readdir(blogsDir).catch(() => []),
+    fs.readdir(projectsDir).catch(() => []),
+  ])
+
+  const blogChildren = blogs
+    .filter((file) => /\.(mdx?|MDX?)$/.test(file))
+    .map((file) => ({
+      name: file.replace(/\.mdx?$/i, '').replaceAll('-', ' '),
+      type: 'page' as const,
+      url: `/blogs/${file.replace(/\.mdx?$/i, '')}`,
+    }))
+
+  const projectChildren = projects
+    .filter((file) => /\.(mdx?|MDX?)$/.test(file))
+    .map((file) => ({
+      name: file.replace(/\.mdx?$/i, '').replaceAll('-', ' '),
+      type: 'page' as const,
+      url: `/projects/${file.replace(/\.mdx?$/i, '')}`,
+    }))
+
+  return [
+    {
+      name: 'Home',
+      type: 'page',
+      url: '/',
+      icon: HomeIcon,
+    },
+    {
+      name: 'Contact',
+      type: 'page',
+      url: '/contact',
+      icon: MailIcon,
+    },
+    {
+      name: 'Blogs',
+      type: 'folder',
+      icon: RssIcon,
+      children: blogChildren,
+    },
+    {
+      name: 'Projects',
+      type: 'folder',
+      icon: FolderKanbanIcon,
+      children: projectChildren,
+    },
+  ]
+}
+
 export const getPage = cache(uncachedGetPage)
 export const getPages = cache(uncachedGetPages)
+export const getPageTree = cache(uncachedGetPageTree)
 
 function validateSlugs(slugs: string[]): void {
   if (slugs.length === 0) throw new Error('Slugs array cannot be empty')

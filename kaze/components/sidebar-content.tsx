@@ -1,22 +1,20 @@
-import type { UrlObject } from 'node:url'
-
+import { getPageTree } from '@yuki/content'
 import {
   FacebookIcon,
-  FolderKanbanIcon,
   GithubIcon,
-  HomeIcon,
   LinkedinIcon,
-  MailIcon,
-  RssIcon,
   XFormerTwitterIcon,
 } from '@yuki/ui/icons'
+import { SidebarItem, SidebarSubItem } from '@yuki/ui/sidebar'
 import Image from 'next/image'
 import Link from 'next/link'
 
 import { ToggleTheme } from '@/components/toggle-theme'
 import Tiesen from '@/public/assets/logotype.png'
 
-export function SidebarContent() {
+export async function SidebarContent() {
+  const pageTree = await getPageTree()
+
   return (
     <>
       <figure className='border-b p-4'>
@@ -31,16 +29,41 @@ export function SidebarContent() {
       </figure>
 
       <nav className='flex flex-1 flex-col gap-2 px-2 py-4'>
-        {navs.map((nav) => (
-          <Link
-            key={nav.label}
-            href={nav.href as unknown as UrlObject}
-            className='inline-flex items-center gap-2 rounded-md border border-transparent px-2 py-1 text-sm transition-colors hover:border-sidebar-accent hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground'
-          >
-            <nav.icon className='size-4' />
-            <span>{nav.label}</span>
-          </Link>
-        ))}
+        {pageTree.map((nav, idx) => {
+          if (nav.type === 'page')
+            return (
+              <SidebarItem
+                key={`nav-${idx}`}
+                render={
+                  <Link href={nav.url}>
+                    <nav.icon /> {nav.name}
+                  </Link>
+                }
+              />
+            )
+          if (nav.type === 'folder')
+            return (
+              <SidebarSubItem
+                key={`nav-${idx}`}
+                title={
+                  <>
+                    <nav.icon />{' '}
+                    <span className='capitalize line-clamp-1'>{nav.name}</span>
+                  </>
+                }
+              >
+                {nav.children.map((child, cidx) => (
+                  <SidebarItem
+                    key={`nav-child-${cidx}`}
+                    className='capitalize line-clamp-1'
+                    render={<Link href={child.url}>{child.name}</Link>}
+                  />
+                ))}
+              </SidebarSubItem>
+            )
+
+          return null
+        })}
       </nav>
 
       <div className='flex items-center justify-between gap-4 border-t px-4 pt-5 pb-10 md:pb-5'>
@@ -66,32 +89,42 @@ export function SidebarContent() {
   )
 }
 
-const navs = [
-  {
-    href: '/',
-    icon: HomeIcon,
-    label: 'Home',
-  },
-  {
-    href: '/contact',
-    icon: MailIcon,
-    label: 'Contact',
-  },
-  {
-    href: '/blogs',
-    icon: RssIcon,
-    label: 'Blogs',
-  },
-  {
-    href: '/projects',
-    icon: FolderKanbanIcon,
-    label: 'Projects',
-  },
-]
-
 const socials = {
   facebook: FacebookIcon,
   github: GithubIcon,
   linkedin: LinkedinIcon,
   x: XFormerTwitterIcon,
 }
+
+// function SidebarFolder({
+//   name,
+//   icon: Icon,
+//   children,
+// }: {
+//   name: string
+//   icon: React.ComponentType
+//   children: Array<{
+//     name: string
+//     url: string
+//   }>
+// }) {
+//   return (
+//     <Collapsible>
+//       <CollapsibleTrigger className='group w-full inline-flex items-center gap-2 rounded-md border border-transparent px-2 py-1 text-sm transition-colors hover:border-sidebar-accent hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground [&_svg]:size-4'>
+//         <Icon />
+//         <span className='flex-1 text-start'>{name}</span>
+//
+//         <ChevronRightIcon className='group-data-panel-open:rotate-90 transition-[rotate] duration-200 ease-out' />
+//       </CollapsibleTrigger>
+//       <CollapsibleContent className='ml-4 pl-2 border-l h-(--collapsible-panel-height) [&[hidden]:not([hidden="until-found"])]:hidden data-ending-style:h-0 data-starting-style:h-0 duration-200 ease-out flex flex-col gap-1'>
+//         {children.map((child, cidx) => (
+//           <SidebarItem
+//             key={`nav-child-${cidx}`}
+//             name={child.name}
+//             url={child.url}
+//           />
+//         ))}
+//       </CollapsibleContent>
+//     </Collapsible>
+//   )
+// }
