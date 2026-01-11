@@ -14,6 +14,9 @@ import { useMounted } from '@/hooks/use-mounted'
 import { cn } from '@/utils'
 
 const SIDEBAR_WIDTH = '16rem'
+const SIDEBAR_SHORTCUT = 'e'
+const SIDEBAR_COOKIE_NAME = 'sidebar.state'
+const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7 // 7 days
 
 const SidebarContext = React.createContext<{
   open: boolean
@@ -29,15 +32,28 @@ const useSidebar = () => {
   return context
 }
 
-function SidebarProvider({ children }: { children: React.ReactNode }) {
-  const isMobile = useMediaQuery('(max-width: 767px)', {
-    defaultMatches: true,
-  })
-  const [open, setOpen] = React.useState(false)
+function SidebarProvider({
+  defaultOpen = true,
+  children,
+}: {
+  defaultOpen?: boolean
+  children: React.ReactNode
+}) {
+  const isMobile = useMediaQuery('(max-width: 767px)', { defaultMatches: true })
+  const [open, _setOpen] = React.useState(defaultOpen)
+
+  const setOpen = React.useCallback(
+    (value: React.SetStateAction<boolean>) => {
+      const openState = typeof value === 'function' ? value(open) : value
+      _setOpen(openState)
+      document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
+    },
+    [open],
+  )
 
   const toggleSidebar = React.useCallback(() => {
     setOpen((prev) => !prev)
-  }, [])
+  }, [setOpen])
 
   React.useEffect(() => {
     const abortController = new AbortController()
@@ -45,10 +61,10 @@ function SidebarProvider({ children }: { children: React.ReactNode }) {
     document.addEventListener(
       'keydown',
       (e: KeyboardEvent) => {
-        if (e.ctrlKey && e.key === 'e') {
+        if (e.key === SIDEBAR_SHORTCUT && (e.metaKey || e.ctrlKey)) {
           e.preventDefault()
           toggleSidebar()
-        } else if (e.key === 'Escape') {
+        } else if (e.key === 'Escape' && (e.metaKey || e.ctrlKey)) {
           e.preventDefault()
           setOpen(false)
         }
@@ -56,24 +72,22 @@ function SidebarProvider({ children }: { children: React.ReactNode }) {
       { signal: abortController.signal },
     )
 
-    return () => {
-      abortController.abort()
-    }
-  })
+    return () => abortController.abort()
+  }, [setOpen, toggleSidebar])
 
   const value = React.useMemo(
     () => ({ isMobile, open, setOpen, toggleSidebar }),
-    [isMobile, open, toggleSidebar],
+    [isMobile, open, setOpen, toggleSidebar],
   )
+
+  const isMounted = useMounted()
+  if (!isMounted) return null
 
   return <SidebarContext value={value}>{children}</SidebarContext>
 }
 
 function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
   const { open, setOpen, isMobile } = useSidebar()
-
-  const isMounted = useMounted()
-  if (!isMounted) return
 
   if (isMobile)
     return (
