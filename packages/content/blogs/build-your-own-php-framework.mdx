@@ -54,7 +54,7 @@ Next, configure autoloading so PHP can resolve classes automatically:
       "App\\": "app/",
       "Core\\": "src/"
     }
-  },
+  }
 }
 ```
 
@@ -707,21 +707,21 @@ function getManifest(): array {
 Create a `vite.config.ts` file in the root directory.
 
 ```ts title="vite.config.ts"
-import { defineConfig } from "vite";
-import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from 'vite'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [tailwindcss()],
 
   build: {
-    outDir: "public/build",
+    outDir: 'public/build',
     copyPublicDir: false,
     manifest: true,
     rollupOptions: {
-      input: { main: "resources/js/main.ts" },
+      input: { main: 'resources/js/main.ts' },
     },
   },
-});
+})
 ```
 
 ## 3. Defining Routes and Controllers
@@ -773,7 +773,7 @@ To give your PHP framework a modern look and feel, you’ll want to add some cli
 First, create your main JavaScript entry point:
 
 ```ts title="resources/js/main.ts"
-import "../css/main.css";
+import '../css/main.css'
 ```
 
 This imports your main stylesheet, which will be processed by Vite.
@@ -781,7 +781,7 @@ This imports your main stylesheet, which will be processed by Vite.
 Next, set up your main CSS file to use Tailwind and enable automatic class scanning for your PHP views:
 
 ```css title="resources/css/main.css"
-@import "tailwindcss";
+@import 'tailwindcss';
 @source "../views/**/*.php";
 ```
 
