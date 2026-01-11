@@ -32,15 +32,9 @@ const useSidebar = () => {
   return context
 }
 
-function SidebarProvider({
-  defaultOpen = true,
-  children,
-}: {
-  defaultOpen?: boolean
-  children: React.ReactNode
-}) {
+function SidebarProvider({ children }: { children: React.ReactNode }) {
   const isMobile = useMediaQuery('(max-width: 767px)', { defaultMatches: true })
-  const [open, _setOpen] = React.useState(defaultOpen)
+  const [open, _setOpen] = React.useState(false)
 
   const setOpen = React.useCallback(
     (value: React.SetStateAction<boolean>) => {
