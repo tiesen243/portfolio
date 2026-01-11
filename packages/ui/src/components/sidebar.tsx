@@ -220,7 +220,7 @@ function SidebarSubItemContent({
     <CollapsibleContent
       {...props}
       className={cn(
-        'ml-4 pl-2 border-l h-(--collapsible-panel-height) [&[hidden]:not([hidden="until-found"])]:hidden data-ending-style:h-0 data-starting-style:h-0 overflow-hidden duration-200 ease-out flex flex-col gap-1',
+        'ml-4 pt-2 pl-2 border-l h-(--collapsible-panel-height) [&[hidden]:not([hidden="until-found"])]:hidden data-ending-style:h-0 data-starting-style:h-0 duration-200 ease-out flex flex-col gap-1',
         className,
       )}
     />
