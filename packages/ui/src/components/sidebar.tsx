@@ -184,16 +184,16 @@ function SidebarItem({
 }
 
 function SidebarSubItem({
-  title,
+  label,
   className,
   ...props
 }: React.ComponentProps<typeof CollapsibleContent> & {
-  title: React.ReactElement
+  label: React.ReactNode
 }) {
   return (
     <Collapsible>
       <CollapsibleTrigger className='group w-full inline-flex items-center gap-2 rounded-md border border-transparent px-2 py-1 text-sm transition-colors hover:border-sidebar-accent hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground [&_svg]:size-4'>
-        {title}
+        {label}
 
         <div className='flex-1' />
 

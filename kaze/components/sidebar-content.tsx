@@ -35,7 +35,7 @@ export async function SidebarContent() {
               <SidebarItem
                 key={`nav-${idx}`}
                 render={
-                  <Link href={nav.url}>
+                  <Link href={nav.url as never}>
                     <nav.icon /> {nav.name}
                   </Link>
                 }
@@ -45,7 +45,7 @@ export async function SidebarContent() {
             return (
               <SidebarSubItem
                 key={`nav-${idx}`}
-                title={
+                label={
                   <>
                     <nav.icon />{' '}
                     <span className='capitalize line-clamp-1'>{nav.name}</span>
@@ -56,7 +56,7 @@ export async function SidebarContent() {
                   <SidebarItem
                     key={`nav-child-${cidx}`}
                     className='capitalize line-clamp-1'
-                    render={<Link href={child.url}>{child.name}</Link>}
+                    render={<Link href={child.url as never}>{child.name}</Link>}
                   />
                 ))}
               </SidebarSubItem>
@@ -74,6 +74,7 @@ export async function SidebarContent() {
               href={`/contact/${key}`}
               target='_blank'
               rel='noopener noreferrer'
+              prefetch={false}
             >
               <Icon className='size-4 hover:fill-accent-foreground' />
               <span className='sr-only'>
@@ -95,36 +96,3 @@ const socials = {
   linkedin: LinkedinIcon,
   x: XFormerTwitterIcon,
 }
-
-// function SidebarFolder({
-//   name,
-//   icon: Icon,
-//   children,
-// }: {
-//   name: string
-//   icon: React.ComponentType
-//   children: Array<{
-//     name: string
-//     url: string
-//   }>
-// }) {
-//   return (
-//     <Collapsible>
-//       <CollapsibleTrigger className='group w-full inline-flex items-center gap-2 rounded-md border border-transparent px-2 py-1 text-sm transition-colors hover:border-sidebar-accent hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground [&_svg]:size-4'>
-//         <Icon />
-//         <span className='flex-1 text-start'>{name}</span>
-//
-//         <ChevronRightIcon className='group-data-panel-open:rotate-90 transition-[rotate] duration-200 ease-out' />
-//       </CollapsibleTrigger>
-//       <CollapsibleContent className='ml-4 pl-2 border-l h-(--collapsible-panel-height) [&[hidden]:not([hidden="until-found"])]:hidden data-ending-style:h-0 data-starting-style:h-0 duration-200 ease-out flex flex-col gap-1'>
-//         {children.map((child, cidx) => (
-//           <SidebarItem
-//             key={`nav-child-${cidx}`}
-//             name={child.name}
-//             url={child.url}
-//           />
-//         ))}
-//       </CollapsibleContent>
-//     </Collapsible>
-//   )
-// }
