@@ -14,13 +14,17 @@ export async function GET(request: NextRequest) {
     const defaultMetadata = createMetadata()
 
     const appName = defaultMetadata.applicationName ?? ''
+    const theme = searchParams.get('theme') ?? 'dark'
+    const isUwU = searchParams.get('uwu') === 'true'
+
     const title = searchParams.get('title') ?? defaultMetadata.title ?? ''
     const description =
       searchParams.get('description') ?? defaultMetadata.description ?? ''
     const image = searchParams.get('image') ?? ''
-    const logoUrl = `${request.nextUrl.origin}/favicon.svg`
-    const theme = searchParams.get('theme') ?? 'dark'
-    const isUwU = searchParams.get('uwu') === 'true'
+    const logoUrl =
+      theme === 'dark'
+        ? `${request.nextUrl.origin}/web-app-manifest-512x512.png`
+        : `${request.nextUrl.origin}/web-app-manifest-512x512-dark.png`
 
     const backgroundColor = theme === 'dark' ? '#000000' : '#fafafa'
     const foregroundColor = theme === 'dark' ? '#ffffff' : '#000000'
@@ -49,32 +53,16 @@ export async function GET(request: NextRequest) {
         }}
       >
         <div style={{ alignItems: 'center', display: 'flex', gap: '16px' }}>
-          <div
+          <img
+            src={logoUrl}
+            alt='Logo'
             style={{
-              alignItems: 'center',
-              backgroundColor: primaryColor,
               borderRadius: '8px',
-
-              display: 'flex',
-              height: '48px',
-              justifyContent: 'center',
-
               width: '48px',
+              height: '48px',
+              objectFit: 'cover',
             }}
-          >
-            <img
-              src={logoUrl}
-              alt='Logo'
-              style={{
-                filter: theme === 'dark' ? 'none' : 'invert(1)',
-                height: '80%',
-                margin: 0,
-
-                objectFit: 'contain',
-                width: '80%',
-              }}
-            />
-          </div>
+          />
 
           <h1
             style={{
