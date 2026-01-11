@@ -5,7 +5,12 @@ import {
   LinkedinIcon,
   XFormerTwitterIcon,
 } from '@yuki/ui/icons'
-import { SidebarItem, SidebarSubItem } from '@yuki/ui/sidebar'
+import {
+  SidebarItem,
+  SidebarSubItem,
+  SidebarSubItemContent,
+  SidebarSubItemLabel,
+} from '@yuki/ui/sidebar'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -43,22 +48,22 @@ export async function SidebarContent() {
             )
           if (nav.type === 'folder')
             return (
-              <SidebarSubItem
-                key={`nav-${idx}`}
-                label={
-                  <>
-                    <nav.icon />{' '}
-                    <span className='capitalize line-clamp-1'>{nav.name}</span>
-                  </>
-                }
-              >
-                {nav.children.map((child, cidx) => (
-                  <SidebarItem
-                    key={`nav-child-${cidx}`}
-                    className='capitalize line-clamp-1'
-                    render={<Link href={child.url as never}>{child.name}</Link>}
-                  />
-                ))}
+              <SidebarSubItem key={`nav-${idx}`}>
+                <SidebarSubItemLabel>
+                  <nav.icon />
+                  <span className='capitalize line-clamp-1'>{nav.name}</span>
+                </SidebarSubItemLabel>
+                <SidebarSubItemContent>
+                  {nav.children.map((child, cidx) => (
+                    <SidebarItem
+                      key={`nav-child-${cidx}`}
+                      className='capitalize line-clamp-1'
+                      render={
+                        <Link href={child.url as never}>{child.name}</Link>
+                      }
+                    />
+                  ))}
+                </SidebarSubItemContent>
               </SidebarSubItem>
             )
 

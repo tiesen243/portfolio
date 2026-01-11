@@ -184,37 +184,56 @@ function SidebarItem({
 }
 
 function SidebarSubItem({
-  label,
+  ...props
+}: React.ComponentProps<typeof Collapsible>) {
+  return <Collapsible {...props} data-slot='sidebar-subitem' />
+}
+
+function SidebarSubItemLabel({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<typeof CollapsibleTrigger>) {
+  return (
+    <CollapsibleTrigger
+      {...props}
+      data-slot='sidebar-subitem-label'
+      className={cn(
+        'group w-full inline-flex items-center gap-2 rounded-md border border-transparent px-2 py-1 text-sm transition-colors hover:border-sidebar-accent hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground [&_svg]:size-4',
+        className,
+      )}
+    >
+      {children}
+
+      <div className='flex-1' />
+
+      <ChevronRightIcon className='group-data-panel-open:rotate-90 transition-[rotate] duration-200 ease-out' />
+    </CollapsibleTrigger>
+  )
+}
+
+function SidebarSubItemContent({
   className,
   ...props
-}: React.ComponentProps<typeof CollapsibleContent> & {
-  label: React.ReactNode
-}) {
+}: React.ComponentProps<typeof CollapsibleContent>) {
   return (
-    <Collapsible>
-      <CollapsibleTrigger className='group w-full inline-flex items-center gap-2 rounded-md border border-transparent px-2 py-1 text-sm transition-colors hover:border-sidebar-accent hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground [&_svg]:size-4'>
-        {label}
-
-        <div className='flex-1' />
-
-        <ChevronRightIcon className='group-data-panel-open:rotate-90 transition-[rotate] duration-200 ease-out' />
-      </CollapsibleTrigger>
-      <CollapsibleContent
-        {...props}
-        className={cn(
-          'ml-4 pl-2 border-l h-(--collapsible-panel-height) [&[hidden]:not([hidden="until-found"])]:hidden data-ending-style:h-0 data-starting-style:h-0 duration-200 ease-out flex flex-col gap-1',
-          className,
-        )}
-      />
-    </Collapsible>
+    <CollapsibleContent
+      {...props}
+      className={cn(
+        'ml-4 pl-2 border-l h-(--collapsible-panel-height) [&[hidden]:not([hidden="until-found"])]:hidden data-ending-style:h-0 data-starting-style:h-0 duration-200 ease-out flex flex-col gap-1',
+        className,
+      )}
+    />
   )
 }
 
 export {
-  Sidebar,
   SidebarProvider,
+  Sidebar,
   SidebarInset,
   SidebarItem,
   SidebarSubItem,
+  SidebarSubItemLabel,
+  SidebarSubItemContent,
   useSidebar,
 }
