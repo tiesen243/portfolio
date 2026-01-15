@@ -42,11 +42,11 @@ export function ContactForm() {
     <Card render={<form onSubmit={form.handleSubmit} />}>
       <h3 className='sr-only'>Contact Form</h3>
 
-      <FieldSet className='px-4 h-full'>
+      <FieldSet className='h-full px-4'>
         <Typography variant='h5' render={<legend />} className='my-0'>
           Send a Message
         </Typography>
-        <Typography className='[&:not(:first-child)]:mt-1 text-muted-foreground'>
+        <Typography className='text-muted-foreground [&:not(:first-child)]:mt-1'>
           Fill out the form below and I&apos;ll get back to you as soon as
           possible.
         </Typography>

@@ -18,7 +18,7 @@
     "@fumadocs/mdx-remote": "^1.4.4",
     "@yuki/ui": "workspace:*",
     "@yuki/validators": "workspace:*",
-    "fumadocs-core": "^16.4.6"
+    "fumadocs-core": "^16.4.7"
   },
   "devDependencies": {
     "@types/node": "catalog:dev",

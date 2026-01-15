@@ -207,7 +207,7 @@ function SidebarSubItemLabel({
       {...props}
       data-slot='sidebar-subitem-label'
       className={cn(
-        'group w-full inline-flex items-center gap-2 rounded-md border border-transparent px-2 py-1 text-sm transition-colors hover:border-sidebar-accent hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground [&_svg]:size-4',
+        'group inline-flex w-full items-center gap-2 rounded-md border border-transparent px-2 py-1 text-sm transition-colors hover:border-sidebar-accent hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground [&_svg]:size-4',
         className,
       )}
     >
@@ -215,7 +215,7 @@ function SidebarSubItemLabel({
 
       <div className='flex-1' />
 
-      <ChevronRightIcon className='group-data-panel-open:rotate-90 transition-[rotate] duration-200 ease-out' />
+      <ChevronRightIcon className='transition-[rotate] duration-200 ease-out group-data-panel-open:rotate-90' />
     </CollapsibleTrigger>
   )
 }
@@ -228,7 +228,7 @@ function SidebarSubItemContent({
     <CollapsibleContent
       {...props}
       className={cn(
-        'ml-4 pt-2 pl-2 border-l h-(--collapsible-panel-height) [&[hidden]:not([hidden="until-found"])]:hidden data-ending-style:h-0 data-starting-style:h-0 duration-200 ease-out flex flex-col gap-1',
+        'ml-4 flex h-(--collapsible-panel-height) flex-col gap-1 border-l pt-2 pl-2 duration-200 ease-out data-ending-style:h-0 data-starting-style:h-0 [&[hidden]:not([hidden="until-found"])]:hidden',
         className,
       )}
     />

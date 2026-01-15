@@ -782,7 +782,7 @@ Next, set up your main CSS file to use Tailwind and enable automatic class scann
 
 ```css title="resources/css/main.css"
 @import 'tailwindcss';
-@source "../views/**/*.php";
+@source '../views/**/*.php';
 ```
 
 The `@import "tailwindcss";` line brings in Tailwind’s utilities, while `@source` tells Tailwind where to look for class names in your PHP view files, ensuring unused styles are purged in production.

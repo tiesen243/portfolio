@@ -47,7 +47,7 @@ export function mdxComponents() {
     },
     code: ({ ...props }: Props) => (
       <code
-        className='font-mono border-accent [&:not(:has(span))]:relative [&:not(:has(span))]:w-fit [&:not(:has(span))]:rounded-sm [&:not(:has(span))]:border [&:not(:has(span))]:bg-accent/40 [&:not(:has(span))]:px-[0.3rem] [&:not(:has(span))]:py-[0.2rem] [&:not(:has(span))]:text-sm [&:not(:has(span))]:font-medium [&:not(:has(span))]:text-accent-foreground'
+        className='border-accent font-mono [&:not(:has(span))]:relative [&:not(:has(span))]:w-fit [&:not(:has(span))]:rounded-sm [&:not(:has(span))]:border [&:not(:has(span))]:bg-accent/40 [&:not(:has(span))]:px-[0.3rem] [&:not(:has(span))]:py-[0.2rem] [&:not(:has(span))]:text-sm [&:not(:has(span))]:font-medium [&:not(:has(span))]:text-accent-foreground'
         {...props}
       />
     ),
@@ -71,13 +71,13 @@ export function mdxComponents() {
     ),
     th: ({ ...props }: React.ComponentProps<'th'>) => (
       <TableHead
-        className='text-card-foreground border-r last:border-r-0 p-3'
+        className='border-r p-3 text-card-foreground last:border-r-0'
         {...props}
       />
     ),
     td: ({ ...props }: React.ComponentProps<'td'>) => (
       <TableCell
-        className='text-card-foreground border-r last:border-r-0 p-3'
+        className='border-r p-3 text-card-foreground last:border-r-0'
         {...props}
       />
     ),

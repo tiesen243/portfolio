@@ -55,7 +55,7 @@ export default function ContactPage() {
               <Typography variant='h5' render={<h4 />} className='my-0'>
                 Contact Information
               </Typography>
-              <Typography className='[&:not(:first-child)]:mt-0 text-muted-foreground'>
+              <Typography className='text-muted-foreground [&:not(:first-child)]:mt-0'>
                 You can also reach me through these channels.
               </Typography>
             </CardHeader>
@@ -94,7 +94,7 @@ export default function ContactPage() {
               <Typography variant='h5' render={<h4 />} className='my-0'>
                 Follow Me
               </Typography>
-              <Typography className='[&:not(:first-child)]:mt-0 text-muted-foreground'>
+              <Typography className='text-muted-foreground [&:not(:first-child)]:mt-0'>
                 Connect with me on social media for updates and insights.
               </Typography>
             </CardHeader>

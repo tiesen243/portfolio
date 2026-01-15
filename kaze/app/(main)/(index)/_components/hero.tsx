@@ -27,7 +27,7 @@ export function HeroSection() {
         className='mx-auto h-auto'
       />
 
-      <Typography className='mt-6 text-center max-w-xl text-pretty [&_span]:text-primary'>
+      <Typography className='mt-6 max-w-xl text-center text-pretty [&_span]:text-primary'>
         You can&apos;t change your <span>past</span>, but luckily you can still
         destroy your <span>future</span> OwO.
       </Typography>

@@ -52,7 +52,7 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
 
       <hr className='my-4' />
 
-      <article className='[&:not(div)>figure]:mb-6 [&_p]:text-justify'>
+      <article className='[&_p]:text-justify [&:not(div)>figure]:mb-6'>
         <MDXContent components={mdxComponents()} />
       </article>
     </main>

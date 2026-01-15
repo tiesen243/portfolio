@@ -42,7 +42,7 @@ const ShowcaseCard: React.FC<{ showcase: Showcase }> = ({ showcase }) => (
     <Image
       src={showcase.image}
       alt={showcase.title}
-      className='object-cover aspect-video transition-transform group-hover/showcase:scale-105'
+      className='aspect-video object-cover transition-transform group-hover/showcase:scale-105'
       width={500}
       height={400}
     />

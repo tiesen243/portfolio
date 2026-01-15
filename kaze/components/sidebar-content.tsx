@@ -51,13 +51,13 @@ export async function SidebarContent() {
               <SidebarSubItem key={`nav-${idx}`}>
                 <SidebarSubItemLabel>
                   <nav.icon />
-                  <span className='capitalize line-clamp-1'>{nav.name}</span>
+                  <span className='line-clamp-1 capitalize'>{nav.name}</span>
                 </SidebarSubItemLabel>
                 <SidebarSubItemContent>
                   {nav.children.map((child, cidx) => (
                     <SidebarItem
                       key={`nav-child-${cidx}`}
-                      className='capitalize line-clamp-1'
+                      className='line-clamp-1 capitalize'
                       render={
                         <Link href={child.url as never}>{child.name}</Link>
                       }

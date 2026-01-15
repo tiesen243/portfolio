@@ -65,7 +65,7 @@ export function AboutSection() {
         {basic.certifications.map((certification) => (
           <div
             key={certification.name}
-            className='relative border-l border-primary ml-4 p-8 pt-0 last:pb-0'
+            className='relative ml-4 border-l border-primary p-8 pt-0 last:pb-0'
           >
             <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-primary' />
             <Typography variant='h5' className='-mt-2'>
@@ -97,7 +97,7 @@ export function AboutSection() {
         {basic.educations.map((education) => (
           <div
             key={education.school}
-            className='relative border-l border-primary ml-4 p-8 pt-0 last:pb-0'
+            className='relative ml-4 border-l border-primary p-8 pt-0 last:pb-0'
           >
             <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-primary' />
             <Typography variant='h5' className='-mt-2'>
@@ -119,7 +119,7 @@ export function AboutSection() {
         {basic.experiences.map((exp) => (
           <div
             key={exp.company}
-            className='relative border-l border-primary ml-4 p-8 pt-0 last:pb-0'
+            className='relative ml-4 border-l border-primary p-8 pt-0 last:pb-0'
           >
             <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-primary' />
             <Typography variant='h5' className='-mt-2'>

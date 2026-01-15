@@ -14,8 +14,8 @@
     "@yuki/content": "workspace:*",
     "@yuki/ui": "workspace:*",
     "@yuki/validators": "workspace:*",
-    "fumadocs-ui": "npm:@fumadocs/base-ui@latest",
-    "next": "^16.1.1",
+    "fumadocs-ui": "npm:@fumadocs/base-ui@16.4.7",
+    "next": "^16.1.2",
     "react": "catalog:react",
     "react-dom": "catalog:react",
     "resend": "^6.7.0"
