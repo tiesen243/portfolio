@@ -170,15 +170,17 @@ function SidebarInset({
 
 function SidebarItem({
   className,
+  isActive = false,
   render,
   ...props
-}: useRender.ComponentProps<'div'>) {
+}: useRender.ComponentProps<'div'> & { isActive?: boolean }) {
   return useRender({
     defaultTagName: 'div',
     props: mergeProps(
       {
         className: cn(
           'inline-flex items-center gap-2 rounded-md border border-transparent px-2 py-1 text-sm transition-colors hover:border-sidebar-accent hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground [&_svg]:size-4',
+          'data-[active=""]:border-sidebar-accent data-[active=""]:bg-sidebar-accent/40 data-[active=""]:text-sidebar-accent-foreground',
           className,
         ),
       },
@@ -187,6 +189,7 @@ function SidebarItem({
     render,
     state: {
       slot: 'sidebar-item',
+      active: isActive,
     },
   })
 }

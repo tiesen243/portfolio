@@ -6,7 +6,6 @@ import {
   XFormerTwitterIcon,
 } from '@yuki/ui/icons'
 import {
-  SidebarItem,
   SidebarSubItem,
   SidebarSubItemContent,
   SidebarSubItemLabel,
@@ -14,6 +13,7 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { SidebarItem } from '@/components/sidebar-item'
 import { ToggleTheme } from '@/components/toggle-theme'
 import Tiesen from '@/public/assets/logotype.png'
 
@@ -37,14 +37,9 @@ export async function SidebarContent() {
         {pageTree.map((nav, idx) => {
           if (nav.type === 'page')
             return (
-              <SidebarItem
-                key={`nav-${idx}`}
-                render={
-                  <Link href={nav.url as never}>
-                    <nav.icon /> {nav.name}
-                  </Link>
-                }
-              />
+              <SidebarItem key={`nav-${idx}`} href={nav.url}>
+                <nav.icon /> {nav.name}
+              </SidebarItem>
             )
           if (nav.type === 'folder')
             return (
@@ -57,11 +52,11 @@ export async function SidebarContent() {
                   {nav.children.map((child, cidx) => (
                     <SidebarItem
                       key={`nav-child-${cidx}`}
+                      href={child.url}
                       className='line-clamp-1 capitalize'
-                      render={
-                        <Link href={child.url as never}>{child.name}</Link>
-                      }
-                    />
+                    >
+                      {child.name}
+                    </SidebarItem>
                   ))}
                 </SidebarSubItemContent>
               </SidebarSubItem>
