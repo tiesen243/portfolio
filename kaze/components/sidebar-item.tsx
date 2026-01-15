@@ -6,7 +6,8 @@ import { SidebarItem as YukiSidebarItem } from '@yuki/ui/sidebar'
 import { usePathname, useRouter } from 'next/navigation'
 
 export const SidebarItem = ({
-  href,
+  href = '/',
+  className = '',
   ...props
 }: React.ComponentProps<typeof YukiSidebarItem> & { href: string }) => {
   const pathName = usePathname()
@@ -16,7 +17,7 @@ export const SidebarItem = ({
     <YukiSidebarItem
       {...props}
       isActive={pathName === href}
-      className='cursor-pointer'
+      className={`cursor-pointer ${className}`}
       onClick={() => router.push(href as Route)}
     />
   )
