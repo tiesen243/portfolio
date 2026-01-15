@@ -25,7 +25,7 @@ export function ContactForm() {
   const { mode, setMode } = useNvimStatusline()
   const previousMode = useRef(mode)
 
-  const form = useForm({
+  const { formId, FormField, handleSubmit, state } = useForm({
     defaultValues: { email: '', message: '', name: '', subject: '' },
     onError: (error) => toast.error(error.message),
     onSubmit: sendEmail,
@@ -39,10 +39,10 @@ export function ContactForm() {
   }
 
   return (
-    <Card render={<form onSubmit={form.handleSubmit} />}>
+    <Card id={formId} render={<form onSubmit={handleSubmit} />}>
       <h3 className='sr-only'>Contact Form</h3>
 
-      <FieldSet className='h-full px-4'>
+      <FieldSet className='h-full px-6'>
         <Typography variant='h5' render={<legend />} className='my-0'>
           Send a Message
         </Typography>
@@ -52,17 +52,17 @@ export function ContactForm() {
         </Typography>
 
         <FieldGroup className='flex-1'>
-          <form.Field
+          <FormField
             name='name'
             render={({ meta, field }) => (
               <Field data-invalid={meta.errors.length > 0}>
-                <FieldLabel htmlFor={meta.fieldId}>Name</FieldLabel>
+                <FieldLabel htmlFor={field.id}>Name</FieldLabel>
                 <Input
                   {...field}
                   placeholder='Yukikaze'
                   onFocus={handleFocus}
-                  onBlur={async (e) => {
-                    await field.onBlur(e)
+                  onBlur={() => {
+                    field.onBlur()
                     if (mode === 'insert') setMode(previousMode.current)
                   }}
                 />
@@ -71,18 +71,18 @@ export function ContactForm() {
             )}
           />
 
-          <form.Field
+          <FormField
             name='email'
             render={({ meta, field }) => (
               <Field data-invalid={meta.errors.length > 0}>
-                <FieldLabel htmlFor={meta.fieldId}>Email</FieldLabel>
+                <FieldLabel htmlFor={field.id}>Email</FieldLabel>
                 <Input
                   {...field}
                   type='email'
                   placeholder='yuki@example.com'
                   onFocus={handleFocus}
-                  onBlur={async (e) => {
-                    await field.onBlur(e)
+                  onBlur={() => {
+                    field.onBlur()
                     if (mode === 'insert') setMode(previousMode.current)
                   }}
                 />
@@ -91,17 +91,17 @@ export function ContactForm() {
             )}
           />
 
-          <form.Field
+          <FormField
             name='subject'
             render={({ meta, field }) => (
               <Field data-invalid={meta.errors.length > 0}>
-                <FieldLabel htmlFor={meta.fieldId}>Subject</FieldLabel>
+                <FieldLabel htmlFor={field.id}>Subject</FieldLabel>
                 <Input
                   {...field}
                   placeholder='Project Inquiry'
                   onFocus={handleFocus}
-                  onBlur={async (e) => {
-                    await field.onBlur(e)
+                  onBlur={() => {
+                    field.onBlur()
                     if (mode === 'insert') setMode(previousMode.current)
                   }}
                 />
@@ -110,18 +110,18 @@ export function ContactForm() {
             )}
           />
 
-          <form.Field
+          <FormField
             name='message'
             render={({ meta, field }) => (
               <Field className='flex-1' data-invalid={meta.errors.length > 0}>
-                <FieldLabel htmlFor={meta.fieldId}>Message</FieldLabel>
+                <FieldLabel htmlFor={field.id}>Message</FieldLabel>
                 <Textarea
                   {...field}
                   className='h-full resize-none'
                   placeholder='Tell me more about your project or question...'
                   onFocus={handleFocus}
-                  onBlur={async (e) => {
-                    await field.onBlur(e)
+                  onBlur={() => {
+                    field.onBlur()
                     if (mode === 'insert') setMode(previousMode.current)
                   }}
                 />
@@ -131,7 +131,7 @@ export function ContactForm() {
           />
 
           <Field>
-            <Button type='submit' disabled={form.state.isPending}>
+            <Button type='submit' disabled={state.isPending}>
               <SendIcon /> Send Message
             </Button>
           </Field>

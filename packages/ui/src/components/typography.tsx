@@ -16,13 +16,13 @@ const typographyVariants = cva('text-base font-normal', {
       h5: 'my-2.5 scroll-m-20 text-lg font-medium tracking-tight text-balance',
       h6: 'my-2 scroll-m-20 text-base font-medium tracking-tight text-balance',
       p: 'leading-7 text-pretty [&:not(:first-child)]:mt-2',
+      small: 'text-sm leading-none font-medium',
       ul: 'my-4 ml-6 list-disc text-base [&>li]:mt-2 [&>li]:first:mt-0',
       ol: 'my-4 ml-6 list-decimal text-base [&>li]:mt-2 [&>li]:first:mt-0',
-      small: 'text-sm leading-none font-medium',
       blockquote:
         'my-2 inline-flex border-l-2 pl-6 italic before:content-["“"] after:content-["”"]',
-      caption: 'block text-sm tracking-wide',
       code: 'relative w-fit rounded-sm border border-accent bg-accent/40 px-[0.3rem] py-[0.2rem] font-mono text-sm font-medium text-accent-foreground',
+      caption: 'block text-sm tracking-wide',
     },
   },
   defaultVariants: {
@@ -44,7 +44,7 @@ function Typography({
   return useRender({
     defaultTagName: variant ?? 'p',
     props: mergeProps<'p'>(
-      { className: cn(typographyVariants({ className, variant })) },
+      { className: cn(typographyVariants({ variant, className })) },
       props,
     ),
     render,

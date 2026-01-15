@@ -52,10 +52,9 @@ export function mdxComponents() {
       />
     ),
     table: ({ ...props }: React.ComponentProps<'table'>) => (
-      <Table
-        containerClassName='my-4 bg-card/40 rounded-xl text-sm border'
-        {...props}
-      />
+      <div className='my-4 rounded-xl border bg-card text-sm'>
+        <Table {...props} />
+      </div>
     ),
     thead: ({ ...props }: React.ComponentProps<'thead'>) => (
       <TableHeader className='bg-muted' {...props} />
