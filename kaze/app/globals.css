@@ -1,6 +1,6 @@
+@import '@yuki/ui/tailwind.css';
 @import 'fumadocs-ui/css/shadcn.css';
 @import 'fumadocs-ui/css/preset.css';
-@import '@yuki/ui/tailwind.css';
 
 @source '../../packages/content/**/*.mdx';
-@source '../../packages/ui/src/**/*.tsx';
+@source '../../packages/ui/dist/**/*.mjs';
