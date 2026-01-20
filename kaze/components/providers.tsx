@@ -1,6 +1,7 @@
 import { ThemeProvider } from '@yuki/ui'
 import { NvimStatuslineProvider } from '@yuki/ui/nvim-statusline'
 import { SidebarProvider } from '@yuki/ui/sidebar'
+import { StackedToastProvider } from '@yuki/ui/toast'
 
 export function Providers({
   children,
@@ -12,9 +13,11 @@ export function Providers({
       disableTransitionOnChange
       enableSystem
     >
-      <SidebarProvider>
-        <NvimStatuslineProvider>{children}</NvimStatuslineProvider>
-      </SidebarProvider>
+      <StackedToastProvider>
+        <SidebarProvider>
+          <NvimStatuslineProvider>{children}</NvimStatuslineProvider>
+        </SidebarProvider>
+      </StackedToastProvider>
     </ThemeProvider>
   )
 }

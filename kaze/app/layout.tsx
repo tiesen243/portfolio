@@ -2,7 +2,6 @@ import '@/app/globals.css'
 
 import { cn } from '@yuki/ui'
 import { Sidebar, SidebarInset } from '@yuki/ui/sidebar'
-import { Toaster } from '@yuki/ui/sonner'
 import { Geist, Geist_Mono } from 'next/font/google'
 
 import { Footer } from '@/components/footer'
@@ -41,8 +40,6 @@ export default function RootLayout({
             {children}
             <Footer />
           </SidebarInset>
-
-          <Toaster richColors />
         </Providers>
       </body>
     </html>

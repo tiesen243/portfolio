@@ -13,8 +13,8 @@ import { useForm } from '@yuki/ui/hooks/use-form'
 import { SendIcon } from '@yuki/ui/icons'
 import { Input } from '@yuki/ui/input'
 import { useNvimStatusline } from '@yuki/ui/nvim-statusline'
-import { toast } from '@yuki/ui/sonner'
 import { Textarea } from '@yuki/ui/textarea'
+import { toast } from '@yuki/ui/toast'
 import { Typography } from '@yuki/ui/typography'
 import { contactSchema } from '@yuki/validators/contact'
 import { useRef } from 'react'
@@ -27,9 +27,14 @@ export function ContactForm() {
 
   const { formId, FormField, handleSubmit, state } = useForm({
     defaultValues: { email: '', message: '', name: '', subject: '' },
-    onError: (error) => toast.error(error.message),
     onSubmit: sendEmail,
-    onSuccess: (data) => toast.success(data.message),
+    onSuccess: (data) => toast.add({ title: data.message, type: 'success' }),
+    onError: (error) =>
+      toast.add({
+        title: 'Error Sending Message',
+        description: error.message,
+        type: 'error',
+      }),
     schema: contactSchema,
   })
 
