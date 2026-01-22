@@ -14,6 +14,9 @@ export const web = await Nextjs('web', {
     RESEND_TOKEN: alchemy.env.RESEND_TOKEN ?? '',
     NEXT_PUBLIC_APP_URL: alchemy.env.NEXT_PUBLIC_APP_URL ?? '',
   },
+  observability: {
+    logs: { enabled: true },
+  },
   bundle: {
     loader: {
       '.bin': 'file',
