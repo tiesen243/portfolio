@@ -8,7 +8,7 @@
     "clean": "git clean -xdf .cache .next .turbo node_modules",
     "dev": "bun --env-file ../.env next dev --port 3000",
     "start": "bun --env-file ../.env next start --port 3000",
-    "typecheck": "fumadocs-mdx && bun --env-file ../.env next typegen && tsc --noEmit"
+    "typecheck": "bun --env-file ../.env next typegen && tsc --noEmit"
   },
   "dependencies": {
     "@yuki/ui": "workspace:*",
