@@ -3,16 +3,16 @@ import { Typography } from '@yuki/ui/typography'
 import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
 import Link from 'next/link'
 
-import { getPages } from '@/content'
 import { createMetadata } from '@/lib/metadata'
+import { source } from '@/lib/source'
 import { formatDate } from '@/lib/utils'
 
 const TITLE = 'Projects'
 const DESCRIPTION =
   'Explore my projects where I showcase my work, experiments, and contributions to various open-source initiatives. Each project highlights my skills in web development, design, and problem-solving.'
 
-export default async function ProjectListPage() {
-  const pages = await getPages('projects')
+export default function ProjectListPage() {
+  const pages = source.getPages()
 
   return (
     <main className='container flex min-h-[calc(100dvh-1.5rem)] max-w-[100ch] flex-col pt-8 pb-12 text-lg'>
@@ -24,39 +24,41 @@ export default async function ProjectListPage() {
           Featured Projects
         </Typography>
 
-        {pages.map((page) => (
-          <Link
-            key={page.slugs.join('/')}
-            href={page.slugs.join('/') as '/projects/[...slug]'}
-            className='group/project'
-            aria-label={`View project: ${page.frontmatter.title}`}
-          >
-            <div className='flex items-start justify-between gap-4'>
-              <Typography
-                variant='h3'
-                className='my-0 line-clamp-1 group-hover/project:underline'
-              >
-                {page.frontmatter.title}
+        {pages
+          .filter((page) => page.url.startsWith('/projects'))
+          .map((page) => (
+            <Link
+              key={page.slugs.join('/')}
+              href={page.slugs.join('/') as '/projects/[...slug]'}
+              className='group/project'
+              aria-label={`View project: ${page.data.title}`}
+            >
+              <div className='flex items-start justify-between gap-4'>
+                <Typography
+                  variant='h3'
+                  className='my-0 line-clamp-1 group-hover/project:underline'
+                >
+                  {page.data.title}
+                </Typography>
+
+                <Typography className='shrink-0 text-sm text-muted-foreground'>
+                  {formatDate(page.data.publishedAt)}
+                </Typography>
+              </div>
+
+              <Typography className='line-clamp-2 text-muted-foreground'>
+                {page.data.description}
               </Typography>
 
-              <Typography className='shrink-0 text-sm text-muted-foreground'>
-                {formatDate(page.frontmatter.publishedAt)}
-              </Typography>
-            </div>
-
-            <Typography className='line-clamp-2 text-muted-foreground'>
-              {page.frontmatter.description}
-            </Typography>
-
-            <div className='mt-2 flex flex-wrap gap-2'>
-              {page.frontmatter.tags.map((tag) => (
-                <Badge key={tag} variant='outline'>
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-          </Link>
-        ))}
+              <div className='mt-2 flex flex-wrap gap-2'>
+                {page.data.tags.map((tag) => (
+                  <Badge key={tag} variant='outline'>
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            </Link>
+          ))}
       </section>
 
       <section className='mt-12 grid gap-8'>

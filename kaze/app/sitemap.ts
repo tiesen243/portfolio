@@ -1,11 +1,11 @@
 import type { MetadataRoute } from 'next'
 
-import { getPages } from '@/content'
+import { source } from '@/lib/source'
 import { getBaseUrl } from '@/lib/utils'
 
 export const revalidate = false
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default function sitemap(): MetadataRoute.Sitemap {
   const url = (path: string): string => new URL(path, getBaseUrl()).toString()
 
   const statics = [
@@ -16,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/contact/linkedin',
     '/contact/x',
   ]
-  const pages = await getPages()
+  const pages = source.getPages()
 
   return [
     {
@@ -31,7 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
     ...pages.map((page) => ({
       changeFrequency: 'monthly' as const,
-      lastModified: new Date(page.frontmatter.publishedAt).toISOString(),
+      lastModified: new Date(page.data.publishedAt).toISOString(),
       priority: 0.7,
       url: url(`/${page.slugs.join('/')}`),
     })),

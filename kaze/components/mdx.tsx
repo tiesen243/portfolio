@@ -1,3 +1,5 @@
+import type { Route } from 'next'
+
 import {
   Table,
   TableBody,
@@ -9,8 +11,8 @@ import {
 } from '@yuki/ui/table'
 import { Typography } from '@yuki/ui/typography'
 import { Callout } from 'fumadocs-ui/components/callout'
-import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
 import defaultMdxComponents from 'fumadocs-ui/mdx'
+import Image, { type ImageProps } from 'next/image'
 import Link from 'next/link'
 
 type Props = React.ComponentProps<'p'>
@@ -38,13 +40,16 @@ export function mdxComponents() {
       return (
         <Comp
           className='underline underline-offset-4 transition-colors hover:text-primary'
-          href={href as never}
+          href={href as Route}
           target={isExternal ? '_blank' : undefined}
           rel={isExternal ? 'noopener noreferrer' : undefined}
           {...props}
         />
       )
     },
+    img: ({ ...props }: ImageProps) => (
+      <Image {...props} className='rounded-xl object-cover drop-shadow-md' />
+    ),
     code: ({ ...props }: Props) => (
       <code
         className='border-accent font-mono [&:not(:has(span))]:relative [&:not(:has(span))]:w-fit [&:not(:has(span))]:rounded-sm [&:not(:has(span))]:border [&:not(:has(span))]:bg-accent/40 [&:not(:has(span))]:px-[0.3rem] [&:not(:has(span))]:py-[0.2rem] [&:not(:has(span))]:text-sm [&:not(:has(span))]:font-medium [&:not(:has(span))]:text-accent-foreground'
@@ -81,7 +86,5 @@ export function mdxComponents() {
       />
     ),
     Callout,
-    Tabs,
-    Tab,
   }
 }

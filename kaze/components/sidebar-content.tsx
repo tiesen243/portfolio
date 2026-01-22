@@ -1,10 +1,15 @@
 import {
   FacebookIcon,
+  FolderKanbanIcon,
   GithubIcon,
+  HomeIcon,
   LinkedinIcon,
+  MailIcon,
+  RssIcon,
   XFormerTwitterIcon,
 } from '@yuki/ui/icons'
 import {
+  SidebarItem,
   SidebarSubItem,
   SidebarSubItemContent,
   SidebarSubItemLabel,
@@ -12,13 +17,12 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { SidebarItem } from '@/components/sidebar-item'
 import { ToggleTheme } from '@/components/toggle-theme'
-import { getPageTree } from '@/content'
+import { source } from '@/lib/source'
 import Tiesen from '@/public/assets/logotype.png'
 
-export async function SidebarContent() {
-  const pageTree = await getPageTree()
+export function SidebarContent() {
+  const pageTree = source.getPageTree()
 
   return (
     <>
@@ -34,29 +38,33 @@ export async function SidebarContent() {
       </figure>
 
       <nav className='flex flex-1 flex-col gap-2 px-2 py-4'>
-        {pageTree.map((nav, idx) => {
+        {pageTree.children.map((nav, idx) => {
+          const Icon = icons[nav.icon as keyof typeof icons]
           if (nav.type === 'page')
             return (
-              <SidebarItem key={`nav-${idx}`} href={nav.url}>
-                <nav.icon /> {nav.name}
+              <SidebarItem key={`nav-${idx}`} render={<Link href={nav.url} />}>
+                {Icon && <Icon />}
+                <span>{nav.name}</span>
               </SidebarItem>
             )
+
           if (nav.type === 'folder')
             return (
               <SidebarSubItem key={`nav-${idx}`}>
                 <SidebarSubItemLabel>
-                  <nav.icon />
-                  <span className='line-clamp-1 capitalize'>{nav.name}</span>
+                  {Icon && <Icon />}
+                  <span className='truncate'>{nav.name}</span>
                 </SidebarSubItemLabel>
                 <SidebarSubItemContent>
                   {nav.children.map((child, cidx) => (
                     <SidebarItem
                       key={`nav-child-${cidx}`}
-                      href={child.url}
-                      className='line-clamp-1 capitalize'
-                    >
-                      {child.name}
-                    </SidebarItem>
+                      render={
+                        <Link href={child.type === 'page' ? child.url : '#'}>
+                          <span className='truncate'>{child.name}</span>
+                        </Link>
+                      }
+                    />
                   ))}
                 </SidebarSubItemContent>
               </SidebarSubItem>
@@ -95,4 +103,11 @@ const socials = {
   github: GithubIcon,
   linkedin: LinkedinIcon,
   x: XFormerTwitterIcon,
+}
+
+const icons = {
+  HomeIcon,
+  MailIcon,
+  RssIcon,
+  FolderKanbanIcon,
 }

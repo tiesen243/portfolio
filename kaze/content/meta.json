@@ -1,0 +1,8 @@
+{
+  "pages": [
+    "[HomeIcon][home](/)",
+    "[MailIcon][contact](/contact)",
+    "blogs",
+    "projects"
+  ]
+}

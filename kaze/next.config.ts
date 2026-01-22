@@ -2,6 +2,7 @@ import type { NextConfig } from 'next'
 
 import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare'
 import { env } from '@yuki/validators/env'
+import { createMDX } from 'fumadocs-mdx/next'
 
 import path from 'node:path'
 
@@ -38,7 +39,9 @@ const nextConfig = {
     : {}),
 } satisfies NextConfig
 
-export default nextConfig
+const withMdx = createMDX()
+
+export default withMdx(nextConfig)
 if (!env.VERCEL) initOpenNextCloudflareForDev()
 
 const socials = {

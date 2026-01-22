@@ -1,54 +1,54 @@
 import { Badge } from '@yuki/ui/badge'
 import { Typography } from '@yuki/ui/typography'
+import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
 import { InlineTOC } from 'fumadocs-ui/components/inline-toc'
-import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
 import { mdxComponents } from '@/components/mdx'
-import { getPage, getPages } from '@/content'
 import { createMetadata } from '@/lib/metadata'
+import { source } from '@/lib/source'
 import { formatDate } from '@/lib/utils'
 
 export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
   const { slugs } = await params
 
-  const page = await getPage(slugs)
+  const page = source.getPage(slugs)
   if (!page) notFound()
 
-  const { frontmatter, toc, MDXContent } = page
+  const { data } = page
+  const MDXContent = data.body
 
   return (
     <main className='container min-h-[calc(100dvh-1.5rem)] max-w-[100ch] pt-8 pb-12'>
-      <Typography variant='h1'>{frontmatter.title}</Typography>
+      <Typography variant='h1'>{data.title}</Typography>
       <Typography className='shrink-0 text-xs text-muted-foreground lg:text-sm'>
-        {formatDate(frontmatter.publishedAt)}
+        {formatDate(data.publishedAt)}
       </Typography>
       <Typography className='text-muted-foreground'>
-        {frontmatter.description}
+        {data.description}
       </Typography>
 
       <div className='my-4 flex flex-wrap gap-2'>
-        {frontmatter.tags.map((tag) => (
+        {data.tags.map((tag) => (
           <Badge key={tag} variant='outline'>
             {tag}
           </Badge>
         ))}
       </div>
 
-      {frontmatter.image && (
+      {data.image && (
         <div className='relative mb-4 aspect-video w-full rounded-lg shadow-sm'>
-          <Image
-            src={frontmatter.image}
-            alt={frontmatter.title}
+          <ImageZoom
+            src={data.image}
+            alt={data.title}
             sizes='(max-width: 768px) 100vw, 50vw'
             className='rounded-lg object-cover'
             priority
-            fill
           />
         </div>
       )}
 
-      <InlineTOC items={toc} suppressHydrationWarning />
+      <InlineTOC items={data.toc} suppressHydrationWarning />
 
       <hr className='my-4' />
 
@@ -59,8 +59,8 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
   )
 }
 
-export async function generateStaticParams() {
-  const pages = await getPages()
+export function generateStaticParams() {
+  const pages = source.getPages()
   return pages.map((page) => ({ slugs: page.slugs }))
 }
 
@@ -69,21 +69,21 @@ export const generateMetadata = async ({
 }: PageProps<'/[...slugs]'>) => {
   const { slugs } = await params
 
-  const page = await getPage(slugs)
+  const page = source.getPage(slugs)
   if (!page) notFound()
 
-  const { frontmatter, url } = page
+  const { data, url } = page
 
   return createMetadata({
-    description: frontmatter.description,
-    keywords: ['content', 'blog', 'article', ...frontmatter.tags],
+    title: data.title,
+    description: data.description,
+    keywords: ['content', 'blog', 'article', ...data.tags],
     openGraph: {
       images: [
-        ...(frontmatter.image ? [frontmatter.image] : []),
-        `/api/og?title=${frontmatter.title}&description=${frontmatter.description}`,
+        ...(data.image ? [data.image] : []),
+        `/api/og?title=${data.title}&description=${data.description}`,
       ],
       url,
     },
-    title: frontmatter.title,
   })
 }

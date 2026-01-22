@@ -179,7 +179,7 @@ function SidebarItem({
     props: mergeProps(
       {
         className: cn(
-          'inline-flex items-center gap-2 rounded-md border border-transparent px-2 py-1 text-sm transition-colors hover:border-sidebar-accent hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground [&_svg]:size-4',
+          'inline-flex cursor-pointer items-center gap-2 rounded-md border border-transparent px-2 py-1 text-sm capitalize transition-colors hover:border-sidebar-accent hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground [&_svg]:size-4',
           'data-[active=""]:border-sidebar-accent data-[active=""]:bg-sidebar-accent/40 data-[active=""]:text-sidebar-accent-foreground',
           className,
         ),
