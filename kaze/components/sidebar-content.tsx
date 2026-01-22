@@ -1,3 +1,5 @@
+import type { Route } from 'next'
+
 import {
   FacebookIcon,
   FolderKanbanIcon,
@@ -42,7 +44,10 @@ export function SidebarContent() {
           const Icon = icons[nav.icon as keyof typeof icons]
           if (nav.type === 'page')
             return (
-              <SidebarItem key={`nav-${idx}`} render={<Link href={nav.url} />}>
+              <SidebarItem
+                key={`nav-${idx}`}
+                render={<Link href={nav.url as Route} />}
+              >
                 {Icon && <Icon />}
                 <span>{nav.name}</span>
               </SidebarItem>
@@ -60,7 +65,11 @@ export function SidebarContent() {
                     <SidebarItem
                       key={`nav-child-${cidx}`}
                       render={
-                        <Link href={child.type === 'page' ? child.url : '#'}>
+                        <Link
+                          href={
+                            child.type === 'page' ? (child.url as Route) : '#'
+                          }
+                        >
                           <span className='truncate'>{child.name}</span>
                         </Link>
                       }
