@@ -57,5 +57,10 @@ jobs:
         shell: bash
         run: cp .env.example .env
 
+      - name: Generate type
+        shell: bash
+        run: bun fumadocs-mdx
+        working_dir: kaze
+
       - name: Typecheck
         run: bun typecheck

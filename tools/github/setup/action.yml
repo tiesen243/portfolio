@@ -17,7 +17,3 @@ runs:
 
     - shell: bash
       run: bun run build -F './packages/*'
-
-    - shell: bash
-      run: bun fumadocs-mdx
-      working-directory: kaze
