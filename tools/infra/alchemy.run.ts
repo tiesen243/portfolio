@@ -14,6 +14,11 @@ export const web = await Nextjs('web', {
     RESEND_TOKEN: alchemy.env.RESEND_TOKEN ?? '',
     NEXT_PUBLIC_APP_URL: alchemy.env.NEXT_PUBLIC_APP_URL ?? '',
   },
+  bundle: {
+    loader: {
+      '.bin': 'file',
+    },
+  },
 })
 
 console.log(`Web -> ${web.url}`)

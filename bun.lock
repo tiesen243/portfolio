@@ -23,6 +23,7 @@
         "react": "catalog:react",
         "react-dom": "catalog:react",
         "resend": "^6.8.0",
+        "shiki": "^3.21.0",
       },
       "devDependencies": {
         "@opennextjs/cloudflare": "^1.15.0",
