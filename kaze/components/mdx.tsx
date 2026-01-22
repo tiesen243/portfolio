@@ -48,7 +48,7 @@ export function mdxComponents() {
       )
     },
     img: ({ ...props }: ImageProps) => (
-      <Image {...props} className='rounded-xl object-cover drop-shadow-md' />
+      <Image {...props} className='rounded-lg object-cover' />
     ),
     code: ({ ...props }: Props) => (
       <code
