@@ -1,10 +1,11 @@
 import type { MdxContent } from '@fumadocs/mdx-remote/client'
+import type { Frontmatter } from '@yuki/validators/mdx'
 import type { RemarkImageOptions } from 'fumadocs-core/mdx-plugins'
 import type { TableOfContents } from 'fumadocs-core/toc'
 
 import { createCompiler } from '@fumadocs/mdx-remote'
 import { FolderKanbanIcon, HomeIcon, MailIcon, RssIcon } from '@yuki/ui/icons'
-import { frontmatterSchema, type Frontmatter } from '@yuki/validators/mdx'
+import { frontmatterSchema } from '@yuki/validators/mdx'
 import {
   rehypeToc,
   remarkCodeTab,
@@ -54,7 +55,7 @@ async function uncachedGetPage(slugs: string[]): Promise<{
 } | null> {
   validateSlugs(slugs)
 
-  const sourcePath = path.resolve(`../packages/content/`)
+  const sourcePath = path.resolve(`./content/`)
   const filePath = path.join(sourcePath, ...slugs) + '.mdx'
 
   try {
@@ -81,7 +82,7 @@ async function uncachedGetPage(slugs: string[]): Promise<{
 }
 
 async function uncachedGetPages(contentType?: 'blogs' | 'projects') {
-  const sourcePath = path.resolve(`../packages/content/${contentType ?? ''}`)
+  const sourcePath = path.resolve(`./content/${contentType ?? ''}`)
 
   try {
     const files = await fs.readdir(sourcePath, {
@@ -160,8 +161,8 @@ async function uncachedGetPageTree(): Promise<
     )
   >
 > {
-  const blogsDir = path.resolve(`../packages/content/blogs`)
-  const projectsDir = path.resolve(`../packages/content/projects`)
+  const blogsDir = path.resolve(`./content/blogs`)
+  const projectsDir = path.resolve(`./content/projects`)
 
   const [blogs, projects] = await Promise.all([
     fs.readdir(blogsDir).catch(() => []),

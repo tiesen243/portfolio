@@ -1,4 +1,3 @@
-import { getPageTree } from '@yuki/content'
 import {
   FacebookIcon,
   GithubIcon,
@@ -15,6 +14,7 @@ import Link from 'next/link'
 
 import { SidebarItem } from '@/components/sidebar-item'
 import { ToggleTheme } from '@/components/toggle-theme'
+import { getPageTree } from '@/content'
 import Tiesen from '@/public/assets/logotype.png'
 
 export async function SidebarContent() {

@@ -13,12 +13,7 @@ const nextConfig = {
     remotePatterns: [{ protocol: 'https', hostname: '1.gravatar.com' }],
   },
 
-  transpilePackages: [
-    '@yuki/content',
-    '@yuki/lib',
-    '@yuki/ui',
-    '@yuki/validators',
-  ],
+  transpilePackages: ['@yuki/lib', '@yuki/ui', '@yuki/validators'],
 
   redirects() {
     return [
