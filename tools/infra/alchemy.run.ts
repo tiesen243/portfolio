@@ -11,7 +11,6 @@ export const web = await Nextjs('web', {
   cwd: '../../kaze',
   adopt: true,
   bindings: {
-    NEXT_BUILD_OUTPUT: 'standalone',
     RESEND_TOKEN: alchemy.env.RESEND_TOKEN ?? '',
     NEXT_PUBLIC_APP_URL: alchemy.env.NEXT_PUBLIC_APP_URL ?? '',
   },
