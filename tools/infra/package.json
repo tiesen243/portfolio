@@ -1,0 +1,22 @@
+{
+  "name": "@yuki/infra",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./alchemy": "./alchemy.run.ts"
+  },
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "deploy": "alchemy deploy",
+    "destroy": "alchemy destroy",
+    "dev": "alchemy dev"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "alchemy": "^0.83.1",
+    "typescript": "catalog:dev"
+  }
+}

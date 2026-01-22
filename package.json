@@ -14,18 +14,18 @@
   "scripts": {
     "build": "turbo run build",
     "bump-deps": "bunx npm-check-updates --deep -u && bun install",
-    "clean": "git clean -xdf node_modules",
-    "clean:workspaces": "turbo run clean",
+    "clean:workspaces": "turbo run clean && git clean -xdf node_modules",
     "container:build": "docker build -t portfolio .",
     "container:start": "docker run --env-file .env -p 3000:3000 --rm -d portfolio",
     "container:stop": "docker stop $(docker ps -q --filter ancestor=portfolio)",
-    "dev": "turbo dev --continue",
+    "dev": "turbo dev --continue -F !@yuki/infra",
     "format": "oxfmt --check",
     "format:fix": "oxfmt --write",
+    "infra:deploy": "turbo run deploy --filter=@yuki/infra",
+    "infra:destroy": "turbo run destroy --filter=@yuki/infra",
+    "infra:dev": "turbo run dev --filter=@yuki/infra",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "lint:ws": "bunx sherif@latest",
-    "postinstall": "bun run lint:ws",
     "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
@@ -40,8 +40,7 @@
       "zod": "^4.3.5"
     },
     "dev": {
-      "@types/node": "^25.0.9",
-      "dotenv-cli": "^11.0.0",
+      "@types/node": "^25.0.10",
       "tsdown": "^0.20.0-beta.4",
       "typescript": "^5.9.3"
     },
@@ -55,17 +54,6 @@
       "@tailwindcss/postcss": "^4.1.18",
       "@tailwindcss/vite": "^4.1.18",
       "tailwindcss": "^4.1.18"
-    },
-    "trpc": {
-      "@trpc/server": "^11.8.1",
-      "@trpc/client": "^11.8.1",
-      "@trpc/tanstack-react-query": "^11.8.1",
-      "superjson": "^2.2.6"
-    },
-    "orpc": {
-      "@orpc/server": "^1.13.1",
-      "@orpc/client": "^1.13.1",
-      "@orpc/react-query": "^1.13.1"
     }
   }
 }

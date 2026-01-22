@@ -1,6 +1,7 @@
-import '@yuki/validators/env'
-
 import type { NextConfig } from 'next'
+
+import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare'
+import { env } from '@yuki/validators/env'
 
 import path from 'node:path'
 
@@ -34,8 +35,7 @@ const nextConfig = {
     ]
   },
 
-  // oxlint-disable-next-line no-process-env
-  ...(process.env.NEXT_BUILD_OUTPUT === 'standalone'
+  ...(env.NEXT_BUILD_OUTPUT === 'standalone'
     ? {
         output: 'standalone',
         outputFileTracingRoot: path.join(__dirname, '../'),
@@ -44,6 +44,7 @@ const nextConfig = {
 } satisfies NextConfig
 
 export default nextConfig
+if (!env.VERCEL) initOpenNextCloudflareForDev()
 
 const socials = {
   github: 'https://github.com/tiesen243',

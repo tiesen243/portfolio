@@ -10,7 +10,10 @@
       "dependsOn": ["^clean"],
       "cache": false
     },
-    "//#clean": {
+    "deploy": {
+      "cache": false
+    },
+    "destroy": {
       "cache": false
     },
     "dev": {
@@ -18,12 +21,17 @@
       "persistent": true
     },
     "typecheck": {
-      "dependsOn": ["^typecheck"],
+      "dependsOn": ["^build"],
       "outputs": [".cache/tsbuildinfo.json"],
       "outputLogs": "new-only"
     }
   },
-  "globalEnv": ["RESEND_TOKEN", "PORT"],
+  "globalEnv": [
+    "RESEND_TOKEN",
+    "NEXT_BUILD_OUTPUT",
+    "NEXT_PUBLIC_APP_URL",
+    "PORT"
+  ],
   "globalPassThroughEnv": [
     "CI",
     "NODE_ENV",

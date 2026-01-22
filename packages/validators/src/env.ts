@@ -1,6 +1,14 @@
 import { createEnv } from '@yuki/lib/create-env'
 import * as z from 'zod/mini'
 
+let rawEnv: Record<string, string | undefined>
+try {
+  const { env } = require('cloudflare:workers')
+  rawEnv = env
+} catch {
+  rawEnv = process.env
+}
+
 export const env = createEnv({
   shared: {
     NODE_ENV: z._default(
@@ -17,13 +25,16 @@ export const env = createEnv({
     VERCEL_ENV: z.optional(z.enum(['production', 'preview', 'development'])),
     VERCEL_URL: z.optional(z.string()),
     VERCEL_PROJECT_PRODUCTION_URL: z.optional(z.string()),
+
+    NEXT_BUILD_OUTPUT: z.optional(z.literal('standalone')),
   },
 
   clientPrefix: 'NEXT_PUBLIC_',
-  client: {},
+  client: {
+    NEXT_PUBLIC_APP_URL: z.optional(z.string()),
+  },
 
-  runtimeEnv: process.env,
+  runtimeEnv: rawEnv,
 
-  skipValidation:
-    !!process.env.CI || process.env.npm_lifecycle_event === 'lint',
+  skipValidation: !!rawEnv.CI || rawEnv.npm_lifecycle_event === 'lint',
 })
