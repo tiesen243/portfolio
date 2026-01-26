@@ -13,7 +13,7 @@
   "dependencies": {
     "@yuki/ui": "workspace:*",
     "@yuki/validators": "workspace:*",
-    "fumadocs-core": "^16.4.7",
+    "fumadocs-core": "^16.4.8",
     "fumadocs-mdx": "^14.2.6",
     "fumadocs-ui": "npm:@fumadocs/base-ui@16.4.7",
     "next": "^16.1.4",
