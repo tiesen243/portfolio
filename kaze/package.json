@@ -13,16 +13,16 @@
   "dependencies": {
     "@yuki/ui": "workspace:*",
     "@yuki/validators": "workspace:*",
-    "fumadocs-core": "^16.4.8",
+    "fumadocs-core": "^16.4.9",
     "fumadocs-mdx": "^14.2.6",
     "fumadocs-ui": "npm:@fumadocs/base-ui@16.4.8",
-    "next": "^16.1.4",
+    "next": "^16.1.6",
     "react": "catalog:react",
     "react-dom": "catalog:react",
-    "resend": "^6.8.0"
+    "resend": "^6.9.1"
   },
   "devDependencies": {
-    "@opennextjs/cloudflare": "^1.15.0",
+    "@opennextjs/cloudflare": "^1.16.1",
     "@tailwindcss/postcss": "catalog:tailwind",
     "@types/node": "catalog:dev",
     "@types/react": "catalog:react",
