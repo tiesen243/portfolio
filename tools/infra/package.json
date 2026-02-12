@@ -13,10 +13,10 @@
     "dev": "alchemy dev"
   },
   "dependencies": {
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.2.4"
   },
   "devDependencies": {
-    "alchemy": "^0.83.2",
+    "alchemy": "^0.84.0",
     "typescript": "catalog:dev"
   }
 }
