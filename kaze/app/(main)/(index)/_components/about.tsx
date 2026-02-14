@@ -58,17 +58,17 @@ export function AboutSection() {
 
       <section
         id='certifications'
-        className='container mt-12 flex flex-col gap-0'
+        className='container mt-6 flex flex-col gap-0'
       >
         <Typography variant='h3'>Certifications</Typography>
 
         {basic.certifications.map((certification) => (
-          <div
+          <section
             key={certification.name}
             className='relative ml-4 border-l border-primary p-8 pt-0 last:pb-0'
           >
             <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-primary' />
-            <Typography variant='h5' className='-mt-2'>
+            <Typography variant='h5' render={<h4 />} className='-mt-2'>
               {certification.name}
             </Typography>
             <Typography className='text-muted-foreground'>
@@ -87,12 +87,12 @@ export function AboutSection() {
             >
               View Certificate
             </Typography>
-          </div>
+          </section>
         ))}
       </section>
 
-      <section id='education' className='container mt-12 flex flex-col gap-0'>
-        <Typography variant='h2'>Educations</Typography>
+      <section id='education' className='container mt-6 flex flex-col gap-0'>
+        <Typography variant='h3'>Educations</Typography>
 
         {basic.educations.map((education) => (
           <div
@@ -100,7 +100,7 @@ export function AboutSection() {
             className='relative ml-4 border-l border-primary p-8 pt-0 last:pb-0'
           >
             <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-primary' />
-            <Typography variant='h5' className='-mt-2'>
+            <Typography variant='h5' render={<h4 />} className='-mt-2'>
               {education.school}
             </Typography>
             <Typography className='text-muted-foreground'>
@@ -113,16 +113,16 @@ export function AboutSection() {
         ))}
       </section>
 
-      <section id='experience' className='container mt-12 flex flex-col gap-0'>
-        <Typography variant='h2'>Experiences</Typography>
+      <section id='experience' className='container mt-6 flex flex-col gap-0'>
+        <Typography variant='h3'>Experiences</Typography>
 
         {basic.experiences.map((exp) => (
-          <div
+          <section
             key={exp.company}
             className='relative ml-4 border-l border-primary p-8 pt-0 last:pb-0'
           >
             <div className='absolute top-0 -left-1.5 size-2.5 rounded-full bg-primary' />
-            <Typography variant='h5' className='-mt-2'>
+            <Typography variant='h4' className='-mt-2'>
               {exp.company}
             </Typography>
             <Typography className='text-muted-foreground'>
@@ -130,7 +130,7 @@ export function AboutSection() {
             </Typography>
             <Typography>{exp.position}</Typography>
             <Typography>{exp.description}</Typography>
-          </div>
+          </section>
         ))}
       </section>
     </>

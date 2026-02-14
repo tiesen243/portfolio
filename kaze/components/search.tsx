@@ -4,6 +4,7 @@ import { SearchIcon } from '@yuki/ui/icons'
 import {
   InputGroup,
   InputGroupAddon,
+  InputGroupButton,
   InputGroupText,
 } from '@yuki/ui/input-group'
 import { useDocsSearch } from 'fumadocs-core/search/client'
@@ -33,6 +34,14 @@ export default function DefaultSearchDialog() {
       </InputGroupAddon>
       <InputGroupAddon align='inline-start'>
         <InputGroupText>Search...</InputGroupText>
+      </InputGroupAddon>
+      <InputGroupAddon align='inline-end' className='ml-auto gap-1'>
+        <InputGroupButton variant='outline' size='icon-xs'>
+          ⌘
+        </InputGroupButton>
+        <InputGroupButton variant='outline' size='icon-xs'>
+          K
+        </InputGroupButton>
       </InputGroupAddon>
 
       <SearchDialog

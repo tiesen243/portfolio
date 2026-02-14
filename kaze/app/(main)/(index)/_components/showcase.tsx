@@ -22,7 +22,9 @@ export function ShowcaseSection() {
       id='showcase'
       className='container my-12 flex flex-col justify-center'
     >
-      <Typography variant='h2'>Featured Projects</Typography>
+      <Typography variant='h2' className='mb-0'>
+        Featured Projects
+      </Typography>
       <Typography className='text-muted-foreground'>
         Explore a collection of open-source projects and tools built with modern
         technologies.

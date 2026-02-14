@@ -9,7 +9,9 @@ import { skills } from '@/lib/data'
 export function SkillSection() {
   return (
     <section id='skill' className='container mt-12'>
-      <Typography variant='h2'>Skills</Typography>
+      <Typography variant='h2' className='mb-0'>
+        Skills
+      </Typography>
       <Typography className='text-muted-foreground'>
         A collection of skills and technologies I work with, including
         programming languages, frameworks, libraries, and tools.
@@ -39,7 +41,7 @@ function SkillList({ title, skills }: { title: string; skills: Skill[] }) {
               } as React.CSSProperties
             }
             className={cn(
-              'h-8 text-lg transition-colors select-none',
+              'h-8 transition-colors select-none',
               'border-(--skill-color) bg-(--skill-color)/10 text-(--skill-color) hover:bg-(--skill-color)/20',
               'dark:border-(--skill-color-dark) dark:bg-(--skill-color-dark)/10 dark:text-(--skill-color-dark) dark:hover:bg-(--skill-color-dark)/20',
             )}
