@@ -1,6 +1,5 @@
 import type { NextConfig } from 'next'
 
-import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare'
 import { env } from '@yuki/validators/env'
 import { createMDX } from 'fumadocs-mdx/next'
 
@@ -42,7 +41,6 @@ const nextConfig = {
 const withMdx = createMDX()
 
 export default withMdx(nextConfig)
-if (!env.VERCEL) initOpenNextCloudflareForDev()
 
 const socials = {
   github: 'https://github.com/tiesen243',
