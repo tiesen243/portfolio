@@ -7,7 +7,8 @@ import { getBaseUrl } from '@/lib/utils'
 
 const getBlogListDef = toolDefinition({
   name: 'get_blog_list',
-  description: 'Get a list of all blog posts',
+  description:
+    'Get a list of all blog posts or projects. Each item includes the title and URL.',
 })
 
 const getBlogList = getBlogListDef.server(() => {
