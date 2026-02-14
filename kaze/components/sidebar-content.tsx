@@ -21,6 +21,7 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 
+import SearchDialog from '@/components/search'
 import { ToggleTheme } from '@/components/toggle-theme'
 import { source } from '@/lib/source'
 import Tiesen from '@/public/assets/logotype.png'
@@ -42,6 +43,8 @@ export function SidebarContent() {
       </figure>
 
       <nav className='flex flex-1 flex-col gap-2 px-2 py-4'>
+        <SearchDialog />
+
         {pageTree.children.map((nav, idx) => {
           const Icon = icons[nav.icon as keyof typeof icons]
           if (nav.type === 'page')
