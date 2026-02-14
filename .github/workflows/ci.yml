@@ -60,7 +60,7 @@ jobs:
       - name: Generate type
         shell: bash
         run: bun fumadocs-mdx
-        working_dir: kaze
+        working-directory: kaze
 
       - name: Typecheck
         run: bun typecheck
