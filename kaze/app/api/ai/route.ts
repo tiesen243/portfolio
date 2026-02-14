@@ -3,6 +3,7 @@ import { openRouterText } from '@tanstack/ai-openrouter'
 import { frontmatterSchema } from '@yuki/validators/mdx'
 
 import { source } from '@/lib/source'
+import { getBaseUrl } from '@/lib/utils'
 
 const getBlogPostsDef = toolDefinition({
   name: 'get_blog_posts',
@@ -24,13 +25,16 @@ const getBlogPosts = getBlogPostsDef.server(({ title, content }) => {
     return true
   })
 
-  return posts.map(async (post) => ({
-    title: post.data.title,
-    description: post.data.description,
-    tags: post.data.tags,
-    content: await post.data.getText('raw'),
-    publishedAt: post.data.publishedAt,
-  }))
+  return Promise.all(
+    posts.map(async (post) => ({
+      title: post.data.title,
+      description: post.data.description,
+      tags: post.data.tags,
+      content: await post.data.getText('raw'),
+      publishedAt: post.data.publishedAt,
+      url: `${getBaseUrl()}${post.url}`,
+    })),
+  )
 })
 
 export async function POST(request: Request) {
