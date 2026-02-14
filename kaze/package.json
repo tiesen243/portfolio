@@ -22,7 +22,6 @@
     "resend": "^6.9.2"
   },
   "devDependencies": {
-    "@opennextjs/cloudflare": "^1.16.5",
     "@tailwindcss/postcss": "catalog:tailwind",
     "@types/node": "catalog:dev",
     "@types/react": "catalog:react",

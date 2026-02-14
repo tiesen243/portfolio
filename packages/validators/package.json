@@ -16,7 +16,6 @@
     "~dev": "tsdown --watch ./src"
   },
   "dependencies": {
-    "@yuki/infra": "workspace:*",
     "@yuki/lib": "workspace:*",
     "zod": "catalog:prod"
   },

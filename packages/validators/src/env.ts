@@ -1,14 +1,6 @@
 import { createEnv } from '@yuki/lib/create-env'
 import * as z from 'zod/mini'
 
-let rawEnv: Record<string, string | undefined>
-try {
-  const { env } = require('cloudflare:workers')
-  rawEnv = env
-} catch {
-  rawEnv = process.env
-}
-
 export const env = createEnv({
   shared: {
     NODE_ENV: z._default(
@@ -34,7 +26,8 @@ export const env = createEnv({
     NEXT_PUBLIC_APP_URL: z.optional(z.string()),
   },
 
-  runtimeEnv: rawEnv,
+  runtimeEnv: process.env,
 
-  skipValidation: !!rawEnv.CI || rawEnv.npm_lifecycle_event === 'lint',
+  skipValidation:
+    !!process.env.CI || process.env.npm_lifecycle_event === 'lint',
 })
