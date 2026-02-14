@@ -26,7 +26,7 @@
     }
   },
   "globalEnv": [
-    "GEMINI_TOKEN",
+    "OPENROUTER_API_KEY",
     "RESEND_TOKEN",
     "NEXT_BUILD_OUTPUT",
     "NEXT_PUBLIC_APP_URL",

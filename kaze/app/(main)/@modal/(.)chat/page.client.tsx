@@ -12,6 +12,7 @@ import {
 } from '@yuki/ui/card'
 import { SendIcon, XIcon } from '@yuki/ui/icons'
 import { Input } from '@yuki/ui/input'
+import { toast } from '@yuki/ui/toast'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
@@ -46,6 +47,14 @@ export function ChatContent() {
 
   const { messages, sendMessage, isLoading } = useChat({
     connection: fetchServerSentEvents('/api/ai'),
+    onError(error) {
+      toast.add({
+        title: 'Error',
+        description:
+          error instanceof Error ? error.message : 'An error occurred',
+        type: 'error',
+      })
+    },
   })
 
   const handleSubmit = (e: React.SubmitEvent) => {

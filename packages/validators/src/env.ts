@@ -10,7 +10,7 @@ export const env = createEnv({
   },
 
   server: {
-    GENIMI_TOKEN: z.string(),
+    OPENROUTER_API_KEY: z.string(),
     RESEND_TOKEN: z.string(),
 
     // Vercel environment variables

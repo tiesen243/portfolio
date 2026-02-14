@@ -1,11 +1,8 @@
 import { chat, toolDefinition, toServerSentEventsResponse } from '@tanstack/ai'
-import { createGeminiChat } from '@tanstack/ai-gemini'
-import { env } from '@yuki/validators/env'
+import { openRouterText } from '@tanstack/ai-openrouter'
 import { frontmatterSchema } from '@yuki/validators/mdx'
 
 import { source } from '@/lib/source'
-
-const adapter = createGeminiChat('gemini-2.5-flash', env.GENIMI_TOKEN, {})
 
 const getBlogPostsDef = toolDefinition({
   name: 'get_blog_posts',
@@ -41,7 +38,7 @@ export async function POST(request: Request) {
 
   try {
     const stream = chat({
-      adapter,
+      adapter: openRouterText('openrouter/auto'),
       messages,
       conversationId,
       tools: [getBlogPosts],
