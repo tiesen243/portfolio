@@ -5,36 +5,40 @@ import { frontmatterSchema } from '@yuki/validators/mdx'
 import { source } from '@/lib/source'
 import { getBaseUrl } from '@/lib/utils'
 
-const getBlogPostsDef = toolDefinition({
-  name: 'get_blog_posts',
-  description: 'Get blog posts for a given title or tags',
-  inputSchema: frontmatterSchema.pick({ title: true, content: true }).partial(),
+const getBlogListDef = toolDefinition({
+  name: 'get_blog_list',
+  description: 'Get a list of all blog posts',
 })
 
-const getBlogPosts = getBlogPostsDef.server(({ title, content }) => {
-  const posts = source.getPages().filter(async (post) => {
+const getBlogList = getBlogListDef.server(() => {
+  return source.getPageTree()
+})
+
+const findBlogPostDef = toolDefinition({
+  name: 'get_blog_post_details',
+  description:
+    'Get details of a blog post by title. The title can be partial and is case-insensitive.',
+  inputSchema: frontmatterSchema.pick({ title: true }).partial(),
+})
+
+const findBlogPost = findBlogPostDef.server(async ({ title }) => {
+  const post = source.getPages().find((post) => {
     if (title && !post.data.title.toLowerCase().includes(title.toLowerCase()))
-      return false
-    if (
-      content &&
-      !(await post.data.getText('raw'))
-        .toLowerCase()
-        .includes(content.toLowerCase())
-    )
       return false
     return true
   })
 
-  return Promise.all(
-    posts.map(async (post) => ({
-      title: post.data.title,
-      description: post.data.description,
-      tags: post.data.tags,
-      content: await post.data.getText('raw'),
-      publishedAt: post.data.publishedAt,
-      url: `${getBaseUrl()}${post.url}`,
-    })),
-  )
+  if (!post) return null
+
+  return {
+    title: post.data.title,
+    description: post.data.description,
+    content: await post.data.getText('raw'),
+    tags: post.data.tags,
+    publishedAt: post.data.publishedAt,
+    url: `${getBaseUrl()}${post.url}`,
+    slugs: post.slugs,
+  }
 })
 
 export async function POST(request: Request) {
@@ -45,7 +49,7 @@ export async function POST(request: Request) {
       adapter: openRouterText('openrouter/auto'),
       messages,
       conversationId,
-      tools: [getBlogPosts],
+      tools: [getBlogList, findBlogPost],
     })
 
     return toServerSentEventsResponse(stream)

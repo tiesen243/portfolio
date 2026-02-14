@@ -22,7 +22,7 @@ export const Modal = ({ children }: { children: React.ReactNode }) => {
   return (
     <Card
       render={<section />}
-      className='fixed right-4 bottom-8 z-50 w-[calc(100%-2rem)] md:bottom-12 md:w-96'
+      className='fixed right-4 bottom-8 z-50 w-[calc(100%-2rem)] md:bottom-12 md:w-100'
     >
       <CardHeader className='border-b'>
         <CardTitle>Chat with AI</CardTitle>
