@@ -1,3 +1,5 @@
+// oxlint-disable eslint-plugin-react(no-array-index-key)
+
 import type { Route } from 'next'
 
 import {
