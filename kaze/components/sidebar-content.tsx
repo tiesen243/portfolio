@@ -9,6 +9,7 @@ import {
   HomeIcon,
   LinkedinIcon,
   MailIcon,
+  MessageCircleIcon,
   RssIcon,
   XFormerTwitterIcon,
 } from '@yuki/ui/icons'
@@ -86,6 +87,10 @@ export function SidebarContent() {
 
           return null
         })}
+
+        <SidebarItem render={<Link href='/chat' />}>
+          <MessageCircleIcon /> Ask AI
+        </SidebarItem>
       </nav>
 
       <div className='flex items-center justify-between gap-4 border-t px-4 pt-5 pb-10 md:pb-5'>
