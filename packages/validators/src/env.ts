@@ -10,8 +10,8 @@ export const env = createEnv({
   },
 
   server: {
-    RESEND_TOKEN: z.string(),
     GENIMI_TOKEN: z.string(),
+    RESEND_TOKEN: z.string(),
 
     // Vercel environment variables
     VERCEL: z.optional(z.string()),
