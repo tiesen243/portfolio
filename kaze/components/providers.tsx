@@ -1,6 +1,6 @@
 import { NvimStatuslineProvider } from '@yuki/ui/nvim-statusline'
 import { SidebarProvider } from '@yuki/ui/sidebar'
-import { StackedToastProvider } from '@yuki/ui/toast'
+import { ToastProvider } from '@yuki/ui/toast'
 import { RootProvider } from 'fumadocs-ui/provider/next'
 
 export function Providers({
@@ -15,11 +15,11 @@ export function Providers({
         enableSystem: true,
       }}
     >
-      <StackedToastProvider>
+      <ToastProvider>
         <SidebarProvider>
           <NvimStatuslineProvider>{children}</NvimStatuslineProvider>
         </SidebarProvider>
-      </StackedToastProvider>
+      </ToastProvider>
     </RootProvider>
   )
 }

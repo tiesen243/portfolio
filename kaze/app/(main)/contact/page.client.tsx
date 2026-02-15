@@ -25,7 +25,7 @@ export function ContactForm() {
   const { mode, setMode } = useNvimStatusline()
   const previousMode = useRef(mode)
 
-  const { formId, FormField, handleSubmit, state } = useForm({
+  const form = useForm({
     defaultValues: { email: '', message: '', name: '', subject: '' },
     onSubmit: sendEmail,
     onSuccess: (data) => toast.add({ title: data.message, type: 'success' }),
@@ -44,7 +44,7 @@ export function ContactForm() {
   }
 
   return (
-    <Card id={formId} render={<form onSubmit={handleSubmit} />}>
+    <Card id={form.formId} render={<form onSubmit={form.handleSubmit} />}>
       <h3 className='sr-only'>Contact Form</h3>
 
       <FieldSet className='h-full px-6'>
@@ -57,7 +57,7 @@ export function ContactForm() {
         </Typography>
 
         <FieldGroup className='flex-1'>
-          <FormField
+          <form.Field
             name='name'
             render={({ meta, field }) => (
               <Field data-invalid={meta.errors.length > 0}>
@@ -76,7 +76,7 @@ export function ContactForm() {
             )}
           />
 
-          <FormField
+          <form.Field
             name='email'
             render={({ meta, field }) => (
               <Field data-invalid={meta.errors.length > 0}>
@@ -96,7 +96,7 @@ export function ContactForm() {
             )}
           />
 
-          <FormField
+          <form.Field
             name='subject'
             render={({ meta, field }) => (
               <Field data-invalid={meta.errors.length > 0}>
@@ -115,7 +115,7 @@ export function ContactForm() {
             )}
           />
 
-          <FormField
+          <form.Field
             name='message'
             render={({ meta, field }) => (
               <Field className='flex-1' data-invalid={meta.errors.length > 0}>
@@ -136,7 +136,7 @@ export function ContactForm() {
           />
 
           <Field>
-            <Button type='submit' disabled={state.isPending}>
+            <Button type='submit' disabled={form.state.isPending}>
               <SendIcon /> Send Message
             </Button>
           </Field>
