@@ -8,7 +8,7 @@
     "clean": "git clean -xdf .cache .next .turbo node_modules",
     "dev": "bun --env-file ../.env next dev --port 3000",
     "start": "bun --env-file ../.env next start --port 3000",
-    "typecheck": "bun --env-file ../.env next typegen && tsc --noEmit"
+    "typecheck": "bun --env-file ../.env next typegen && bun fumadocs-mdx && tsc --noEmit"
   },
   "dependencies": {
     "@tanstack/ai": "^0.5.0",
