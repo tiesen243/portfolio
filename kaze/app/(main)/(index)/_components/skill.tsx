@@ -1,8 +1,8 @@
-import type { Skill } from '@/lib/data'
-
 import { cn } from '@yuki/ui'
 import { Badge } from '@yuki/ui/badge'
 import { Typography } from '@yuki/ui/typography'
+
+import type { Skill } from '@/lib/data'
 
 import { skills } from '@/lib/data'
 

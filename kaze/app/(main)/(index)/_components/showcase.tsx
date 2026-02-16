@@ -1,7 +1,5 @@
 // oxlint-disable no-html-link-for-pages
 
-import type { Showcase } from '@/lib/data'
-
 import { Button } from '@yuki/ui/button'
 import {
   Card,
@@ -13,6 +11,8 @@ import {
 import { ExternalLinkIcon } from '@yuki/ui/icons'
 import { Typography } from '@yuki/ui/typography'
 import Image from 'next/image'
+
+import type { Showcase } from '@/lib/data'
 
 import { showcases } from '@/lib/data'
 

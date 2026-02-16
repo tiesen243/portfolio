@@ -2,7 +2,6 @@ import type { NextConfig } from 'next'
 
 import { env } from '@yuki/validators/env'
 import { createMDX } from 'fumadocs-mdx/next'
-
 import path from 'node:path'
 
 const nextConfig = {

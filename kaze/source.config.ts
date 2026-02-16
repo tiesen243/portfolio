@@ -13,7 +13,6 @@ import {
   remarkNpm,
 } from 'fumadocs-core/mdx-plugins'
 import { defineDocs, defineConfig } from 'fumadocs-mdx/config'
-
 import path from 'node:path'
 
 export const docs = defineDocs({

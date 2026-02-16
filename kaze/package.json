@@ -16,7 +16,7 @@
     "@tanstack/ai-react": "^0.5.3",
     "@yuki/ui": "workspace:*",
     "@yuki/validators": "workspace:*",
-    "fumadocs-core": "^16.6.1",
+    "fumadocs-core": "^16.6.2",
     "fumadocs-mdx": "^14.2.7",
     "fumadocs-ui": "npm:@fumadocs/base-ui@16.6.1",
     "next": "^16.1.6",
