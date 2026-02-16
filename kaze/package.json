@@ -18,7 +18,7 @@
     "@yuki/validators": "workspace:*",
     "fumadocs-core": "^16.6.2",
     "fumadocs-mdx": "^14.2.7",
-    "fumadocs-ui": "npm:@fumadocs/base-ui@16.6.1",
+    "fumadocs-ui": "npm:@fumadocs/base-ui@16.6.2",
     "next": "^16.1.6",
     "react": "catalog:react",
     "react-dom": "catalog:react",
