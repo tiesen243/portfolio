@@ -28,7 +28,7 @@ export default function RootLayout({
         className={cn(
           'flex min-h-dvh w-full font-mono antialiased',
           geistSans.variable,
-          geistMono.variable,
+          geistMono.variable
         )}
       >
         <Providers>

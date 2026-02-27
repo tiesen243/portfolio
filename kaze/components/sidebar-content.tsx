@@ -27,6 +27,20 @@ import { ToggleTheme } from '@/components/toggle-theme'
 import { source } from '@/lib/source'
 import Tiesen from '@/public/assets/logotype.png'
 
+const socials = {
+  facebook: FacebookIcon,
+  github: GithubIcon,
+  linkedin: LinkedinIcon,
+  x: XFormerTwitterIcon,
+}
+
+const icons = {
+  HomeIcon,
+  MailIcon,
+  RssIcon,
+  FolderKanbanIcon,
+}
+
 export function SidebarContent() {
   const pageTree = source.getPageTree()
 
@@ -115,18 +129,4 @@ export function SidebarContent() {
       </div>
     </>
   )
-}
-
-const socials = {
-  facebook: FacebookIcon,
-  github: GithubIcon,
-  linkedin: LinkedinIcon,
-  x: XFormerTwitterIcon,
-}
-
-const icons = {
-  HomeIcon,
-  MailIcon,
-  RssIcon,
-  FolderKanbanIcon,
 }

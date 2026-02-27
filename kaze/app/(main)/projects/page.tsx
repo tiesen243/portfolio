@@ -3,6 +3,7 @@ import { Typography } from '@yuki/ui/typography'
 import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
 import Link from 'next/link'
 
+import { designs } from '@/lib/data/showcases'
 import { createMetadata } from '@/lib/metadata'
 import { source } from '@/lib/source'
 import { formatDate } from '@/lib/utils'
@@ -66,7 +67,7 @@ export default function ProjectListPage() {
           Design Showcase
         </Typography>
 
-        {images.map((image, index) => (
+        {designs.map((image, index) => (
           <ImageZoom
             key={image}
             src={image}
@@ -92,11 +93,3 @@ export const metadata = createMetadata({
   },
   title: TITLE,
 })
-
-const images = [
-  '/assets/images/designs/tiesen-v3.png',
-  '/assets/images/designs/tiesen-v2.png',
-  '/assets/images/designs/goldenglow.png',
-  '/assets/images/designs/lin-yushia.png',
-  '/assets/images/designs/tiesen-v1.png',
-]

@@ -1,3 +1,45 @@
+function parseEnvs<
+  TSchemas extends Record<string, StandardSchemaV1>,
+  TData extends {
+    [TKey in keyof TSchemas]: StandardSchemaV1.InferOutput<TSchemas[TKey]>
+  },
+>(
+  data: Record<string, unknown>,
+  schemas: TSchemas
+):
+  | {
+      success: true
+      data: TData
+    }
+  | {
+      success: false
+      issues: StandardSchemaV1.FailureResult['issues']
+    } {
+  if (Object.keys(schemas).length === 0)
+    return { success: true, data: {} as TData }
+
+  const results: TData = {} as TData
+  const issues: Mutable<StandardSchemaV1.FailureResult['issues']> = []
+
+  for (const [key, schema] of Object.entries(schemas)) {
+    const value = data[key]
+
+    const validated = schema['~standard'].validate(value)
+    if (validated instanceof Promise)
+      throw new Error('Async schema validation is not supported')
+
+    if ('issues' in validated && validated.issues)
+      issues.push({
+        path: [key],
+        message: validated.issues.map((issue) => issue.message).join(', '),
+      })
+    else results[key as keyof TData] = validated.value as TData[typeof key]
+  }
+
+  if (issues.length > 0) return { success: false, issues }
+  return { success: true, data: results }
+}
+
 export function createEnv<
   TPrefix extends string,
   TShared extends Record<string, StandardSchemaV1>,
@@ -102,15 +144,16 @@ export function createEnv<
    *
    * env.IS_PRODUCTION // true or false
    */
-  deriveEnv: (env: TResult) => TDeriveEnv = () => ({}) as TDeriveEnv,
+  deriveEnv: (env: TResult) => TDeriveEnv = () => ({}) as TDeriveEnv
 ): TResult & TDeriveEnv {
   if (opts.emptyStringAsUndefined)
     for (const [key, value] of Object.entries(opts.runtimeEnv))
+      // oxlint-disable-next-line typescript/no-dynamic-delete
       if (value === '') delete opts.runtimeEnv[key]
 
-  const isServer = opts.isServer
-    ? opts.isServer
-    : (globalThis as unknown as { window: unknown }).window === undefined
+  const isServer =
+    opts.isServer ??
+    (globalThis as unknown as { window: unknown }).window === undefined
 
   const envs = isServer
     ? { ...opts.shared, ...opts.client, ...opts.server }
@@ -119,7 +162,7 @@ export function createEnv<
   const parsedEnvs = parseEnvs(opts.runtimeEnv, envs as never)
   if (!opts.skipValidation && !parsedEnvs.success)
     throw new Error(
-      `❌ Environment variables validation failed:\n${parsedEnvs.issues.map((issue) => `- ${issue.path}: ${issue.message}`).join('\n')}`,
+      `❌ Environment variables validation failed:\n${parsedEnvs.issues.map((issue) => `- ${issue.path}: ${issue.message}`).join('\n')}`
     )
 
   const envData = parsedEnvs.success ? parsedEnvs.data : {}
@@ -129,53 +172,11 @@ export function createEnv<
     get(target, prop) {
       if (!isServer && prop in opts.server)
         throw new Error(
-          `❌ Attempted to access a server-side environment variable on the client`,
+          `❌ Attempted to access a server-side environment variable on the client`
         )
       return target[prop as keyof typeof target]
     },
   })
-}
-
-function parseEnvs<
-  TSchemas extends Record<string, StandardSchemaV1>,
-  TData extends {
-    [TKey in keyof TSchemas]: StandardSchemaV1.InferOutput<TSchemas[TKey]>
-  },
->(
-  data: Record<string, unknown>,
-  schemas: TSchemas,
-):
-  | {
-      success: true
-      data: TData
-    }
-  | {
-      success: false
-      issues: StandardSchemaV1.FailureResult['issues']
-    } {
-  if (Object.keys(schemas).length === 0)
-    return { success: true, data: {} as TData }
-
-  const results: TData = {} as TData
-  const issues: Mutable<StandardSchemaV1.FailureResult['issues']> = []
-
-  for (const [key, schema] of Object.entries(schemas)) {
-    const value = data[key]
-
-    const validated = schema['~standard'].validate(value)
-    if (validated instanceof Promise)
-      throw new Error('Async schema validation is not supported')
-
-    if ('issues' in validated && validated.issues)
-      issues.push({
-        path: [key],
-        message: validated.issues.map((issue) => issue.message).join(', '),
-      })
-    else results[key as keyof TData] = validated.value as TData[typeof key]
-  }
-
-  if (issues.length > 0) return { success: false, issues }
-  return { success: true, data: results }
 }
 
 /** The Standard Schema interface. */
@@ -184,6 +185,7 @@ interface StandardSchemaV1<Input = unknown, Output = Input> {
   readonly '~standard': StandardSchemaV1.Props<Input, Output>
 }
 
+// oxlint-disable-next-line typescript/no-namespace
 declare namespace StandardSchemaV1 {
   /** The Standard Schema properties interface. */
   export interface Props<Input = unknown, Output = Input> {
@@ -194,7 +196,7 @@ declare namespace StandardSchemaV1 {
     /** Validates unknown input values. */
     readonly validate: (
       value: unknown,
-      options?: StandardSchemaV1.Options | undefined,
+      options?: StandardSchemaV1.Options | undefined
     ) => Result<Output> | Promise<Result<Output>>
     /** Inferred types associated with the schema. */
     readonly types?: Types<Input, Output> | undefined
@@ -219,7 +221,7 @@ declare namespace StandardSchemaV1 {
   /** The result interface if validation fails. */
   export interface FailureResult {
     /** The issues of failed validation. */
-    readonly issues: ReadonlyArray<Issue>
+    readonly issues: readonly Issue[]
   }
 
   /** The issue interface of the failure output. */

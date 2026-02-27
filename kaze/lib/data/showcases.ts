@@ -27,3 +27,11 @@ export const showcases = [
     url: 'https://github.com/tiesen243/vercel.nvim',
   },
 ] satisfies Showcase[]
+
+export const designs = [
+  '/assets/images/designs/tiesen-v3.png',
+  '/assets/images/designs/tiesen-v2.png',
+  '/assets/images/designs/goldenglow.png',
+  '/assets/images/designs/lin-yushia.png',
+  '/assets/images/designs/tiesen-v1.png',
+]

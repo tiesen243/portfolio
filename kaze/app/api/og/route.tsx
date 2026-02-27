@@ -1,4 +1,4 @@
-// oxlint-disable no-img-element
+// oxlint-disable max-statements, no-img-element
 
 import type { NextRequest } from 'next/server'
 
@@ -184,7 +184,7 @@ export function GET(request: NextRequest) {
           </div>
         </div>
       </div>,
-      { width: 1200, height: 630 },
+      { width: 1200, height: 630 }
     )
   } catch (error) {
     console.error(error)

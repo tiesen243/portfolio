@@ -214,12 +214,12 @@ export function Module(options: {
     Reflect.defineMetadata(
       CONTROLLERS_METADATA_KEY,
       options.controllers ?? [],
-      target,
+      target
     )
     Reflect.defineMetadata(
       PROVIDERS_METADATA_KEY,
       options.providers ?? [],
-      target,
+      target
     )
     Reflect.defineMetadata(EXPORTS_METADATA_KEY, options.exports ?? [], target)
   }
@@ -288,7 +288,7 @@ export function Inject(token: string): ParameterDecorator {
   return (target, _propertyKey, parameterIndex) => {
     const existingInjectedParams = (Reflect.getOwnMetadata(
       INJECT_METADATA_KEY,
-      target,
+      target
     ) ?? {}) as Record<number, string>
     existingInjectedParams[parameterIndex] = token
     Reflect.defineMetadata(INJECT_METADATA_KEY, existingInjectedParams, target)
@@ -338,7 +338,7 @@ function Route(method: HTTPMethod, path: string): MethodDecorator {
       ROUTE_METADATA_KEY,
       { method, path, name: propertyKey.toString() },
       target,
-      propertyKey,
+      propertyKey
     )
   }
 }
@@ -349,12 +349,12 @@ export function isRoute(target: object, propertyKey: string | symbol): boolean {
 
 export function getRoute(
   target: object,
-  propertyKey: string | symbol,
+  propertyKey: string | symbol
 ): RouteDefinition {
   return Reflect.getMetadata(
     ROUTE_METADATA_KEY,
     target,
-    propertyKey,
+    propertyKey
   ) as RouteDefinition
 }
 ```
@@ -418,20 +418,20 @@ The `createParamDecorator` function is a factory that generates parameter decora
 ```ts title="server/core/common/params.ts"
 function createParamDecorator(
   type: ParamType,
-  schema?: z.ZodType,
+  schema?: z.ZodType
 ): ParameterDecorator {
   return (target, propertyKey, parameterIndex) => {
     const existingParams = (Reflect.getOwnMetadata(
       PARAMETTERS_KEY,
       target,
-      propertyKey ?? '',
+      propertyKey ?? ''
     ) ?? []) as ParamValue[]
     existingParams.push({ index: parameterIndex, type, schema })
     Reflect.defineMetadata(
       PARAMETTERS_KEY,
       existingParams,
       target,
-      String(propertyKey),
+      String(propertyKey)
     )
   }
 }
@@ -502,7 +502,7 @@ export interface CanActivate {
   canActivate(
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ): boolean | Promise<boolean>
 }
 ```
@@ -524,7 +524,7 @@ export function Guard(
 
 export function getGuards(
   target: object,
-  propertyKey: string | symbol,
+  propertyKey: string | symbol
 ): (new () => CanActivate)[] {
   return ((propertyKey
     ? Reflect.getMetadata(GUARD_METADATA_KEY, target, propertyKey)

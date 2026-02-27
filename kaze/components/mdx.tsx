@@ -1,4 +1,5 @@
 import type { Route } from 'next'
+import type { ImageProps } from 'next/image'
 
 import {
   Table,
@@ -12,7 +13,7 @@ import {
 import { Typography } from '@yuki/ui/typography'
 import { Callout } from 'fumadocs-ui/components/callout'
 import defaultMdxComponents from 'fumadocs-ui/mdx'
-import Image, { type ImageProps } from 'next/image'
+import Image from 'next/image'
 import Link from 'next/link'
 
 type Props = React.ComponentProps<'p'>

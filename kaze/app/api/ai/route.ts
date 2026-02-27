@@ -11,9 +11,7 @@ const getBlogListDef = toolDefinition({
     'Get a list of all blog posts or projects. Each item includes the title and URL.',
 })
 
-const getBlogList = getBlogListDef.server(() => {
-  return source.getPageTree()
-})
+const getBlogList = getBlogListDef.server(() => source.getPageTree())
 
 const findBlogPostDef = toolDefinition({
   name: 'get_blog_post_details',
@@ -23,8 +21,8 @@ const findBlogPostDef = toolDefinition({
 })
 
 const findBlogPost = findBlogPostDef.server(async ({ title }) => {
-  const post = source.getPages().find((post) => {
-    if (title && !post.data.title.toLowerCase().includes(title.toLowerCase()))
+  const post = source.getPages().find((p) => {
+    if (title && !p.data.title.toLowerCase().includes(title.toLowerCase()))
       return false
     return true
   })
@@ -55,14 +53,9 @@ export async function POST(request: Request) {
 
     return toServerSentEventsResponse(stream)
   } catch (error) {
-    return new Response(
-      JSON.stringify({
-        error: error instanceof Error ? error.message : 'An error occurred',
-      }),
-      {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      },
+    return Response.json(
+      { error: error instanceof Error ? error.message : 'An error occurred' },
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
     )
   }
 }

@@ -13,7 +13,7 @@ export function getBaseUrl(): string {
 
 export function formatDate(
   date: Date | string,
-  options?: Intl.DateTimeFormatOptions,
+  options?: Intl.DateTimeFormatOptions
 ): string {
   const defaultOptions = {
     day: '2-digit',

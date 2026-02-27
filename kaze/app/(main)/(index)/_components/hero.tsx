@@ -11,6 +11,33 @@ import Link from 'next/link'
 import Tiesen from '@/public/assets/logotype.png'
 
 export function HeroSection() {
+  const navs = [
+    {
+      href: '/assets/cv.pdf',
+      icon: DownloadIcon,
+      label: 'Dowload Resume',
+      shortcut: 'r',
+    },
+    {
+      href: '/contact',
+      icon: ContactIcon,
+      label: 'Contact Me',
+      shortcut: 'c',
+    },
+    {
+      href: '/projects',
+      icon: FolderKanbanIcon,
+      label: 'Projects',
+      shortcut: 'p',
+    },
+    {
+      href: '/blogs',
+      icon: RssIcon,
+      label: 'Blogs',
+      shortcut: 'b',
+    },
+  ] as const
+
   return (
     <section
       id='hero'
@@ -54,30 +81,3 @@ export function HeroSection() {
     </section>
   )
 }
-
-const navs = [
-  {
-    href: '/assets/cv.pdf',
-    icon: DownloadIcon,
-    label: 'Dowload Resume',
-    shortcut: 'r',
-  },
-  {
-    href: '/contact',
-    icon: ContactIcon,
-    label: 'Contact Me',
-    shortcut: 'c',
-  },
-  {
-    href: '/projects',
-    icon: FolderKanbanIcon,
-    label: 'Projects',
-    shortcut: 'p',
-  },
-  {
-    href: '/blogs',
-    icon: RssIcon,
-    label: 'Blogs',
-    shortcut: 'b',
-  },
-] as const

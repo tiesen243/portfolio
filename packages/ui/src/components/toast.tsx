@@ -34,59 +34,28 @@ interface ToastProviderProps extends ToastPrimitive.Provider.Props {
   position?: ToastPosition
 }
 
-function ToastProvider({
-  position = 'bottom-right',
-  children,
-  ...props
-}: ToastProviderProps) {
-  return (
-    <ToastPrimitive.Provider toastManager={toast} {...props}>
-      {children}
-
-      <ToastPrimitive.Portal data-slot='toaster-portal'>
-        <ToastPrimitive.Viewport
-          data-slot='toaster-viewport'
-          data-position={position}
-          className={cn(
-            'fixed z-50 mx-auto flex w-[calc(100%-var(--toast-inset)*2)] max-w-90 [--toast-inset:--spacing(4)] sm:[--toast-inset:--spacing(8)]',
-            // Vertical positions
-            'data-[position*=top]:top-(--toast-inset)',
-            'data-[position*=bottom]:bottom-(--toast-inset)',
-            // Horizontal positions
-            'data-[position*=left]:left-(--toast-inset)',
-            'data-[position*=center]:left-1/2 data-[position*=center]:-translate-x-1/2',
-            'data-[position*=right]:right-(--toast-inset)',
-          )}
-        >
-          <Toaster position={position} />
-        </ToastPrimitive.Viewport>
-      </ToastPrimitive.Portal>
-    </ToastPrimitive.Provider>
-  )
-}
-
 function Toaster({
   position = 'bottom-right',
 }: Pick<ToastProviderProps, 'position'>) {
   const { toasts } = ToastPrimitive.useToastManager()
 
-  let swipeDirection: ToastPrimitive.Root.Props['swipeDirection'] = []
+  const swipeDirection: ToastPrimitive.Root.Props['swipeDirection'] = []
   if (position.includes('top')) swipeDirection.push('up')
   if (position.includes('bottom')) swipeDirection.push('down')
   if (position.includes('left')) swipeDirection.push('left')
   if (position.includes('right')) swipeDirection.push('right')
   if (position.includes('center')) swipeDirection.push('right', 'left')
 
-  return toasts.map((toast) => {
-    const Icon = toast.type ? icons[toast.type as keyof typeof icons] : null
+  return toasts.map((_toast) => {
+    const Icon = _toast.type ? icons[_toast.type as keyof typeof icons] : null
 
     return (
       <ToastPrimitive.Root
-        key={toast.id}
+        key={_toast.id}
         data-slot='toast-root'
         data-position={position}
-        data-type={toast.type}
-        toast={toast}
+        data-type={_toast.type}
+        toast={_toast}
         className={cn(
           'group/toast absolute z-[calc(1000-var(--toast-index))] h-(--toast-calc-height) w-full rounded-lg bg-clip-padding shadow-lg/5 select-none [transition:transform_0.5s_cubic-bezier(0.22,1,0.36,1),opacity_0.5s,height_0.15s]',
           // Variables for calculating position and animation
@@ -117,7 +86,7 @@ function Toaster({
           '[&[data-ending-style]:not([data-limited]):not([data-swipe-direction])]:[transform:translateY(150%)]',
           // Expanded styles
           'data-[expanded]:h-[var(--toast-height)] data-[expanded]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--offset-y)))] data-[limited]:opacity-0 data-[position*=top]:data-[expanded]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--offset-y)*-1))]',
-          'data-[expanded]:data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))]',
+          'data-[expanded]:data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))]'
         )}
         swipeDirection={swipeDirection}
       >
@@ -152,20 +121,51 @@ function Toaster({
             />
           </div>
 
-          {toast.actionProps && (
+          {_toast.actionProps && (
             <ToastPrimitive.Action
               data-slot='toast-action'
               className={cn(
                 buttonVariants({ variant: 'ghost', size: 'xs' }),
-                'hover:bg-current/20 hover:text-current dark:hover:bg-current/20',
+                'hover:bg-current/20 hover:text-current dark:hover:bg-current/20'
               )}
-              {...toast.actionProps}
+              {..._toast.actionProps}
             />
           )}
         </ToastPrimitive.Content>
       </ToastPrimitive.Root>
     )
   })
+}
+
+function ToastProvider({
+  position = 'bottom-right',
+  children,
+  ...props
+}: ToastProviderProps) {
+  return (
+    <ToastPrimitive.Provider toastManager={toast} {...props}>
+      {children}
+
+      <ToastPrimitive.Portal data-slot='toaster-portal'>
+        <ToastPrimitive.Viewport
+          data-slot='toaster-viewport'
+          data-position={position}
+          className={cn(
+            'fixed z-50 mx-auto flex w-[calc(100%-var(--toast-inset)*2)] max-w-90 [--toast-inset:--spacing(4)] sm:[--toast-inset:--spacing(8)]',
+            // Vertical positions
+            'data-[position*=top]:top-(--toast-inset)',
+            'data-[position*=bottom]:bottom-(--toast-inset)',
+            // Horizontal positions
+            'data-[position*=left]:left-(--toast-inset)',
+            'data-[position*=center]:left-1/2 data-[position*=center]:-translate-x-1/2',
+            'data-[position*=right]:right-(--toast-inset)'
+          )}
+        >
+          <Toaster position={position} />
+        </ToastPrimitive.Viewport>
+      </ToastPrimitive.Portal>
+    </ToastPrimitive.Provider>
+  )
 }
 
 export { toast, ToastProvider }

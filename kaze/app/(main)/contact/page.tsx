@@ -34,6 +34,28 @@ export const metadata = createMetadata({
   title: TITILE,
 })
 
+const contactInfo = [
+  {
+    href: `mailto:${basic.email}`,
+    icon: MailIcon,
+    label: 'Email',
+    value: basic.email,
+  },
+  {
+    href: '#',
+    icon: MapPinIcon,
+    label: 'Location',
+    value: basic.location,
+  },
+]
+
+const socials = {
+  facebook: FacebookIcon,
+  github: GithubIcon,
+  linkedin: LinkedinIcon,
+  'x (formerly Twitter)': XFormerTwitterIcon,
+}
+
 export default function ContactPage() {
   return (
     <main className='container flex min-h-[calc(100dvh-1.5rem)] flex-col items-center justify-center py-12'>
@@ -120,26 +142,4 @@ export default function ContactPage() {
       </section>
     </main>
   )
-}
-
-const contactInfo = [
-  {
-    href: `mailto:${basic.email}`,
-    icon: MailIcon,
-    label: 'Email',
-    value: basic.email,
-  },
-  {
-    href: '#',
-    icon: MapPinIcon,
-    label: 'Location',
-    value: basic.location,
-  },
-]
-
-const socials = {
-  facebook: FacebookIcon,
-  github: GithubIcon,
-  linkedin: LinkedinIcon,
-  'x (formerly Twitter)': XFormerTwitterIcon,
 }

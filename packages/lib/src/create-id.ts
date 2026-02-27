@@ -30,6 +30,7 @@ const createEntropy = (length = 4, rand = random) => {
 const bufToBigInt = (buf: Buffer) => {
   let v = 0n
   for (const i of buf) {
+    // oxlint-disable-next-line no-bitwise
     v = (v << 8n) + BigInt(i)
   }
   return v
@@ -53,6 +54,7 @@ const createFingerprint = ({
   return hash(sourceString).slice(0, 32)
 }
 
+// oxlint-disable-next-line no-param-reassign, no-plusplus
 const createCounter = (count: number) => () => count++
 
 export function createId(rand = random): string {

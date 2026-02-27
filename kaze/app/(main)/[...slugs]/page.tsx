@@ -44,6 +44,7 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
     <>
       <script
         type='application/ld+json'
+        // oxlint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(jsonLd).replaceAll('<', '\\u003c'),
         }}

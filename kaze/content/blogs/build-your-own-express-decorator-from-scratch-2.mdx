@@ -46,14 +46,14 @@ export function Http(statusCode: number): MethodDecorator {
       STATUS_CODE_METADATA_KEY,
       statusCode,
       target,
-      propertyKey,
+      propertyKey
     )
   }
 }
 
 export function getHttpStatusCode(
   target: object,
-  propertyKey: string | symbol,
+  propertyKey: string | symbol
 ): number | undefined {
   return Reflect.getMetadata(STATUS_CODE_METADATA_KEY, target, propertyKey) as
     | number
@@ -67,7 +67,7 @@ The `ResponseHeaders` decorator allows you to define custom headers for your HTT
 
 ```ts title="server/core/common/http.ts"
 export function ResponseHeaders(
-  heads: Record<string, string>,
+  heads: Record<string, string>
 ): MethodDecorator {
   return (target, propertyKey) => {
     Reflect.defineMetadata(HEADERS_METADATA_KEY, heads, target, propertyKey)
@@ -76,7 +76,7 @@ export function ResponseHeaders(
 
 export function getResponseHeaders(
   target: object,
-  propertyKey: string | symbol,
+  propertyKey: string | symbol
 ): Record<string, string> {
   return (Reflect.getMetadata(HEADERS_METADATA_KEY, target, propertyKey) ??
     {}) as Record<string, string>
@@ -99,7 +99,7 @@ export class HttpException extends Error {
     {
       message = statusCode,
       details,
-    }: { message?: string; details?: unknown } = {},
+    }: { message?: string; details?: unknown } = {}
   ) {
     super(message)
     this.name = 'HttpError'
@@ -142,7 +142,7 @@ export class Container {
 
       if (param) return this.resolve<Type>(param)
       throw new Error(
-        `Type of parameter at index ${index} in ${target.name} is undefined`,
+        `Type of parameter at index ${index} in ${target.name} is undefined`
       )
     })
 
@@ -202,7 +202,7 @@ export function parseArgs(
   key: string | symbol,
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ): unknown[] {
   const params = getParams(target, key)
   const args: unknown[] = []
@@ -484,7 +484,7 @@ export function errorHandler(
   err: unknown,
   _req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) {
   if (err) {
     const statusCode = err instanceof HttpException ? err.statusCode : 500

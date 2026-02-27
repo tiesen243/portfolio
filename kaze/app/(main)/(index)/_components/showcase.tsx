@@ -16,29 +16,6 @@ import type { Showcase } from '@/lib/data'
 
 import { showcases } from '@/lib/data'
 
-export function ShowcaseSection() {
-  return (
-    <section
-      id='showcase'
-      className='container my-12 flex flex-col justify-center'
-    >
-      <Typography variant='h2' className='mb-0'>
-        Featured Projects
-      </Typography>
-      <Typography className='text-muted-foreground'>
-        Explore a collection of open-source projects and tools built with modern
-        technologies.
-      </Typography>
-
-      <div className='mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
-        {showcases.map((showcase) => (
-          <ShowcaseCard key={showcase.title} showcase={showcase} />
-        ))}
-      </div>
-    </section>
-  )
-}
-
 const ShowcaseCard: React.FC<{ showcase: Showcase }> = ({ showcase }) => (
   <Card className='group/showcase h-full overflow-hidden pt-0 transition-shadow hover:shadow-lg'>
     <Image
@@ -78,3 +55,26 @@ const ShowcaseCard: React.FC<{ showcase: Showcase }> = ({ showcase }) => (
     </CardFooter>
   </Card>
 )
+
+export function ShowcaseSection() {
+  return (
+    <section
+      id='showcase'
+      className='container my-12 flex flex-col justify-center'
+    >
+      <Typography variant='h2' className='mb-0'>
+        Featured Projects
+      </Typography>
+      <Typography className='text-muted-foreground'>
+        Explore a collection of open-source projects and tools built with modern
+        technologies.
+      </Typography>
+
+      <div className='mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
+        {showcases.map((showcase) => (
+          <ShowcaseCard key={showcase.title} showcase={showcase} />
+        ))}
+      </div>
+    </section>
+  )
+}

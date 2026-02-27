@@ -40,9 +40,14 @@ function SidebarProvider({ children }: { children: React.ReactNode }) {
     (value: React.SetStateAction<boolean>) => {
       const openState = typeof value === 'function' ? value(open) : value
       _setOpen(openState)
-      document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
+      cookieStore.set({
+        name: SIDEBAR_COOKIE_NAME,
+        value: String(openState),
+        path: '/',
+        expires: Date.now() + SIDEBAR_COOKIE_MAX_AGE * 1000,
+      })
     },
-    [open],
+    [open]
   )
 
   const toggleSidebar = React.useCallback(() => {
@@ -63,7 +68,7 @@ function SidebarProvider({ children }: { children: React.ReactNode }) {
           setOpen(false)
         }
       },
-      { signal: abortController.signal },
+      { signal: abortController.signal }
     )
 
     return () => abortController.abort()
@@ -71,7 +76,7 @@ function SidebarProvider({ children }: { children: React.ReactNode }) {
 
   const value = React.useMemo(
     () => ({ isMobile, open, setOpen, toggleSidebar }),
-    [isMobile, open, setOpen, toggleSidebar],
+    [isMobile, open, setOpen, toggleSidebar]
   )
 
   const isMounted = useMounted()
@@ -95,7 +100,7 @@ function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
           className={cn(
             'fixed inset-0 z-40 h-dvh w-full bg-background/10 backdrop-blur-xl',
             'transition-opacity ease-out',
-            open ? 'block opacity-100' : 'hidden opacity-0',
+            open ? 'block opacity-100' : 'hidden opacity-0'
           )}
         />
 
@@ -105,7 +110,7 @@ function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
           className={cn(
             'group/sidebar fixed inset-0 z-50 flex w-(--sidebar-width) flex-col overflow-y-auto border-r bg-background text-foreground md:hidden',
             'transition-transform ease-out',
-            'data-[state=closed]:-translate-x-full data-[state=open]:translate-x-0',
+            'data-[state=closed]:-translate-x-full data-[state=open]:translate-x-0'
           )}
           style={{ '--sidebar-width': SIDEBAR_WIDTH } as React.CSSProperties}
         >
@@ -122,7 +127,7 @@ function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
         className={cn(
           'h-dvh w-0',
           'transition-[width] ease-linear',
-          'data-[state=open]:w-(--sidebar-width)',
+          'data-[state=open]:w-(--sidebar-width)'
         )}
         style={{ '--sidebar-width': SIDEBAR_WIDTH } as React.CSSProperties}
       />
@@ -133,7 +138,7 @@ function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
         className={cn(
           'group/sidebar fixed inset-y-0 z-50 hidden w-(--sidebar-width) flex-col overflow-y-auto border-r bg-background text-foreground md:flex',
           'transition-[left] ease-out',
-          'data-[state=closed]:-left-(--sidebar-width) data-[state=open]:left-0',
+          'data-[state=closed]:-left-(--sidebar-width) data-[state=open]:left-0'
         )}
         style={{ '--sidebar-width': SIDEBAR_WIDTH } as React.CSSProperties}
       >
@@ -158,7 +163,7 @@ function SidebarInset({
         'flex min-h-dvh w-full flex-col',
         'transition-[width] ease-linear',
         'md:data-[state=open]:w-[calc(100%-var(--sidebar-width))]',
-        className,
+        className
       )}
       style={{ '--sidebar-width': SIDEBAR_WIDTH } as React.CSSProperties}
       {...props}
@@ -181,10 +186,10 @@ function SidebarItem({
         className: cn(
           'inline-flex cursor-pointer items-center gap-2 rounded-md border border-transparent px-2 py-1 text-sm capitalize transition-colors hover:border-sidebar-accent hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground [&_svg]:size-4',
           'data-[active=""]:border-sidebar-accent data-[active=""]:bg-sidebar-accent/40 data-[active=""]:text-sidebar-accent-foreground',
-          className,
+          className
         ),
       },
-      props,
+      props
     ),
     render,
     state: {
@@ -211,7 +216,7 @@ function SidebarSubItemLabel({
       data-slot='sidebar-subitem-label'
       className={cn(
         'group inline-flex w-full items-center gap-2 rounded-md border border-transparent px-2 py-1 text-sm transition-colors hover:border-sidebar-accent hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground [&_svg]:size-4',
-        className,
+        className
       )}
     >
       {children}
@@ -232,7 +237,7 @@ function SidebarSubItemContent({
       {...props}
       className={cn(
         'ml-4 flex h-(--collapsible-panel-height) flex-col gap-1 border-l pt-2 pl-2 duration-200 ease-out data-ending-style:h-0 data-starting-style:h-0 [&[hidden]:not([hidden="until-found"])]:hidden',
-        className,
+        className
       )}
     />
   )
