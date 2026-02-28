@@ -4,13 +4,6 @@ import { env } from '@yuki/validators/env'
 import { createMDX } from 'fumadocs-mdx/next'
 import path from 'node:path'
 
-const socials = {
-  github: 'https://github.com/tiesen243',
-  facebook: 'https://facebook.com/tiesen243.tsx',
-  linkedin: 'https://www.linkedin.com/in/tiesen243',
-  x: 'https://x.com/tiesen243',
-}
-
 const nextConfig = {
   typedRoutes: true,
   reactStrictMode: true,
@@ -47,3 +40,10 @@ const nextConfig = {
 const withMdx = createMDX()
 
 export default withMdx(nextConfig)
+
+const socials = {
+  github: 'https://github.com/tiesen243',
+  facebook: 'https://facebook.com/tiesen243.tsx',
+  linkedin: 'https://www.linkedin.com/in/tiesen243',
+  x: 'https://x.com/tiesen243',
+}

@@ -18,44 +18,6 @@ const TITILE = 'Contact Me'
 const DESCRIPTION =
   'Get in touch with me for inquiries or collaborations. Whether you have a question, feedback, or just want to say hello, I’d love to hear from you!'
 
-export const metadata = createMetadata({
-  description: DESCRIPTION,
-  keywords: [
-    'contact',
-    'get in touch',
-    'inquiries',
-    'collaborations',
-    'feedback',
-  ],
-  openGraph: {
-    images: `/api/og?title=${TITILE}&description=${DESCRIPTION}`,
-    url: '/contact',
-  },
-  title: TITILE,
-})
-
-const contactInfo = [
-  {
-    href: `mailto:${basic.email}`,
-    icon: MailIcon,
-    label: 'Email',
-    value: basic.email,
-  },
-  {
-    href: '#',
-    icon: MapPinIcon,
-    label: 'Location',
-    value: basic.location,
-  },
-]
-
-const socials = {
-  facebook: FacebookIcon,
-  github: GithubIcon,
-  linkedin: LinkedinIcon,
-  'x (formerly Twitter)': XFormerTwitterIcon,
-}
-
 export default function ContactPage() {
   return (
     <main className='container flex min-h-[calc(100dvh-1.5rem)] flex-col items-center justify-center py-12'>
@@ -142,4 +104,42 @@ export default function ContactPage() {
       </section>
     </main>
   )
+}
+
+export const metadata = createMetadata({
+  description: DESCRIPTION,
+  keywords: [
+    'contact',
+    'get in touch',
+    'inquiries',
+    'collaborations',
+    'feedback',
+  ],
+  openGraph: {
+    images: `/api/og?title=${TITILE}&description=${DESCRIPTION}`,
+    url: '/contact',
+  },
+  title: TITILE,
+})
+
+const contactInfo = [
+  {
+    href: `mailto:${basic.email}`,
+    icon: MailIcon,
+    label: 'Email',
+    value: basic.email,
+  },
+  {
+    href: '#',
+    icon: MapPinIcon,
+    label: 'Location',
+    value: basic.location,
+  },
+]
+
+const socials = {
+  facebook: FacebookIcon,
+  github: GithubIcon,
+  linkedin: LinkedinIcon,
+  'x (formerly Twitter)': XFormerTwitterIcon,
 }
