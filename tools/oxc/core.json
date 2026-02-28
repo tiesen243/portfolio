@@ -22,73 +22,75 @@
     "style": "error"
   },
   "rules": {
-    "no-await-in-loop": "off",
+    "arrow-body-style": ["error", "as-needed"],
+    "capitalized-comments": "off",
+    "class-methods-use-this": "off",
+    "curly": "off",
+    "func-style": "off",
+    "id-length": "off",
+    "init-declarations": "off",
+    "max-depth": "off",
+    "max-lines": "off",
     "max-lines-per-function": "off",
+    "max-params": "off",
+    "max-statements": "off",
+    "new-cap": "off",
+    "no-await-in-loop": "off",
+    "no-console": "off",
+    "no-continue": "off",
+    "no-duplicate-imports": ["error", { "allowSeparateTypeImports": true }],
     "no-implicit-coercion": "off",
     "no-inline-comments": "off",
     "no-magic-numbers": "off",
-    "no-console": "off",
     "no-ternary": "off",
     "no-undefined": "off",
-    "max-lines": "off",
-    "id-length": "off",
-    "func-style": "off",
-    "arrow-body-style": ["error", "as-needed"],
-    "max-depth": "off",
-    "max-params": "off",
-    "capitalized-comments": "off",
-    "curly": "off",
-    "new-cap": "off",
-    "no-continue": "off",
-    "init-declarations": "off",
+    "no-use-before-define": "off",
     // Rely on oxfmt `experimentalSortImports` instead
     "sort-imports": "off",
     "sort-keys": "off",
-    "no-duplicate-imports": ["error", { "allowSeparateTypeImports": true }],
 
-    "import/no-default-export": "off",
-    "import/exports-last": "off",
-    "import/no-named-export": "off",
-    "import/max-dependencies": "off",
-    "import/no-unresolved": "off",
-    "import/extensions": "off",
-    "import/no-namespace": "off",
-    "import/no-anonymous-default-export": "off",
-    "import/prefer-default-export": "off",
-    "import/group-exports": "off",
-    "import/no-commonjs": "off",
-    "import/unambiguous": "off",
     "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
+    "import/exports-last": "off",
+    "import/extensions": "off",
+    "import/group-exports": "off",
+    "import/max-dependencies": "off",
+    "import/no-anonymous-default-export": "off",
+    "import/no-commonjs": "off",
+    "import/no-default-export": "off",
     "import/no-dynamic-require": "off",
-    "import/no-unassigned-import": "off",
+    "import/no-named-export": "off",
+    "import/no-namespace": "off",
     "import/no-nodejs-modules": "off",
+    "import/no-unassigned-import": "off",
+    "import/no-unresolved": "off",
+    "import/prefer-default-export": "off",
+    "import/unambiguous": "off",
 
     "jsdoc/require-param": "off",
     "jsdoc/require-returns": "off",
 
     "unicorn/explicit-length-check": "off",
     "unicorn/no-array-callback-reference": "off",
+    "unicorn/no-null": "off",
     "unicorn/no-process-exit": "off",
     "unicorn/prefer-global-this": "off",
-    "unicorn/no-null": "off",
-    "unicorn/prefer-top-level-await": "off",
     "unicorn/prefer-string-raw": "off",
+    "unicorn/prefer-top-level-await": "off",
 
+    "typescript/explicit-function-return-type": "off",
     "typescript/explicit-module-boundary-types": "off",
     "typescript/no-require-imports": "off",
-    "typescript/explicit-function-return-type": "off",
     "typescript/no-var-requires": "off",
+    "typescript/parameter-properties": "off",
     "typescript/require-await": "off",
 
-    "node/no-process-env": "off",
-
-    "oxc/no-map-spread": "off",
     "oxc/no-async-await": "off",
-    "oxc/no-rest-spread-properties": "off",
+    "oxc/no-map-spread": "off",
     "oxc/no-optional-chaining": "off",
+    "oxc/no-rest-spread-properties": "off",
 
-    "promise/catch-or-return": "off",
-    "promise/always-return": "off"
+    "promise/always-return": "off",
+    "promise/catch-or-return": "off"
   },
   "overrides": [
     {
@@ -153,6 +155,7 @@
         "jest/valid-describe-callback": "error",
         "jest/valid-expect": "error",
         "jest/valid-title": "error",
+
         "vitest/consistent-test-filename": "error",
         "vitest/consistent-vitest-vi": "error",
         "vitest/no-conditional-tests": "error",
@@ -162,6 +165,12 @@
         "vitest/prefer-to-be-truthy": "error",
         "vitest/require-local-test-context-for-concurrent-snapshots": "error",
         "vitest/warn-todo": "error"
+      }
+    },
+    {
+      "files": ["**/env.ts"],
+      "rules": {
+        "node/no-process-env": "off"
       }
     }
   ]
