@@ -22,9 +22,9 @@
     "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
-    "oxfmt": "^0.36.0",
-    "oxlint": "^1.51.0",
-    "turbo": "^2.8.14"
+    "oxfmt": "^0.40.0",
+    "oxlint": "^1.55.0",
+    "turbo": "^2.8.17"
   },
   "packageManager": "bun@1.3.0",
   "catalogs": {
@@ -33,8 +33,8 @@
       "zod": "^4.3.6"
     },
     "dev": {
-      "@types/node": "^25.3.5",
-      "tsdown": "^0.21.0",
+      "@types/node": "^25.5.0",
+      "tsdown": "^0.21.2",
       "typescript": "^5.9.3"
     },
     "react": {
