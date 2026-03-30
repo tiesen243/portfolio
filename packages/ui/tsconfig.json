@@ -1,12 +1,9 @@
 {
-  "extends": "@yuki/tsconfig/react.json",
+  "extends": "@yuki/tsconfig/react-package.json",
   "compilerOptions": {
-    "rootDir": "src",
     "paths": {
-      "@/*": ["./src/*"],
-      "@/utils": ["./src/index.ts"]
+      "@/*": ["./src/*"]
     }
   },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

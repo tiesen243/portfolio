@@ -19,10 +19,7 @@ export function GET(request: NextRequest) {
     const description =
       searchParams.get('description') ?? defaultMetadata.description ?? ''
     const image = searchParams.get('image') ?? ''
-    const logoUrl =
-      theme === 'dark'
-        ? `${request.nextUrl.origin}/web-app-manifest-512x512.png`
-        : `${request.nextUrl.origin}/web-app-manifest-512x512-dark.png`
+    const logoUrl = `${request.nextUrl.origin}/icon-512.png`
 
     const backgroundColor = theme === 'dark' ? '#000000' : '#fafafa'
     const foregroundColor = theme === 'dark' ? '#ffffff' : '#000000'

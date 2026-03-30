@@ -65,7 +65,7 @@ export function createMetadata(override: Metadata = {}): Metadata {
     facebook: { appId: '625246206988524' },
     verification: { google: 'dfsGgsTDdq4IwdTzb4p69XHyrPXvzFNmUMRxpuV4M8Q' },
     other: { 'dmca-site-verification': 'OWtVUlcrSVcreXYvOHpqcytheE0xQT090' },
-    manifest: `${baseUrl}/site.webmanifest`,
+    manifest: `${baseUrl}/manifest.json`,
     alternates: { canonical: url, ...override.alternates },
   }
 }

@@ -48,6 +48,7 @@ export function AboutSection() {
             src='https://1.gravatar.com/avatar/48b8ec4ce6c85e06c11bda4381a3ac6cb8161a23e5ea540544c809063090815d?s=400'
             alt={basic.nickname}
             className='rounded-xl object-cover shadow-md'
+            sizes='(max-width: 768px) 100vw, 400px'
             priority
             fill
           />
