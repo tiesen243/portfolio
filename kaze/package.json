@@ -13,7 +13,7 @@
   "dependencies": {
     "@tanstack/ai": "^0.9.2",
     "@tanstack/ai-openrouter": "^0.7.0",
-    "@tanstack/ai-react": "^0.7.6",
+    "@tanstack/ai-react": "^0.7.7",
     "@yuki/ui": "workspace:*",
     "@yuki/validators": "workspace:*",
     "fumadocs-core": "^16.7.9",
