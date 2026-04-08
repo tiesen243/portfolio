@@ -11,7 +11,7 @@ const resend = new Resend(env.RESEND_TOKEN)
 
 export async function sendEmail(options: ContactSchema) {
   const { error } = await resend.emails.send({
-    from: 'contact-form@tiesen.id.vn',
+    from: `"Contact Form" <${basic.email}>`,
     html: /* HTML */ `
       <div
         style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;"

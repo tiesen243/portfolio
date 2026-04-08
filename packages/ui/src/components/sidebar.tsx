@@ -34,6 +34,7 @@ const useSidebar = () => {
 
 function SidebarProvider({ children }: { children: React.ReactNode }) {
   const isMobile = useMediaQuery('(max-width: 767px)', { defaultMatches: true })
+  // oxlint-disable-next-line react/hook-use-state
   const [open, _setOpen] = React.useState(false)
 
   const setOpen = React.useCallback(
