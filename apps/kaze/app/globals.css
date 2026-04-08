@@ -2,5 +2,4 @@
 @import 'fumadocs-ui/css/shadcn.css';
 @import 'fumadocs-ui/css/preset.css';
 
-@source '../../packages/content/**/*.mdx';
-@source '../../packages/ui/dist/**/*.mjs';
+@source '../../../packages/ui/dist/components/*.mjs';
