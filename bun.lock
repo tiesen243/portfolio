@@ -10,7 +10,7 @@
         "turbo": "^2.9.5",
       },
     },
-    "kaze": {
+    "apps/kaze": {
       "name": "@yuki/kaze",
       "version": "1.0.0",
       "dependencies": {
@@ -115,7 +115,7 @@
     },
     "tailwind": {
       "@tailwindcss/postcss": "^4.2.2",
-      "@tailwindcss/vite": "^4.1.18",
+      "@tailwindcss/vite": "^4.2.2",
       "tailwindcss": "^4.2.2",
     },
   },
@@ -598,7 +598,7 @@
 
     "@yuki/github": ["@yuki/github@workspace:tools/github"],
 
-    "@yuki/kaze": ["@yuki/kaze@workspace:kaze"],
+    "@yuki/kaze": ["@yuki/kaze@workspace:apps/kaze"],
 
     "@yuki/lib": ["@yuki/lib@workspace:packages/lib"],
 
