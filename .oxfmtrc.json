@@ -32,6 +32,6 @@
 
   "sortTailwindcss": {
     "functions": ["clsx", "cva", "cn"],
-    "stylesheet": "./kaze/app/globals.css"
+    "stylesheet": "./packages/ui/src/tailwind.css"
   }
 }
