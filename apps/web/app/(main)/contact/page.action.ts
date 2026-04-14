@@ -14,14 +14,14 @@ export async function sendMessage(data: ContactSchema) {
     from: `Contact From <${basic.email}>`,
     to: basic.email,
     replyTo: data.email,
-    subject: `New Contact Message: ${data.subject}`,
+    subject: data.subject,
     text: data.message,
     html: /* HTML */ `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <div style="font-family: Arial, sans-serif; line-height: 1.6;">
         <h1>Contact Form Submission</h1>
         <p><strong>Name:</strong> ${data.name}</p>
         <p><strong>Email:</strong> ${data.email}</p>
-        <p>strong>Subject:</strong> ${data.subject}</p>
+        <p><strong>Subject:</strong> ${data.subject}</p>
         <p><strong>Message:</strong></p>
         <div>${data.message}</div>
       </div>
