@@ -24,7 +24,7 @@ export function HeroSection() {
         src={Tiesen}
         alt='Tiesen'
         sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-        className='mx-auto h-auto'
+        className='mx-auto h-auto object-cover'
       />
 
       <Typography className='mt-6 max-w-xl text-center text-pretty [&_span]:text-primary'>
