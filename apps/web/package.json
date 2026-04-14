@@ -12,7 +12,7 @@
     "dev": "next dev",
     "postinstall": "fumadocs-mdx",
     "start": "next start",
-    "typescheck": "fumadocs-mdx && next typegen && tsc --noEmit"
+    "typecheck": "fumadocs-mdx && next typegen && tsc --noEmit"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.0",
