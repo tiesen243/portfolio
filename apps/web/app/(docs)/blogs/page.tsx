@@ -20,7 +20,7 @@ const DESCRIPTION =
 
 export default function BlogsPage() {
   const blogs = useMemo(
-    () => source.getPages().filter((p) => p.url.startsWith('/blogs')),
+    () => source.getPages().filter((p) => p.url.startsWith('/blogs/')),
     []
   )
 
