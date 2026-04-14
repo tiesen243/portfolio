@@ -18,6 +18,7 @@ export const web = await Nextjs('web', {
     loader: {
       '.bin': 'file',
     },
+    minify: true,
   },
 })
 
