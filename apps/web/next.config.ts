@@ -15,18 +15,11 @@ const config = {
   },
 
   redirects() {
-    return [
-      {
-        source: '/assets/cv.pdf',
-        destination: 'https://youtu.be/dQw4w9WgXcQ',
-        permanent: true,
-      },
-      ...Object.entries(basic.socials).map(([key, value]) => ({
-        source: `/contact/${key}`,
-        destination: value,
-        permanent: true,
-      })),
-    ]
+    return Object.entries(basic.socials).map(([key, value]) => ({
+      source: `/contact/${key}`,
+      destination: value,
+      permanent: true,
+    }))
   },
 } satisfies NextConfig
 

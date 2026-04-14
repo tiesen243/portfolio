@@ -12,6 +12,7 @@ const app = await alchemy('portfolio', {
 export const web = await Nextjs('web', {
   bindings: {
     APP_URL: alchemy.secret(process.env.APP_URL),
+    RESEND_TOKEN: alchemy.secret(process.env.RESEND_TOKEN),
   },
   bundle: {
     loader: {
