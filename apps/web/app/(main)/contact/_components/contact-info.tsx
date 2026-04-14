@@ -69,11 +69,11 @@ export const ContactInfo: React.FC = () => (
         {Object.entries(basic.socials).map(([name, url]) => (
           <Card
             key={name}
-            className='flex-row items-center px-4 text-lg font-medium capitalize transition-colors hover:bg-ring/10 hover:text-ring hover:ring-ring [&_svg]:size-5 [&_svg]:fill-current'
+            className='flex-row items-center rounded-md px-4 text-lg font-medium capitalize transition-colors hover:bg-ring/10 hover:text-ring hover:ring-ring [&_svg]:size-5 [&_svg]:fill-current'
             render={<a href={url} target='_blank' rel='noopener noreferrer' />}
           >
             {icons[name as keyof typeof icons] ?? null}
-            {name}
+            {name === 'x' ? 'X (Twitter)' : name}
           </Card>
         ))}
       </CardContent>

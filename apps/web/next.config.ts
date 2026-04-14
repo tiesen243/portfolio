@@ -8,6 +8,7 @@ import basic from '@/lib/data/basic'
 const withMDX = createMDX()
 
 const config = {
+  trailingSlash: true,
   reactStrictMode: true,
   typescript: { ignoreBuildErrors: true },
   images: {
