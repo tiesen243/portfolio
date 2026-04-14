@@ -1,5 +1,0 @@
-@import '@yuki/ui/tailwind.css';
-@import 'fumadocs-ui/css/shadcn.css';
-@import 'fumadocs-ui/css/preset.css';
-
-@source '../../../packages/ui/dist/components/*.mjs';
