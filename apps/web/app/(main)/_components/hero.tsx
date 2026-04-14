@@ -69,15 +69,15 @@ const navs = [
     shortcut: 'c',
   },
   {
-    href: '/projects',
-    icon: FolderKanbanIcon,
-    label: 'Projects',
-    shortcut: 'p',
-  },
-  {
     href: '/blogs',
     icon: RssIcon,
     label: 'Blogs',
     shortcut: 'b',
+  },
+  {
+    href: '/projects',
+    icon: FolderKanbanIcon,
+    label: 'Projects',
+    shortcut: 'p',
   },
 ] as const
