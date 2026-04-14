@@ -7,8 +7,8 @@ export const docs = defineDocs({
   docs: {
     schema: pageSchema.extend({
       image: z.string().optional(),
-      tags: z.array(z.string()),
-      publishedAt: z.date(),
+      tags: z.array(z.string()).default([]),
+      publishedAt: z.date().default(() => new Date()),
     }),
     postprocess: {
       includeProcessedMarkdown: true,
