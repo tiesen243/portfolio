@@ -1,4 +1,4 @@
-import { generateOGImage } from 'fumadocs-ui/og'
+import { generateOGImage } from '@fumadocs/base-ui/og'
 
 import { loadGoogleFont } from '@/app/api/og/load-google-font'
 import { appName } from '@/lib/shared'

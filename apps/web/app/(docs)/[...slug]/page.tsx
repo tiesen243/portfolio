@@ -7,8 +7,8 @@ import {
   DocsTitle,
   MarkdownCopyButton,
   ViewOptionsPopover,
-} from 'fumadocs-ui/layouts/notebook/page'
-import { createRelativeLink } from 'fumadocs-ui/mdx'
+} from '@fumadocs/base-ui/layouts/notebook/page'
+import { createRelativeLink } from '@fumadocs/base-ui/mdx'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
