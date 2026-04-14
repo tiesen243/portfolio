@@ -1,0 +1,10 @@
+name: 'Setup and install'
+description: 'Common setup steps for Actions'
+
+runs:
+  using: composite
+  steps:
+    - uses: oven-sh/setup-bun@v2
+
+    - shell: bash
+      run: bun ci
