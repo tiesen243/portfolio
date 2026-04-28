@@ -16,12 +16,12 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
-    "@fumadocs/base-ui": "^16.8.4",
+    "@fumadocs/base-ui": "^16.8.5",
     "@orama/orama": "^3.1.18",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "fumadocs-core": "16.8.4",
-    "fumadocs-mdx": "14.3.1",
+    "fumadocs-core": "16.8.5",
+    "fumadocs-mdx": "14.3.2",
     "lucide-react": "^1.11.0",
     "next": "16.2.4",
     "react": "catalog:react",
@@ -38,7 +38,7 @@
     "@types/react": "catalog:react",
     "@types/react-dom": "catalog:react",
     "@yuki/tsconfig": "workspace:*",
-    "alchemy": "^0.93.2",
+    "alchemy": "^0.93.4",
     "tailwindcss": "catalog:tailwind",
     "typescript": "catalog:dev"
   }
