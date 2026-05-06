@@ -1,0 +1,35 @@
+{
+  "$schema": "./node_modules/turbo/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "clean": {
+      "dependsOn": ["^clean"],
+      "cache": false
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "typecheck": {
+      "outputLogs": "new-only"
+    }
+  },
+  "globalEnv": ["APP_URL", "RESEND_TOKEN", "PORT"],
+  "globalPassThroughEnv": [
+    "CI",
+    "MODE",
+    "NODE_ENV",
+    "SKIP_ENV_VALIDATION",
+
+    "VERCEL",
+    "VERCEL_ENV",
+    "VERCEL_URL",
+    "VERCEL_PROJECT_PRODUCTION_URL",
+
+    "npm_lifecycle_event"
+  ]
+}
