@@ -22,8 +22,8 @@
     "typecheck": "bun run --filter '*' typecheck"
   },
   "devDependencies": {
-    "oxfmt": "^0.47.0",
-    "oxlint": "^1.62.0"
+    "oxfmt": "^0.48.0",
+    "oxlint": "^1.63.0"
   },
   "packageManager": "bun@1.3.0",
   "catalogs": {
@@ -39,8 +39,8 @@
     "react": {
       "@types/react": "^19.2.14",
       "@types/react-dom": "^19.2.3",
-      "react": "^19.2.4",
-      "react-dom": "^19.2.4"
+      "react": "^19.2.6",
+      "react-dom": "^19.2.6"
     },
     "tailwind": {
       "@tailwindcss/postcss": "^4.2.4",

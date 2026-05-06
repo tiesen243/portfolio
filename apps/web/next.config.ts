@@ -11,7 +11,10 @@ const config = {
   reactStrictMode: true,
   typescript: { ignoreBuildErrors: true },
   images: {
-    remotePatterns: [{ protocol: 'https', hostname: '1.gravatar.com' }],
+    remotePatterns: [
+      { protocol: 'https', hostname: '1.gravatar.com' },
+      { protocol: 'https', hostname: 'raw.githubusercontent.com' },
+    ],
   },
 
   redirects() {
