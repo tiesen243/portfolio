@@ -20,3 +20,8 @@ export function formatDate(date: Date) {
     dateStyle: 'long',
   }).format(date)
 }
+
+export function truncateText(text: string, maxLength: number) {
+  if (text.length <= maxLength) return text
+  return `${text.slice(0, maxLength - 3)}...`
+}
