@@ -226,12 +226,10 @@ Now, you can reboot the computer and can see the Windows 11 in the boot menu.
 
    ```bash
    yes | yay -S --answerclean All --answerdiff None \
-    # Hyprland ecosystem
-    hypridle hyprpolkitagent xdg-desktop-portal-hyprland \
+    # Core & Shell components
+    hypridle hyprpolkitagent quickshell xdg-desktop-portal-hyprland \
     # Fonts
     noto-fonts noto-fonts-cjk noto-fonts-emoji otf-geist otf-geist-mono-nerd \
-    # UI & launchers
-    rofi quickshell \
     # Terminal & CLI tools
     kitty btop fastfetch fzf zsh lazygit lsd ripgrep unzip github-cli \
     # Media & notifications
@@ -391,47 +389,75 @@ timedatectl set-local-rtc 1
 
 Here are the essential keybindings for navigating and controlling your Hyprland desktop environment. These shortcuts will help you efficiently manage windows, workspaces, applications, and system functions:
 
-| Keybinding                | Action                           |
-| ------------------------- | -------------------------------- |
-| `Super + A`               | Toggle start menu (Quickshell)   |
-| `Super + B`               | Open browser (Zen)               |
-| `Super + Shift + B`       | Toggle bar (Quickshell)          |
-| `Super + E`               | Open file manager (Thunar)       |
-| `Super + T`               | Open terminal (Kitty)            |
-| `Super + Q`               | Kill active window               |
-| `Super + Space`           | Application launcher (Rofi)      |
-| `Super + V`               | Clipboard history (Rofi)         |
-| `Super + F`               | Toggle floating window           |
-| `Super + Shift + F`       | Toggle fullscreen                |
-| `Super + O`               | Pseudo tile                      |
-| `Super + Shift + O`       | Toggle split                     |
-| `Super + S`               | Screenshot selection             |
-| `Super + Shift + S`       | Screenshot full screen           |
-| `Super + Ctrl + S`        | Screenshot window                |
-| `Super + H/J/K/L`         | Move focus (left/down/up/right)  |
-| `Super + Shift + H/J/K/L` | Move window (left/down/up/right) |
-| `Super + Ctrl + H/J/K/L`  | Resize window                    |
-| `Super + . / ,`           | Cycle next/prev layout           |
-| `Super + ] / [`           | Move column right/left           |
-| `Super + Shift + ] / [`   | Swap column right/left           |
-| `Super + 1-9/0`           | Switch to workspace 1-10         |
-| `Super + Shift + 1-9/0`   | Move window to workspace 1-10    |
-| `Super + M`               | Toggle special workspace         |
-| `Super + Shift + M`       | Move to special workspace        |
-| `Super + Mouse Wheel`     | Switch workspaces                |
-| `Super + Left Click`      | Move window                      |
-| `Super + Right Click`     | Resize window                    |
-| `XF86AudioRaiseVolume`    | Volume up                        |
-| `XF86AudioLowerVolume`    | Volume down                      |
-| `XF86AudioMute`           | Toggle mute                      |
-| `XF86MonBrightnessUp`     | Brightness up                    |
-| `XF86MonBrightnessDown`   | Brightness down                  |
+| Keybinding                | Action                            |
+| ------------------------- | --------------------------------- |
+| `Super + A`               | Toggle start menu (Quickshell)    |
+| `Super + B`               | Open browser (Zen)                |
+| `Super + Shift + B`       | Toggle bar (Quickshell)           |
+| `Super + E`               | Open file manager (Thunar)        |
+| `Super + T`               | Open terminal (Kitty)             |
+| `Super + Q`               | Kill active window                |
+| `Super + Space`           | Application launcher (Quickshell) |
+| `Super + V`               | Clipboard history (Quickshell)    |
+| `Super + F`               | Toggle floating window            |
+| `Super + Shift + F`       | Toggle fullscreen                 |
+| `Super + O`               | Pseudo tile                       |
+| `Super + Shift + O`       | Toggle split                      |
+| `Super + S`               | Screenshot selection              |
+| `Super + Shift + S`       | Screenshot full screen            |
+| `Super + Ctrl + S`        | Screenshot window                 |
+| `Super + H/J/K/L`         | Move focus (left/down/up/right)   |
+| `Super + Shift + H/J/K/L` | Move window (left/down/up/right)  |
+| `Super + Ctrl + H/J/K/L`  | Resize window                     |
+| `Super + . / ,`           | Cycle next/prev layout            |
+| `Super + ] / [`           | Move column right/left            |
+| `Super + Shift + ] / [`   | Swap column right/left            |
+| `Super + 1-9/0`           | Switch to workspace 1-10          |
+| `Super + Shift + 1-9/0`   | Move window to workspace 1-10     |
+| `Super + M`               | Toggle special workspace          |
+| `Super + Shift + M`       | Move to special workspace         |
+| `Super + Mouse Wheel`     | Switch workspaces                 |
+| `Super + Left Click`      | Move window                       |
+| `Super + Right Click`     | Resize window                     |
+| `XF86AudioRaiseVolume`    | Volume up                         |
+| `XF86AudioLowerVolume`    | Volume down                       |
+| `XF86AudioMute`           | Toggle mute                       |
+| `XF86MonBrightnessUp`     | Brightness up                     |
+| `XF86MonBrightnessDown`   | Brightness down                   |
 
 <Callout>
 
 You can find all keybindings in your configuration file at `~/.config/hypr/core/keymaps.conf`.
 
 </Callout>
+
+## Preview
+
+### Overview
+
+![preview-01](https://raw.githubusercontent.com/tiesen243/dotfiles/refs/heads/main/assets/preview-01.png)
+
+![preview-02](https://raw.githubusercontent.com/tiesen243/dotfiles/refs/heads/main/assets/preview-02.png)
+
+### Kitty terminal
+
+![preview-03](https://raw.githubusercontent.com/tiesen243/dotfiles/refs/heads/main/assets/preview-03.png)
+
+## App launcher
+
+![preview-04](https://raw.githubusercontent.com/tiesen243/dotfiles/refs/heads/main/assets/preview-04.png)
+
+## Clipboard manager
+
+![preview-05](https://raw.githubusercontent.com/tiesen243/dotfiles/refs/heads/main/assets/preview-05.png)
+
+### Lock screen
+
+![preview-06](https://raw.githubusercontent.com/tiesen243/dotfiles/refs/heads/main/assets/preview-06.png)
+
+## Neovim
+
+![preview-07](https://raw.githubusercontent.com/tiesen243/dotfiles/refs/heads/main/assets/preview-07.png)
 
 ## Conclusion
 
