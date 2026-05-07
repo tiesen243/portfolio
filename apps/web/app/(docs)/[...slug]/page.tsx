@@ -70,7 +70,7 @@ export default async function Page(props: PageProps<'/[...slug]'>) {
           <Image
             src={page.data.image}
             alt={page.data.title}
-            className='my-4 rounded-md object-cover'
+            className='my-4 w-full rounded-md object-cover'
             width={1200}
             height={630}
             sizes='(max-width: 768px) 100vw, 1200px'
