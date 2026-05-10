@@ -16,6 +16,7 @@ export default function NotFound() {
         src={Yuki}
         alt='Yuki'
         className='mx-auto w-1/3 rounded-lg object-cover'
+        loading='eager'
       />
 
       <Typography variant='h1' className='text-center'>
