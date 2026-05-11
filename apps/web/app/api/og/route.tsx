@@ -12,7 +12,8 @@ export async function GET(req: Request, _: RouteContext<'/api/og'>) {
   const title = url.searchParams.get('title') ?? ''
   const description = url.searchParams.get('description') ?? ''
   let image = url.searchParams.get('image') ?? ''
-  if (!image.startsWith('http')) image = new URL(image, req.url).toString()
+  if (image && !image.startsWith('http'))
+    image = new URL(image, req.url).toString()
 
   const fontData = await loadGoogleFont('Geist')
   const logoUrl = new URL('/icon-512.png', req.url).toString()
