@@ -1,11 +1,10 @@
-import { generate as DefaultImage } from '@fumadocs/base-ui/og'
 import { notFound } from 'next/navigation'
 import { ImageResponse } from 'next/og'
 
-import { loadGoogleFont } from '@/app/api/og/load-google-font'
+import { loadGoogleFont } from '@/app/api/og/_utils'
+import { OpenGraph } from '@/components/ui/open-graph'
 import { appName } from '@/lib/shared'
 import { getPageImage, source } from '@/lib/source'
-import { truncateText } from '@/lib/utils'
 
 export const revalidate = false
 
@@ -21,14 +20,13 @@ export async function GET(
   const logoUrl = new URL('/icon-512.png', req.url).toString()
 
   return new ImageResponse(
-    <DefaultImage
-      site={appName}
-      title={truncateText(page.data.title, 24)}
-      description={truncateText(page.data.description, 100)}
-      // oxlint-disable-next-line next/no-img-element
-      icon={<img src={logoUrl} alt='Author Avatar' width={64} height={64} />}
-      primaryColor='#14185a'
-      primaryTextColor='#3f5ec2'
+    <OpenGraph
+      appName={appName}
+      title={page.data.title}
+      description={page.data.description}
+      image={page.data.image}
+      logo={<img src={logoUrl} width={56} height={56} />}
+      caption={new URL(req.url).hostname}
     />,
     {
       width: 1200,

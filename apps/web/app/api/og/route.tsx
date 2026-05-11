@@ -1,9 +1,8 @@
-import { generate as DefaultImage } from '@fumadocs/base-ui/og'
 import { ImageResponse } from 'next/og'
 
-import { loadGoogleFont } from '@/app/api/og/load-google-font'
+import { loadGoogleFont } from '@/app/api/og/_utils'
+import { OpenGraph } from '@/components/ui/open-graph'
 import { appName } from '@/lib/shared'
-import { truncateText } from '@/lib/utils'
 
 export const revalidate = false
 
@@ -12,19 +11,20 @@ export async function GET(req: Request, _: RouteContext<'/api/og'>) {
 
   const title = url.searchParams.get('title') ?? ''
   const description = url.searchParams.get('description') ?? ''
+  let image = url.searchParams.get('image') ?? ''
+  if (!image.startsWith('http')) image = new URL(image, req.url).toString()
 
   const fontData = await loadGoogleFont('Geist')
   const logoUrl = new URL('/icon-512.png', req.url).toString()
 
   return new ImageResponse(
-    <DefaultImage
-      site={appName}
-      title={truncateText(title, 24)}
-      description={truncateText(description, 100)}
-      // oxlint-disable-next-line next/no-img-element
-      icon={<img src={logoUrl} alt='Author Avatar' width={64} height={64} />}
-      primaryColor='#14185a'
-      primaryTextColor='#3f5ec2'
+    <OpenGraph
+      appName={appName}
+      title={title}
+      description={description}
+      image={image}
+      logo={<img src={logoUrl} width={56} height={56} />}
+      caption={url.hostname}
     />,
     {
       width: 1200,

@@ -1,4 +1,5 @@
 'use client'
+
 import { RootProvider } from '@fumadocs/base-ui/provider/next'
 
 import SearchDialog from '@/components/search'

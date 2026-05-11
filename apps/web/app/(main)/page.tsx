@@ -23,4 +23,8 @@ export default function HomePage() {
   )
 }
 
-export const metadata = createMetadata()
+export const metadata = createMetadata({
+  openGraph: {
+    images: `/api/og?image=/assets/logotype.png`,
+  },
+})

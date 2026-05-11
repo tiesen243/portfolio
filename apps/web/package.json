@@ -31,7 +31,7 @@
     "zod": "catalog:prod"
   },
   "devDependencies": {
-    "@opennextjs/cloudflare": "^1.19.8",
+    "@opennextjs/cloudflare": "^1.19.9",
     "@tailwindcss/postcss": "catalog:tailwind",
     "@types/mdx": "^2.0.13",
     "@types/node": "catalog:dev",
