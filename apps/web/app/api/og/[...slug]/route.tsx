@@ -25,7 +25,8 @@ export async function GET(
       title={page.data.title}
       description={page.data.description}
       image={page.data.image}
-      logo={<img src={logoUrl} width={56} height={56} />}
+      // oxlint-disable-next-line next/no-img-element
+      logo={<img src={logoUrl} alt='logo' width={56} height={56} />}
       caption={new URL(req.url).hostname}
     />,
     {
