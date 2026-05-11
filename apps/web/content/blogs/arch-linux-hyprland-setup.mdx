@@ -308,9 +308,9 @@ Now, you can reboot the computer and can see the Windows 11 in the boot menu.
 
    ```bash
    rm ~/.zshrc
-   rm -rf ~/.config/{Thunar,btop,fastfetch,git,hypr,kitty,lazygit,lsd,matugen,nvim,quickshell,rofi}
+   rm -rf ~/.config/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lazygit,lsd,matugen,nvim,quickshell}
 
-   ln -s ~/dotfiles/{Thunar,btop,fastfetch,git,hypr,kitty,lazygit,lsd,matugen,nvim,quickshell,rofi} ~/.config
+   ln -s ~/dotfiles/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lazygit,lsd,matugen,nvim,quickshell} ~/.config
    ln -s ~/dotfiles/zsh/themes/yuki.zsh-theme ~/.oh-my-zsh/custom/themes
    ln -s ~/dotfiles/zsh/config.zsh ~/.zshrc
    ln -s ~/dotfiles/zsh/.zprofile ~/.zprofile # for fcitx config (optional)
@@ -324,56 +324,20 @@ Now, you can reboot the computer and can see the Windows 11 in the boot menu.
 
 2. Change Wallpaper
 
-   2.1. For `hyprpaper`
+Add your preferred wallpapers to ~/dotfiles/assets/wallpapers/. You can then toggle the wallpaper selector by open the Start Menu using Super+A and click the Wallpaper Selector icon (located at the bottom-right corner of the quick action buttons). After changing the wallpaper, it automatically generates color schemes based on the wallpaper and applies it to the system by using Matugen.
 
-   ```bash title="~/dotfiles/hypr/hyprpaper.conf"
-   $path = /path/to/your/wallpaper
-   ```
+<Callout>
+If you don't have any wallpapers yet, run the following command to generate the necessary theme files. Otherwise, the system will trigger an error as it won't find the file needed to apply the color scheme
 
-   And remember to disable `Background` module in `quickshell` to avoid conflict
+```bash
+matugen color #hexcode
+```
 
-   ```bash title="~/dotfiles/quickshell/shell.qml"
-   ShellRoot {
-    // ...
-    Loader {
-      active: false
-      sourceComponent: Background { id: background }
-    }
-   }
-   ```
+</Callout>
 
-   2.2. For `quickshell`
+3. Add your avatar to `/usr/share/sddm/faces/$USER.face.icon` to show in the lock screen
 
-   ```qml title="~/dotfiles/quickshell/Modules/Background/Background.qml"
-   Scope {
-    // ...
-    PanelWindow {
-      // ...
-      Image {
-        // ...
-        source: background.getWallpaper(fileName)
-      }
-    }
-   }
-   ```
-
-   Or change file in `~/dotfiles/assets/_background.png`
-
-3. Add your avatar to `/usr/share/sddm/faces/[username].face.icon` to show in the lock screen
-
-4. Generate `colorschema`
-
-   ```bash
-   matugen image /path/to/your/wallpaper
-   # or
-   matugen image ~/dotfiles/assets/_background.png
-   ```
-
-5. Restart the computer to apply all changes
-
-   ```bash
-   reboot
-   ```
+4. Restart the computer to apply all changes
 
 <Callout>
 
@@ -393,7 +357,6 @@ Here are the essential keybindings for navigating and controlling your Hyprland 
 | ------------------------- | --------------------------------- |
 | `Super + A`               | Toggle start menu (Quickshell)    |
 | `Super + B`               | Open browser (Zen)                |
-| `Super + Shift + B`       | Toggle bar (Quickshell)           |
 | `Super + E`               | Open file manager (Thunar)        |
 | `Super + T`               | Open terminal (Kitty)             |
 | `Super + Q`               | Kill active window                |
@@ -405,13 +368,8 @@ Here are the essential keybindings for navigating and controlling your Hyprland 
 | `Super + Shift + O`       | Toggle split                      |
 | `Super + S`               | Screenshot selection              |
 | `Super + Shift + S`       | Screenshot full screen            |
-| `Super + Ctrl + S`        | Screenshot window                 |
 | `Super + H/J/K/L`         | Move focus (left/down/up/right)   |
 | `Super + Shift + H/J/K/L` | Move window (left/down/up/right)  |
-| `Super + Ctrl + H/J/K/L`  | Resize window                     |
-| `Super + . / ,`           | Cycle next/prev layout            |
-| `Super + ] / [`           | Move column right/left            |
-| `Super + Shift + ] / [`   | Swap column right/left            |
 | `Super + 1-9/0`           | Switch to workspace 1-10          |
 | `Super + Shift + 1-9/0`   | Move window to workspace 1-10     |
 | `Super + M`               | Toggle special workspace          |
@@ -427,7 +385,7 @@ Here are the essential keybindings for navigating and controlling your Hyprland 
 
 <Callout>
 
-You can find all keybindings in your configuration file at `~/.config/hypr/core/keymaps.conf`.
+You can find all keybindings in your configuration file at `~/.config/hypr/modules/keymaps.lua`.
 
 </Callout>
 
