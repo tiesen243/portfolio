@@ -24,8 +24,8 @@ export async function GET(req: Request, _: RouteContext<'/api/og'>) {
       title={title}
       description={description}
       image={image}
-      // oxlint-disable-next-line next/no-img-element
-      logo={<img src={logoUrl} alt='logo' width={56} height={56} />}
+      // oxlint-disable-next-line jsx-a11y/alt-text, next/no-img-element
+      logo={<img src={logoUrl} width={56} height={56} />}
       caption={url.hostname}
     />,
     {
