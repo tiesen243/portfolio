@@ -8,7 +8,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { Typography } from '@/components/ui/typography'
-import Tiesen from '@/public/assets/logotype.png'
+import Logotype from '@/public/assets/logotype.png'
 
 export function HeroSection() {
   return (
@@ -21,7 +21,7 @@ export function HeroSection() {
       <code className='mb-6 text-primary'>&quot;use portfolio&quot;</code>
 
       <Image
-        src={Tiesen}
+        src={Logotype}
         alt='Tiesen'
         sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
         className='mx-auto h-auto object-cover'
