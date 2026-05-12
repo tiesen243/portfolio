@@ -1,3 +1,5 @@
+// oxlint-disable jsx-a11y/prefer-tag-over-role
+
 export default {
   frameworks: [
     {
