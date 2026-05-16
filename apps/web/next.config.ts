@@ -27,7 +27,3 @@ const config = {
 } satisfies NextConfig
 
 export default withMDX(config)
-
-if (!process.env.VERCEL)
-  // oxlint-disable-next-line promise/prefer-await-to-then
-  import('@opennextjs/cloudflare').then((m) => m.initOpenNextCloudflareForDev())
