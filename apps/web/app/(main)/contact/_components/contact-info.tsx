@@ -72,6 +72,7 @@ export const ContactInfo: React.FC = () => (
           <Card
             key={name}
             className='flex-row items-center rounded-md px-4 text-lg font-medium capitalize transition-colors hover:bg-ring/10 hover:text-ring hover:ring-ring [&_svg]:size-5 [&_svg]:fill-current'
+            // oxlint-disable-next-line jsx-a11y/control-has-associated-label
             render={<a href={url} target='_blank' rel='noopener noreferrer' />}
           >
             {icons[name as keyof typeof icons] ?? null}

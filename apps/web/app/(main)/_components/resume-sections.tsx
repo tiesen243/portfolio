@@ -14,6 +14,7 @@ export const CertificationSection: React.FC = () => (
         <Typography>{certification.description}</Typography>
         <Typography
           render={
+            // oxlint-disable-next-line jsx-a11y/control-has-associated-label
             <a
               href={certification.link}
               target='_blank'
