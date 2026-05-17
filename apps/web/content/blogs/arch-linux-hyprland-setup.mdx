@@ -210,119 +210,86 @@ Now, you can reboot the computer and can see the Windows 11 in the boot menu.
 
 ## Set up
 
-### Installation
+### Automatic install (Recommended)
 
-1. Install `yay`
+To download and run the installer automatically, copy and paste the following command into your terminal.
 
-   ```bash
-   pacman -Syu --needed git base-devel
-   git clone https://aur.archlinux.org/yay.git ~/yay
-   cd ~/yay
-   makepkg -si
-   rm -rf ~/yay
-   ```
+```bash
+bash <(curl -fsSL "https://raw.githubusercontent.com/tiesen243/dotfiles/main/install.sh")
+```
 
-2. Install all packages
+### Manual installation
 
-   ```bash
-   yes | yay -S --answerclean All --answerdiff None \
-    # Core & Shell components
-    hypridle hyprpolkitagent quickshell xdg-desktop-portal-hyprland \
-    # Fonts
-    noto-fonts noto-fonts-cjk noto-fonts-emoji otf-geist otf-geist-mono-nerd \
-    # Terminal & CLI tools
-    kitty btop fastfetch fzf zsh lazygit lsd ripgrep unzip github-cli \
-    # Media & notifications
-    ffmpeg brightnessctl playerctl libnotify grim slurp cliphist wl-clipboard \
-    # Theming
-    adw-gtk-theme capitaine-cursors matugen \
-    # File manager
-    thunar thunar-volman gvfs tumbler
-    # Vietnamese input method (optional)
-    fcitx5-lotus-bin fcitx5-config-qt
-   ```
+If you prefer to inspect what goes onto your system, want to customize the setup, or need to troubleshoot a specific step, you can follow the step-by-step breakdown below.
 
-   I use zen as my default browser, you can install it by running the following command:
+#### 1. Install `yay` and necessary packages
 
-   ```bash
-   yay -S zen-browser-bin
-   ```
+- Install `yay`
 
-   If you use another browser, you must change the `$browser` variable in the `~/dotfiles/hypr/core/keymaps.conf` file to your browser's executable name.
+```bash
+pacman -Syu --needed git base-devel
+git clone https://aur.archlinux.org/yay.git ~/yay
+cd ~/yay
+makepkg -si
+rm -rf ~/yay
+```
 
-3. Install `oh-my-zsh`
+- Install packages from `package.txt`
 
-   ```bash
-   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-   ```
+```bash
+yay -S --needed --noconfirm --answerclean All --answerdiff --None $(grep -v '^#' ~/dotfiles/package.txt)
+```
 
-   Then, install zsh plugins
+- Set `zsh` as the default shell
 
-   ```bash
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-    git clone https://github.com/Aloxaf/fzf-tab ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
-   ```
+  ```bash
+  chsh -s $(which zsh)
+  ```
 
-   - UV (Python package manager)
+#### 2. Apply configuration
 
-     ```bash
-     curl -LsSf https://astral.sh/uv/install.sh | sh
-     ```
+2.1. Clone `dotfiles`
 
-   - NVM (Node Version Manager)
+```bash
+git clone git@github.com:tiesen243/dotfiles.git ~/dotfiles
+```
 
-     ```bash
-     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
-     ```
+2.2. Remove existed config and create the symbolic links to the config files
 
-4. Set up github
+```bash
+rm -rf ~/{.cache,.local,.zshrc}
+rm -rf ~/.config/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lazygit,lsd,matugen,nvim,quickshell,zsh}
+ln -s ~/dotfiles/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lazygit,lsd,matugen,nvim,quickshell,zsh} ~/.config
 
-   Open your browser (press `SUPER+B`) and sign in to your GitHub account. Then authenticate GitHub CLI and set up SSH keys:
+# For who like lowercase stuffs
+rm -rf ~/{Desktop,Documents,Downloads,Music,Pictures,Projects,Public,Templates,Videos} && mkdir -p ~/{documents,downloads,pictures,projects,videos}
+cat <<EOF > "$HOME/.config/user-dirs.dirs"
+XDG_DESKTOP_DIR="\$HOME/"
+XDG_DOWNLOAD_DIR="\$HOME/downloads"
+XDG_TEMPLATES_DIR="\$HOME/"
+XDG_PUBLICSHARE_DIR="\$HOME/"
+XDG_DOCUMENTS_DIR="\$HOME/documents"
+XDG_MUSIC_DIR="\$HOME/"
+XDG_PICTURES_DIR="\$HOME/pictures"
+XDG_VIDEOS_DIR="\$HOME/videos"
+XDG_PROJECTS_DIR="\$HOME/projects"
+EOF
+xdg-user-dirs-update
+```
 
-   ```bash
-   gh auth login
-   ```
+2.3. Generate default theme
 
-5. Uninstall unnecessary packages (optional)
+```bash
+matugen color hex 3f5ec2
+```
 
-   ```bash
-   sudo pacman -Runs htop nano vim wofi
-   ```
+2.4. ake all scripts in the `dotfiles/scripts` directory executable:
 
-### Usage
+```bash
+sudo chmod +x ~/dotfiles/scripts/*
+```
 
-1. To apply my config, you can run the following command:
-
-   ```bash
-   git clone git@github.com:tiesen243/dotfiles.git ~/dotfiles
-   ```
-
-   Then, create the symbolic links to the config files
-
-   ```bash
-   git clone git@github.com:tiesen243/dotfiles.git ~/dotfiles
-   ```
-
-   Then, create the symbolic links to the config files
-
-   ```bash
-   rm ~/.zshrc
-   rm -rf ~/.config/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lazygit,lsd,matugen,nvim,quickshell}
-
-   ln -s ~/dotfiles/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lazygit,lsd,matugen,nvim,quickshell} ~/.config
-   ln -s ~/dotfiles/zsh/themes/yuki.zsh-theme ~/.oh-my-zsh/custom/themes
-   ln -s ~/dotfiles/zsh/config.zsh ~/.zshrc
-   ln -s ~/dotfiles/zsh/.zprofile ~/.zprofile # for fcitx config (optional)
-   ```
-
-   Final, make all scripts in the `dotfiles/scripts` directory executable
-
-   ```bash
-   sudo chmod +x ~/dotfiles/scripts/*
-   ```
-
-2. Change Wallpaper
+#### 3. Change Wallpaper
 
 Add your preferred wallpapers to ~/dotfiles/assets/wallpapers/. You can then toggle the wallpaper selector by open the Start Menu using Super+A and click the Wallpaper Selector icon (located at the bottom-right corner of the quick action buttons). After changing the wallpaper, it automatically generates color schemes based on the wallpaper and applies it to the system by using Matugen.
 
@@ -335,9 +302,7 @@ matugen color #hexcode
 
 </Callout>
 
-3. Add your avatar to `/usr/share/sddm/faces/$USER.face.icon` to show in the lock screen
-
-4. Restart the computer to apply all changes
+#### 4. Add your avatar to `/usr/share/sddm/faces/$USER.face.icon` to show in the lock screen
 
 <Callout>
 
