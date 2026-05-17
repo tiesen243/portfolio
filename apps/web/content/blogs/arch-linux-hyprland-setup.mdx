@@ -289,20 +289,14 @@ matugen color hex 3f5ec2
 sudo chmod +x ~/dotfiles/scripts/*
 ```
 
+<Callout>
+  Add your avatar to `/usr/share/sddm/faces/$USER.face.icon` to show in the lock
+  screen
+</Callout>
+
 #### 3. Change Wallpaper
 
 Add your preferred wallpapers to ~/dotfiles/assets/wallpapers/. You can then toggle the wallpaper selector by open the Start Menu using Super+A and click the Wallpaper Selector icon (located at the bottom-right corner of the quick action buttons). After changing the wallpaper, it automatically generates color schemes based on the wallpaper and applies it to the system by using Matugen.
-
-<Callout>
-If you don't have any wallpapers yet, run the following command to generate the necessary theme files. Otherwise, the system will trigger an error as it won't find the file needed to apply the color scheme
-
-```bash
-matugen color #hexcode
-```
-
-</Callout>
-
-#### 4. Add your avatar to `/usr/share/sddm/faces/$USER.face.icon` to show in the lock screen
 
 <Callout>
 
