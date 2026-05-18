@@ -37,6 +37,8 @@ The compositor is particularly appealing for power users and developers who appr
 
 ### Installation steps
 
+#### 1. Setup
+
 **First**, you need to download the Arch Linux ISO image from the Arch Linux website. You can download the ISO image from the Arch Linux website by clicking on the download link on the Arch Linux website.
 
 **Second**, use `Ventoy` to burn the ISO image to the USB drive. You can download Ventoy from this [website](https://www.ventoy.net/en/download.html). Once you have downloaded Ventoy, you can craete bootable USB, then copy the ISO file to this.
@@ -82,7 +84,7 @@ ping google.com
 # if the connection is working, you can continue the next step
 ```
 
-Set up drive partitions to install Arch Linux.
+#### 2. Partition the disk with `btrfs` filesystem
 
 ```bash
 # Show the available disk
@@ -97,7 +99,7 @@ Create the partitions on the drive.
 
 - Move the cursor to the free space and press `Enter`
 - Select the `New` option and press `Enter`
-- Set the size of the partition is `1G` and press `Enter`
+- Set the size of the partition is `512M` and press `Enter`
 - Select `type` to `EFI System` and press `Enter`
 - Go to the free space again and select the `New` option and press `Enter`
 - Set the size of the partition is at least `40GB` and press `Enter`
@@ -106,7 +108,7 @@ Create the partitions on the drive.
 
   This partition is used to home directory
 
-  You can set the size according to your needs. If you have more storage, you can set a larger size for this partition.
+  You can set the size according to your needs. If you have more storage, you can set a larger size for this partition. Completed system installed only takes arrowd 6GB of storage, but you may want to have more space for your files and applications.
 
   </Callout>
 
@@ -114,56 +116,163 @@ Create the partitions on the drive.
 
 ```bash
 # Format the partitions
-mkfs.fat -F32 /dev/[drive_name] # EFI partition 1G
-mkfs.ext4 /dev/[drive_name] # Home partition >= 40G
+mkfs.fat -F32 /dev/nvme0n1p1 # Replace /dev/nvme0n1p1 with your EFI (512M) partition
+mkfs.btrfs /dev/nvme0n1p2    # Replace /dev/nvme0n1p2 with your Home (>= 40G) partition
 
 # Mount the partitions to the system
-mount --mkdir /dev/[drive_name] /mnt/archinstall # Home partition (>= 40G)
-mount --mkdir /dev/[drive_name] /mnt/archinstall/boot # EFI partition (1G)
+mount --mkdir /dev/nvme0n1p2 /mnt
+
+# Create the subvolumes for the system (it based on the https://wiki.cachyos.org/installation/filesystem/#subvolume-layout)
+btrfs subvolume create /mnt/@
+btrfs subvolume create /mnt/@home
+btrfs subvolume create /mnt/@root
+btrfs subvolume create /mnt/@srv
+btrfs subvolume create /mnt/@cache
+btrfs subvolume create /mnt/@tmp
+btrfs subvolume create /mnt/@log
+
+# Unmount the root fs
+umount /mnt
+
+# Mount the subvolumes to the system with zstd compression
+mount -o compress=zstd,subvol=@ /dev/nvme0n1p2 /mnt
+mkdir -p /mnt/{home,root,srv,var/cache,var/tmp,var/log}
+mount -o compress=zstd,subvol=@home /dev/nvme0n1p2 /mnt/home
+mount -o compress=zstd,subvol=@root /dev/nvme0n1p2 /mnt/root
+mount -o compress=zstd,subvol=@srv /dev/nvme0n1p2 /mnt/srv
+mount -o compress=zstd,subvol=@cache /dev/nvme0n1p2 /mnt/var/cache
+mount -o compress=zstd,subvol=@tmp /dev/nvme0n1p2 /mnt/var/tmp
+mount -o compress=zstd,subvol=@log /dev/nvme0n1p2 /mnt/var/log
+
+# Mount the EFI partition
+mkdir -p /mnt/efi
+mount /dev/nvme0n1p1 /mnt/efi
 ```
 
-Run `archinstall` script to start the installation. In archinstall script, you can choose the following nptions:
+#### 3. Install packages
 
-- `Disk configuration`:
-  - Choose `Pre-mounted configuration` to use the partitions that you have created
-  - Enter the directory: `/mnt/archinstall`
-- `Bootloader`: Choose `GRUB` as the bootloader
-- `Hostname`: Enter the hostname for the computer
-- `Root password`: Enter the root password
-- `User`: Create your user account and remember to set user as `superuser`
-- `Profile`:
-  - Choose `Desktop` as the profile and select `Hyprland` as the desktop environment
-  - Choose `Graphics driver` and select GPU driver for your computer. In my case, I choose `Nvidia` driver
-  - `Greeter`: Choose `SDDM` as the greeter or something you like
-- `Additional packages`:
-  - Choose `Yes` to install additional packages
-  - Enter the package name: `grub` `efibootmgr` `os-prober` `neovim` `pipewire-pulse` or `pulseaudio`
-  - Press enter to verify the package name
-- `Network configuration`: Choose `Use NetworkManager` to manage the network connection
-- `Timezone`: Choose the timezone for your location.
-- Finally, choose `Install` to start the installation process
+- `base`, `base-devel`, `linux`, and `linux-firmware` are the essential packages for the Arch Linux system.
+- `btrfs-assistant` and `btrfs-progs` are the tools for managing the Btrfs filesystem.
+- `efibootmgr`, `grub`, `grub-btrfs`, and `os-prober` are the tools for managing the bootloader and dual booting with Windows
+- `inotify-tools` is the tool for monitoring file system events, which is used by `snapper` to automatically create snapshots when there are changes in the file system.
+- `snap-pac` and `snapper` are the tools for managing Btrfs snapshots, which can be used to create and manage snapshots of the file system.
+- `pipewire`, `pipewire-alsa`, `pipewire-pulse`, and `pipewire-jack` are the tools for managing audio on the system, which is used for audio management
+- `git` is the version control system, which is used for managing the configuration files and dotfiles.
+- `neovim` is the text editor, which is used for editing the configuration files and writing code.
+- `networkmanager` is the tool for managing network connections, which is used for managing the network connections on the system.
+- `openssh` is the tool for managing SSH connections, which is used for managing SSH connections on the system.
+- `reflector` is the tool for managing the mirror list, which is used for managing the mirror list on the system.
+- `sudo` is the tool for managing the sudo permissions, which is used for managing the sudo permissions on the system.
+- `wireplumber` is the tool for managing the audio routing, which is used for managing the audio routing on the system.
+- `zsh` is the shell, which is used for managing the command line interface on the system.
+
+```bash
+pacstrap -K /mnt base base-devel linux linux-firmware \
+  btrfs-assistan btrfs-progs efibootmgr grub grub-btrfs inotify-tools os-prober snap-pac snapper \
+  pipewire pipewire-alsa pipewire-pulse pipewire-jack \
+  git neovim networkmanager openssh reflector sudo wireplumber zsh
+```
 
 <Callout type="warning">
 
 If you encounter a "Failed to install packages to new root" error when running `archinstall`, you may need to update the Arch Linux keyring before proceeding:
 
 ```bash
-pacman -S archlinux-keyring
+pacman -Sy archlinux-keyring
 ```
 
 </Callout>
 
-After that, configure the system to boot into Arch Linux.
+#### 4. Fstab and chroot
 
 ```bash
-bootctl remove
+genfstab -U /mnt >> /mnt/etc/fstab
 
-# Mount the EFI partitions of Windows 11
-lsblk # Check the EFI partition
-mkdir /mnt/windows
-mount /dev/[drive_name] /mnt/windows
+# verify the fstab file
+cat /mnt/etc/fstab
 
-# Grub installation
+# Chroot into the new system
+arch-chroot /mnt
+```
+
+#### 5. Setup timezone, language and keyboard layout
+
+Set the timezone for your system by creating a symbolic link from the appropriate timezone file in the `/usr/share/zoneinfo` directory to the `/etc/localtime` file.
+
+```bash
+# Replace Asia/Ho_Chi_Minh with your timezone
+ln -sf /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
+
+# Now synchronize the hardware clock with the system clock by running the following command.
+hwclock --systohc
+```
+
+Uncomment the locale you want to use in the `/etc/locale.gen` file and generate the locale by running the following command.
+
+```bash
+nvim /etc/locale.gen
+
+locale-gen
+```
+
+Next, set the `LANG` variable in the `/etc/locale.conf` file to the locale you want to use. For example, if you want to use `en_US.UTF-8` locale, you need to set the `LANG` variable as follows.
+
+```bash title="/etc/locale.conf"
+LANG=en_US.UTF-8"
+```
+
+Finally, set the keyboard layout for the system. For example, if you want to use `us` keyboard layout, you can run the following command.
+
+```bash title="/etc/vconsole.conf"
+KEYMAP=us
+```
+
+#### 6. Hostname and Host configuration
+
+Set the hostname for your system by creating a file named `/etc/hostname` and adding your desired hostname to it.
+
+```bash title="/etc/hostname"
+arch-btw
+```
+
+Next, you need to configure the hosts file to map the hostname to the loopback address. You can do this by editing the `/etc/hosts` file and adding the following lines.
+
+```bash title="/etc/hosts"
+127.0.0.1 localhost
+::1 localhost
+127.0.1.1 arch-btw
+```
+
+#### 7. Root password and user creation
+
+Set the root password for your system by running the following command and following the prompts.
+
+```bash
+passwd
+```
+
+Next, create a new user for your system by running the following command and following the prompts. Replace `username` with your desired username.
+
+```bash
+useradd -m -G wheel username
+passwd username
+```
+
+Finally, you need to edit the sudoers file to allow the new user to use `sudo` command. You can do this by running the following command and finding the line that is `## Uncomment to allow members of group wheel to execute any command` and uncommenting the line below it.
+
+```bash
+EDITOR=neovim visudo
+```
+
+```bash title="/etc/sudoers"
+...
+## Uncomment to allow members of group wheel to execute any command
+%wheel ALL=(ALL:ALL) ALL
+```
+
+#### 8. Install and configure the bootloader (dual boot with Windows 11)
+
+```bash
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
@@ -180,33 +289,51 @@ Uncomment the following line
 GRUB_DISABLE_OS_PROBER=false
 ```
 
-Update the grub resolution by find and update the following line
-
-```bash title="/etc/default/grub"
-GRUB_GFXMODE=1920x1080x32
-```
-
-Optionally, you can set GRUB to remember your last boot selection:
-
-```bash title="/etc/default/grub"
-GRUB_DEFAULT=saved
-GRUB_SAVEDEFAULT=true
-```
-
-Finally, reboot the computer and select the Arch Linux in the boot menu to start the system.
+Generate the grub configuration file again to apply the changes
 
 ```bash
-exit
-reboot
-```
+# Mount the EFI partitions of Windows 11
+lsblk # Check the EFI partition
+mkdir /mnt/windows
+mount /dev/[drive_name] /mnt/windows # Replace [drive_name] with the EFI partition of Windows 11
 
-After reboot, open the terminal by press `Win + Q`, and start to set up dual boot with Windows 11.
-
-```bash
+# Run os-prober to detect the Windows 11 installation and add it to the grub configuration
+sudo os-prober
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-Now, you can reboot the computer and can see the Windows 11 in the boot menu.
+#### 9. Umount everything and reboot
+
+```bash
+# Enable the NetworkManager service to start at boot
+systemctl enable NetworkManager
+
+# Exit the chroot environment
+exit
+
+# Unmount everything to check if the drive is busy
+umount -R /mnt
+
+# Reboot the system and unplug the installation media
+reboot
+```
+
+### 10. Setup `snapper` for Btrfs snapshots
+
+Initialize a snapshot configuration named `root` for the root (/) filesystem:
+
+```bash
+snapper -c root create-config /
+```
+
+Edit the service file to include the `--syslog` flag for proper logging, ensuring snapshots are dynamically added to the GRUB boot menu:
+
+```bash
+sudo systemctl edit --full grub-btrfsd
+
+# Enable the grub-btrfsd service by adding the following lines to the file
+sudo systemctl enable grub-btrfsd
+```
 
 ## Set up
 
@@ -307,6 +434,77 @@ timedatectl set-local-rtc 1
 ```
 
 </Callout>
+
+### Add Cachyos's Optimized Repositories
+
+Cachyos provides optimized repositories for Arch Linux that can improve the performance of your system. To add Cachyos's optimized repositories, you can follow the steps below:
+
+```bash
+curl https://mirror.cachyos.org/cachyos-repo.tar.xz -o cachyos-repo.tar.xz
+tar xvf cachyos-repo.tar.xz && cd cachyos-repo
+sudo ./cachyos-repo.sh
+```
+
+### For `Nvidia` users
+
+If you are using `Nvidia` graphics card, you need to install `nvidia` and `nvidia-utils` packages and add the following line to your `/etc/mkinitcpio.conf` file.
+
+```bash
+sudo pacman -S nvidia-open-dkms nvidia-utils linux-headers
+```
+
+Then, regenerate the initramfs file to apply the changes.
+
+```bash title="/etc/mkinitcpio.conf"
+MODULES=(i915 nvidia nvidia_modeset nvidia_uvm nvidia_drm)
+```
+
+```bash
+sudo mkinitcpio -P
+```
+
+Then, add the following line to your `/etc/default/grub` file to enable `nvidia` module in the grub.
+
+```bash title="/etc/default/grub"
+GRUB_CMDLINE_LINUX_DEFAULT="... nvidia-drm.modeset=1 nvidia-drm.fbdev=1"
+```
+
+Finally, regenerate the grub configuration file to apply the changes.
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+### Splash screen on boot
+
+To add a splash screen on boot, you can use `plymouth`. First, install the `plymouth` package and the `plymouth-theme-spinner` theme.
+
+```bash
+sudo pacman -S plymouth
+```
+
+Then, add the following line to your `/etc/mkinitcpio.conf` file to include `plymouth` in the initramfs.
+
+```bash title="/etc/mkinitcpio.conf"
+HOOKS=(... plymouth)
+```
+
+Next, set the `plymouth` theme to `spinner`.
+
+```bash
+sudo plymouth-set-default-theme -R spinner
+```
+
+Finally, set delay to 0 and regenerate the initramfs file to apply the changes.
+
+```bash title="/etc/plymouth/plymouthd.conf"
+[Daemon]
+ShowDelay=0
+```
+
+```bash
+sudo mkinitcpio -P
+```
 
 ## Keybindings
 
