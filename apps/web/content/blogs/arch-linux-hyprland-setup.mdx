@@ -152,6 +152,7 @@ mount /dev/nvme0n1p1 /mnt/efi
 #### 3. Install packages
 
 - `base`, `base-devel`, `linux`, and `linux-firmware` are the essential packages for the Arch Linux system.
+- `intel-ucode` for Intel CPU microcode updates, which can improve system stability and security. (use `amd-ucode` if you have AMD CPU)
 - `btrfs-assistant` and `btrfs-progs` are the tools for managing the Btrfs filesystem.
 - `efibootmgr`, `grub`, `grub-btrfs`, and `os-prober` are the tools for managing the bootloader and dual booting with Windows
 - `inotify-tools` is the tool for monitoring file system events, which is used by `snapper` to automatically create snapshots when there are changes in the file system.
@@ -167,8 +168,8 @@ mount /dev/nvme0n1p1 /mnt/efi
 - `zsh` is the shell, which is used for managing the command line interface on the system.
 
 ```bash
-pacstrap -K /mnt base base-devel linux linux-firmware \
-  btrfs-assistan btrfs-progs efibootmgr grub grub-btrfs inotify-tools os-prober snap-pac snapper \
+pacstrap -K /mnt base base-devel linux linux-firmware intel-ucode \
+  btrfs-assistant btrfs-progs efibootmgr grub grub-btrfs inotify-tools os-prober snap-pac snapper \
   pipewire pipewire-alsa pipewire-pulse pipewire-jack \
   git neovim networkmanager openssh reflector sudo wireplumber zsh
 ```
