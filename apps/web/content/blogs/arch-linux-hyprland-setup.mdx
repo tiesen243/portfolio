@@ -345,6 +345,12 @@ To download and run the installer automatically, copy and paste the following co
 bash <(curl -fsSL "https://raw.githubusercontent.com/tiesen243/dotfiles/main/install.sh")
 ```
 
+<Callout>
+  Note: I dont install GPU drivers in the installer, you can install it manually
+  by following the [GPU drivers](#5-install-gpu-drivers) section in the manual
+  installation part.
+</Callout>
+
 ### Manual installation
 
 If you prefer to inspect what goes onto your system, want to customize the setup, or need to troubleshoot a specific step, you can follow the step-by-step breakdown below.
@@ -361,13 +367,19 @@ makepkg -si
 rm -rf ~/yay
 ```
 
-1.2. Install packages from `package.txt`
+1.2. Clone `dotfiles` repository to get the list of packages to install
+
+```bash
+git clone https://github.com/tiesen243/dotfiles.git ~/dotfiles
+```
+
+1.3. Install packages from `package.txt`
 
 ```bash
 yay -S --needed --noconfirm --answerclean All --answerdiff --None $(grep -v '^#' ~/dotfiles/package.txt)
 ```
 
-1.3. Set `zsh` as the default shell
+1.4. Set `zsh` as the default shell
 
 ```bash
 chsh -s $(which zsh)
@@ -433,17 +445,9 @@ If it show wrong time on Windows, you can run the following command to fix it
 timedatectl set-local-rtc 1
 ```
 
-#### 5. Add Cachyos's Optimized Repositories (optional)
+Or edit Registry Editor in Windows and change the value of `RealTimeIsUniversal` to `1` (DWORD) in the following path `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation`
 
-Cachyos provides optimized repositories for Arch Linux that can improve the performance of your system. To add Cachyos's optimized repositories, you can follow the steps below:
-
-```bash
-curl https://mirror.cachyos.org/cachyos-repo.tar.xz -o cachyos-repo.tar.xz
-tar xvf cachyos-repo.tar.xz && cd cachyos-repo
-sudo ./cachyos-repo.sh
-```
-
-#### 6. Install GPU drivers
+#### 5. Install GPU drivers
 
 To have better performance and support for your graphics card, you need to install the appropriate GPU drivers for your system. The installation process varies depending on the type of graphics card you have.
 
@@ -484,6 +488,16 @@ To have better performance and support for your graphics card, you need to insta
    ```bash
    sudo pacman -S mesa vulkan-radeon libva-mesa-driver mesa-vdpau
    ```
+
+#### 6. Add Cachyos's Optimized Repositories (optional)
+
+Cachyos provides optimized repositories for Arch Linux that can improve the performance of your system. To add Cachyos's optimized repositories, you can follow the steps below:
+
+```bash
+curl https://mirror.cachyos.org/cachyos-repo.tar.xz -o cachyos-repo.tar.xz
+tar xvf cachyos-repo.tar.xz && cd cachyos-repo
+sudo ./cachyos-repo.sh
+```
 
 #### 7. Splash screen on boot (optional)
 
