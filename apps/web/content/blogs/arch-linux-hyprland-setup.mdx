@@ -165,13 +165,12 @@ mount /dev/nvme0n1p1 /mnt/efi
 - `reflector` is the tool for managing the mirror list, which is used for managing the mirror list on the system.
 - `sudo` is the tool for managing the sudo permissions, which is used for managing the sudo permissions on the system.
 - `wireplumber` is the tool for managing the audio routing, which is used for managing the audio routing on the system.
-- `zsh` is the shell, which is used for managing the command line interface on the system.
 
 ```bash
 pacstrap -K /mnt base base-devel linux linux-firmware intel-ucode \
   btrfs-assistant btrfs-progs efibootmgr grub grub-btrfs inotify-tools os-prober snap-pac snapper \
   pipewire pipewire-alsa pipewire-pulse pipewire-jack \
-  git neovim networkmanager openssh reflector sudo wireplumber zsh
+  git neovim networkmanager openssh reflector sudo wireplumber
 ```
 
 <Callout type="warning">
@@ -426,7 +425,7 @@ sudo chmod +x ~/dotfiles/scripts/*
 
 Add your preferred wallpapers to ~/dotfiles/assets/wallpapers/. You can then toggle the wallpaper selector by open the Start Menu using Super+A and click the Wallpaper Selector icon (located at the bottom-right corner of the quick action buttons). After changing the wallpaper, it automatically generates color schemes based on the wallpaper and applies it to the system by using Matugen.
 
-<Callout>
+#### 4. Fix windows 11 time
 
 If it show wrong time on Windows, you can run the following command to fix it
 
@@ -434,9 +433,7 @@ If it show wrong time on Windows, you can run the following command to fix it
 timedatectl set-local-rtc 1
 ```
 
-</Callout>
-
-### Add Cachyos's Optimized Repositories
+#### 5. Add Cachyos's Optimized Repositories (optional)
 
 Cachyos provides optimized repositories for Arch Linux that can improve the performance of your system. To add Cachyos's optimized repositories, you can follow the steps below:
 
@@ -446,37 +443,49 @@ tar xvf cachyos-repo.tar.xz && cd cachyos-repo
 sudo ./cachyos-repo.sh
 ```
 
-### For `Nvidia` users
+#### 6. Install GPU drivers
 
-If you are using `Nvidia` graphics card, you need to install `nvidia` and `nvidia-utils` packages and add the following line to your `/etc/mkinitcpio.conf` file.
+To have better performance and support for your graphics card, you need to install the appropriate GPU drivers for your system. The installation process varies depending on the type of graphics card you have.
 
-```bash
-sudo pacman -S nvidia-open-dkms nvidia-utils linux-headers
-```
+1. For `Nvidia` users
 
-Then, regenerate the initramfs file to apply the changes.
+   If you are using `Nvidia` graphics card, you need to install `nvidia` and `nvidia-utils` packages and add the following line to your `/etc/mkinitcpio.conf` file.
 
-```bash title="/etc/mkinitcpio.conf"
-MODULES=(i915 nvidia nvidia_modeset nvidia_uvm nvidia_drm)
-```
+   ```bash
+   sudo pacman -S nvidia-open-dkms nvidia-utils linux-headers
+   ```
 
-```bash
-sudo mkinitcpio -P
-```
+   Then, regenerate the initramfs file to apply the changes.
 
-Then, add the following line to your `/etc/default/grub` file to enable `nvidia` module in the grub.
+   ```bash title="/etc/mkinitcpio.conf"
+   MODULES=(... i915 nvidia nvidia_modeset nvidia_uvm nvidia_drm)
+   ```
 
-```bash title="/etc/default/grub"
-GRUB_CMDLINE_LINUX_DEFAULT="... nvidia-drm.modeset=1 nvidia-drm.fbdev=1"
-```
+   ```bash
+   sudo mkinitcpio -P
+   ```
 
-Finally, regenerate the grub configuration file to apply the changes.
+   Then, add the following line to your `/etc/default/grub` file to enable `nvidia` module in the grub.
 
-```bash
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-```
+   ```bash title="/etc/default/grub"
+   GRUB_CMDLINE_LINUX_DEFAULT="... nvidia-drm.modeset=1 nvidia-drm.fbdev=1"
+   ```
 
-### Splash screen on boot
+   Finally, regenerate the grub configuration file to apply the changes.
+
+   ```bash
+   sudo grub-mkconfig -o /boot/grub/grub.cfg
+   ```
+
+2. For `AMD` users
+
+   If you are using `AMD` graphics card, you need to install `xf86-video-amdgpu` package.
+
+   ```bash
+   sudo pacman -S mesa vulkan-radeon libva-mesa-driver mesa-vdpau
+   ```
+
+#### 7. Splash screen on boot (optional)
 
 To add a splash screen on boot, you can use `plymouth`. First, install the `plymouth` package and the `plymouth-theme-spinner` theme.
 
@@ -506,6 +515,41 @@ ShowDelay=0
 ```bash
 sudo mkinitcpio -P
 ```
+
+#### 8. Install `nvm` for Node.js version management (it's required for some Neovim plugins)
+
+To install `nvm` (Node Version Manager) for managing Node.js versions, you can follow the steps below:
+
+1. Download and run the `nvm` installation script:
+
+   ```bash
+   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
+   ```
+
+2. Restart your terminal and run the following command to install the latest LTS version of Node.js:
+
+   ```bash
+   # Install the latest LTS version of Node.js
+   nvm install --lts
+
+   # Use the latest LTS version of Node.js
+   nvm use --lts
+   ```
+
+3. Verify the installation by checking the Node.js and npm versions:
+
+   ```bash
+   node -v
+   # > v24.15.0
+   npm -v
+   # > 11.14.1
+   ```
+
+4. Install `bun` (optional):
+
+   ```bash
+   npm install -g bun@latest
+   ```
 
 ## Keybindings
 
