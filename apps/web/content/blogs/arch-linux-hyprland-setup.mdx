@@ -456,7 +456,7 @@ To have better performance and support for your graphics card, you need to insta
    If you are using `Nvidia` graphics card, you need to install `nvidia` and `nvidia-utils` packages and add the following line to your `/etc/mkinitcpio.conf` file.
 
    ```bash
-   sudo pacman -S nvidia-open-dkms nvidia-utils linux-headers
+   sudo pacman -S nvidia-open-dkms nvidia-utils linux-headers # or linux-cachyos-headers if you are using cachyos kernel
    ```
 
    Then, regenerate the initramfs file to apply the changes.
@@ -491,12 +491,19 @@ To have better performance and support for your graphics card, you need to insta
 
 #### 6. Add Cachyos's Optimized Repositories (optional)
 
-Cachyos provides optimized repositories for Arch Linux that can improve the performance of your system. To add Cachyos's optimized repositories, you can follow the steps below:
+CachyOS provides optimized repositories for Arch Linux that can improve the performance of your system. To add Cachyos's optimized repositories, you can follow the steps below:
 
 ```bash
 curl https://mirror.cachyos.org/cachyos-repo.tar.xz -o cachyos-repo.tar.xz
 tar xvf cachyos-repo.tar.xz && cd cachyos-repo
 sudo ./cachyos-repo.sh
+```
+
+Install Cachyos kernels (optional):
+
+```bash
+sudo pacman -S linux-cachyos linux-cachyos-headers
+sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 #### 7. Splash screen on boot (optional)
