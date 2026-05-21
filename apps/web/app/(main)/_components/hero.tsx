@@ -73,7 +73,7 @@ export function HeroSection() {
 
 const navs = [
   {
-    href: '/assets/cv.pdf',
+    href: '/assets/cv-en.pdf',
     icon: DownloadIcon,
     label: 'Dowload Resume',
     shortcut: 'r',

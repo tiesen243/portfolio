@@ -28,7 +28,7 @@ export default {
         'Demonstrated proficiency in Microsoft Word, Excel, PowerPoint, and Windows as certified by IUH.',
       issuer: 'Industrial University of Ho Chi Minh City',
       link: '/#itc',
-      name: 'IUH Informatics Certificate',
+      name: 'Basic Information Technology Applications Certificate',
     },
   ],
   educations: [
