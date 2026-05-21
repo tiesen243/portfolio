@@ -459,7 +459,7 @@ To have better performance and support for your graphics card, you need to insta
    sudo pacman -S nvidia-open-dkms nvidia-utils linux-headers # or linux-cachyos-headers if you are using cachyos kernel
    ```
 
-   Then, regenerate the initramfs file to apply the changes.
+   Then, regenerate the initramfs file to apply the changes. (skip this step if you are using `linux-cachyos` kernel, because it already includes `nvidia` module in the initramfs)
 
    ```bash title="/etc/mkinitcpio.conf"
    MODULES=(... i915 nvidia nvidia_modeset nvidia_uvm nvidia_drm)
@@ -520,17 +520,18 @@ Then, add the following line to your `/etc/mkinitcpio.conf` file to include `ply
 HOOKS=(... plymouth)
 ```
 
-Next, set the `plymouth` theme to `spinner`.
+Then, add `splash` to the `GRUB_CMDLINE_LINUX_DEFAULT` variable in your `/etc/default/grub` file to enable the splash screen on boot.
 
-```bash
-sudo plymouth-set-default-theme -R spinner
+```bash title="/etc/default/grub"
+GRUB_CMDLINE_LINUX_DEFAULT="... splash"
 ```
 
-Finally, set delay to 0 and regenerate the initramfs file to apply the changes.
+Finally, config and regenerate the initramfs file to apply the changes.
 
 ```bash title="/etc/plymouth/plymouthd.conf"
 [Daemon]
 ShowDelay=0
+Theme=bgrt # or any theme you like
 ```
 
 ```bash
