@@ -1,30 +1,47 @@
 ---
-title: "Arch Linux with Hyprland: A Beginner's Guide"
-description: Discover the power of Arch Linux and Hyprland, two popular choices for minimalist and highly customizable desktop setups. This tutorial will teach you how to install and configure both, providing you with a tailored desktop experience.
+title: "Arch Linux with Hyprland & Niri: A Beginner's Guide"
+description: Discover the power of Arch Linux, Hyprland, and Niri—popular choices for minimalist, highly customizable, and fluid scroll-tiling desktop setups. This tutorial will teach you how to install and configure them, providing you with a tailored Wayland experience.
 image: https://raw.githubusercontent.com/tiesen243/dotfiles/refs/heads/main/assets/preview-03.png
 tags:
   - archlinux
   - hyprland
+  - niri
   - linux
   - tutorial
   - desktop-environment
   - rolling-release
   - customization
   - installation-guide
-publishedAt: 2026-05-19
+publishedAt: 2026-05-29
 ---
 
 ## Introduction
 
 ### What is Hyprland?
 
-Hyprland is a dynamic tiling Wayland compositor written in C++. It's designed to be highly customizable, feature-rich, and visually appealing while maintaining excellent performance. Hyprland provides advanced window management capabilities, smooth animations, and extensive configuration options that allow users to create a truly personalized desktop experience.
+Hyprland is a dynamic tiling Wayland compositor written in C++. It is engineered to deliver a highly customizable, feature-rich, and visually spectacular desktop environment without compromising on performance. With its fluid, physics-based animations, smooth window interpolation, and extensive layout options, Hyprland allows users to craft a highly personalized and cutting-edge workstation.
 
-### Why Hyprland?
+#### Why Hyprland?
 
-Hyprland is an excellent choice for users who want a modern, efficient, and highly customizable desktop environment. As a Wayland compositor, it offers better security, performance, and multi-monitor support compared to traditional X11 window managers. Hyprland's tiling window management automatically organizes your windows for optimal screen space usage, boosting productivity.
+Hyprland is an outstanding choice for users seeking a modern, fast, and automated desktop. As a native Wayland compositor, it offers superior security, better fractional scaling, and robust multi-monitor handling compared to traditional X11 window managers.
 
-The compositor is particularly appealing for power users and developers who appreciate fine-grained control over their desktop environment. With its extensive configuration options, smooth animations, and active development community, Hyprland represents the cutting edge of Linux desktop technology while remaining stable and reliable for daily use.
+Its dynamic tiling system automatically organizes your windows into optimal binary tree layouts (splitting screens vertically/horizontally as you open more apps), maximizing screen real estate and boosting productivity. It is highly favored by power users and developers who appreciate granular control over animations, window rules, and workspace behaviors.
+
+### What is Niri?
+
+Niri is a scroll-tiling Wayland compositor that introduces a fresh, innovative approach to window management. Inspired by concepts like PaperWM, Niri organizes windows sequentially inside an infinite horizontal ribbon. Instead of squeezing and splitting windows into increasingly smaller grid tiles, new windows open at their ideal size to the right, allowing you to scroll through your workspace smoothly like a film strip.
+
+#### Why Niri?
+
+Niri solves the classic "tiling fatigue" where windows eventually become too small to read on standard displays. It is exceptionally well-suited for ultra-wide monitors, laptops, and layout purists who want an organic, distraction-free multitasking workflow.
+
+By mapping windows to an infinite horizontal plane, it keeps your focus intact while maintaining full keyboard-driven efficiency. Furthermore, its configuration is clean, predictable, and heavily optimized for modern Wayland ecosystems.
+
+### The Best of Both Worlds
+
+By supporting both Hyprland and Niri, this setup bridges two distinct workflow philosophies under a single dotfile deployment.
+
+Whether you prefer Hyprland's structured dynamic grids or Niri's fluid horizontal scrolling, your core user experience remains perfectly synchronized. Both environments share the exact same underlying stack: **Matugen** for automatic Material You color palettes generated from your wallpaper, **Quickshell** for lightweight, interactive desktop widgets, and **Kitty** as the foundational terminal hub. This allows you to hot-swap your layout paradigm at the display manager login without breaking your aesthetic or muscle memory.
 
 ## Installation
 
@@ -101,28 +118,31 @@ Create the partitions on the drive.
 - Select the `New` option and press `Enter`
 - Set the size of the partition is `512M` and press `Enter`
 - Select `type` to `EFI System` and press `Enter`
+- (Optional) Go to the remaining free space, select New, set your desired Swap size (e.g., `4G` or `8G`), press Enter, then change its type to `Linux swap`.
 - Go to the free space again and select the `New` option and press `Enter`
 - Set the size of the partition is at least `40GB` and press `Enter`
 
   <Callout>
 
-  This partition is used to home directory
-
-  You can set the size according to your needs. If you have more storage, you can set a larger size for this partition. Completed system installed only takes arrowd 6GB of storage, but you may want to have more space for your files and applications.
+  This main partition will house your Btrfs subvolumes (including your root and home directories). You can scale the sizes according to your hardware. A complete system installation only takes around 6GB, leaving plenty of room for your files and applications.
 
   </Callout>
 
 - Select `write` and press `Enter` to write the changes to the disk then `quit` to exit the cfdisk
 
 ```bash
-# Format the partitions
-mkfs.fat -F32 /dev/nvme0n1p1 # Replace /dev/nvme0n1p1 with your EFI (512M) partition
-mkfs.btrfs /dev/nvme0n1p2    # Replace /dev/nvme0n1p2 with your Home (>= 40G) partition
+# Format the partitions (Adjust the partition numbers based on your cfdisk layout)
+mkfs.fat -F32 /dev/nvme0n1p1 # Replace with your EFI (512M) partition
+mkswap /dev/nvme0n1p2        # (Optional) Replace with your Swap partition
+mkfs.btrfs /dev/nvme0n1p3    # Replace with your Main Btrfs (>= 40G) partition
 
-# Mount the partitions to the system
-mount --mkdir /dev/nvme0n1p2 /mnt
+# Activate swap if you created one
+swapon /dev/nvme0n1p2
 
-# Create the subvolumes for the system (it based on the https://wiki.cachyos.org/installation/filesystem/#subvolume-layout)
+# Mount the main partition to begin subvolume creation
+mount --mkdir /dev/nvme0n1p3 /mnt
+
+# Create the subvolumes for the system (Based on CachyOS subvolume layout)
 btrfs subvolume create /mnt/@
 btrfs subvolume create /mnt/@home
 btrfs subvolume create /mnt/@root
@@ -131,22 +151,22 @@ btrfs subvolume create /mnt/@cache
 btrfs subvolume create /mnt/@tmp
 btrfs subvolume create /mnt/@log
 
-# Unmount the root fs
+# Unmount the root fs to remount with proper configurations
 umount /mnt
 
-# Mount the subvolumes to the system with zstd compression
-mount -o compress=zstd,subvol=@ /dev/nvme0n1p2 /mnt
+# Mount the subvolumes to the system with zstd compression optimization
+mount -o compress=zstd,subvol=@ /dev/nvme0n1p3 /mnt
 mkdir -p /mnt/{home,root,srv,var/cache,var/tmp,var/log}
-mount -o compress=zstd,subvol=@home /dev/nvme0n1p2 /mnt/home
-mount -o compress=zstd,subvol=@root /dev/nvme0n1p2 /mnt/root
-mount -o compress=zstd,subvol=@srv /dev/nvme0n1p2 /mnt/srv
-mount -o compress=zstd,subvol=@cache /dev/nvme0n1p2 /mnt/var/cache
-mount -o compress=zstd,subvol=@tmp /dev/nvme0n1p2 /mnt/var/tmp
-mount -o compress=zstd,subvol=@log /dev/nvme0n1p2 /mnt/var/log
+mount -o compress=zstd,subvol=@home /dev/nvme0n1p3 /mnt/home
+mount -o compress=zstd,subvol=@root /dev/nvme0n1p3 /mnt/root
+mount -o compress=zstd,subvol=@srv /dev/nvme0n1p3 /mnt/srv
+mount -o compress=zstd,subvol=@cache /dev/nvme0n1p3 /mnt/var/cache
+mount -o compress=zstd,subvol=@tmp /dev/nvme0n1p3 /mnt/var/tmp
+mount -o compress=zstd,subvol=@log /dev/nvme0n1p3 /mnt/var/log
 
 # Mount the EFI partition
-mkdir -p /mnt/efi
-mount /dev/nvme0n1p1 /mnt/efi
+mkdir -p /mnt/boot
+mount /dev/nvme0n1p1 /mnt/boot
 ```
 
 #### 3. Install packages
@@ -397,8 +417,9 @@ git clone git@github.com:tiesen243/dotfiles.git ~/dotfiles
 
 ```bash
 rm -rf ~/{.cache,.local,.zshrc}
-rm -rf ~/.config/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lazygit,lsd,matugen,nvim,quickshell,zsh}
-ln -s ~/dotfiles/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lazygit,lsd,matugen,nvim,quickshell,zsh} ~/.config
+rm -rf ~/.config/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lazygit,lsd,matugen,niri,nvim,quickshell,zsh}
+ln -s ~/dotfiles/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lazygit,lsd,matugen,niri,nvim,quickshell,zsh} ~/.config
+ln -s ~/dotfiles/zsh/.zshenv ~/.zshenv
 
 # For who like lowercase stuffs
 rm -rf ~/{Desktop,Documents,Downloads,Music,Pictures,Projects,Public,Templates,Videos} && mkdir -p ~/{documents,downloads,pictures,projects,videos}
@@ -573,43 +594,97 @@ To install `nvm` (Node Version Manager) for managing Node.js versions, you can f
    npm install -g bun@latest
    ```
 
+#### 9. Fix Screen Sharing
+
+If you encounter issues while sharing your screen on OBS Studio, Discord, or web browsers under Wayland, you need to install and configure the correct `xdg-desktop-portal` backends for each environment.
+
+##### 9.1. For Hyprland
+
+Hyprland requires its own dedicated portal implementation to handle window and monitor capturing properly.
+
+Install the required portal package:
+
+```bash
+sudo pacman -S xdg-desktop-portal-hyprland
+```
+
+##### 9.2. For Niri
+
+Niri relies on the wlroots portal implementation for screen casting capabilities.
+
+First, install the backend wrapper:
+
+```bash
+sudo pacman -S xdg-desktop-portal-wlr
+```
+
+Next, you need to tell Niri to use `wlr` as its primary portal driver. Create or edit the Niri portal configuration file:
+
+```bash title="/usr/share/xdg-desktop-portal/niri-portals.conf"
+[preferred]
+default=wlr;gtk
+```
+
+##### 9.3. Verify and Restart Portals
+
+To apply the changes immediately without rebooting, force-restart the portal system services:
+
+```bash
+systemctl --user restart xdg-desktop-portal.service
+systemctl --user restart xdg-desktop-portal-hyprland.service # For Hyprland users
+systemctl --user restart xdg-desktop-portal-wlr.service # For Niri users
+```
+
+Or just reboot your system to ensure all changes take effect
+
 ## Keybindings
 
 Here are the essential keybindings for navigating and controlling your Hyprland desktop environment. These shortcuts will help you efficiently manage windows, workspaces, applications, and system functions:
 
-| Keybinding                | Action                            |
-| ------------------------- | --------------------------------- |
-| `Super + A`               | Toggle start menu (Quickshell)    |
-| `Super + B`               | Open browser (Zen)                |
-| `Super + E`               | Open file manager (Thunar)        |
-| `Super + T`               | Open terminal (Kitty)             |
-| `Super + Q`               | Kill active window                |
-| `Super + Space`           | Application launcher (Quickshell) |
-| `Super + V`               | Clipboard history (Quickshell)    |
-| `Super + F`               | Toggle floating window            |
-| `Super + Shift + F`       | Toggle fullscreen                 |
-| `Super + O`               | Pseudo tile                       |
-| `Super + Shift + O`       | Toggle split                      |
-| `Super + S`               | Screenshot selection              |
-| `Super + Shift + S`       | Screenshot full screen            |
-| `Super + H/J/K/L`         | Move focus (left/down/up/right)   |
-| `Super + Shift + H/J/K/L` | Move window (left/down/up/right)  |
-| `Super + 1-9/0`           | Switch to workspace 1-10          |
-| `Super + Shift + 1-9/0`   | Move window to workspace 1-10     |
-| `Super + M`               | Toggle special workspace          |
-| `Super + Shift + M`       | Move to special workspace         |
-| `Super + Mouse Wheel`     | Switch workspaces                 |
-| `Super + Left Click`      | Move window                       |
-| `Super + Right Click`     | Resize window                     |
-| `XF86AudioRaiseVolume`    | Volume up                         |
-| `XF86AudioLowerVolume`    | Volume down                       |
-| `XF86AudioMute`           | Toggle mute                       |
-| `XF86MonBrightnessUp`     | Brightness up                     |
-| `XF86MonBrightnessDown`   | Brightness down                   |
+| Keybinding                       | Action                                                   |     Env      |
+| :------------------------------- | :------------------------------------------------------- | :----------: |
+| `Super + Q`                      | Kill active window                                       |   **All**    |
+| `Super + Shift + Q`              | Exit / Quit compositor                                   |   **All**    |
+| `Super + T`                      | Open terminal (Kitty)                                    |   **All**    |
+| `Super + E`                      | Open file manager (Thunar)                               |   **All**    |
+| `Super + B`                      | Open web browser (Zen Browser)                           |   **All**    |
+| `Super + Space`                  | Application launcher (Quickshell)                        |   **All**    |
+| `Super + V`                      | Clipboard history (Quickshell)                           |   **All**    |
+| `Super + A`                      | Toggle start menu (Quickshell)                           |   **All**    |
+| `Super + Shift + B`              | Toggle top bar (Quickshell)                              |   **All**    |
+| `Super + Tab`                    | Toggle workspace overview                                |   **Niri**   |
+| `Super + H/J/K/L`                | Move focus (Left/Down/Up/Right)                          |   **All**    |
+| `Super + Shift + H/J/K/L`        | Move window/column (Left/Down/Up/Right)                  |   **All**    |
+| `Super + Shift + Ctrl + H/J/K/L` | Resize active window                                     |   **All**    |
+| `Super + 1-9/0`                  | Switch to workspace 1-10                                 |   **All**    |
+| `Super + Shift + 1-9/0`          | Move window/column to workspace 1-10                     |   **All**    |
+| `Super + Comma`                  | Consume/Expel window to the left                         |   **All**    |
+| `Super + Period`                 | Consume/Expel window to the right                        |   **All**    |
+| `Super + R`                      | Cycle / Expand column width preset                       |   **All**    |
+| `Super + Shift + R`              | Cycle / Shrink column width preset                       |   **All**    |
+| `Super + C`                      | Center active column/window                              |   **All**    |
+| `Super + F`                      | Toggle maximized layout                                  |   **All**    |
+| `Super + Shift + F`              | Toggle true fullscreen mode                              |   **All**    |
+| `Super + Ctrl + F`               | Toggle window floating state                             |   **All**    |
+| `Super + Mouse Wheel`            | Scroll through existing workspaces                       |   **All**    |
+| `Super + Left Click (Drag)`      | Move active window around                                | **Hyprland** |
+| `Super + Right Click (Drag)`     | Resize active window visually                            | **Hyprland** |
+| `Super + D` -> `D / M / O / S`   | Submap: Switch layout (Dwindle/Master/Monocle/Scrolling) | **Hyprland** |
+| `Print` / `Super + S`            | Screenshot a selected region                             |   **All**    |
+| `Super + Shift + S`              | Screenshot the full screen                               |   **All**    |
+| `XF86AudioRaiseVolume`           | System volume up (5%+)                                   |   **All**    |
+| `XF86AudioLowerVolume`           | System volume down (5%-)                                 |   **All**    |
+| `XF86AudioMute`                  | Toggle audio output mute                                 |   **All**    |
+| `XF86AudioMicMute`               | Toggle microphone input mute                             |   **All**    |
+| `XF86MonBrightnessUp`            | Laptop panel brightness up (5%+)                         |   **All**    |
+| `XF86MonBrightnessDown`          | Laptop panel brightness down (5%-)                       |   **All**    |
+| `XF86AudioPlay` / `Pause`        | Media player toggle play/pause                           |   **All**    |
+| `XF86AudioNext` / `Prev`         | Media player skip track next/previous                    |   **All**    |
+| `XF86AudioStop`                  | Stop media playback                                      |   **All**    |
 
 <Callout>
 
-You can find all keybindings in your configuration file at `~/.config/hypr/modules/keymaps.lua`.
+You can find all keybindings in your configuration file at `~/.config/hypr/modules/keymaps.lua` and `~/.config/niri/modules/keymaps.kdl`.
 
 </Callout>
 
