@@ -393,10 +393,13 @@ rm -rf ~/yay
 git clone https://github.com/tiesen243/dotfiles.git ~/dotfiles
 ```
 
-1.3. Install packages from `package.txt`
+1.3. Install packages
 
 ```bash
-yay -S --needed --noconfirm --answerclean All --answerdiff --None $(grep -v '^#' ~/dotfiles/package.txt)
+yay -S --needed $(grep -v '^#' ~/dotfiles/package.txt)
+
+yay -S --needed hyprland # if you want to use hyprland as your tiling compositor
+yay -S --needed niri     # if you want to use niri as your scroll-tiling compositor
 ```
 
 1.4. Set `zsh` as the default shell
