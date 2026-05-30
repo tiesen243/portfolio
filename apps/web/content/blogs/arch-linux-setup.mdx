@@ -461,17 +461,7 @@ sudo chmod +x ~/dotfiles/scripts/*
 
 Add your preferred wallpapers to ~/dotfiles/assets/wallpapers/. You can then toggle the wallpaper selector by open the Start Menu using Super+A and click the Wallpaper Selector icon (located at the bottom-right corner of the quick action buttons). After changing the wallpaper, it automatically generates color schemes based on the wallpaper and applies it to the system by using Matugen.
 
-#### 4. Fix windows 11 time
-
-If it show wrong time on Windows, you can run the following command to fix it
-
-```bash
-timedatectl set-local-rtc 1
-```
-
-Or edit Registry Editor in Windows and change the value of `RealTimeIsUniversal` to `1` (DWORD) in the following path `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation`
-
-#### 5. Install GPU drivers
+#### 4. Install GPU drivers
 
 To have better performance and support for your graphics card, you need to install the appropriate GPU drivers for your system. The installation process varies depending on the type of graphics card you have.
 
@@ -513,7 +503,7 @@ To have better performance and support for your graphics card, you need to insta
    sudo pacman -S mesa vulkan-radeon libva-mesa-driver mesa-vdpau
    ```
 
-#### 6. Add Cachyos's Optimized Repositories (optional)
+#### 5. Add Cachyos's Optimized Repositories (optional)
 
 CachyOS provides optimized repositories for Arch Linux that can improve the performance of your system. To add Cachyos's optimized repositories, you can follow the steps below:
 
@@ -530,7 +520,7 @@ sudo pacman -S linux-cachyos linux-cachyos-headers
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-#### 7. Splash screen on boot (optional)
+#### 6. Splash screen on boot (optional)
 
 To add a splash screen on boot, you can use `plymouth`. First, install the `plymouth` package and the `plymouth-theme-spinner` theme.
 
@@ -562,7 +552,7 @@ Theme=bgrt # or any theme you like
 sudo mkinitcpio -P
 ```
 
-#### 8. Install `nvm` for Node.js version management (it's required for some Neovim plugins)
+#### 7. Install `nvm` for Node.js version management (it's required for some Neovim plugins)
 
 To install `nvm` (Node Version Manager) for managing Node.js versions, you can follow the steps below:
 
@@ -597,11 +587,11 @@ To install `nvm` (Node Version Manager) for managing Node.js versions, you can f
    npm install -g bun@latest
    ```
 
-#### 9. Fix Screen Sharing
+#### 8. Fix Screen Sharing
 
 If you encounter issues while sharing your screen on OBS Studio, Discord, or web browsers under Wayland, you need to install and configure the correct `xdg-desktop-portal` backends for each environment.
 
-##### 9.1. For Hyprland
+##### 8.1. For Hyprland
 
 Hyprland requires its own dedicated portal implementation to handle window and monitor capturing properly.
 
@@ -611,7 +601,7 @@ Install the required portal package:
 sudo pacman -S xdg-desktop-portal-hyprland
 ```
 
-##### 9.2. For Niri
+##### 8.2. For Niri
 
 Niri relies on the wlroots portal implementation for screen casting capabilities.
 
@@ -628,7 +618,7 @@ Next, you need to tell Niri to use `wlr` as its primary portal driver. Create or
 default=wlr;gtk
 ```
 
-##### 9.3. Verify and Restart Portals
+##### 8.3. Verify and Restart Portals
 
 To apply the changes immediately without rebooting, force-restart the portal system services:
 
@@ -639,6 +629,16 @@ systemctl --user restart xdg-desktop-portal-wlr.service # For Niri users
 ```
 
 Or just reboot your system to ensure all changes take effect
+
+#### 9. Fix windows 11 time
+
+If it show wrong time on Windows, you can run the following command to fix it
+
+```bash
+timedatectl set-local-rtc 1
+```
+
+Or edit Registry Editor in Windows and change the value of `RealTimeIsUniversal` to `1` (DWORD) in the following path `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation`
 
 ## Keybindings
 
