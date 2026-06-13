@@ -195,7 +195,7 @@ pacstrap -K /mnt base base-devel linux linux-firmware intel-ucode \
 
 <Callout type="warning">
 
-If you encounter a "Failed to install packages to new root" error when running `archinstall`, you may need to update the Arch Linux keyring before proceeding:
+If you encounter a "Failed to install packages to new root" error when running, you may need to update the Arch Linux keyring before proceeding:
 
 ```bash
 pacman -Sy archlinux-keyring
@@ -238,7 +238,7 @@ locale-gen
 Next, set the `LANG` variable in the `/etc/locale.conf` file to the locale you want to use. For example, if you want to use `en_US.UTF-8` locale, you need to set the `LANG` variable as follows.
 
 ```bash title="/etc/locale.conf"
-LANG=en_US.UTF-8"
+LANG=en_US.UTF-8
 ```
 
 Finally, set the keyboard layout for the system. For example, if you want to use `us` keyboard layout, you can run the following command.
@@ -293,7 +293,7 @@ EDITOR=neovim visudo
 #### 8. Install and configure the bootloader (dual boot with Windows 11)
 
 ```bash
-grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=arch
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
@@ -314,8 +314,7 @@ Generate the grub configuration file again to apply the changes
 ```bash
 # Mount the EFI partitions of Windows 11
 lsblk # Check the EFI partition
-mkdir /mnt/windows
-mount /dev/[drive_name] /mnt/windows # Replace [drive_name] with the EFI partition of Windows 11
+mount --mkdir /dev/[drive_name] /mnt/windows # Replace [drive_name] with the EFI partition of Windows 11
 
 # Run os-prober to detect the Windows 11 installation and add it to the grub configuration
 sudo os-prober
