@@ -409,13 +409,7 @@ chsh -s $(which zsh)
 
 #### 2. Apply configuration
 
-2.1. Clone `dotfiles`
-
-```bash
-git clone git@github.com:tiesen243/dotfiles.git ~/dotfiles
-```
-
-2.2. Remove existed config and create the symbolic links to the config files
+2.1. Remove existed config and create the symbolic links to the config files
 
 ```bash
 rm -rf ~/{.cache,.local,.zshrc}
@@ -439,7 +433,7 @@ EOF
 xdg-user-dirs-update
 ```
 
-2.4. Configuration git with your name and email
+2.2. Configuration git with your name and email
 
 ```bash title="~/dotfiles/git/config.local"
 [user]
