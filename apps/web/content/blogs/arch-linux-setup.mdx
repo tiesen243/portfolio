@@ -148,21 +148,21 @@ btrfs subvolume create /mnt/@home
 btrfs subvolume create /mnt/@root
 btrfs subvolume create /mnt/@srv
 btrfs subvolume create /mnt/@cache
-btrfs subvolume create /mnt/@tmp
 btrfs subvolume create /mnt/@log
+btrfs subvolume create /mnt/@tmp
 
 # Unmount the root fs to remount with proper configurations
 umount /mnt
 
 # Mount the subvolumes to the system with zstd compression optimization
 mount -o compress=zstd,subvol=@ /dev/nvme0n1p3 /mnt
-mkdir -p /mnt/{home,root,srv,var/cache,var/tmp,var/log}
+mkdir -p /mnt/{home,root,srv,var/cache,var/log,var/tmp}
 mount -o compress=zstd,subvol=@home /dev/nvme0n1p3 /mnt/home
 mount -o compress=zstd,subvol=@root /dev/nvme0n1p3 /mnt/root
 mount -o compress=zstd,subvol=@srv /dev/nvme0n1p3 /mnt/srv
 mount -o compress=zstd,subvol=@cache /dev/nvme0n1p3 /mnt/var/cache
-mount -o compress=zstd,subvol=@tmp /dev/nvme0n1p3 /mnt/var/tmp
 mount -o compress=zstd,subvol=@log /dev/nvme0n1p3 /mnt/var/log
+mount -o compress=zstd,subvol=@tmp /dev/nvme0n1p3 /mnt/var/tmp
 
 # Mount the EFI partition
 mkdir -p /mnt/boot
@@ -317,8 +317,8 @@ lsblk # Check the EFI partition
 mount --mkdir /dev/[drive_name] /mnt/windows # Replace [drive_name] with the EFI partition of Windows 11
 
 # Run os-prober to detect the Windows 11 installation and add it to the grub configuration
-sudo os-prober
-sudo grub-mkconfig -o /boot/grub/grub.cfg
+os-prober
+grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 #### 9. Umount everything and reboot
@@ -345,12 +345,9 @@ Initialize a snapshot configuration named `root` for the root (/) filesystem:
 snapper -c root create-config /
 ```
 
-Edit the service file to include the `--syslog` flag for proper logging, ensuring snapshots are dynamically added to the GRUB boot menu:
+Then, enable the `grub-btrfsd` service to automatically update the GRUB menu with available snapshots:
 
 ```bash
-sudo systemctl edit --full grub-btrfsd
-
-# Enable the grub-btrfsd service by adding the following lines to the file
 sudo systemctl enable grub-btrfsd
 ```
 
@@ -471,7 +468,7 @@ To have better performance and support for your graphics card, you need to insta
    If you are using `Nvidia` graphics card, you need to install `nvidia` and `nvidia-utils` packages and add the following line to your `/etc/mkinitcpio.conf` file.
 
    ```bash
-   sudo pacman -S nvidia-open-dkms nvidia-utils linux-headers # or linux-cachyos-headers if you are using cachyos kernel
+   sudo pacman -S nvidia-open-dkms nvidia-utils linux-headers
    ```
 
    Then, regenerate the initramfs file to apply the changes. (skip this step if you are using `linux-cachyos` kernel, because it already includes `nvidia` module in the initramfs)
@@ -519,6 +516,9 @@ Install Cachyos kernels (optional):
 ```bash
 sudo pacman -S linux-cachyos linux-cachyos-headers
 sudo grub-mkconfig -o /boot/grub/grub.cfg
+
+# You can remove the old kernels
+sudo pacman -Runs linux linux-headers
 ```
 
 #### 6. Splash screen on boot (optional)
