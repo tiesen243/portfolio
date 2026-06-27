@@ -16,7 +16,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     <html lang='en' className='light' suppressHydrationWarning>
       <body
         className={cn(
-          'flex min-h-dvh flex-col bg-background font-mono text-foreground antialiased',
+          'flex min-h-dvh flex-col bg-background px-4 pb-8 font-mono text-foreground antialiased',
           georgianSerif.variable,
           geistSans.variable,
           geistMono.variable

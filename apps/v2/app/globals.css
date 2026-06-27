@@ -3,6 +3,7 @@
 @import '@fumadocs/base-ui/css/preset.css';
 
 @source '../node_modules/@fumadocs/base-ui/dist/components/**/*.js';
+@source '../../../docs/**/*.mdx';
 
 @custom-variant light {
   &:where(.light, .light *) {

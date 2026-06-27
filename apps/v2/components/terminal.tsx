@@ -30,6 +30,8 @@ export function Terminal({
       </div>
 
       {children}
+
+      <TerminalContent command='_' />
     </main>
   )
 }

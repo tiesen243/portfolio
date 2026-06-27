@@ -64,7 +64,8 @@ export default function Page(_: PageProps<'/'>) {
               { content: 'projects', href: '/projects', children: [] },
               { content: 'portfolio', href: '/#portfolio', children: [] },
               { content: 'contact.txt', href: '/#contact' },
-              { content: 'cv.pdf', href: '/assets/cv-en.pdf' },
+              { content: 'cv-en.pdf', href: '/assets/cv-en.pdf' },
+              { content: 'cv-vi.pdf', href: '/assets/cv-vi.pdf' },
             ],
           }}
         />
@@ -241,8 +242,6 @@ export default function Page(_: PageProps<'/'>) {
           ©{new Date().getFullYear()} tiesen243. All rights reserved.
         </Typography>
       </TerminalContent>
-
-      <TerminalContent command='_' />
     </>
   )
 }

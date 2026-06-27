@@ -33,7 +33,7 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
         <Typography>Published at: {metadata.publishedAt}</Typography>
       </div>
 
-      <article className='[&>h2]:my-4 [&>h3]:my-3 [&>h4]:my-2 [&>ol]:my-2 [&>p]:my-2 [&>ul]:my-2'>
+      <article className='max-w-full [&>h2]:my-4 [&>h3]:my-3 [&>h4]:my-2 [&>ol]:my-2 [&>p]:my-2 [&>ul]:my-2'>
         <Content components={getMDXComponents()} />
       </article>
     </TerminalContent>
