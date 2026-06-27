@@ -1,3 +1,4 @@
+import { InlineTOC } from '@fumadocs/base-ui/components/inline-toc'
 import { notFound } from 'next/navigation'
 
 import { getMDXComponents } from '@/components/mdx'
@@ -13,12 +14,14 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
   const page = await getPage(slugs)
   if (!page) return notFound()
 
-  const { metadata, content: Content } = page
+  const { metadata, toc, content: Content } = page
 
   return (
     <TerminalContent command={`cat ~/${slugs.join('/')}`}>
       <div className='mb-4 flex flex-col gap-2'>
-        <Typography variant='h1'>{metadata.title}</Typography>
+        <Typography variant='h1' className='mt-2 mb-4'>
+          {metadata.title}
+        </Typography>
         <Typography className='text-sm text-muted-foreground'>
           {metadata.description}
         </Typography>
@@ -33,7 +36,9 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
         <Typography>Published at: {metadata.publishedAt}</Typography>
       </div>
 
-      <article className='max-w-full [&>h2]:my-4 [&>h3]:my-3 [&>h4]:my-2 [&>ol]:my-2 [&>p]:my-2 [&>ul]:my-2'>
+      <InlineTOC items={toc} className='w-full' />
+
+      <article className='max-w-full [&>a]:hover:underline [&>h2]:my-4 [&>h3]:my-3 [&>h4]:my-2 [&>ol]:my-2 [&>p]:my-2 [&>ul]:my-2'>
         <Content components={getMDXComponents()} />
       </article>
     </TerminalContent>

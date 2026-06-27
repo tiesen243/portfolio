@@ -1,3 +1,5 @@
+import { FileTextIcon } from 'lucide-react'
+
 import { TerminalContent } from '@/components/terminal'
 import { Tree } from '@/components/tree'
 import { Typography } from '@/components/ui/typography'
@@ -18,6 +20,7 @@ export default async function BlogsPage() {
           node={{
             content: '.',
             children: pages.map((page) => ({
+              icon: FileTextIcon,
               href: page.url,
               content: (
                 <>

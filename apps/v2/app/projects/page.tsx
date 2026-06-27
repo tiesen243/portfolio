@@ -1,3 +1,4 @@
+import { FileCodeIcon } from 'lucide-react'
 import Image from 'next/image'
 
 import { TerminalContent } from '@/components/terminal'
@@ -25,6 +26,7 @@ export default async function ProjectsPage() {
                 children: [],
               },
               ...pages.map((page) => ({
+                icon: FileCodeIcon,
                 href: page.url,
                 content: (
                   <>

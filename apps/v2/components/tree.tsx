@@ -1,4 +1,4 @@
-import { File, Folder, FolderOpen } from 'lucide-react'
+import { FileIcon, FolderIcon, FolderOpenIcon } from 'lucide-react'
 import Link from 'next/link'
 
 import { Typography } from '@/components/ui/typography'
@@ -19,11 +19,11 @@ export const Tree: React.FC<TreeProps> = ({ node }) => {
 
   const renderIcon = () => {
     if (isFolder) {
-      if (node.children?.length === 0) return <Folder />
-      return <FolderOpen />
+      if (node.children?.length === 0) return <FolderIcon />
+      return <FolderOpenIcon />
     }
     if (node.icon) return <node.icon />
-    return <File />
+    return <FileIcon />
   }
 
   return (

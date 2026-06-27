@@ -69,6 +69,12 @@ const uncachedGetPage = async (
 ): Promise<{
   metadata: z.infer<typeof frontmatterSchema>
   content: MdxContent
+  toc: {
+    title: React.ReactNode
+    url: string
+    depth: number
+    _step?: number
+  }[]
 } | null> => {
   try {
     const filePath = path.join(DOCS_PATH, `${slugs.join('/')}.mdx`)
@@ -82,6 +88,7 @@ const uncachedGetPage = async (
     return {
       metadata: frontmatterSchema.parse(compiledContent.frontmatter),
       content: compiledContent.body,
+      toc: compiledContent.toc,
     }
   } catch {
     return null
