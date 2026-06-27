@@ -3,7 +3,7 @@ import { defineConfig, defineDocs } from 'fumadocs-mdx/config'
 import * as z from 'zod'
 
 export const docs = defineDocs({
-  dir: 'content',
+  dir: '../../docs',
   docs: {
     schema: pageSchema.extend({
       image: z.string().optional(),

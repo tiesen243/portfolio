@@ -1,0 +1,705 @@
+---
+title: 'Arch Linux with Hyprland & Niri: A Comprehensive Installation and Configuration Guide'
+description: Discover the power of Arch Linux, Hyprland, and Niri—popular choices for minimalist, highly customizable, and fluid scroll-tiling desktop setups. This tutorial will teach you how to install and configure them, providing you with a tailored Wayland experience.
+tags:
+  - archlinux
+  - hyprland
+  - niri
+  - linux
+  - tutorial
+  - desktop-environment
+  - rolling-release
+  - customization
+  - installation-guide
+publishedAt: 2026-05-29
+---
+
+## Introduction
+
+### What is Hyprland?
+
+Hyprland is a dynamic tiling Wayland compositor written in C++. It is engineered to deliver a highly customizable, feature-rich, and visually spectacular desktop environment without compromising on performance. With its fluid, physics-based animations, smooth window interpolation, and extensive layout options, Hyprland allows users to craft a highly personalized and cutting-edge workstation.
+
+#### Why Hyprland?
+
+Hyprland is an outstanding choice for users seeking a modern, fast, and automated desktop. As a native Wayland compositor, it offers superior security, better fractional scaling, and robust multi-monitor handling compared to traditional X11 window managers.
+
+Its dynamic tiling system automatically organizes your windows into optimal binary tree layouts (splitting screens vertically/horizontally as you open more apps), maximizing screen real estate and boosting productivity. It is highly favored by power users and developers who appreciate granular control over animations, window rules, and workspace behaviors.
+
+### What is Niri?
+
+Niri is a scroll-tiling Wayland compositor that introduces a fresh, innovative approach to window management. Inspired by concepts like PaperWM, Niri organizes windows sequentially inside an infinite horizontal ribbon. Instead of squeezing and splitting windows into increasingly smaller grid tiles, new windows open at their ideal size to the right, allowing you to scroll through your workspace smoothly like a film strip.
+
+#### Why Niri?
+
+Niri solves the classic "tiling fatigue" where windows eventually become too small to read on standard displays. It is exceptionally well-suited for ultra-wide monitors, laptops, and layout purists who want an organic, distraction-free multitasking workflow.
+
+By mapping windows to an infinite horizontal plane, it keeps your focus intact while maintaining full keyboard-driven efficiency. Furthermore, its configuration is clean, predictable, and heavily optimized for modern Wayland ecosystems.
+
+### The Best of Both Worlds
+
+By supporting both Hyprland and Niri, this setup bridges two distinct workflow philosophies under a single dotfile deployment.
+
+Whether you prefer Hyprland's structured dynamic grids or Niri's fluid horizontal scrolling, your core user experience remains perfectly synchronized. Both environments share the exact same underlying stack: **Matugen** for automatic Material You color palettes generated from your wallpaper, **Quickshell** for lightweight, interactive desktop widgets, and **Kitty** as the foundational terminal hub. This allows you to hot-swap your layout paradigm at the display manager login without breaking your aesthetic or muscle memory.
+
+## Installation
+
+### Requirements
+
+- A usb drive with at least 8GB of storage
+- A ISO image of Arch Linux [Download](https://archlinux.org/download/)
+- A computer with a 64-bit processor
+- A stable internet connection
+
+### Installation steps
+
+#### 1. Setup
+
+**First**, you need to download the Arch Linux ISO image from the Arch Linux website. You can download the ISO image from the Arch Linux website by clicking on the download link on the Arch Linux website.
+
+**Second**, use `Ventoy` to burn the ISO image to the USB drive. You can download Ventoy from this [website](https://www.ventoy.net/en/download.html). Once you have downloaded Ventoy, you can craete bootable USB, then copy the ISO file to this.
+
+**Third**, plug the USB drive into the computer that you want to install Arch Linux on. Then, you need to boot the computer from the USB drive. You can do this by restarting the computer and pressing the boot menu key when the computer starts up. The boot menu key is usually F12, but it can vary depending on the computer. Once you have booted the computer from the USB drive, you need to select the Arch Linux installation option from the boot menu.
+
+**Finally**, started to install Arch Linux on your computer. You can follow the Arch Linux installation guide to install Arch Linux on your computer.
+
+```bash
+# Increase the font size
+setfont ter-120n
+```
+
+Check the internet connection.
+
+```bash
+ping google.com
+```
+
+If the internet connection is not working, you can use the following command to connect to the internet.
+
+```bash
+iwctl
+
+# List the available device
+device list
+
+# Scan the available network
+station device_name scan
+station device_name get-networks
+
+# Connect to the network
+station device_name connect SSID
+# Enter the password
+
+# Check the connection
+station device_name show
+
+# Exit the iwctl and check the connection
+exit
+ping google.com
+
+# if the connection is working, you can continue the next step
+```
+
+#### 2. Partition the disk with `btrfs` filesystem
+
+```bash
+# Show the available disk
+lsblk
+
+# Choose the drive has at least 50GB of storage
+# Use cfdisk to create a new partition table on the drive
+cfdisk /dev/[drive_name]
+```
+
+Create the partitions on the drive.
+
+- Move the cursor to the free space and press `Enter`
+- Select the `New` option and press `Enter`
+- Set the size of the partition is `512M` and press `Enter`
+- Select `type` to `EFI System` and press `Enter`
+- (Optional) Go to the remaining free space, select New, set your desired Swap size (e.g., `4G` or `8G`), press Enter, then change its type to `Linux swap`.
+- Go to the free space again and select the `New` option and press `Enter`
+- Set the size of the partition is at least `40GB` and press `Enter`
+
+  <Callout>
+
+  This main partition will house your Btrfs subvolumes (including your root and home directories). You can scale the sizes according to your hardware. A complete system installation only takes around 6GB, leaving plenty of room for your files and applications.
+
+  </Callout>
+
+- Select `write` and press `Enter` to write the changes to the disk then `quit` to exit the cfdisk
+
+```bash
+# Format the partitions (Adjust the partition numbers based on your cfdisk layout)
+mkfs.fat -F32 /dev/nvme0n1p1 # Replace with your EFI (512M) partition
+mkswap /dev/nvme0n1p2        # (Optional) Replace with your Swap partition
+mkfs.btrfs /dev/nvme0n1p3    # Replace with your Main Btrfs (>= 40G) partition
+
+# Activate swap if you created one
+swapon /dev/nvme0n1p2
+
+# Mount the main partition to begin subvolume creation
+mount --mkdir /dev/nvme0n1p3 /mnt
+
+# Create the subvolumes for the system (Based on CachyOS subvolume layout)
+btrfs subvolume create /mnt/@
+btrfs subvolume create /mnt/@home
+btrfs subvolume create /mnt/@root
+btrfs subvolume create /mnt/@srv
+btrfs subvolume create /mnt/@cache
+btrfs subvolume create /mnt/@log
+btrfs subvolume create /mnt/@tmp
+
+# Unmount the root fs to remount with proper configurations
+umount /mnt
+
+# Mount the subvolumes to the system with zstd compression optimization
+mount -o compress=zstd,subvol=@ /dev/nvme0n1p3 /mnt
+mkdir -p /mnt/{home,root,srv,var/cache,var/log,var/tmp}
+mount -o compress=zstd,subvol=@home /dev/nvme0n1p3 /mnt/home
+mount -o compress=zstd,subvol=@root /dev/nvme0n1p3 /mnt/root
+mount -o compress=zstd,subvol=@srv /dev/nvme0n1p3 /mnt/srv
+mount -o compress=zstd,subvol=@cache /dev/nvme0n1p3 /mnt/var/cache
+mount -o compress=zstd,subvol=@log /dev/nvme0n1p3 /mnt/var/log
+mount -o compress=zstd,subvol=@tmp /dev/nvme0n1p3 /mnt/var/tmp
+
+# Mount the EFI partition
+mkdir -p /mnt/boot
+mount /dev/nvme0n1p1 /mnt/boot
+```
+
+#### 3. Install packages
+
+- `base`, `base-devel`, `linux`, and `linux-firmware` are the essential packages for the Arch Linux system.
+- `intel-ucode` for Intel CPU microcode updates, which can improve system stability and security. (use `amd-ucode` if you have AMD CPU)
+- `btrfs-assistant` and `btrfs-progs` are the tools for managing the Btrfs filesystem.
+- `efibootmgr`, `grub`, `grub-btrfs`, and `os-prober` are the tools for managing the bootloader and dual booting with Windows
+- `inotify-tools` is the tool for monitoring file system events, which is used by `snapper` to automatically create snapshots when there are changes in the file system.
+- `snap-pac` and `snapper` are the tools for managing Btrfs snapshots, which can be used to create and manage snapshots of the file system.
+- `pipewire`, `pipewire-alsa`, `pipewire-pulse`, and `pipewire-jack` are the tools for managing audio on the system, which is used for audio management
+- `git` is the version control system, which is used for managing the configuration files and dotfiles.
+- `neovim` is the text editor, which is used for editing the configuration files and writing code.
+- `networkmanager` is the tool for managing network connections, which is used for managing the network connections on the system.
+- `openssh` is the tool for managing SSH connections, which is used for managing SSH connections on the system.
+- `reflector` is the tool for managing the mirror list, which is used for managing the mirror list on the system.
+- `sudo` is the tool for managing the sudo permissions, which is used for managing the sudo permissions on the system.
+- `wireplumber` is the tool for managing the audio routing, which is used for managing the audio routing on the system.
+
+```bash
+pacstrap -K /mnt base base-devel linux linux-firmware intel-ucode \
+  btrfs-assistant btrfs-progs efibootmgr grub grub-btrfs inotify-tools os-prober snap-pac snapper \
+  pipewire pipewire-alsa pipewire-pulse pipewire-jack \
+  git neovim networkmanager openssh reflector sudo wireplumber
+```
+
+<Callout type="warning">
+
+If you encounter a "Failed to install packages to new root" error when running, you may need to update the Arch Linux keyring before proceeding:
+
+```bash
+pacman -Sy archlinux-keyring
+```
+
+</Callout>
+
+#### 4. Fstab and chroot
+
+```bash
+genfstab -U /mnt >> /mnt/etc/fstab
+
+# verify the fstab file
+cat /mnt/etc/fstab
+
+# Chroot into the new system
+arch-chroot /mnt
+```
+
+#### 5. Setup timezone, language and keyboard layout
+
+Set the timezone for your system by creating a symbolic link from the appropriate timezone file in the `/usr/share/zoneinfo` directory to the `/etc/localtime` file.
+
+```bash
+# Replace Asia/Ho_Chi_Minh with your timezone
+ln -sf /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
+
+# Now synchronize the hardware clock with the system clock by running the following command.
+hwclock --systohc
+```
+
+Uncomment the locale you want to use in the `/etc/locale.gen` file and generate the locale by running the following command.
+
+```bash
+nvim /etc/locale.gen
+
+locale-gen
+```
+
+Next, set the `LANG` variable in the `/etc/locale.conf` file to the locale you want to use. For example, if you want to use `en_US.UTF-8` locale, you need to set the `LANG` variable as follows.
+
+```bash title="/etc/locale.conf"
+LANG=en_US.UTF-8
+```
+
+Finally, set the keyboard layout for the system. For example, if you want to use `us` keyboard layout, you can run the following command.
+
+```bash title="/etc/vconsole.conf"
+KEYMAP=us
+```
+
+#### 6. Hostname and Host configuration
+
+Set the hostname for your system by creating a file named `/etc/hostname` and adding your desired hostname to it.
+
+```bash title="/etc/hostname"
+arch-btw
+```
+
+Next, you need to configure the hosts file to map the hostname to the loopback address. You can do this by editing the `/etc/hosts` file and adding the following lines.
+
+```bash title="/etc/hosts"
+127.0.0.1 localhost
+::1 localhost
+127.0.1.1 arch-btw
+```
+
+#### 7. Root password and user creation
+
+Set the root password for your system by running the following command and following the prompts.
+
+```bash
+passwd
+```
+
+Next, create a new user for your system by running the following command and following the prompts. Replace `username` with your desired username.
+
+```bash
+useradd -m -G wheel username
+passwd username
+```
+
+Finally, you need to edit the sudoers file to allow the new user to use `sudo` command. You can do this by running the following command and finding the line that is `## Uncomment to allow members of group wheel to execute any command` and uncommenting the line below it.
+
+```bash
+EDITOR=neovim visudo
+```
+
+```bash title="/etc/sudoers"
+...
+## Uncomment to allow members of group wheel to execute any command
+%wheel ALL=(ALL:ALL) ALL
+```
+
+#### 8. Install and configure the bootloader (dual boot with Windows 11)
+
+```bash
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+Then, config `grub` boot menu
+
+```bash
+nvim /etc/default/grub
+```
+
+Uncomment the following line
+
+```bash title="/etc/default/grub"
+GRUB_DISABLE_OS_PROBER=false
+```
+
+Generate the grub configuration file again to apply the changes
+
+```bash
+# Mount the EFI partitions of Windows 11
+lsblk # Check the EFI partition
+mount --mkdir /dev/[drive_name] /mnt/windows # Replace [drive_name] with the EFI partition of Windows 11
+
+# Run os-prober to detect the Windows 11 installation and add it to the grub configuration
+os-prober
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+#### 9. Umount everything and reboot
+
+```bash
+# Enable the NetworkManager service to start at boot
+systemctl enable NetworkManager
+
+# Exit the chroot environment
+exit
+
+# Unmount everything to check if the drive is busy
+umount -R /mnt
+
+# Reboot the system and unplug the installation media
+reboot
+```
+
+### 10. Setup `snapper` for Btrfs snapshots
+
+Initialize a snapshot configuration named `root` for the root (/) filesystem:
+
+```bash
+snapper -c root create-config /
+```
+
+Then, enable the `grub-btrfsd` service to automatically update the GRUB menu with available snapshots:
+
+```bash
+sudo systemctl enable grub-btrfsd
+```
+
+## Set up
+
+### Automatic install (Recommended)
+
+To download and run the installer automatically, copy and paste the following command into your terminal.
+
+```bash
+bash <(curl -fsSL "https://raw.githubusercontent.com/tiesen243/dotfiles/main/install.sh")
+```
+
+<Callout>
+  Note: I dont install GPU drivers in the installer, you can install it manually
+  by following the [GPU drivers](#5-install-gpu-drivers) section in the manual
+  installation part.
+</Callout>
+
+### Manual installation
+
+If you prefer to inspect what goes onto your system, want to customize the setup, or need to troubleshoot a specific step, you can follow the step-by-step breakdown below.
+
+#### 1. Install necessary packages
+
+1.1. Install `yay`
+
+```bash
+pacman -Syu --needed git base-devel
+git clone https://aur.archlinux.org/yay.git ~/yay
+cd ~/yay
+makepkg -si
+rm -rf ~/yay
+```
+
+1.2. Clone `dotfiles` repository to get the list of packages to install
+
+```bash
+git clone https://github.com/tiesen243/dotfiles.git ~/dotfiles
+```
+
+1.3. Install packages
+
+```bash
+yay -S --needed $(grep -v '^#' ~/dotfiles/package.txt)
+
+yay -S --needed hyprland # if you want to use hyprland as your tiling compositor
+yay -S --needed niri     # if you want to use niri as your scroll-tiling compositor
+```
+
+1.4. Set `zsh` as the default shell
+
+```bash
+chsh -s $(which zsh)
+```
+
+#### 2. Apply configuration
+
+2.1. Remove existed config and create the symbolic links to the config files
+
+```bash
+rm -rf ~/{.cache,.local,.zshrc}
+rm -rf ~/.config/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lazygit,lsd,matugen,niri,nvim,quickshell,zsh}
+ln -s ~/dotfiles/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lazygit,lsd,matugen,niri,nvim,quickshell,zsh} ~/.config
+ln -s ~/dotfiles/zsh/.zshenv ~/.zshenv
+
+# For who like lowercase stuffs
+rm -rf ~/{Desktop,Documents,Downloads,Music,Pictures,Projects,Public,Templates,Videos} && mkdir -p ~/{documents,downloads,pictures,projects,videos}
+cat <<EOF > "$HOME/.config/user-dirs.dirs"
+XDG_DESKTOP_DIR="\$HOME/"
+XDG_DOWNLOAD_DIR="\$HOME/downloads"
+XDG_TEMPLATES_DIR="\$HOME/"
+XDG_PUBLICSHARE_DIR="\$HOME/"
+XDG_DOCUMENTS_DIR="\$HOME/documents"
+XDG_MUSIC_DIR="\$HOME/"
+XDG_PICTURES_DIR="\$HOME/pictures"
+XDG_VIDEOS_DIR="\$HOME/videos"
+XDG_PROJECTS_DIR="\$HOME/projects"
+EOF
+xdg-user-dirs-update
+```
+
+2.2. Configuration git with your name and email
+
+```bash title="~/dotfiles/git/config.local"
+[user]
+  name = arch-btw
+  email = example@arch.btw
+```
+
+2.3. Generate default theme
+
+```bash
+matugen color hex 3f5ec2 # replace with your color
+```
+
+2.4. Make all scripts in the `dotfiles/scripts` directory executable:
+
+```bash
+sudo chmod +x ~/dotfiles/scripts/*
+```
+
+<Callout>
+  Add your avatar to `/usr/share/sddm/faces/$USER.face.icon` to show in the lock
+  screen
+</Callout>
+
+#### 3. Change Wallpaper
+
+Add your preferred wallpapers to ~/dotfiles/assets/wallpapers/. You can then toggle the wallpaper selector by open the Start Menu using Super+A and click the Wallpaper Selector icon (located at the bottom-right corner of the quick action buttons). After changing the wallpaper, it automatically generates color schemes based on the wallpaper and applies it to the system by using Matugen.
+
+#### 4. Install GPU drivers
+
+To have better performance and support for your graphics card, you need to install the appropriate GPU drivers for your system. The installation process varies depending on the type of graphics card you have.
+
+1. For `Nvidia` users
+
+   If you are using `Nvidia` graphics card, you need to install `nvidia` and `nvidia-utils` packages and add the following line to your `/etc/mkinitcpio.conf` file.
+
+   ```bash
+   sudo pacman -S nvidia-open-dkms nvidia-utils linux-headers
+   ```
+
+   Then, regenerate the initramfs file to apply the changes. (skip this step if you are using `linux-cachyos` kernel, because it already includes `nvidia` module in the initramfs)
+
+   ```bash title="/etc/mkinitcpio.conf"
+   MODULES=(... i915 nvidia nvidia_modeset nvidia_uvm nvidia_drm)
+   ```
+
+   ```bash
+   sudo mkinitcpio -P
+   ```
+
+   Then, add the following line to your `/etc/default/grub` file to enable `nvidia` module in the grub.
+
+   ```bash title="/etc/default/grub"
+   GRUB_CMDLINE_LINUX_DEFAULT="... nvidia-drm.modeset=1 nvidia-drm.fbdev=1"
+   ```
+
+   Finally, regenerate the grub configuration file to apply the changes.
+
+   ```bash
+   sudo grub-mkconfig -o /boot/grub/grub.cfg
+   ```
+
+2. For `AMD` users
+
+   If you are using `AMD` graphics card, you need to install `xf86-video-amdgpu` package.
+
+   ```bash
+   sudo pacman -S mesa vulkan-radeon libva-mesa-driver mesa-vdpau
+   ```
+
+#### 5. Add Cachyos's Optimized Repositories (optional)
+
+CachyOS provides optimized repositories for Arch Linux that can improve the performance of your system. To add Cachyos's optimized repositories, you can follow the steps below:
+
+```bash
+curl https://mirror.cachyos.org/cachyos-repo.tar.xz -o cachyos-repo.tar.xz
+tar xvf cachyos-repo.tar.xz && cd cachyos-repo
+sudo ./cachyos-repo.sh
+```
+
+Install Cachyos kernels (optional):
+
+```bash
+sudo pacman -S linux-cachyos linux-cachyos-headers
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+
+# You can remove the old kernels
+sudo pacman -Runs linux linux-headers
+```
+
+#### 6. Splash screen on boot (optional)
+
+To add a splash screen on boot, you can use `plymouth`. First, install the `plymouth` package and the `plymouth-theme-spinner` theme.
+
+```bash
+sudo pacman -S plymouth
+```
+
+Then, add the following line to your `/etc/mkinitcpio.conf` file to include `plymouth` in the initramfs.
+
+```bash title="/etc/mkinitcpio.conf"
+HOOKS=(... plymouth)
+```
+
+Then, add `splash` to the `GRUB_CMDLINE_LINUX_DEFAULT` variable in your `/etc/default/grub` file to enable the splash screen on boot.
+
+```bash title="/etc/default/grub"
+GRUB_CMDLINE_LINUX_DEFAULT="... splash"
+```
+
+Finally, config and regenerate the initramfs file to apply the changes.
+
+```bash title="/etc/plymouth/plymouthd.conf"
+[Daemon]
+ShowDelay=0
+Theme=bgrt # or any theme you like
+```
+
+```bash
+sudo mkinitcpio -P
+```
+
+#### 7. Install `nvm` for Node.js version management (it's required for some Neovim plugins)
+
+To install `nvm` (Node Version Manager) for managing Node.js versions, you can follow the steps below:
+
+1. Download and run the `nvm` installation script:
+
+   ```bash
+   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
+   ```
+
+2. Restart your terminal and run the following command to install the latest LTS version of Node.js:
+
+   ```bash
+   # Install the latest LTS version of Node.js
+   nvm install --lts
+
+   # Use the latest LTS version of Node.js
+   nvm use --lts
+   ```
+
+3. Verify the installation by checking the Node.js and npm versions:
+
+   ```bash
+   node -v
+   # > v24.15.0
+   npm -v
+   # > 11.14.1
+   ```
+
+4. Install `bun` (optional):
+
+   ```bash
+   npm install -g bun@latest
+   ```
+
+#### 8. Fix Screen Sharing
+
+If you encounter issues while sharing your screen on OBS Studio, Discord, or web browsers under Wayland, you need to install and configure the correct `xdg-desktop-portal` backends for each environment.
+
+##### 8.1. For Hyprland
+
+Hyprland requires its own dedicated portal implementation to handle window and monitor capturing properly.
+
+Install the required portal package:
+
+```bash
+sudo pacman -S xdg-desktop-portal-hyprland
+```
+
+##### 8.2. For Niri
+
+Niri relies on the wlroots portal implementation for screen casting capabilities.
+
+First, install the backend wrapper:
+
+```bash
+sudo pacman -S xdg-desktop-portal-wlr
+```
+
+Next, you need to tell Niri to use `wlr` as its primary portal driver. Create or edit the Niri portal configuration file:
+
+```bash title="/usr/share/xdg-desktop-portal/niri-portals.conf"
+[preferred]
+default=wlr;gtk
+```
+
+##### 8.3. Verify and Restart Portals
+
+To apply the changes immediately without rebooting, force-restart the portal system services:
+
+```bash
+systemctl --user restart xdg-desktop-portal.service
+systemctl --user restart xdg-desktop-portal-hyprland.service # For Hyprland users
+systemctl --user restart xdg-desktop-portal-wlr.service # For Niri users
+```
+
+Or just reboot your system to ensure all changes take effect
+
+#### 9. Fix windows 11 time
+
+If it show wrong time on Windows, you can run the following command to fix it
+
+```bash
+timedatectl set-local-rtc 1
+```
+
+Or edit Registry Editor in Windows and change the value of `RealTimeIsUniversal` to `1` (DWORD) in the following path `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation`
+
+## Keybindings
+
+Here are the essential keybindings for navigating and controlling your Hyprland desktop environment. These shortcuts will help you efficiently manage windows, workspaces, applications, and system functions:
+
+| Keybinding                       | Action                                  |     Env      |
+| :------------------------------- | :-------------------------------------- | :----------: |
+| `Super + Q`                      | Kill active window                      |   **All**    |
+| `Super + Shift + Q`              | Exit / Quit compositor                  |   **All**    |
+| `Super + T`                      | Open terminal (Kitty)                   |   **All**    |
+| `Super + E`                      | Open file manager (Thunar)              |   **All**    |
+| `Super + B`                      | Open web browser (Zen Browser)          |   **All**    |
+| `Super + Space`                  | Application launcher (Quickshell)       |   **All**    |
+| `Super + V`                      | Clipboard history (Quickshell)          |   **All**    |
+| `Super + A`                      | Toggle start menu (Quickshell)          |   **All**    |
+| `Super + Shift + B`              | Toggle top bar (Quickshell)             |   **All**    |
+| `Super + Tab`                    | Toggle workspace overview               |   **Niri**   |
+| `Super + H/J/K/L`                | Move focus (Left/Down/Up/Right)         |   **All**    |
+| `Super + Shift + H/J/K/L`        | Move window/column (Left/Down/Up/Right) |   **All**    |
+| `Super + Shift + Ctrl + H/J/K/L` | Resize active window                    |   **All**    |
+| `Super + 1-9/0`                  | Switch to workspace 1-10                |   **All**    |
+| `Super + Shift + 1-9/0`          | Move window/column to workspace 1-10    |   **All**    |
+| `Super + Comma`                  | Consume/Expel window to the left        |   **All**    |
+| `Super + Period`                 | Consume/Expel window to the right       |   **All**    |
+| `Super + R`                      | Cycle / Expand column width preset      |   **All**    |
+| `Super + Shift + R`              | Cycle / Shrink column width preset      |   **All**    |
+| `Super + C`                      | Center active column/window             |   **All**    |
+| `Super + F`                      | Toggle maximized layout                 |   **All**    |
+| `Super + Shift + F`              | Toggle true fullscreen mode             |   **All**    |
+| `Super + Ctrl + F`               | Toggle window floating state            |   **All**    |
+| `Super + Mouse Wheel`            | Scroll through existing workspaces      |   **All**    |
+| `Super + Left Click (Drag)`      | Move active window around               | **Hyprland** |
+| `Super + Right Click (Drag)`     | Resize active window visually           | **Hyprland** |
+| `Print` / `Super + S`            | Screenshot a selected region            |   **All**    |
+| `Super + Shift + S`              | Screenshot the full screen              |   **All**    |
+| `XF86AudioRaiseVolume`           | System volume up (5%+)                  |   **All**    |
+| `XF86AudioLowerVolume`           | System volume down (5%-)                |   **All**    |
+| `XF86AudioMute`                  | Toggle audio output mute                |   **All**    |
+| `XF86AudioMicMute`               | Toggle microphone input mute            |   **All**    |
+| `XF86MonBrightnessUp`            | Laptop panel brightness up (5%+)        |   **All**    |
+| `XF86MonBrightnessDown`          | Laptop panel brightness down (5%-)      |   **All**    |
+| `XF86AudioPlay` / `Pause`        | Media player toggle play/pause          |   **All**    |
+| `XF86AudioNext` / `Prev`         | Media player skip track next/previous   |   **All**    |
+| `XF86AudioStop`                  | Stop media playback                     |   **All**    |
+
+<Callout>
+
+You can find all keybindings in your configuration file at `~/.config/hypr/modules/keymaps.lua` and `~/.config/niri/modules/keymaps.kdl`.
+
+</Callout>
+
+## Conclusion
+
+Congratulations! You have successfully installed and configured a dual-flavor Wayland environment on Arch Linux, combining the cutting-edge dynamic layouts of Hyprland with the fluid, infinite horizontal scrolling of Niri.
+
+By leveraging a unified system stack—powered by Matugen for real-time dynamic color serialization, Quickshell for interactive desktop panels, and Kitty for hardware-accelerated terminal emulation—you now have a cohesive desktop experience where switching between two entirely different window management paradigms requires zero friction or aesthetic sacrifice.
+
+From setting up highly resilient Btrfs snapshots via Snapper to optimizing screen-sharing extensions across both compositors, your machine is now tailored for peak performance and ultimate desktop ricing. Experiment with the different layouts, refine your configurations, and enjoy the speed and security of a modern Linux setup. If you run into any issues or want to share your customizations, don't hesitate to reach out. Happy ricing, and welcome to the next level of the Arch Linux ecosystem!
+
+## References
+
+- **Hyprland Ecosystem:** [Official Website & Documentation](https://hyprland.org/)
+- **Niri Ecosystem:** [Official Documentation & Documentation](https://niri-wm.github.io/niri/index.html)
+- **My Custom Dotfiles:** [tiesen243/dotfiles](https://github.com/tiesen243/dotfiles)
