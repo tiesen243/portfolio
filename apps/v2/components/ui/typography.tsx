@@ -1,6 +1,7 @@
 import type { VariantProps } from 'class-variance-authority'
 
 import { cva } from 'class-variance-authority'
+import React from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -26,17 +27,21 @@ const typographyVariants = cva('text-base font-normal', {
   },
 })
 
-interface TypographyProps
+interface TypographyProps<T extends React.ElementType = 'p'>
   extends React.ComponentProps<'p'>, VariantProps<typeof typographyVariants> {
-  as?: React.ElementType
+  as?: T
+
+  href?: T extends 'a' ? string : never
+  target?: T extends 'a' ? React.HTMLAttributeAnchorTarget : never
+  rel?: T extends 'a' ? string : never
 }
 
-function Typography({
+function Typography<T extends React.ElementType>({
   className,
   variant = 'p',
   as,
   ...props
-}: TypographyProps) {
+}: TypographyProps<T>) {
   const Comp = as ?? variant ?? 'p'
 
   return (

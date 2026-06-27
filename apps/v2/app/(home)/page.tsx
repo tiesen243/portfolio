@@ -1,3 +1,4 @@
+import { FileBoxIcon, FileTextIcon, FolderKanbanIcon } from 'lucide-react'
 import Image from 'next/image'
 
 import { Terminal } from '@/app/(home)/_components/terminal'
@@ -6,6 +7,7 @@ import { Tree } from '@/app/(home)/_components/tree'
 import * as icons from '@/components/ui/icons'
 import { Typography } from '@/components/ui/typography'
 import data from '@/public/assets/data.json' with { type: 'json' }
+import logo from '@/public/assets/logo.svg' with { type: 'image/svg+xml' }
 
 export default function Page(_: PageProps<'/'>) {
   return (
@@ -13,7 +15,7 @@ export default function Page(_: PageProps<'/'>) {
       <h1 className='sr-only'>Welcome to Tiesen243's Portfolio</h1>
 
       <section id='hero' className='flex items-center gap-4'>
-        <icons.ArchLinuxLogo className='size-16 fill-primary' />
+        <Image src={logo} alt='logo' className='size-14' />
 
         <div className='flex flex-col gap-1'>
           <Typography variant='h2' className='text-primary'>
@@ -26,16 +28,21 @@ export default function Page(_: PageProps<'/'>) {
       </section>
 
       <Terminal>
-        <TerminalContent command='fastfetch' className='flex gap-4'>
-          <Image
-            src='https://1.gravatar.com/avatar/48b8ec4ce6c85e06c11bda4381a3ac6cb8161a23e5ea540544c809063090815d?size=256'
-            alt='tiesen243'
-            className='aspect-square size-42 shrink-0 object-cover'
-            width={256}
-            height={256}
-          />
+        <TerminalContent
+          command='fastfetch'
+          className='flex items-stretch gap-4'
+        >
+          <div className='relative aspect-square h-44 shrink-0'>
+            <Image
+              src='https://1.gravatar.com/avatar/48b8ec4ce6c85e06c11bda4381a3ac6cb8161a23e5ea540544c809063090815d?size=256'
+              alt='tiesen243'
+              className='object-cover'
+              sizes='(max-width: 256px) 100vw, 256px'
+              fill
+            />
+          </div>
 
-          <div>
+          <div className='min-w-0 flex-1 [&>p]:truncate'>
             <Typography className='text-primary'>
               {data.handle}@portfolio
             </Typography>
@@ -75,6 +82,7 @@ export default function Page(_: PageProps<'/'>) {
             node={{
               content: '.',
               children: data.projects.map((project) => ({
+                icon: FolderKanbanIcon,
                 content: (
                   <>
                     <Typography className='font-bold text-primary'>
@@ -85,6 +93,8 @@ export default function Page(_: PageProps<'/'>) {
                       Repository:{' '}
                       <a
                         href={`https://${project.repository}`}
+                        target='_blank'
+                        rel='noopener noreferrer'
                         className='text-primary hover:underline'
                       >
                         {project.repository}
@@ -95,6 +105,8 @@ export default function Page(_: PageProps<'/'>) {
                         Live Demo:{' '}
                         <a
                           href={`https://${project.liveDemo}`}
+                          target='_blank'
+                          rel='noopener noreferrer'
                           className='text-primary hover:underline'
                         >
                           {project.liveDemo}
@@ -113,6 +125,7 @@ export default function Page(_: PageProps<'/'>) {
             node={{
               content: '.',
               children: data.education.map((edu) => ({
+                icon: FileTextIcon,
                 content: (
                   <>
                     <div className='flex flex-wrap items-center gap-2 text-primary [&>p]:font-bold'>
@@ -136,6 +149,7 @@ export default function Page(_: PageProps<'/'>) {
             node={{
               content: '.',
               children: data.experience.map((exp) => ({
+                icon: FileBoxIcon,
                 content: (
                   <>
                     <div className='flex flex-wrap items-center gap-2 text-primary [&>p]:font-bold'>
@@ -153,15 +167,52 @@ export default function Page(_: PageProps<'/'>) {
           />
         </TerminalContent>
 
+        <TerminalContent command='ls -lah ~/certificates'>
+          <Tree
+            node={{
+              content: '.',
+              children: data.certificates.map((cert) => ({
+                icon: FileTextIcon,
+                content: (
+                  <>
+                    <Typography
+                      as='a'
+                      href={cert.credential}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='font-bold text-primary'
+                    >
+                      {cert.name}
+                    </Typography>
+                    <Typography>Issued by {cert.issuer}</Typography>
+                    <Typography className='text-sm text-muted-foreground'>
+                      {cert.date}
+                    </Typography>
+                  </>
+                ),
+              })),
+            }}
+          />
+        </TerminalContent>
+
         <TerminalContent command='cat ~/contact'>
           {data.contact.map((contact) => (
             <Typography key={contact.type}>
               {contact.type.charAt(0).toUpperCase() + contact.type.slice(1)}:{' '}
-              <a href={contact.url} className='text-primary hover:underline'>
+              <a
+                href={contact.url ?? `https://${contact.text}`}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='text-primary hover:underline'
+              >
                 {contact.text}
               </a>
             </Typography>
           ))}
+        </TerminalContent>
+
+        <TerminalContent command='echo $QUOTE'>
+          <Typography>I use Arch, btw</Typography>
         </TerminalContent>
 
         <TerminalContent command='_' />

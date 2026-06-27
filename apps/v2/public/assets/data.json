@@ -1,6 +1,6 @@
 {
   "handle": "tiesen243",
-  "bio": "I'm a passionate Full Stack Developer and IoT Engineer with a strong background in software development, embedded systems, and IoT applications. I enjoy creating innovative solutions that improve user experiences and solve real-world problems.",
+  "bio": "Hi, I'm a Weeb Developer who converts caffeine, open-source code, and 2D waifus into working software. I love building open-source projects for the community, mostly because my code is public but my tears during debugging are private. My open-source repos are free, highly scalable, and well-maintained, which is ironic because my life is currently held together by a single git commit and pure luck. If my code works, it's a miracle; if it doesn't, I have no idea 😭",
   "personalInfo": {
     "name": "Tran Tien",
     "nickname": "Tiesen",
@@ -31,6 +31,14 @@
         { "icon": "ArduinoLogo", "content": "Arduino" },
         { "icon": "RaspberryPiLogo", "content": "Raspberry Pi" }
       ]
+    },
+    {
+      "content": "Tools & Platforms",
+      "children": [
+        { "icon": "GitLogo", "content": "Git" },
+        { "icon": "DockerLogo", "content": "Docker" },
+        { "icon": "ArchLinuxLogo", "content": "Arch Linux" }
+      ]
     }
   ],
   "projects": [
@@ -41,12 +49,15 @@
       "liveDemo": "yukinu.vercel.app"
     },
     {
-      "title": "Alarm Clock",
-      "description": "A simple alarm clock application that allows users to set alarms, choose alarm sounds, and receive notifications when the alarm goes off.",
-      "repository": "github.com/tiesen243/alarm-clock"
+      "title": "Yuki UI",
+      "description": " A modern UI component library for React built on top of shadcn/ui. Beautiful, accessible, and customizable components for your next project.",
+      "repository": "github.com/tiesen243/yuki-ui",
+      "liveDemo": "ui.tiesen.id.vn"
     },
     {
-      "title": "Personal Portfolio Website"
+      "title": "vercel.nvim",
+      "description": "A Neovim theme inspired by Vercel's design system, providing a sleek and modern look for your Neovim editor.",
+      "repository": "github.com/tiesen243/vercel.nvim"
     }
   ],
   "education": [
@@ -61,9 +72,23 @@
   "experience": [
     {
       "company": "Tiesen",
-      "role": "Software Engineer",
+      "role": "CEO & Founder",
       "duration": "2004 - Present",
-      "description": "Developing and maintaining web applications using modern technologies such as React, Next.js, and Node.js. Collaborating with cross-functional teams to deliver high-quality software solutions."
+      "description": "I have no idea what I am doing ᗜ˰ᗜ"
+    }
+  ],
+  "certificates": [
+    {
+      "name": "Next.js App Router Fundamentals",
+      "issuer": "Vercel",
+      "date": "2025-04-26",
+      "credential": "https://nextjs.org/learn/certificate?course=dashboard-app&user=47455&certId=dashboard-app-47455-1752746461959"
+    },
+    {
+      "name": "Basic Information Technology Applications Certificate",
+      "issuer": "Industrial University of Ho Chi Minh City",
+      "date": "2025-07-??",
+      "credential": "/assets/certificates/bitac.png"
     }
   ],
   "contact": [
@@ -74,23 +99,19 @@
     },
     {
       "type": "github",
-      "text": "github.com/tiesen243",
-      "url": "https://github.com/tiesen243"
+      "text": "github.com/tiesen243"
     },
     {
       "type": "linkedin",
-      "text": "linkedin.com/in/tiesen243",
-      "url": "https://www.linkedin.com/in/tiesen243/"
+      "text": "www.linkedin.com/in/tiesen243"
     },
     {
       "type": "twitter",
-      "text": "twitter.com/tiesen243",
-      "url": "https://twitter.com/tiesen243"
+      "text": "twitter.com/tiesen243"
     },
     {
       "type": "facebook",
-      "text": "facebook.com/tiesen243",
-      "url": "https://www.facebook.com/tiesen243"
+      "text": "facebook.com/tiesen243.tsx"
     }
   ]
 }

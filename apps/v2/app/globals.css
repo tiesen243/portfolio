@@ -270,3 +270,8 @@
     max-width: 1400px;
   }
 }
+
+@utility filter-primary {
+  filter: brightness(0) saturate(100%) invert(21%) sepia(90%) saturate(3015%)
+    hue-rotate(245deg) brightness(83%) contrast(97%);
+}
