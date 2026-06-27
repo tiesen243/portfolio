@@ -4,7 +4,8 @@ import { getMDXComponents } from '@/components/mdx'
 import { TerminalContent } from '@/components/terminal'
 import { Badge } from '@/components/ui/badge'
 import { Typography } from '@/components/ui/typography'
-import { getPage } from '@/lib/source'
+import { createMetadata } from '@/lib/create-metadata'
+import { getPage, getPages } from '@/lib/source'
 
 export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
   const { slugs } = await params
@@ -37,4 +38,34 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
       </article>
     </TerminalContent>
   )
+}
+
+export async function generateMetadata({ params }: PageProps<'/[...slugs]'>) {
+  const { slugs } = await params
+
+  const page = await getPage(slugs)
+  if (!page) return notFound()
+
+  const { metadata } = page
+
+  return createMetadata({
+    title: metadata.title,
+    description: metadata.description,
+    openGraph: {
+      images: `/api/og?title=${encodeURIComponent(metadata.title)}&description=${encodeURIComponent(metadata.description)}`,
+      url: `/${slugs.join('/')}`,
+    },
+  })
+}
+
+export async function generateStaticParams() {
+  const [blogs, projects] = await Promise.all([
+    getPages('blogs'),
+    getPages('projects'),
+  ])
+  const pages = [...blogs, ...projects]
+
+  return pages.map((page) => ({
+    slugs: page.url.split('/').filter(Boolean),
+  }))
 }

@@ -30,4 +30,6 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   )
 }
 
-export const metadata = createMetadata()
+export const metadata = createMetadata({
+  openGraph: { images: '/api/og' },
+})

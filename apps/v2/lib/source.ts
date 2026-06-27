@@ -1,5 +1,6 @@
-import { createCompiler } from '@fumadocs/mdx-remote'
 import type { MdxContent } from '@fumadocs/mdx-remote/client'
+
+import { createCompiler } from '@fumadocs/mdx-remote'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { cache } from 'react'
@@ -9,7 +10,7 @@ const DOCS_PATH = path.resolve(process.cwd(), '../../docs')
 
 const frontmatterSchema = z.object({
   title: z.string(),
-  description: z.string().optional(),
+  description: z.string(),
   tags: z.string().array().default([]),
   publishedAt: z.coerce
     .date()

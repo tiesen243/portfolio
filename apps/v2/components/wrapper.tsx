@@ -8,10 +8,8 @@ import logo from '@/public/assets/logo.svg' with { type: 'image/svg+xml' }
 export const Wrapper: React.FC<React.ComponentProps<typeof Terminal>> = (
   props
 ) => (
-  <main className='container flex flex-col gap-8 py-4'>
-    <h1 className='sr-only'>Welcome to Tiesen243's Portfolio</h1>
-
-    <section id='hero' className='flex items-center gap-4'>
+  <>
+    <header id='hero' className='container flex items-center gap-4 py-8'>
       <Image src={logo} alt='logo' className='size-14' />
 
       <div className='flex flex-col gap-1'>
@@ -22,8 +20,8 @@ export const Wrapper: React.FC<React.ComponentProps<typeof Terminal>> = (
           {data.personalInfo.title}
         </Typography>
       </div>
-    </section>
+    </header>
 
     <Terminal {...props} />
-  </main>
+  </>
 )

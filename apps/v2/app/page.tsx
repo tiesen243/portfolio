@@ -10,7 +10,11 @@ import data from '@/public/assets/data.json' with { type: 'json' }
 export default function Page(_: PageProps<'/'>) {
   return (
     <>
+      <h1 className='sr-only'>Home page of {data.handle}</h1>
+
       <TerminalContent id='portfolio' command='fastfetch'>
+        <h2 className='sr-only'>Portfolio section</h2>
+
         <div className='relative mr-4 aspect-square h-44 shrink-0'>
           <Image
             src='https://1.gravatar.com/avatar/48b8ec4ce6c85e06c11bda4381a3ac6cb8161a23e5ea540544c809063090815d?size=256'
@@ -38,14 +42,20 @@ export default function Page(_: PageProps<'/'>) {
       </TerminalContent>
 
       <TerminalContent id='README.md' command='cat ~/portfolio/README.md'>
+        <h2 className='sr-only'>Bio section</h2>
+
         <Typography>{data.bio}</Typography>
       </TerminalContent>
 
       <TerminalContent command='echo $QUOTE'>
+        <h2 className='sr-only'>Quote section</h2>
+
         <Typography>I use Arch, btw</Typography>
       </TerminalContent>
 
       <TerminalContent command='ls ~'>
+        <h2 className='sr-only'>Portfolio directory section</h2>
+
         <Tree
           node={{
             content: '.',
@@ -61,6 +71,8 @@ export default function Page(_: PageProps<'/'>) {
       </TerminalContent>
 
       <TerminalContent id='skills' command='ls -la ~/portfolio/skills'>
+        <h2 className='sr-only'>Skills section</h2>
+
         <Tree
           node={{
             content: '.',
@@ -79,6 +91,8 @@ export default function Page(_: PageProps<'/'>) {
         id='key-projects'
         command='ls -la ~/portfolio/key-projects'
       >
+        <h2 className='sr-only'>Key projects section</h2>
+
         <Tree
           node={{
             content: '.',
@@ -122,6 +136,8 @@ export default function Page(_: PageProps<'/'>) {
       </TerminalContent>
 
       <TerminalContent id='education' command='ls -la ~/portfolio/education'>
+        <h2 className='sr-only'>Education section</h2>
+
         <Tree
           node={{
             content: '.',
@@ -146,6 +162,8 @@ export default function Page(_: PageProps<'/'>) {
       </TerminalContent>
 
       <TerminalContent id='experience' command='ls -la ~/portfolio/experience'>
+        <h2 className='sr-only'>Experience section</h2>
+
         <Tree
           node={{
             content: '.',
@@ -172,6 +190,8 @@ export default function Page(_: PageProps<'/'>) {
         id='certificates'
         command='ls -la ~/portfolio/certificates'
       >
+        <h2 className='sr-only'>Certificates section</h2>
+
         <Tree
           node={{
             content: '.',
@@ -195,6 +215,8 @@ export default function Page(_: PageProps<'/'>) {
       </TerminalContent>
 
       <TerminalContent id='contact' command='cat ~/contact.txt'>
+        <h2 className='sr-only'>Contact section</h2>
+
         <Typography variant='ul' className='ml-0 list-none'>
           {data.contact.map((contact) => (
             <li key={contact.type}>
@@ -213,6 +235,8 @@ export default function Page(_: PageProps<'/'>) {
       </TerminalContent>
 
       <TerminalContent command='echo $COPYRIGHT'>
+        <h2 className='sr-only'>Copyright section</h2>
+
         <Typography>
           ©{new Date().getFullYear()} tiesen243. All rights reserved.
         </Typography>
