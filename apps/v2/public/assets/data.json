@@ -1,0 +1,87 @@
+{
+  "skills": [
+    {
+      "content": "Programming Languages",
+      "children": [
+        { "icon": "TypescriptLogo", "content": "TypeScript" },
+        { "icon": "PythonLogo", "content": "Python" },
+        { "icon": "CppLogo", "content": "C/C++" }
+      ]
+    },
+    {
+      "content": "Frameworks & Libraries",
+      "children": [
+        { "icon": "ReactLogo", "content": "React" },
+        { "icon": "NextJsLogo", "content": "Next.js" },
+        { "icon": "NodeJsLogo", "content": "Node.js" }
+      ]
+    },
+    {
+      "content": "IoT & Embedded Systems",
+      "children": [
+        { "icon": "ArduinoLogo", "content": "Arduino" },
+        { "icon": "RaspberryPiLogo", "content": "Raspberry Pi" }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "title": "Yukinu",
+      "description": "An open-source e-commerce platform that enables customers to discover, compare, and purchase products from multiple sellers in one place, with fast browsing, secure checkout, and a smooth user experience.",
+      "repository": "github.com/tiesen243/yukinu",
+      "liveDemo": "yukinu.vercel.app"
+    },
+    {
+      "title": "Alarm Clock",
+      "description": "A simple alarm clock application that allows users to set alarms, choose alarm sounds, and receive notifications when the alarm goes off.",
+      "repository": "github.com/tiesen243/alarm-clock"
+    },
+    {
+      "title": "Personal Portfolio Website"
+    }
+  ],
+  "education": [
+    {
+      "institution": "Industrial University of Ho Chi Minh City",
+      "degree": "Bachelor of Computer Engineering Technology",
+      "duration": "2022 - 2027",
+      "description": "Pursuing a degree in Computer Engineering Technology, focusing on software development, embedded systems, and IoT applications.",
+      "gpa": "2.9/4.0"
+    }
+  ],
+  "experience": [
+    {
+      "company": "Tiesen",
+      "role": "Software Engineer",
+      "duration": "2004 - Present",
+      "description": "Developing and maintaining web applications using modern technologies such as React, Next.js, and Node.js. Collaborating with cross-functional teams to deliver high-quality software solutions."
+    }
+  ],
+  "contact": [
+    {
+      "type": "email",
+      "text": "tiesen243@tiesen.id.vn",
+      "url": "mailto:tiesen243@tiesen.id.vn"
+    },
+    {
+      "type": "github",
+      "text": "github.com/tiesen243",
+      "url": "https://github.com/tiesen243"
+    },
+    {
+      "type": "linkedin",
+      "text": "linkedin.com/in/tiesen243",
+      "url": "https://www.linkedin.com/in/tiesen243/"
+    },
+    {
+      "type": "twitter",
+      "text": "twitter.com/tiesen243",
+      "url": "https://twitter.com/tiesen243"
+    },
+    {
+      "type": "facebook",
+      "text": "facebook.com/tiesen243",
+      "url": "https://www.facebook.com/tiesen243"
+    }
+  ]
+}

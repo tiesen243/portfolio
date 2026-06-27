@@ -1,15 +1,30 @@
 import '@/app/globals.css'
 
-import { Geist_Mono } from 'next/font/google'
+import { Noto_Serif_Georgian, Geist, Geist_Mono } from 'next/font/google'
 
+import { Provider } from '@/components/provider'
+import { createMetadata } from '@/lib/create-metadata'
 import { cn } from '@/lib/utils'
 
+const georgianSerif = Noto_Serif_Georgian({ variable: '--font-serif' })
+const geistSans = Geist({ variable: '--font-sans' })
 const geistMono = Geist_Mono({ variable: '--font-mono' })
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
-    <html lang='en' className={cn('font-mono', geistMono.variable)}>
-      <body>{children}</body>
+    <html lang='en' className='light' suppressHydrationWarning>
+      <body
+        className={cn(
+          'flex min-h-dvh flex-col bg-background font-mono text-foreground antialiased',
+          georgianSerif.variable,
+          geistSans.variable,
+          geistMono.variable
+        )}
+      >
+        <Provider>{children}</Provider>
+      </body>
     </html>
   )
 }
+
+export const metadata = createMetadata()
