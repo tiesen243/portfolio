@@ -234,14 +234,6 @@ export default function Page(_: PageProps<'/'>) {
           ))}
         </Typography>
       </TerminalContent>
-
-      <TerminalContent command='echo $COPYRIGHT'>
-        <h2 className='sr-only'>Copyright section</h2>
-
-        <Typography>
-          ©{new Date().getFullYear()} tiesen243. All rights reserved.
-        </Typography>
-      </TerminalContent>
     </>
   )
 }
