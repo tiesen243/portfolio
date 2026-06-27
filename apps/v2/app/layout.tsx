@@ -31,5 +31,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
 }
 
 export const metadata = createMetadata({
-  openGraph: { images: '/api/og' },
+  openGraph: {
+    images: '/api/og?title=&description=&image=/assets/logotype.png',
+  },
 })
