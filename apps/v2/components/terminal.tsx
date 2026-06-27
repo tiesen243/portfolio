@@ -11,7 +11,7 @@ export function Terminal({
   return (
     <main
       className={cn(
-        'relative container flex flex-col gap-4 border border-primary/50 bg-card/50 pt-18 pb-4 backdrop-blur-sm',
+        'relative container flex flex-col gap-4 overflow-hidden border border-primary/50 bg-card/50 pt-18 pb-4 backdrop-blur-sm',
         className
       )}
       {...props}
@@ -22,7 +22,7 @@ export function Terminal({
           <div className='size-3 rounded-full bg-yellow-500/60' />
           <div className='size-3 rounded-full bg-green-500/60' />
         </div>
-        <span className='ml-4 flex-1 text-xs text-foreground/60'>
+        <span className='ml-4 line-clamp-1 flex-1 text-xs text-muted-foreground'>
           tiesen243@portfolio — zsh
         </span>
 

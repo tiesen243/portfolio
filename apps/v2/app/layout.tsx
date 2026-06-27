@@ -2,8 +2,9 @@ import '@/app/globals.css'
 
 import { Noto_Serif_Georgian, Geist, Geist_Mono } from 'next/font/google'
 
+import { Header } from '@/components/header'
 import { Provider } from '@/components/provider'
-import { Wrapper } from '@/components/wrapper'
+import { Terminal } from '@/components/terminal'
 import { createMetadata } from '@/lib/create-metadata'
 import { cn } from '@/lib/utils'
 
@@ -23,7 +24,9 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         )}
       >
         <Provider>
-          <Wrapper>{children}</Wrapper>
+          <Header />
+
+          <Terminal>{children}</Terminal>
         </Provider>
       </body>
     </html>

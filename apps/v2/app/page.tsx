@@ -12,10 +12,14 @@ export default function Page(_: PageProps<'/'>) {
     <>
       <h1 className='sr-only'>Home page of {data.handle}</h1>
 
-      <TerminalContent id='portfolio' command='fastfetch'>
+      <TerminalContent
+        id='portfolio'
+        command='fastfetch'
+        className='flex-col md:flex-row'
+      >
         <h2 className='sr-only'>Portfolio section</h2>
 
-        <div className='relative mr-4 aspect-square h-44 shrink-0'>
+        <div className='relative mr-4 aspect-square size-44 shrink-0'>
           <Image
             src='https://1.gravatar.com/avatar/48b8ec4ce6c85e06c11bda4381a3ac6cb8161a23e5ea540544c809063090815d?size=256'
             alt='tiesen243'
@@ -25,7 +29,7 @@ export default function Page(_: PageProps<'/'>) {
           />
         </div>
 
-        <div className='min-w-0 flex-1 [&>p]:truncate'>
+        <div className='max-w-full min-w-0 flex-1 [&>p]:truncate'>
           <Typography className='text-primary'>
             {data.handle}@portfolio
           </Typography>
