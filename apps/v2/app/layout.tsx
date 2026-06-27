@@ -3,6 +3,7 @@ import '@/app/globals.css'
 import { Noto_Serif_Georgian, Geist, Geist_Mono } from 'next/font/google'
 
 import { Provider } from '@/components/provider'
+import { Wrapper } from '@/components/wrapper'
 import { createMetadata } from '@/lib/create-metadata'
 import { cn } from '@/lib/utils'
 
@@ -21,7 +22,9 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
           geistMono.variable
         )}
       >
-        <Provider>{children}</Provider>
+        <Provider>
+          <Wrapper>{children}</Wrapper>
+        </Provider>
       </body>
     </html>
   )

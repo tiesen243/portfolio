@@ -1,6 +1,7 @@
 import type { VariantProps } from 'class-variance-authority'
 
 import { cva } from 'class-variance-authority'
+import type Link from 'next/link'
 import React from 'react'
 
 import { cn } from '@/lib/utils'
@@ -31,9 +32,9 @@ interface TypographyProps<T extends React.ElementType = 'p'>
   extends React.ComponentProps<'p'>, VariantProps<typeof typographyVariants> {
   as?: T
 
-  href?: T extends 'a' ? string : never
-  target?: T extends 'a' ? React.HTMLAttributeAnchorTarget : never
-  rel?: T extends 'a' ? string : never
+  href?: T extends 'a' | typeof Link ? string : never
+  target?: T extends 'a' | typeof Link ? React.HTMLAttributeAnchorTarget : never
+  rel?: T extends 'a' | typeof Link ? string : never
 }
 
 function Typography<T extends React.ElementType>({

@@ -1,4 +1,8 @@
 @import 'tailwindcss';
+@import '@fumadocs/base-ui/css/shadcn.css';
+@import '@fumadocs/base-ui/css/preset.css';
+
+@source '../node_modules/@fumadocs/base-ui/dist/components/**/*.js';
 
 @custom-variant light {
   &:where(.light, .light *) {

@@ -1,8 +1,14 @@
-import { ToggleTheme } from '@/app/(home)/_components/toggle-theme'
+import cn from 'cnfast'
 
-export const Terminal = ({
+import { ToggleTheme } from '@/components/toggle-theme'
+import { Typography } from '@/components/ui/typography'
+
+export const Terminal: React.FC<React.ComponentProps<'section'>> = ({
+  className,
   children,
-}: Readonly<{ children: React.ReactNode }>) => (
+
+  ...props
+}) => (
   <section className='border border-primary/50 bg-card/50 backdrop-blur-sm'>
     <h2 className='sr-only'>Terminal</h2>
 
@@ -21,10 +27,21 @@ export const Terminal = ({
       <ToggleTheme />
     </section>
 
-    <section className='p-4'>
+    <section className={cn('flex flex-col gap-4 p-4', className)} {...props}>
       <h3 className='sr-only'>Terminal Content</h3>
 
-      <ul className='flex min-h-0 flex-col gap-4'>{children}</ul>
+      {children}
     </section>
   </section>
+)
+
+export const TerminalContent: React.FC<
+  React.ComponentProps<'div'> & { command: string }
+> = ({ command, className, children, ...props }) => (
+  <div className={cn('flex flex-wrap gap-1 pl-6', className)} {...props}>
+    <Typography className='-ml-6 basis-full text-primary'>
+      $ {command}
+    </Typography>
+    {children}
+  </div>
 )
