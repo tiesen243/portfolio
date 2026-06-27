@@ -22,7 +22,7 @@ export default function Page(_: PageProps<'/'>) {
         <div className='relative mr-4 aspect-square size-44 shrink-0'>
           <Image
             src='https://1.gravatar.com/avatar/48b8ec4ce6c85e06c11bda4381a3ac6cb8161a23e5ea540544c809063090815d?size=256'
-            alt='tiesen243'
+            alt={data.handle}
             className='object-cover'
             sizes='(max-width: 256px) 100vw, 256px'
             fill

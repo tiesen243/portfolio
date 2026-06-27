@@ -2,6 +2,7 @@ import cn from 'cnfast'
 
 import { ToggleTheme } from '@/components/toggle-theme'
 import { Typography } from '@/components/ui/typography'
+import data from '@/public/assets/data.json' with { type: 'json' }
 
 export function Terminal({
   className,
@@ -23,7 +24,7 @@ export function Terminal({
           <div className='size-3 rounded-full bg-green-500/60' />
         </div>
         <span className='ml-4 line-clamp-1 flex-1 text-xs text-muted-foreground'>
-          tiesen243@portfolio — zsh
+          {data.handle}@portfolio — zsh
         </span>
 
         <ToggleTheme />
@@ -35,7 +36,7 @@ export function Terminal({
         <h2 className='sr-only'>Copyright section</h2>
 
         <Typography>
-          ©{new Date().getFullYear()} tiesen243. All rights reserved.
+          ©{new Date().getFullYear()} {data.handle}. All rights reserved.
         </Typography>
       </TerminalContent>
 

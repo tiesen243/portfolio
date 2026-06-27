@@ -1,6 +1,7 @@
 import type { Metadata as NextMetadata } from 'next'
 
 import { getBaseUrl } from '@/lib/utils'
+import data from '@/public/assets/data.json' with { type: 'json' }
 import manifest from '@/public/manifest.json'
 
 export interface Metadata extends NextMetadata {
@@ -28,7 +29,7 @@ export function createMetadata(override: Metadata = {}): Metadata {
     authors: { name: 'Tiesen', url: getBaseUrl() },
     keywords: [
       'tiesen',
-      'tiesen243',
+      data.handle,
       'Tran Tien',
       'portfolio',
       'developer',
@@ -45,7 +46,7 @@ export function createMetadata(override: Metadata = {}): Metadata {
     twitter: {
       ...override.twitter,
       card: 'summary_large_image',
-      creatorId: '@tiesen243',
+      creatorId: `@${data.handle}`,
     },
     icons: {
       apple: '/apple-touch-icon.png',
