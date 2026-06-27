@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 import { Terminal } from '@/app/(home)/_components/terminal'
 import { TerminalContent } from '@/app/(home)/_components/terminal-content'
 import { Tree } from '@/app/(home)/_components/tree'
@@ -15,21 +17,42 @@ export default function Page(_: PageProps<'/'>) {
 
         <div className='flex flex-col gap-1'>
           <Typography variant='h2' className='text-primary'>
-            tiesen243@portfolio
+            {data.handle}@portfolio
           </Typography>
           <Typography className='text-sm text-muted-foreground'>
-            Full-stack Developer | IoT Engineer
+            {data.personalInfo.title}
           </Typography>
         </div>
       </section>
 
       <Terminal>
+        <TerminalContent command='fastfetch' className='flex gap-4'>
+          <Image
+            src='https://1.gravatar.com/avatar/48b8ec4ce6c85e06c11bda4381a3ac6cb8161a23e5ea540544c809063090815d?size=256'
+            alt='tiesen243'
+            className='aspect-square size-42 shrink-0 object-cover'
+            width={256}
+            height={256}
+          />
+
+          <div>
+            <Typography className='text-primary'>
+              {data.handle}@portfolio
+            </Typography>
+
+            {Object.entries(data.personalInfo).map(([key, value]) => (
+              <Typography key={key}>
+                {key
+                  .replaceAll(/([A-Z])/g, ' $1')
+                  .replace(/^./, (str) => str.toUpperCase())}
+                : <span className='font-bold'>{String(value)}</span>
+              </Typography>
+            ))}
+          </div>
+        </TerminalContent>
+
         <TerminalContent command='cat ~/README.md'>
-          <Typography variant='p'>
-            Hello! I&apos;m Tiesen, a passionate full-stack developer and IoT
-            engineer. I love building innovative solutions that bridge the gap
-            between software and hardware. Welcome to my portfolio!
-          </Typography>
+          <Typography>{data.bio}</Typography>
         </TerminalContent>
 
         <TerminalContent command='ls -lah ~/skills'>

@@ -1,4 +1,13 @@
 {
+  "handle": "tiesen243",
+  "bio": "I'm a passionate Full Stack Developer and IoT Engineer with a strong background in software development, embedded systems, and IoT applications. I enjoy creating innovative solutions that improve user experiences and solve real-world problems.",
+  "personalInfo": {
+    "name": "Tran Tien",
+    "nickname": "Tiesen",
+    "title": "Full Stack Developer | IoT Engineer",
+    "location": "Ho Chi Minh City, Vietnam",
+    "dateOfBirth": "2004-06-??"
+  },
   "skills": [
     {
       "content": "Programming Languages",
