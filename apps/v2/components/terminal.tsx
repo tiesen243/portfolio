@@ -44,7 +44,7 @@ export function TerminalContent({
 }: React.ComponentProps<'section'> & { command: string }) {
   return (
     <section className={cn('flex flex-wrap gap-1 pl-6', className)} {...props}>
-      <Typography className='-ml-6 basis-full text-primary'>
+      <Typography className='-ml-5 basis-full text-primary'>
         $ {command}
       </Typography>
 
