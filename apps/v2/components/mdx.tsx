@@ -25,10 +25,7 @@ export function getMDXComponents(components?: MDXComponents) {
       return (
         <Typography
           as={Link}
-          className={cn(
-            'underline underline-offset-4 hover:text-primary',
-            className
-          )}
+          className={cn('underline hover:text-primary', className)}
           {...(isExternalLink && {
             target: '_blank',
             rel: 'noopener noreferrer',

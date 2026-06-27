@@ -185,6 +185,7 @@
   * {
     border-color: var(--color-border);
     outline-color: color-mix(in oklab, var(--color-ring) 50%, transparent);
+    text-underline-offset: 4px;
 
     ::selection {
       background-color: var(--color-accent);
