@@ -1,5 +1,6 @@
 import type { MDXComponents } from 'mdx/types'
 
+import { Callout } from '@fumadocs/base-ui/components/callout'
 import * as TabComponents from '@fumadocs/base-ui/components/tabs'
 import defaultMdxComponents from '@fumadocs/base-ui/mdx'
 import Link from 'next/link'
@@ -122,6 +123,9 @@ export function getMDXComponents(components?: MDXComponents) {
         className={cn('mt-4 text-sm text-muted-foreground', className)}
         {...props}
       />
+    ),
+    Callout: ({ className, ...props }) => (
+      <Callout className={cn('rounded-none', className)} {...props} />
     ),
   } satisfies MDXComponents
 }

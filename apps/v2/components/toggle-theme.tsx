@@ -10,11 +10,18 @@ export const ToggleTheme: React.FC = () => {
   const { theme, setTheme } = useTheme()
   const mounted = useMounted()
   if (!mounted)
-    return <Button variant='ghost' size='icon-sm' aria-label='Toggle theme' />
+    return (
+      <Button
+        variant='outline'
+        size='icon-sm'
+        aria-label='Toggle theme'
+        disabled
+      />
+    )
 
   return (
     <Button
-      variant='ghost'
+      variant='outline'
       size='icon-sm'
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       aria-label='Toggle theme'

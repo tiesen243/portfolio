@@ -1,7 +1,7 @@
 import {
+  CodeXmlIcon,
   FolderKanbanIcon,
   FolderPenIcon,
-  HouseIcon,
   MenuIcon,
 } from 'lucide-react'
 import Link from 'next/link'
@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { getPages } from '@/lib/source'
 
-export const NavigatorDropdown: React.FC = async () => {
+export const NavigationDropdown: React.FC = async () => {
   const [blogs, projects] = await Promise.all([
     getPages('blogs'),
     getPages('projects'),
@@ -33,12 +33,12 @@ export const NavigatorDropdown: React.FC = async () => {
 
       <DropdownMenuContent align='end'>
         <DropdownMenuItem render={<Link href='/' />}>
-          <HouseIcon /> Home
+          <CodeXmlIcon /> Portfolio
         </DropdownMenuItem>
 
         <DropdownMenuSub>
           <DropdownMenuSubTrigger render={<Link href='/blogs' />}>
-            <FolderPenIcon /> Blogs
+            <FolderPenIcon /> <span className='flex-1'>Blogs</span>
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
             {blogs.map((blog) => (
@@ -54,7 +54,7 @@ export const NavigatorDropdown: React.FC = async () => {
 
         <DropdownMenuSub>
           <DropdownMenuSubTrigger render={<Link href='/projects' />}>
-            <FolderKanbanIcon /> Projects
+            <FolderKanbanIcon /> <span className='flex-1'>Projects</span>
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
             {projects.map((project) => (

@@ -1,4 +1,4 @@
-import { NavigatorDropdown } from '@/components/navigator-dropdown'
+import { NavigationDropdown } from '@/components/navigation-dropdown'
 import { ToggleTheme } from '@/components/toggle-theme'
 import { Typography } from '@/components/ui/typography'
 import { cn } from '@/lib/utils'
@@ -18,17 +18,14 @@ export function Terminal({
       {...props}
     >
       <div className='absolute inset-0 flex h-14 w-full items-center gap-2 border-b border-primary/50 bg-primary/5 px-4 py-3'>
-        <div className='flex gap-2'>
+        <div className='flex flex-1 items-center gap-2'>
           <div className='size-3 rounded-full bg-red-500/60' />
           <div className='size-3 rounded-full bg-yellow-500/60' />
           <div className='size-3 rounded-full bg-green-500/60' />
         </div>
-        <span className='ml-4 line-clamp-1 flex-1 text-xs text-muted-foreground'>
-          {data.handle}@portfolio — zsh
-        </span>
 
         <ToggleTheme />
-        <NavigatorDropdown />
+        <NavigationDropdown />
       </div>
 
       {children}

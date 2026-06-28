@@ -56,7 +56,7 @@ ${plain}`}
 
       <InlineTOC items={toc} className='w-full rounded-none' />
 
-      <article className='max-w-full [&>a]:hover:underline [&>h2]:my-4 [&>h3]:my-3 [&>h4]:my-2 [&>ol]:my-2 [&>p]:my-2 [&>ul]:my-2'>
+      <article className='max-w-full [&_a]:hover:underline [&_figure]:rounded-none [&_h2]:my-4 [&_h3]:my-3 [&_h4]:my-2 [&_ol]:my-2 [&_p]:my-2 [&_ul]:my-2'>
         <Content components={getMDXComponents()} />
       </article>
     </TerminalContent>
