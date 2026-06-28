@@ -74,6 +74,11 @@ export const NavigationDropdown: React.FC = async () => {
       </DropdownMenu>
     )
   } catch {
-    return null
+    return (
+      <Button variant='outline' size='icon-sm'>
+        <MenuIcon />
+        <span className='sr-only'>Toggle navigation menu</span>
+      </Button>
+    )
   }
 }
