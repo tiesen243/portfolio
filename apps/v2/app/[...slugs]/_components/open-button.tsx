@@ -19,22 +19,34 @@ export const OpenButton: React.FC<{ slugs: string[] }> = ({ slugs }) => (
     </DropdownMenuTrigger>
 
     <DropdownMenuContent className='w-48'>
-      {PROVIDERS.map((provider) => (
-        <DropdownMenuItem
-          key={provider.label}
-          className='justify-between'
-          render={
-            <a
-              href={`${provider.href}/${slugs.join('/')}${provider.suffix}`}
-              target='_blank'
-              rel='noopener noreferrer'
-              aria-label={provider.label}
-            />
-          }
-        >
-          {provider.label} <ExternalLinkIcon />
-        </DropdownMenuItem>
-      ))}
+      {PROVIDERS.map((provider) => {
+        const { label, href, suffix } = provider
+        const path = slugs.join('/')
+
+        const payload =
+          label === 'Open in Github' || label === 'View as Markdown'
+            ? `/${path}`
+            : encodeURIComponent(
+                `Read ${getBaseUrl()}/llms/${path}, I want to ask you some questions about it.`
+              )
+
+        return (
+          <DropdownMenuItem
+            key={provider.label}
+            className='justify-between'
+            render={
+              <a
+                href={`${href}${payload}${suffix}`}
+                target='_blank'
+                rel='noopener noreferrer'
+                aria-label={provider.label}
+              />
+            }
+          >
+            {provider.label} <ExternalLinkIcon />
+          </DropdownMenuItem>
+        )
+      })}
     </DropdownMenuContent>
   </DropdownMenu>
 )
@@ -52,22 +64,17 @@ const PROVIDERS = [
   },
   {
     label: 'Open in ChatGPT',
-    href: `${getBaseUrl()}/llms`,
-    suffix: '?open=chatgpt',
-  },
-  {
-    label: 'Open in Gemini',
-    href: `${getBaseUrl()}/llms`,
-    suffix: '?open=gemini',
+    href: 'https://chatgpt.com?prompt=',
+    suffix: '&hints=search',
   },
   {
     label: 'Open in Claude',
-    href: `${getBaseUrl()}/llms`,
-    suffix: '?open=claude',
+    href: 'https://claude.ai?q=',
+    suffix: '',
   },
   {
     label: 'Open in Scira AI',
-    href: `${getBaseUrl()}/llms`,
-    suffix: '?open=scira',
+    href: 'https://scira.ai?q=',
+    suffix: '',
   },
 ]
