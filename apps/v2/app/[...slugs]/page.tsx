@@ -66,24 +66,20 @@ ${plain}`}
 export async function generateMetadata({ params }: PageProps<'/[...slugs]'>) {
   const { slugs } = await params
 
-  try {
-    const page = await getPage(slugs)
-    if (!page) return notFound()
+  const page = await getPage(slugs)
+  if (!page) return notFound()
 
-    const { metadata } = page
+  const { metadata } = page
 
-    return createMetadata({
-      title: metadata.title,
-      description: metadata.description,
-      keywords: metadata.tags,
-      openGraph: {
-        images: `/api/og?title=${encodeURIComponent(metadata.title)}&description=${encodeURIComponent(metadata.description)}`,
-        url: `/${slugs.join('/')}`,
-      },
-    })
-  } catch {
-    return notFound()
-  }
+  return createMetadata({
+    title: metadata.title,
+    description: metadata.description,
+    keywords: metadata.tags,
+    openGraph: {
+      images: `/api/og?title=${encodeURIComponent(metadata.title)}&description=${encodeURIComponent(metadata.description)}`,
+      url: `/${slugs.join('/')}`,
+    },
+  })
 }
 
 export async function generateStaticParams() {
