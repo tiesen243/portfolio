@@ -28,10 +28,10 @@ export const Tree: React.FC<TreeProps> = ({ node }) => {
 
   return (
     <div className='group/tree'>
-      <div className='flex items-start gap-1.5 py-1 [&>svg]:mt-1.5 [&>svg]:size-4 [&>svg]:shrink-0'>
+      <div className='flex items-start gap-1.5 py-1 [&_svg]:mt-1.5 [&_svg]:size-4 [&_svg]:shrink-0'>
         {renderIcon()}
 
-        <div className='flex flex-col gap-1 [&>data-[slot=typography]]:leading-6'>
+        <div className='flex flex-col gap-1 [&_data-[slot=typography]]:leading-6'>
           {typeof node.content === 'string' ? (
             <Typography>{node.content}</Typography>
           ) : (
@@ -48,9 +48,9 @@ export const Tree: React.FC<TreeProps> = ({ node }) => {
             return (
               <li
                 key={index}
-                className='relative -left-2 flex flex-col pb-1 before:absolute before:top-0 before:left-0 before:h-full before:w-px before:bg-foreground/20 last:before:h-4'
+                className='relative -left-2 flex flex-col pb-1 before:absolute before:top-0 before:left-0 before:h-full before:w-px before:bg-input last:before:h-4'
               >
-                <div className='absolute top-4 left-0 h-px w-3 bg-foreground/20' />
+                <div className='absolute top-4 left-0 h-px w-3 bg-input' />
 
                 <Comp
                   className='group/tree-item pl-4'

@@ -19,7 +19,7 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
   const { metadata, toc, content: Content, plain } = page
 
   return (
-    <TerminalContent command={`cat ~/${slugs.join('/')}`}>
+    <TerminalContent command={`cat ~/${slugs.join('/')}.mdx`}>
       <div className='mb-4 flex flex-col gap-2'>
         <Typography variant='h1' className='mt-2 mb-4'>
           {metadata.title}
