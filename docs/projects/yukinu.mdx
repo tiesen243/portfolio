@@ -1,6 +1,6 @@
 ---
 title: 'Yukinu: Modern Multi-Vendor E-Commerce Platform'
-description: 'Yukinu is a next-generation multi-vendor e-commerce ecosystem featuring a blazing-fast frontend, built with Next.js, React 19, tRPC, Tailwind CSS, and a robust backend. Discover its architecture, marketplace features, and how to launch your own multi-vendor store.'
+description: 'An open-source e-commerce platform that enables customers to discover, compare, and purchase products from multiple sellers in one place, with fast browsing, secure checkout, and a smooth user experience.'
 tags:
   - e-commerce
   - nextjs
@@ -11,18 +11,22 @@ tags:
   - tailwindcss
   - monorepo
   - fullstack
-publishedAt: 2025-01-27
+publishedAt: 2026-06-28
 ---
 
 ## Introduction
 
-**Yukinu** is a modern, high-performance multi-vendor e-commerce platform designed for scalable online marketplaces. Its flagship frontend, delivers seamless user and vendor experiences using the latest React and Next.js features, type safety, advanced SEO, and a flexible, extensible backend.
+Yukinu is a modern, high-performance multi-vendor e-commerce platform designed for scalable online marketplaces. Its flagship frontend delivers seamless user and vendor experiences using the latest React and Next.js features, type safety, advanced SEO, and a flexible, extensible backend.
 
-[View the repo on GitHub](https://github.com/tiesen243/yukinu)
+- [View the repo on GitHub](https://github.com/tiesen243/yukinu)
+- [View the live demo (web)](https://yukinu.vercel.app)
+- [View the live demo (dashboard)](https://yukinu-dashboard.vercel.app)
+- [View the documentation](https://tiesen243.github.io/yukinu)
 
-[View the live demo (web)](https://yukinu.vercel.app)
+Test accounts for the dashboard:
 
-[View the live demo (dashboard)](https://yukinu-dashboard.vercel.app)
+- Username: `tester`
+- Password: `Test#12345678`
 
 ## Marketplace Features
 
@@ -30,60 +34,111 @@ publishedAt: 2025-01-27
 - **Product Catalog**: Advanced filtering, search, and category browsing across multiple vendors.
 - **Shopping Cart**: Real-time, persistent cart supporting products from different vendors.
 - **Vendor Dashboard**: Each vendor gets a dedicated dashboard for managing products, orders, and analytics.
-- **User Authentication**: Secure registration, login, and sessions for both buyers and vendors.
+- **User Authentication**: Secure registration, login, and sessions for both buyers and vendors, with support for social login and password recovery.
 - **Checkout & Orders**: Smooth checkout flow, split orders by vendor, and order tracking.
-- **Personalization**: AI-powered recommendations and user preferences.
-- **Mobile-First**: Fully responsive, mobile-optimized design.
-- **SEO & Marketing**: Landing pages, structured data, analytics, and meta tags.
-- **Performance**: Optimized for Core Web Vitals and fast loading with server components and streaming.
+- **Order Management**: Customers can view order history and track status; vendors can manage incoming orders and update their status.
+- **Responsive Design**: Fully responsive, mobile-optimized design ensuring a smooth experience across all devices.
+- **SEO & Marketing**: Landing pages, structured data, analytics, dynamic sitemap, Open Graph image generation, and robust metadata support.
+- **Scalability**: Built with modern technologies and best practices to handle increasing traffic and data as the platform grows.
 
 ## Technical Highlights
 
-- **Frontend**:
-  - **Web**: Next.js 15, React 19, server components, and App Router.
-  - **Dashboard**: React Router 7, React 19, and Vite.
-- **API Layer**: End-to-end typesafe communication with tRPC.
-- **Backend & DB**: Modular backend (via `@yuki/api`), Drizzle ORM, and scalable schema for multi-vendor data.
-- **UI/UX**: Tailwind CSS and shadcn/ui for visually stunning, accessible components.
-- **Tooling**: Bun runtime, Turborepo for speedy builds, and a strict monorepo structure for maintainability.
+- **Frontend — Web**: Next.js 16, React 19, server components, and App Router.
+- **Frontend — Dashboard**: React Router 7, React 19, and Vite.
+- **API Layer**: End-to-end typesafe communication with tRPC 11.
+- **Backend & DB**: Modular backend (via `@yukinu/api`), Drizzle ORM, PostgreSQL, and scalable schema for multi-vendor data.
+- **UI/UX**: Tailwind CSS v4, shadcn/ui, and Base UI for visually stunning, accessible components.
+- **Email**: React Email components with Resend integration.
+- **File Uploads**: UploadThing for file upload utilities.
+- **Tooling**: Bun runtime, Turborepo for speedy builds, Oxc for linting and formatting, and a strict monorepo structure for maintainability.
 - **Advanced SEO**: Dynamic sitemap, Open Graph image generation, and robust metadata support.
-- **Automation**: Includes seed scripts and type-safe DB migrations.
+- **Automation**: Includes seed scripts and type-safe DB migrations via Drizzle Kit.
+
+## Project Structure
+
+```text
+(root)
+├── apps
+│   ├── dashboard            # Admin dashboard for vendors and site administrators (React Router v7 + Vite)
+│   └── web                  # Customer-facing web application (Next.js 16)
+├── docs
+├── packages
+│   ├── api                  # tRPC API server and shared types
+│   ├── auth                 # Authentication logic and utilities
+│   ├── db                   # Database schema and Drizzle ORM setup
+│   ├── email                # Email templates and Resend integration
+│   ├── lib                  # Shared utilities and helper functions
+│   ├── ui                   # Shared UI components and design system (Shadcn UI + Base UI)
+│   └── uploadthing          # File upload utilities and UploadThing integration
+├── tools
+│   ├── github               # GitHub Actions setup and related scripts for CI/CD
+│   ├── oxc                  # Oxc configuration and related scripts for linting and code analysis
+│   └── typescript           # TypeScript configuration and related scripts
+├── docker-compose.yml       # Docker configuration for local development
+├── package.json             # Root package.json for managing dependencies and scripts
+└── turbo.json               # Turborepo configuration for managing the monorepo
+```
 
 ## Getting Started
 
-**Prerequisites:**
+### Prerequisites
 
-- Node.js 20+ or Bun runtime
+- Node.js 20+ or Bun runtime (recommended: Bun 1.3.0+)
 - Git
 - Docker (for database setup)
 
-**Setup Steps:**
+### Setup Steps
 
 ```sh
 git clone https://github.com/tiesen243/yukinu.git
 cd yukinu
 bun install
-cp .env.example .env  # Set your environment variables
-bun dev
+
+# Set up environment variables
+cp apps/web/.env.example apps/web/.env
+cp apps/dashboard/.env.example apps/dashboard/.env
+
+# Set up the database
+docker compose up -d db
+bun --filter @yukinu/db run db:migrate
+
+# Start all applications
+bun run dev
 ```
 
 - Web will be available at `http://localhost:3000`
 - Dashboard will be available at `http://localhost:5173`
 
+## Key Dependencies
+
+| Package        | Version  | Purpose                  |
+| -------------- | -------- | ------------------------ |
+| Next.js        | ^16.2.7  | Web frontend framework   |
+| React          | 19.2.7   | UI library               |
+| React Router   | ^7.16.0  | Dashboard routing        |
+| tRPC           | ^11.17.0 | End-to-end typesafe APIs |
+| TanStack Query | ^5.101.0 | Server state management  |
+| Drizzle ORM    | ^0.45.2  | Database ORM             |
+| Tailwind CSS   | ^4.3.0   | Utility-first CSS        |
+| Zod            | ^4.4.3   | Schema validation        |
+| Resend         | ^6.12.4  | Email delivery           |
+| UploadThing    | ^7.7.4   | File uploads             |
+
 ## Example: Marketplace Home Page Logic
 
-- Pre-fetches featured vendors and top products with React Suspense
-- Uses server-rendered and streamed UI for instant interaction
-- Modular product and vendor card skeletons for fast perceived performance
+- Pre-fetches featured vendors and top products with React Suspense.
+- Uses server-rendered and streamed UI for instant interaction.
+- Modular product and vendor card skeletons for fast perceived performance.
 
 ## Why Choose Yukinu?
 
 - **Marketplace-Ready**: Built from the ground up for multi-vendor scenarios.
-- **Blazing Fast**: Server-side rendering, streaming, and optimal performance.
+- **Blazing Fast**: Server-side rendering, streaming, and optimal performance with Core Web Vitals optimization.
 - **Customizable**: Easily extend for unique marketplace needs and integrations.
 - **Type Safe**: TypeScript and end-to-end type safety with tRPC and Drizzle.
-- **Beautiful UI**: Ready-to-ship design powered by shadcn/ui and Tailwind CSS.
+- **Beautiful UI**: Ready-to-ship design powered by shadcn/ui, Base UI, and Tailwind CSS.
+- **Modern Tooling**: Bun runtime, Turborepo, Oxc linter/formatter, and Changesets for versioning.
 
 ## Conclusion
 
-Yukinu is more than just an e-commerce starter—it’s a foundation for your next big online marketplace, empowering both vendors and customers with a modern, scalable, and delightful experience.
+Yukinu is more than just an e-commerce starter—it's a foundation for your next big online marketplace, empowering both vendors and customers with a modern, scalable, and delightful experience.

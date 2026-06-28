@@ -73,7 +73,7 @@ const PROVIDERS = [
     suffix: '',
   },
   {
-    label: 'Open in Scira AI',
+    label: 'Open in Scira',
     href: 'https://scira.ai?q=',
     suffix: '',
   },
