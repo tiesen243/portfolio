@@ -1,7 +1,7 @@
-import cn from 'cnfast'
-
+import { NavigatorDropdown } from '@/components/navigator-dropdown'
 import { ToggleTheme } from '@/components/toggle-theme'
 import { Typography } from '@/components/ui/typography'
+import { cn } from '@/lib/utils'
 import data from '@/public/assets/data.json' with { type: 'json' }
 
 export function Terminal({
@@ -28,6 +28,7 @@ export function Terminal({
         </span>
 
         <ToggleTheme />
+        <NavigatorDropdown />
       </div>
 
       {children}

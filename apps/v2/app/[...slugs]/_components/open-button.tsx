@@ -47,27 +47,27 @@ const PROVIDERS = [
   },
   {
     label: 'View as Markdown',
-    href: `${getBaseUrl()}/llms.mdx`,
+    href: `${getBaseUrl()}/llms`,
     suffix: '',
   },
   {
     label: 'Open in ChatGPT',
-    href: `${getBaseUrl()}/llms.mdx`,
+    href: `${getBaseUrl()}/llms`,
     suffix: '?open=chatgpt',
   },
   {
     label: 'Open in Gemini',
-    href: `${getBaseUrl()}/llms.mdx`,
+    href: `${getBaseUrl()}/llms`,
     suffix: '?open=gemini',
   },
   {
     label: 'Open in Claude',
-    href: `${getBaseUrl()}/llms.mdx`,
+    href: `${getBaseUrl()}/llms`,
     suffix: '?open=claude',
   },
   {
     label: 'Open in Scira AI',
-    href: `${getBaseUrl()}/llms.mdx`,
+    href: `${getBaseUrl()}/llms`,
     suffix: '?open=scira',
   },
 ]

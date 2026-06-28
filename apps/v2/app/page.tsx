@@ -1,4 +1,9 @@
-import { FileBoxIcon, FileTextIcon, FolderKanbanIcon } from 'lucide-react'
+import {
+  FileBoxIcon,
+  FileTextIcon,
+  FolderKanbanIcon,
+  FolderPenIcon,
+} from 'lucide-react'
 import Image from 'next/image'
 
 import { TerminalContent } from '@/components/terminal'
@@ -64,8 +69,18 @@ export default function Page(_: PageProps<'/'>) {
           node={{
             content: '.',
             children: [
-              { content: 'blogs', href: '/blogs', children: [] },
-              { content: 'projects', href: '/projects', children: [] },
+              {
+                icon: FolderPenIcon,
+                content: 'blogs',
+                href: '/blogs',
+                children: [],
+              },
+              {
+                icon: FolderKanbanIcon,
+                content: 'projects',
+                href: '/projects',
+                children: [],
+              },
               { content: 'portfolio', href: '/#portfolio', children: [] },
               { content: 'contact.txt', href: '/#contact' },
               { content: 'cv-en.pdf', href: '/assets/cv-en.pdf' },

@@ -1,3 +1,5 @@
+'use server'
+
 import type { MdxContent } from '@fumadocs/mdx-remote/client'
 
 import { createCompiler } from '@fumadocs/mdx-remote'

@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 
 import { getLLMFull, getPages } from '@/lib/source'
 
-export async function GET(_req: NextRequest, _ctx: RouteContext<'/llms.mdx'>) {
+export async function GET(_req: NextRequest, _ctx: RouteContext<'/llms'>) {
   const [blogs, projects] = await Promise.all([
     getPages('blogs'),
     getPages('projects'),

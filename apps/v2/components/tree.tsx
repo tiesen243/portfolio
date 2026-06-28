@@ -18,11 +18,11 @@ export const Tree: React.FC<TreeProps> = ({ node }) => {
   const isFolder = !!node.children
 
   const renderIcon = () => {
+    if (node.icon) return <node.icon />
     if (isFolder) {
       if (node.children?.length === 0) return <FolderIcon />
       return <FolderOpenIcon />
     }
-    if (node.icon) return <node.icon />
     return <FileIcon />
   }
 

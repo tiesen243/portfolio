@@ -8,7 +8,7 @@ import { getBaseUrl } from '@/lib/utils'
 
 export async function GET(
   req: NextRequest,
-  { params }: RouteContext<'/llms.mdx/[...slugs]'>
+  { params }: RouteContext<'/llms/[...slugs]'>
 ) {
   const { slugs } = await params
   const { searchParams } = new URL(req.url)
@@ -26,7 +26,7 @@ export async function GET(
   if (!config) return notFound()
 
   const prompt = encodeURIComponent(
-    `Read ${getBaseUrl()}/llms.mdx${page.url}, I want to ask you some questions about it.`
+    `Read ${getBaseUrl()}/llms${page.url}, I want to ask you some questions about it.`
   )
 
   return NextResponse.redirect(
