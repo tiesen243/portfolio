@@ -69,12 +69,22 @@ const PROVIDERS = [
   },
   {
     label: 'Open in Claude',
-    href: 'https://claude.ai?q=',
+    href: 'https://claude.ai/new?q=',
     suffix: '',
   },
   {
     label: 'Open in Scira AI',
     href: 'https://scira.ai?q=',
+    suffix: '',
+  },
+  {
+    label: 'Open in Cursor',
+    href: 'https://cursor.com/link/prompt?text=',
+    suffix: '',
+  },
+  {
+    label: 'Open in Perplexity',
+    href: 'https://www.perplexity.ai/search?q=',
     suffix: '',
   },
 ]
