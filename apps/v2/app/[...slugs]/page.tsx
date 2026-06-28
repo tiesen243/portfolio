@@ -1,6 +1,8 @@
 import { InlineTOC } from '@fumadocs/base-ui/components/inline-toc'
 import { notFound } from 'next/navigation'
 
+import { CopyMarkdownButton } from '@/app/[...slugs]/_components/copy-markdown-button'
+import { OpenButton } from '@/app/[...slugs]/_components/open-button'
 import { getMDXComponents } from '@/components/mdx'
 import { TerminalContent } from '@/components/terminal'
 import { Badge } from '@/components/ui/badge'
@@ -14,7 +16,7 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
   const page = await getPage(slugs)
   if (!page) return notFound()
 
-  const { metadata, toc, content: Content } = page
+  const { metadata, toc, content: Content, plain } = page
 
   return (
     <TerminalContent command={`cat ~/${slugs.join('/')}`}>
@@ -36,7 +38,23 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
         <Typography>Published at: {metadata.publishedAt}</Typography>
       </div>
 
-      <InlineTOC items={toc} className='w-full' />
+      <div className='mb-4 flex items-center gap-2'>
+        <CopyMarkdownButton
+          content={`# ${metadata.title}
+
+${metadata.description}
+
+Tags: ${metadata.tags.join(', ')}
+
+Published at: ${metadata.publishedAt}
+
+
+${plain}`}
+        />
+        <OpenButton slugs={slugs} />
+      </div>
+
+      <InlineTOC items={toc} className='w-full rounded-none' />
 
       <article className='max-w-full [&>a]:hover:underline [&>h2]:my-4 [&>h3]:my-3 [&>h4]:my-2 [&>ol]:my-2 [&>p]:my-2 [&>ul]:my-2'>
         <Content components={getMDXComponents()} />
@@ -56,6 +74,7 @@ export async function generateMetadata({ params }: PageProps<'/[...slugs]'>) {
   return createMetadata({
     title: metadata.title,
     description: metadata.description,
+    keywords: metadata.tags,
     openGraph: {
       images: `/api/og?title=${encodeURIComponent(metadata.title)}&description=${encodeURIComponent(metadata.description)}`,
       url: `/${slugs.join('/')}`,

@@ -6,6 +6,9 @@ import path from 'node:path'
 import { cache } from 'react'
 import * as z from 'zod'
 
+import { github } from '@/lib/contants'
+import { getBaseUrl } from '@/lib/utils'
+
 const DOCS_PATH = path.resolve(process.cwd(), '../../docs')
 
 const frontmatterSchema = z.object({
@@ -69,12 +72,14 @@ const uncachedGetPage = async (
 ): Promise<{
   metadata: z.infer<typeof frontmatterSchema>
   content: MdxContent
+  plain: string
   toc: {
     title: React.ReactNode
     url: string
     depth: number
     _step?: number
   }[]
+  url: string
 } | null> => {
   try {
     const filePath = path.join(DOCS_PATH, `${slugs.join('/')}.mdx`)
@@ -88,12 +93,44 @@ const uncachedGetPage = async (
     return {
       metadata: frontmatterSchema.parse(compiledContent.frontmatter),
       content: compiledContent.body,
+      plain: source.replace(/---[\s\S]*?---/, '').trim(),
       toc: compiledContent.toc,
+      url: `/${slugs.join('/')}`,
     }
   } catch {
     return null
   }
 }
 
+const uncachedGetLLMFull = (
+  pages: Awaited<ReturnType<typeof uncachedGetPages>>
+) => {
+  let llmFull = '# Documentation\n\n'
+
+  for (const page of pages)
+    llmFull += `## ${page.metadata.title}
+${page.metadata.description}
+URL: ${getBaseUrl()}${page.url}\n\n`
+
+  return llmFull
+}
+
+const uncachedGetLLMText = (
+  page: Awaited<ReturnType<typeof uncachedGetPage>>
+) => {
+  if (!page) return null
+
+  const { metadata, url, plain } = page
+
+  return `# ${metadata.title}
+
+URL: ${getBaseUrl()}${url}
+Source: https://raw.githubusercontent.com/${github.username}/${github.repository}/main/docs/${url.slice(1)}.mdx
+
+${plain}`
+}
+
 export const getPages = cache(uncachedGetPages)
 export const getPage = cache(uncachedGetPage)
+export const getLLMFull = cache(uncachedGetLLMFull)
+export const getLLMText = cache(uncachedGetLLMText)
