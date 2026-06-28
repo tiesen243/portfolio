@@ -15,49 +15,42 @@ publishedAt: 2025-03-16
 
 ## Introduction
 
-**Yuki UI** is a modern UI component library for React, inspired by the flexibility and accessibility of [shadcn/ui](https://ui.shadcn.com/). Designed for developers who crave beautiful, easily customizable components out of the box, Yuki UI helps you ship polished interfaces faster—whether you're building with Next.js, TypeScript, or any modern React setup.
+**Yuki UI** is a personal side project by @tiesen243: a modern UI component library for React inspired by the flexibility and accessibility of [shadcn/ui](https://ui.shadcn.com/). This portfolio page demonstrates the project, its commands, and how the library is used in demo Next.js apps.
 
-[View the repo on GitHub](https://github.com/tiesen243/yuki-ui)
+- Repository: https://github.com/tiesen243/yuki-ui
+- Homepage / docs: https://ui.tiesen.id.vn
 
-[View the documentation](https://ui.tiesen.id.vn)
+## Quick commands
 
-## Features
+- Install dependencies:
+  - bun install
+- Development (local):
+  - bun dev
+- Build packages:
+  - bun run build
+- Typecheck / lint:
+  - bun run typecheck
+  - bun run lint
 
-- **Component-rich**: Access a suite of ready-to-use, stylish, and accessible React components.
-- **Built on shadcn/ui**: Extends the popular [shadcn/ui](https://ui.shadcn.com/) system for even more design power.
-- **Next.js Integration**: Optimized for Next.js apps, including font management and MDX documentation.
-- **TypeScript Support**: Fully typed components for safety and autocompletion.
-- **Custom Theming**: Easily override fonts, colors, and more using Tailwind and CSS variables.
-- **Flexible Install**: Quickly add individual components via command-line helpers.
+## Project layout & architecture (high level)
 
-## Quick Start
+- Monorepo with Bun workspaces.
+- apps/: contains example/demo apps (Next.js) that consume the component library and render docs.
+- tools/: shared configs and developer tooling (formatters, lint rules, doc helpers).
+- Central catalogs and packageManager define consistent dependency versions across the workspace.
 
-To use Yuki UI in your project:
+This setup keeps components, docs, and demo apps colocated so changes to components can be immediately validated in the example apps and documentation site.
 
-```sh
-bunx --bun shadcn add https://yuki-ui.vercel.app/r/{component-name}.json
-```
+## Scripts and workflow details
 
-## Technology & Architecture
+- Root scripts typically run scoped commands using Bun's --filter flag; to run a command for a single package use the same filter.
+  Example: bun --filter @yuki/web dev
+- There is no single global "test" script in the root; run tests per-package if present.
+- Formatting and linting use oxfmt and oxlint (matching the repository's devDependencies).
 
-- **React + Next.js:** Modern, performant SSR/SSG support.
-- **TypeScript:** Full type safety everywhere.
-- **Tailwind CSS:** Customizable theme with seamless integration.
-- **Fumadocs:** MDX-powered docs with dynamic code blocks and previews.
-- **Monorepo Ready:** Designed for scalable projects.
+## Key conventions
 
-## Advanced Utilities
-
-- **Dynamic MDX Previews:** Use `PreviewComponent` and `ComponentSource` for live demos and source code directly in docs.
-- **Base URL Handling:** Utilities for SSR-friendly URL resolution and deployment on platforms like Vercel.
-
-## Why Yuki UI?
-
-- **Beautiful by Default:** Components look great out of the box but are easy to theme.
-- **Accessible:** Follows best practices for accessibility and usability.
-- **Developer Experience:** DX-first design, including autocomplete, strict typing, and modern docs.
-- **Open Source:** MIT-licensed and ready for your team or personal project.
-
-## Conclusion
-
-Yuki UI is the foundation for your next modern React app, combining the best of shadcn/ui with thoughtful custom features and developer experience. Try it today and see how easy it is to build beautiful, accessible UIs.
+- Bun-first: Bun is the declared package manager (packageManager: "bun@1.3.0"). Use bun install / bun dev / bun run for consistent behavior.
+- Workspace filtering: Commands target packages via Bun filters (e.g., --filter @yuki/web). When editing docs or demo apps, run the app's dev script via the filter.
+- Shared tooling under tools/: prefer updating shared configs (oxc, tsconfig) there to affect all workspace packages.
+- Docs are MDX-driven (Fumadocs) and can include live previews; editing docs may require running the package postinstall hooks that generate MDX assets.

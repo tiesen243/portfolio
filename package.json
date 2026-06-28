@@ -11,9 +11,9 @@
     "tools/*"
   ],
   "scripts": {
-    "build": "bun run --filter @yuki/web build",
+    "build": "bun run --filter @yuki/web-v2 build",
     "clean": "bun run --filter '*' clean && git clean -xdf node_modules",
-    "dev": "bun run --filter @yuki/web dev",
+    "dev": "bun run --filter @yuki/web-v2 dev",
     "format": "oxfmt --check",
     "format:fix": "oxfmt --write",
     "lint": "oxlint",

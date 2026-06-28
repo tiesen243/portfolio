@@ -16,7 +16,7 @@ install:
 
 build-app:
 	@echo "Building application..."
-	@$(pkm) --filter @yuki/kaze build
+	@$(pkm) --filter @yuki/web-v2 build
 
 build-packages:
 	@echo "Building packages..."
@@ -28,7 +28,7 @@ build:
 
 dev:
 	@echo "Starting development server..."
-	@$(pkm) --filter @yuki/kaze dev
+	@$(pkm) --filter @yuki/web-v2 dev
 
 lint:
 	@echo "Linting code..."

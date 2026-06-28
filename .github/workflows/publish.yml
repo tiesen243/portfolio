@@ -4,7 +4,7 @@ on:
     branches:
       - main
     paths:
-      - 'apps/web/**'
+      - 'apps/v2/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -21,7 +21,7 @@ jobs:
       - uses: ./tools/github/actions/setup
 
       - name: Deploy to Production
-        run: bun --filter @yuki/web cf:deploy --stage prod
+        run: bun --filter @yuki/web-v2 cf:deploy --stage prod
         env:
           GITHUB_SHA: ${{ github.sha }}
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}

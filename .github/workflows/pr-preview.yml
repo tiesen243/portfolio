@@ -7,7 +7,7 @@ on:
       - synchronize
       - closed
     paths:
-      - 'apps/web/**'
+      - 'apps/v2/**'
 
 concurrency:
   group: pr-preview-${{ github.event.pull_request.number }}
@@ -24,11 +24,8 @@ jobs:
       - uses: actions/checkout@v6
       - uses: ./tools/github/actions/setup
 
-      - name: Build Shadcn Registry
-        run: bun --filter @yuki/web build:shadcn
-
       - name: Deploy Preview
-        run: bun --filter @yuki/web cf:deploy --stage pr-${{ github.event.pull_request.number }}
+        run: bun --filter @yuki/web-v2 cf:deploy --stage pr-${{ github.event.pull_request.number }}
         env:
           GITHUB_SHA: ${{ github.event.pull_request.head.sha }}
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
@@ -55,7 +52,7 @@ jobs:
       - uses: ./tools/github/actions/setup
 
       - name: Cleanup Preview
-        run: bun --filter @yuki/web cf:destroy --stage pr-${{ github.event.pull_request.number }}
+        run: bun --filter @yuki/web-v2 cf:destroy --stage pr-${{ github.event.pull_request.number }}
         env:
           GITHUB_SHA: ${{ github.event.pull_request.head.sha }}
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}

@@ -28,7 +28,7 @@ A modern, full-stack portfolio website showcasing my projects, blog posts, and t
 4. Start the development server:
 
    ```bash
-   bun dev
+   bun run --filter @yuki/web-v2 dev
    ```
 
 ## License
