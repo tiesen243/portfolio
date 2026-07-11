@@ -8,7 +8,8 @@
   },
   "workspaces": [
     "apps/*",
-    "tools/*"
+    "tools/*",
+    "!apps/web"
   ],
   "scripts": {
     "build": "bun run --filter @yuki/web-v2 build",
@@ -21,9 +22,9 @@
     "typecheck": "bun run --filter '*' typecheck"
   },
   "devDependencies": {
-    "oxfmt": "^0.56.0",
-    "oxlint": "^1.71.0",
-    "turbo": "^2.10.0"
+    "oxfmt": "^0.58.0",
+    "oxlint": "^1.73.0",
+    "turbo": "^2.10.4"
   },
   "packageManager": "bun@1.3.0",
   "catalogs": {
@@ -32,9 +33,9 @@
       "zod": "^4.4.3"
     },
     "dev": {
-      "@types/node": "^26.0.1",
+      "@types/node": "^26.1.1",
       "tsdown": "^0.21.7",
-      "typescript": "^6.0.3"
+      "typescript": "^7.0.2"
     },
     "react": {
       "@types/react": "^19.2.17",
@@ -43,9 +44,9 @@
       "react-dom": "^19.2.7"
     },
     "tailwind": {
-      "@tailwindcss/postcss": "^4.3.1",
+      "@tailwindcss/postcss": "^4.3.2",
       "@tailwindcss/vite": "^4.2.2",
-      "tailwindcss": "^4.3.1"
+      "tailwindcss": "^4.3.2"
     }
   }
 }
