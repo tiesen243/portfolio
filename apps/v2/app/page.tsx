@@ -99,6 +99,7 @@ export default function Page(_: PageProps<'/'>) {
             children: data.skills.map((skill) => ({
               content: skill.content,
               children: skill.children.map((sub) => ({
+                // oxlint-disable-next-line import/namespace
                 icon: icons[sub.icon as keyof typeof icons],
                 content: sub.content,
               })),
