@@ -55,6 +55,12 @@
       "liveDemo": "ui.tiesen.id.vn"
     },
     {
+      "title": "Effect Tanstack Query",
+      "description": "A lightweight, type-safe bridge between Effect HTTP API clients and TanStack Query.",
+      "repository": "github.com/tiesen243/effect-tanstack-query",
+      "liveDemo": "npmx.dev/package/@tiesen/effect-tanstack-query"
+    },
+    {
       "title": "vercel.nvim",
       "description": "A Neovim theme inspired by Vercel's design system, providing a sleek and modern look for your Neovim editor.",
       "repository": "github.com/tiesen243/vercel.nvim"
