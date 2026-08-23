@@ -362,7 +362,7 @@ bash <(curl -fsSL "https://raw.githubusercontent.com/tiesen243/dotfiles/main/ins
 
 <Callout>
   Note: I dont install GPU drivers in the installer, you can install it manually
-  by following the [GPU drivers](#5-install-gpu-drivers) section in the manual
+  by following the [GPU drivers](#3-install-gpu-drivers) section in the manual
   installation part.
 </Callout>
 
@@ -409,8 +409,8 @@ chsh -s $(which zsh)
 
 ```bash
 rm -rf ~/{.cache,.local,.zshrc}
-rm -rf ~/.config/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lazygit,lsd,matugen,niri,nvim,quickshell,zsh}
-ln -s ~/dotfiles/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lazygit,lsd,matugen,niri,nvim,quickshell,zsh} ~/.config
+rm -rf ~/.config/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lsd,matugen,niri,nvim,quickshell,zsh}
+ln -s ~/dotfiles/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lsd,matugen,niri,nvim,quickshell,zsh} ~/.config
 ln -s ~/dotfiles/zsh/.zshenv ~/.zshenv
 
 # For who like lowercase stuffs
@@ -437,28 +437,31 @@ xdg-user-dirs-update
   email = example@arch.btw
 ```
 
-2.3. Generate default theme
+2.3. Enable some services
 
 ```bash
-matugen color hex 3f5ec2 # replace with your color
+# ufw
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw default deny routed
+sudo ufw logging on
+sudo ufw logging low
+sudo ufw --force enable
+sudo systemctl enable --now ufw.service
+
+# bluetooth
+sudo systemctl enable --now bluetooth.service
+
+# power-profiles-daemon
+sudo systemctl enable --now power-profiles-daemon.service
+
+# docker
+yay -S --needed --noconfirm docker docker-buildx docker-compose
+sudo systemctl enable --now docker.service
+sudo usermod -aG docker $USER
 ```
 
-2.4. Make all scripts in the `dotfiles/scripts` directory executable:
-
-```bash
-sudo chmod +x ~/dotfiles/scripts/*
-```
-
-<Callout>
-  Add your avatar to `/usr/share/sddm/faces/$USER.face.icon` to show in the lock
-  screen
-</Callout>
-
-#### 3. Change Wallpaper
-
-Add your preferred wallpapers to ~/dotfiles/assets/wallpapers/. You can then toggle the wallpaper selector by open the Start Menu using Super+A and click the Wallpaper Selector icon (located at the bottom-right corner of the quick action buttons). After changing the wallpaper, it automatically generates color schemes based on the wallpaper and applies it to the system by using Matugen.
-
-#### 4. Install GPU drivers
+#### 3. Install GPU drivers
 
 To have better performance and support for your graphics card, you need to install the appropriate GPU drivers for your system. The installation process varies depending on the type of graphics card you have.
 
@@ -500,7 +503,7 @@ To have better performance and support for your graphics card, you need to insta
    sudo pacman -S mesa vulkan-radeon libva-mesa-driver mesa-vdpau
    ```
 
-#### 5. Add Cachyos's Optimized Repositories (optional)
+#### 4. Add Cachyos's Optimized Repositories (optional)
 
 CachyOS provides optimized repositories for Arch Linux that can improve the performance of your system. To add Cachyos's optimized repositories, you can follow the steps below:
 
@@ -520,7 +523,7 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 sudo pacman -Runs linux linux-headers
 ```
 
-#### 6. Splash screen on boot (optional)
+#### 5. Splash screen on boot (optional)
 
 To add a splash screen on boot, you can use `plymouth`. First, install the `plymouth` package and the `plymouth-theme-spinner` theme.
 
@@ -552,7 +555,7 @@ Theme=bgrt # or any theme you like
 sudo mkinitcpio -P
 ```
 
-#### 7. Install `nvm` for Node.js version management (it's required for some Neovim plugins)
+#### 6. Install `nvm` for Node.js version management (it's required for some Neovim plugins)
 
 To install `nvm` (Node Version Manager) for managing Node.js versions, you can follow the steps below:
 
@@ -587,50 +590,50 @@ To install `nvm` (Node Version Manager) for managing Node.js versions, you can f
    npm install -g bun@latest
    ```
 
-#### 8. Fix Screen Sharing
+#### 7. Fix Screen Sharing
 
 If you encounter issues while sharing your screen on OBS Studio, Discord, or web browsers under Wayland, you need to install and configure the correct `xdg-desktop-portal` backends for each environment.
 
-##### 8.1. For Hyprland
+1. For Hyprland
 
-Hyprland requires its own dedicated portal implementation to handle window and monitor capturing properly.
+   Hyprland requires its own dedicated portal implementation to handle window and monitor capturing properly.
 
-Install the required portal package:
+   Install the required portal package:
 
-```bash
-sudo pacman -S xdg-desktop-portal-hyprland
-```
+   ```bash
+   sudo pacman -S xdg-desktop-portal-hyprland
+   ```
 
-##### 8.2. For Niri
+2. For Niri
 
-Niri relies on the wlroots portal implementation for screen casting capabilities.
+   Niri relies on the wlroots portal implementation for screen casting capabilities.
 
-First, install the backend wrapper:
+   First, install the backend wrapper:
 
-```bash
-sudo pacman -S xdg-desktop-portal-wlr
-```
+   ```bash
+   sudo pacman -S xdg-desktop-portal-wlr
+   ```
 
-Next, you need to tell Niri to use `wlr` as its primary portal driver. Create or edit the Niri portal configuration file:
+   Next, you need to tell Niri to use `wlr` as its primary portal driver. Create or edit the Niri portal configuration file:
 
-```bash title="/usr/share/xdg-desktop-portal/niri-portals.conf"
-[preferred]
-default=wlr;gtk
-```
+   ```bash title="/usr/share/xdg-desktop-portal/niri-portals.conf"
+   [preferred]
+   default=wlr;gtk
+   ```
 
-##### 8.3. Verify and Restart Portals
+3. Verify and Restart Portals
 
-To apply the changes immediately without rebooting, force-restart the portal system services:
+   To apply the changes immediately without rebooting, force-restart the portal system services:
 
-```bash
-systemctl --user restart xdg-desktop-portal.service
-systemctl --user restart xdg-desktop-portal-hyprland.service # For Hyprland users
-systemctl --user restart xdg-desktop-portal-wlr.service # For Niri users
-```
+   ```bash
+   systemctl --user restart xdg-desktop-portal.service
+   systemctl --user restart xdg-desktop-portal-hyprland.service # For Hyprland users
+   systemctl --user restart xdg-desktop-portal-wlr.service # For Niri users
+   ```
 
-Or just reboot your system to ensure all changes take effect
+   Or just reboot your system to ensure all changes take effect
 
-#### 9. Fix windows 11 time
+#### 8. Fix windows 11 time
 
 If it show wrong time on Windows, you can run the following command to fix it
 
@@ -644,45 +647,42 @@ Or edit Registry Editor in Windows and change the value of `RealTimeIsUniversal`
 
 Here are the essential keybindings for navigating and controlling your Hyprland desktop environment. These shortcuts will help you efficiently manage windows, workspaces, applications, and system functions:
 
-| Keybinding                       | Action                                  |     Env      |
-| :------------------------------- | :-------------------------------------- | :----------: |
-| `Super + Q`                      | Kill active window                      |   **All**    |
-| `Super + Shift + Q`              | Exit / Quit compositor                  |   **All**    |
-| `Super + T`                      | Open terminal (Kitty)                   |   **All**    |
-| `Super + E`                      | Open file manager (Thunar)              |   **All**    |
-| `Super + B`                      | Open web browser (Zen Browser)          |   **All**    |
-| `Super + Space`                  | Application launcher (Quickshell)       |   **All**    |
-| `Super + V`                      | Clipboard history (Quickshell)          |   **All**    |
-| `Super + A`                      | Toggle start menu (Quickshell)          |   **All**    |
-| `Super + Shift + B`              | Toggle top bar (Quickshell)             |   **All**    |
-| `Super + Tab`                    | Toggle workspace overview               |   **Niri**   |
-| `Super + H/J/K/L`                | Move focus (Left/Down/Up/Right)         |   **All**    |
-| `Super + Shift + H/J/K/L`        | Move window/column (Left/Down/Up/Right) |   **All**    |
-| `Super + Shift + Ctrl + H/J/K/L` | Resize active window                    |   **All**    |
-| `Super + 1-9/0`                  | Switch to workspace 1-10                |   **All**    |
-| `Super + Shift + 1-9/0`          | Move window/column to workspace 1-10    |   **All**    |
-| `Super + Comma`                  | Consume/Expel window to the left        |   **All**    |
-| `Super + Period`                 | Consume/Expel window to the right       |   **All**    |
-| `Super + R`                      | Cycle / Expand column width preset      |   **All**    |
-| `Super + Shift + R`              | Cycle / Shrink column width preset      |   **All**    |
-| `Super + C`                      | Center active column/window             |   **All**    |
-| `Super + F`                      | Toggle maximized layout                 |   **All**    |
-| `Super + Shift + F`              | Toggle true fullscreen mode             |   **All**    |
-| `Super + Ctrl + F`               | Toggle window floating state            |   **All**    |
-| `Super + Mouse Wheel`            | Scroll through existing workspaces      |   **All**    |
-| `Super + Left Click (Drag)`      | Move active window around               | **Hyprland** |
-| `Super + Right Click (Drag)`     | Resize active window visually           | **Hyprland** |
-| `Print` / `Super + S`            | Screenshot a selected region            |   **All**    |
-| `Super + Shift + S`              | Screenshot the full screen              |   **All**    |
-| `XF86AudioRaiseVolume`           | System volume up (5%+)                  |   **All**    |
-| `XF86AudioLowerVolume`           | System volume down (5%-)                |   **All**    |
-| `XF86AudioMute`                  | Toggle audio output mute                |   **All**    |
-| `XF86AudioMicMute`               | Toggle microphone input mute            |   **All**    |
-| `XF86MonBrightnessUp`            | Laptop panel brightness up (5%+)        |   **All**    |
-| `XF86MonBrightnessDown`          | Laptop panel brightness down (5%-)      |   **All**    |
-| `XF86AudioPlay` / `Pause`        | Media player toggle play/pause          |   **All**    |
-| `XF86AudioNext` / `Prev`         | Media player skip track next/previous   |   **All**    |
-| `XF86AudioStop`                  | Stop media playback                     |   **All**    |
+| Keybinding                | Action                                  |
+| :------------------------ | :-------------------------------------- |
+| `Super + Q`               | Close active window                     |
+| `Super + T`               | Open terminal (Kitty)                   |
+| `Super + E`               | Open file manager (Thunar)              |
+| `Super + B`               | Open web browser (Zen Browser)          |
+| `Super + Space`           | Toggle application launcher             |
+| `Super + V`               | Toggle clipboard history                |
+| `Super + A`               | Toggle control center                   |
+| `Super + X`               | Toggle session menu                     |
+| `Super + Tab`             | Toggle workspace overview               |
+| `Super + H/J/K/L`         | Move focus (Left/Down/Up/Right)         |
+| `Super + Shift + H/J/K/L` | Move window/column (Left/Down/Up/Right) |
+| `Super + Ctrl + H/J/K/L`  | Resize window height/width (-1% / +1%)  |
+| `Super + 1-9`             | Switch to workspace 1-9                 |
+| `Super + Shift + 1-9`     | Move window/column to workspace 1-9     |
+| `Super + Comma`           | Consume or expel window to the left     |
+| `Super + Period`          | Consume or expel window to the right    |
+| `Super + R`               | Switch preset column width              |
+| `Super + Shift + R`       | Switch preset column width (Backwards)  |
+| `Super + C`               | Center active column                    |
+| `Super + F`               | Maximize active column                  |
+| `Super + Shift + F`       | Toggle fullscreen mode                  |
+| `Super + Ctrl + F`        | Toggle window floating state            |
+| `Super + Mouse Wheel`     | Scroll through workspaces (Up/Down)     |
+| `Print` / `Super + S`     | Screenshot a selected region            |
+| `Super + Shift + S`       | Screenshot full screen                  |
+| `XF86AudioRaiseVolume`    | System volume up (5%+)                  |
+| `XF86AudioLowerVolume`    | System volume down (5%-)                |
+| `XF86AudioMute`           | Toggle audio output mute                |
+| `XF86AudioMicMute`        | Toggle microphone input mute            |
+| `XF86MonBrightnessUp`     | Screen brightness up (5%+)              |
+| `XF86MonBrightnessDown`   | Screen brightness down (5%-)            |
+| `XF86AudioPlay`           | Media player play/pause                 |
+| `XF86AudioStop`           | Stop media playback                     |
+| `XF86AudioNext` / `Prev`  | Media player skip track next/previous   |
 
 <Callout>
 

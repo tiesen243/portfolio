@@ -6,7 +6,7 @@ import { appName } from '@/lib/shared'
 
 export const revalidate = false
 
-export async function GET(req: Request, _: RouteContext<'/api/og'>) {
+export async function GET(req: Request, _context: RouteContext<'/api/og'>) {
   const url = new URL(req.url)
 
   const title = url.searchParams.get('title') ?? ''

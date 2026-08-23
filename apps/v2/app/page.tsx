@@ -42,8 +42,8 @@ export default function Page(_: PageProps<'/'>) {
           {Object.entries(data.personalInfo).map(([key, value]) => (
             <Typography key={key}>
               {key
-                .replaceAll(/([A-Z])/g, ' $1')
-                .replace(/^./, (str) => str.toUpperCase())}
+                .replaceAll(/[A-Z]/gu, ' $1')
+                .replace(/^./u, (str) => str.toUpperCase())}
               : <span className='font-bold'>{String(value)}</span>
             </Typography>
           ))}

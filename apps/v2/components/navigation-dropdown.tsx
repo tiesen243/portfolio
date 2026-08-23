@@ -19,32 +19,30 @@ import {
 import { getPages } from '@/lib/source'
 
 export const NavigationDropdown: React.FC = async () => {
-  try {
-    const [blogs, projects] = await Promise.all([
-      getPages('blogs'),
-      getPages('projects'),
-    ])
+  const [blogs, projects] = await Promise.allSettled([
+    getPages('blogs'),
+    getPages('projects'),
+  ])
 
-    return (
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          render={<Button variant='outline' size='icon-sm' />}
-        >
-          <MenuIcon />
-          <span className='sr-only'>Toggle navigation menu</span>
-        </DropdownMenuTrigger>
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button variant='outline' size='icon-sm' />}>
+        <MenuIcon />
+        <span className='sr-only'>Toggle navigation menu</span>
+      </DropdownMenuTrigger>
 
-        <DropdownMenuContent align='end'>
-          <DropdownMenuItem render={<Link href='/' />}>
-            <CodeXmlIcon /> Portfolio
-          </DropdownMenuItem>
+      <DropdownMenuContent align='end'>
+        <DropdownMenuItem render={<Link href='/' />}>
+          <CodeXmlIcon /> Portfolio
+        </DropdownMenuItem>
 
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger render={<Link href='/blogs' />}>
-              <FolderPenIcon /> <span className='flex-1'>Blogs</span>
-            </DropdownMenuSubTrigger>
-            <DropdownMenuSubContent>
-              {blogs.map((blog) => (
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger render={<Link href='/blogs' />}>
+            <FolderPenIcon /> <span className='flex-1'>Blogs</span>
+          </DropdownMenuSubTrigger>
+          <DropdownMenuSubContent>
+            {blogs.status === 'fulfilled' &&
+              blogs.value.map((blog) => (
                 <DropdownMenuItem
                   key={blog.url}
                   render={<Link href={blog.url} />}
@@ -52,15 +50,16 @@ export const NavigationDropdown: React.FC = async () => {
                   {blog.name}.mdx
                 </DropdownMenuItem>
               ))}
-            </DropdownMenuSubContent>
-          </DropdownMenuSub>
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
 
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger render={<Link href='/projects' />}>
-              <FolderKanbanIcon /> <span className='flex-1'>Projects</span>
-            </DropdownMenuSubTrigger>
-            <DropdownMenuSubContent>
-              {projects.map((project) => (
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger render={<Link href='/projects' />}>
+            <FolderKanbanIcon /> <span className='flex-1'>Projects</span>
+          </DropdownMenuSubTrigger>
+          <DropdownMenuSubContent>
+            {projects.status === 'fulfilled' &&
+              projects.value.map((project) => (
                 <DropdownMenuItem
                   key={project.url}
                   render={<Link href={project.url} />}
@@ -68,17 +67,9 @@ export const NavigationDropdown: React.FC = async () => {
                   {project.name}.mdx
                 </DropdownMenuItem>
               ))}
-            </DropdownMenuSubContent>
-          </DropdownMenuSub>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    )
-  } catch {
-    return (
-      <Button variant='outline' size='icon-sm'>
-        <MenuIcon />
-        <span className='sr-only'>Toggle navigation menu</span>
-      </Button>
-    )
-  }
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
 }

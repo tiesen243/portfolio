@@ -95,7 +95,7 @@ const uncachedGetPage = async (
     return {
       metadata: frontmatterSchema.parse(compiledContent.frontmatter),
       content: compiledContent.body,
-      plain: source.replace(/---[\s\S]*?---/, '').trim(),
+      plain: source.replace(/---[\s\S]*?---/u, '').trim(),
       toc: compiledContent.toc,
       url: `/${slugs.join('/')}`,
     }

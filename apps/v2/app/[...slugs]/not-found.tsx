@@ -17,7 +17,7 @@ export default function DocsNotFoundPage() {
 
       <TerminalContent command={`ls ~${pathname}`} className='flex-col'>
         <Typography>
-          ls: cannot access '{pathname}': No such file or directory
+          ls: cannot access &apos;{pathname}&apos;: No such file or directory
         </Typography>
         <Button
           variant='outline'
