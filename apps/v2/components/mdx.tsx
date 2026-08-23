@@ -48,6 +48,15 @@ export function getMDXComponents(components?: MDXComponents) {
         {...(props as React.ComponentProps<typeof Typography>)}
       />
     ),
+    code: ({ className, ...props }) => (
+      <code
+        className={cn(
+          'not-[pre_*]:relative not-[pre_*]:w-fit not-[pre_*]:border not-[pre_*]:border-accent not-[pre_*]:bg-accent/40 not-[pre_*]:px-[0.3rem] not-[pre_*]:py-[0.2rem] not-[pre_*]:font-mono not-[pre_*]:text-sm not-[pre_*]:font-medium not-[pre_*]:text-accent-foreground',
+          className
+        )}
+        {...props}
+      />
+    ),
     table: ({ className, ...props }) => (
       <div
         data-slot='table-container'

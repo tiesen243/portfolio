@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 
+import { ContactForm } from '@/components/contact-form'
 import { TerminalContent } from '@/components/terminal'
 import { Tree } from '@/components/tree'
 import * as icons from '@/components/ui/icons'
@@ -238,7 +239,12 @@ export default function Page(_: PageProps<'/'>) {
       <TerminalContent id='contact' command='cat ~/contact.txt'>
         <h2 className='sr-only'>Contact section</h2>
 
-        <Typography variant='ul' className='ml-0 list-none'>
+        <ContactForm />
+
+        <Typography
+          variant='ul'
+          className='mb-4 ml-0 list-none md:mb-0 md:ml-4'
+        >
           {data.contact.map((contact) => (
             <li key={contact.type}>
               {contact.type.charAt(0).toUpperCase() + contact.type.slice(1)}:{' '}
