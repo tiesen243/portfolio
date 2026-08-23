@@ -239,11 +239,17 @@ export default function Page(_: PageProps<'/'>) {
       <TerminalContent id='contact' command='cat ~/contact.txt'>
         <h2 className='sr-only'>Contact section</h2>
 
+        <Typography className='mb-2'>
+          Feel free to reach out to me through the following channels or by
+          filling out the contact form below. I look forward to connecting with
+          you!
+        </Typography>
+
         <ContactForm />
 
         <Typography
           variant='ul'
-          className='mb-4 ml-0 list-none md:mb-0 md:ml-4'
+          className='mb-2 ml-0 list-none min-[62rem]:mb-0 min-[62rem]:ml-4'
         >
           {data.contact.map((contact) => (
             <li key={contact.type}>
