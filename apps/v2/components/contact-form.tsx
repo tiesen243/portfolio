@@ -41,13 +41,14 @@ export const ContactForm: React.FC = () => {
       <FieldSet disabled={isSubmitting}>
         <FieldGroup>
           <Field>
-            <FieldLabel>Name</FieldLabel>
-            <Input name='name' placeholder='Yukikaze' required />
+            <FieldLabel htmlFor='name'>Name</FieldLabel>
+            <Input id='name' name='name' placeholder='Yukikaze' required />
           </Field>
 
           <Field>
-            <FieldLabel>Email</FieldLabel>
+            <FieldLabel htmlFor='email'>Email</FieldLabel>
             <Input
+              id='email'
               type='email'
               name='email'
               placeholder='yukikaze@tiesen.id.vn'
@@ -56,8 +57,9 @@ export const ContactForm: React.FC = () => {
           </Field>
 
           <Field>
-            <FieldLabel>Message</FieldLabel>
+            <FieldLabel htmlFor='message'>Message</FieldLabel>
             <Textarea
+              id='message'
               name='message'
               placeholder='Write your message here...'
               required
