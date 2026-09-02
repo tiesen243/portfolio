@@ -79,8 +79,14 @@
     {
       "company": "Tiesen",
       "role": "CEO & Founder",
-      "duration": "2004 - Present",
+      "duration": "06/2004 - Present",
       "description": "I have no idea what I am doing ᗜ˰ᗜ"
+    },
+    {
+      "company": "Vietnam Posts and Telecommunications Group (VNPT)",
+      "role": "Internship",
+      "duration": "06/2026 - 08/2026",
+      "description": "Participated in VNPT's enterprise internship program as part of the academic curriculum. Worked alongside industry experts to apply theoretical knowledge to real-world telecommunications and networking projects."
     }
   ],
   "certificates": [

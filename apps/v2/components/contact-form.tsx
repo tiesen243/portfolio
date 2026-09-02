@@ -36,7 +36,7 @@ export const ContactForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className='order-last w-full max-w-lg min-[62rem]:order-0'
+      className='order-last w-full max-w-lg min-[62rem]:order-0 bg-card p-4 border shadow-sm'
     >
       <FieldSet disabled={isSubmitting}>
         <FieldGroup>

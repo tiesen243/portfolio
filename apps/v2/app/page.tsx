@@ -43,7 +43,7 @@ export default function Page(_: PageProps<'/'>) {
           {Object.entries(data.personalInfo).map(([key, value]) => (
             <Typography key={key}>
               {key
-                .replaceAll(/[A-Z]/gu, ' $1')
+                .replaceAll(/[A-Z]/gu, (match) => ` ${match}`)
                 .replace(/^./u, (str) => str.toUpperCase())}
               : <span className='font-bold'>{String(value)}</span>
             </Typography>
@@ -82,8 +82,6 @@ export default function Page(_: PageProps<'/'>) {
                 href: '/projects',
                 children: [],
               },
-              { content: 'portfolio', href: '/#portfolio', children: [] },
-              { content: 'contact.txt', href: '/#contact' },
               { content: 'cv-en.pdf', href: '/assets/cv-en.pdf' },
               { content: 'cv-vi.pdf', href: '/assets/cv-vi.pdf' },
             ],
@@ -99,6 +97,7 @@ export default function Page(_: PageProps<'/'>) {
             content: '.',
             children: data.skills.map((skill) => ({
               content: skill.content,
+              direction: 'horizontal',
               children: skill.children.map((sub) => ({
                 // oxlint-disable-next-line import/namespace
                 icon: icons[sub.icon as keyof typeof icons],
@@ -239,18 +238,14 @@ export default function Page(_: PageProps<'/'>) {
       <TerminalContent id='contact' command='cat ~/contact.txt'>
         <h2 className='sr-only'>Contact section</h2>
 
-        <Typography className='mb-2'>
-          Feel free to reach out to me through the following channels or by
-          filling out the contact form below. I look forward to connecting with
-          you!
-        </Typography>
-
         <ContactForm />
 
         <Typography
           variant='ul'
-          className='mb-2 ml-0 list-none min-[62rem]:mb-0 min-[62rem]:ml-4'
+          className='mb-2 ml-0 list-none min-[62rem]:mb-0 min-[62rem]:ml-4 bg-card p-4 border h-fit shadow-sm'
         >
+          <li className='font-bold'>Contact Information:</li>
+
           {data.contact.map((contact) => (
             <li key={contact.type}>
               {contact.type.charAt(0).toUpperCase() + contact.type.slice(1)}:{' '}
