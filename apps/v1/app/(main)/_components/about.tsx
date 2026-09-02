@@ -5,7 +5,7 @@ import data from '@/data' with { type: 'json' }
 
 export const AboutSection: React.FC = () => (
   <section id='about' className='container grid md:grid-cols-3'>
-    <div className='md:col-span-2 space-y-2'>
+    <div className='space-y-2 md:col-span-2'>
       <Typography variant='h2'>About Me</Typography>
       <Typography>{data.bio}</Typography>
 

@@ -18,7 +18,7 @@
       "outputLogs": "new-only"
     }
   },
-  "globalEnv": ["APP_URL", "RESEND_TOKEN", "PORT"],
+  "globalEnv": ["APP_URL", "RESEND_API_KEY", "PORT"],
   "globalPassThroughEnv": [
     "CI",
     "MODE",
