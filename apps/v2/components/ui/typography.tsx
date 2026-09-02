@@ -20,7 +20,8 @@ const typographyVariants = cva('text-base font-normal', {
       blockquote:
         'inline-block border-l-2 pl-6 italic before:content-["“"] after:content-["”"]',
       code: 'relative w-fit rounded-sm border border-accent bg-accent/40 px-[0.3rem] py-[0.2rem] font-mono text-sm font-medium text-accent-foreground',
-      caption: 'block text-center text-sm tracking-wide text-muted-foreground',
+      caption:
+        'mt-1 block text-center text-sm tracking-wide text-muted-foreground',
     },
   },
   defaultVariants: {

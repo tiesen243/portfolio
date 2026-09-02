@@ -54,7 +54,7 @@ export default function Page(_: PageProps<'/'>) {
       <TerminalContent id='README.md' command='cat ~/portfolio/README.md'>
         <h2 className='sr-only'>Bio section</h2>
 
-        <Typography>{data.bio}</Typography>
+        <Typography className='text-justify'>{data.bio}</Typography>
       </TerminalContent>
 
       <TerminalContent command='echo $QUOTE'>
