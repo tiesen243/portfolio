@@ -1,12 +1,12 @@
 import '@/app/globals.css'
 
+import { cn } from '@yuki/ui/lib/utils'
 import { Noto_Serif_Georgian, Geist, Geist_Mono } from 'next/font/google'
 
 import { Header } from '@/components/header'
 import { Provider } from '@/components/provider'
 import { Terminal } from '@/components/terminal'
 import { createMetadata } from '@/lib/create-metadata'
-import { cn } from '@/lib/utils'
 
 const georgianSerif = Noto_Serif_Georgian({ variable: '--font-serif' })
 const geistSans = Geist({ variable: '--font-sans' })

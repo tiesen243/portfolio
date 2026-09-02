@@ -22,7 +22,7 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v6
-      - uses: ./tools/github/actions/setup
+      - uses: ./packages/github/actions/setup
 
       - name: Deploy Preview
         run: bun --filter @yuki/web-v2 cf:deploy --stage pr-${{ github.event.pull_request.number }}
@@ -49,7 +49,7 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v6
-      - uses: ./tools/github/actions/setup
+      - uses: ./packages/github/actions/setup
 
       - name: Cleanup Preview
         run: bun --filter @yuki/web-v2 cf:destroy --stage pr-${{ github.event.pull_request.number }}

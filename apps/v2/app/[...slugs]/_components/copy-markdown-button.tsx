@@ -1,8 +1,8 @@
 'use client'
-import { CopyCheckIcon, CopyIcon } from 'lucide-react'
-import { useState } from 'react'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@yuki/ui/components/button'
+import { CopyCheckIcon, CopyIcon } from '@yuki/ui/components/icons'
+import { useState } from 'react'
 
 export const CopyMarkdownButton: React.FC<{ content: string }> = ({
   content,

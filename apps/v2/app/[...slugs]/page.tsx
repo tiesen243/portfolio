@@ -1,12 +1,12 @@
 import { InlineTOC } from '@fumadocs/base-ui/components/inline-toc'
+import { Badge } from '@yuki/ui/components/badge'
+import { Typography } from '@yuki/ui/components/typography'
 import { notFound } from 'next/navigation'
 
 import { CopyMarkdownButton } from '@/app/[...slugs]/_components/copy-markdown-button'
 import { OpenButton } from '@/app/[...slugs]/_components/open-button'
 import { getMDXComponents } from '@/components/mdx'
 import { TerminalContent } from '@/components/terminal'
-import { Badge } from '@/components/ui/badge'
-import { Typography } from '@/components/ui/typography'
 import { createMetadata } from '@/lib/create-metadata'
 import { getPage, getPages } from '@/lib/source'
 

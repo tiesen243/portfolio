@@ -1,6 +1,6 @@
 'use server'
 
-import data from '@/public/assets/data.json' assert { type: 'json' }
+import data from '@/public/assets/data.json' with { type: 'json' }
 
 const [email] = data.contact
 

@@ -1,16 +1,10 @@
-import {
-  FileBoxIcon,
-  FileTextIcon,
-  FolderKanbanIcon,
-  FolderPenIcon,
-} from 'lucide-react'
+import * as icons from '@yuki/ui/components/icons'
+import { Typography } from '@yuki/ui/components/typography'
 import Image from 'next/image'
 
 import { ContactForm } from '@/components/contact-form'
 import { TerminalContent } from '@/components/terminal'
 import { Tree } from '@/components/tree'
-import * as icons from '@/components/ui/icons'
-import { Typography } from '@/components/ui/typography'
 import data from '@/public/assets/data.json' with { type: 'json' }
 
 export default function Page(_: PageProps<'/'>) {
@@ -71,13 +65,13 @@ export default function Page(_: PageProps<'/'>) {
             content: '.',
             children: [
               {
-                icon: FolderPenIcon,
+                icon: icons.FolderPenIcon,
                 content: 'blogs',
                 href: '/blogs',
                 children: [],
               },
               {
-                icon: FolderKanbanIcon,
+                icon: icons.FolderKanbanIcon,
                 content: 'projects',
                 href: '/projects',
                 children: [],
@@ -100,7 +94,9 @@ export default function Page(_: PageProps<'/'>) {
               direction: 'horizontal',
               children: skill.children.map((sub) => ({
                 // oxlint-disable-next-line import/namespace
-                icon: icons[sub.icon as keyof typeof icons],
+                icon: icons[sub.icon as keyof typeof icons] as React.FC<
+                  React.SVGProps<SVGSVGElement>
+                >,
                 content: sub.content,
               })),
             })),
@@ -118,7 +114,7 @@ export default function Page(_: PageProps<'/'>) {
           node={{
             content: '.',
             children: data.projects.map((project) => ({
-              icon: FolderKanbanIcon,
+              icon: icons.FolderKanbanIcon,
               content: (
                 <>
                   <Typography className='font-bold text-primary'>
@@ -163,7 +159,7 @@ export default function Page(_: PageProps<'/'>) {
           node={{
             content: '.',
             children: data.education.map((edu) => ({
-              icon: FileTextIcon,
+              icon: icons.FileTextIcon,
               content: (
                 <>
                   <div className='flex flex-wrap items-center gap-2 text-primary [&>p]:font-bold'>
@@ -189,7 +185,7 @@ export default function Page(_: PageProps<'/'>) {
           node={{
             content: '.',
             children: data.experience.map((exp) => ({
-              icon: FileBoxIcon,
+              icon: icons.FileBoxIcon,
               content: (
                 <>
                   <div className='flex flex-wrap items-center gap-2 text-primary [&>p]:font-bold'>
@@ -217,7 +213,7 @@ export default function Page(_: PageProps<'/'>) {
           node={{
             content: '.',
             children: data.certificates.map((cert) => ({
-              icon: FileTextIcon,
+              icon: icons.FileTextIcon,
               href: cert.credential,
               content: (
                 <>
@@ -242,7 +238,7 @@ export default function Page(_: PageProps<'/'>) {
 
         <Typography
           variant='ul'
-          className='mb-2 ml-0 list-none min-[62rem]:mb-0 min-[62rem]:ml-4 bg-card p-4 border h-fit shadow-sm'
+          className='mb-2 ml-0 h-fit list-none border bg-card p-4 shadow-sm min-[62rem]:mb-0 min-[62rem]:ml-4'
         >
           <li className='font-bold'>Contact Information:</li>
 

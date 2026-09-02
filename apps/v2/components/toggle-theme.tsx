@@ -1,10 +1,9 @@
 'use client'
 
-import { MoonIcon, SunIcon } from 'lucide-react'
+import { Button } from '@yuki/ui/components/button'
+import { MoonIcon, SunIcon } from '@yuki/ui/components/icons'
+import { useMounted } from '@yuki/ui/hooks/use-mounted'
 import { useTheme } from 'next-themes'
-
-import { Button } from '@/components/ui/button'
-import { useMounted } from '@/hooks/use-mouted'
 
 export const ToggleTheme: React.FC = () => {
   const { theme, setTheme } = useTheme()

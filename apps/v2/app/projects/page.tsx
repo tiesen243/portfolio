@@ -1,9 +1,9 @@
-import { FileCodeIcon } from 'lucide-react'
+import { FileCodeIcon } from '@yuki/ui/components/icons'
+import { Typography } from '@yuki/ui/components/typography'
 import Image from 'next/image'
 
 import { TerminalContent } from '@/components/terminal'
 import { Tree } from '@/components/tree'
-import { Typography } from '@/components/ui/typography'
 import { createMetadata } from '@/lib/create-metadata'
 import { getPages } from '@/lib/source'
 import data from '@/public/assets/data.json' with { type: 'json' }

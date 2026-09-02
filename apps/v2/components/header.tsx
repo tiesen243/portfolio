@@ -1,7 +1,7 @@
+import { Typography } from '@yuki/ui/components/typography'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Typography } from '@/components/ui/typography'
 import data from '@/public/assets/data.json' with { type: 'json' }
 import logo from '@/public/assets/logo.svg' with { type: 'image/svg+xml' }
 

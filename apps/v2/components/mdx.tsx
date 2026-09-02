@@ -3,10 +3,9 @@ import type { MDXComponents } from 'mdx/types'
 import { Callout } from '@fumadocs/base-ui/components/callout'
 import * as TabComponents from '@fumadocs/base-ui/components/tabs'
 import defaultMdxComponents from '@fumadocs/base-ui/mdx'
+import { Typography } from '@yuki/ui/components/typography'
+import { cn } from '@yuki/ui/lib/utils'
 import Link from 'next/link'
-
-import { Typography } from '@/components/ui/typography'
-import { cn } from '@/lib/utils'
 
 export function getMDXComponents(components?: MDXComponents) {
   return {

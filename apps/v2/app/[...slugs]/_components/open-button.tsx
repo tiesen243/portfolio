@@ -1,12 +1,12 @@
-import { ChevronDownIcon, ExternalLinkIcon } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
+import { Button } from '@yuki/ui/components/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@yuki/ui/components/dropdown-menu'
+import { ChevronDownIcon, ExternalLinkIcon } from '@yuki/ui/components/icons'
+
 import { github } from '@/lib/contants'
 import { getBaseUrl } from '@/lib/utils'
 

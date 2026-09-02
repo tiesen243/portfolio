@@ -43,7 +43,8 @@ const uncachedGetPages = async (
   }[]
 > => {
   try {
-    const files = await fs.readdir(path.join(DOCS_PATH, dir))
+    const _files = await fs.readdir(path.join(DOCS_PATH, dir))
+    const files = _files.filter((file) => path.parse(file).name !== 'index')
 
     const promises = files.map(async (file) => {
       const filePath = path.join(DOCS_PATH, dir, file)

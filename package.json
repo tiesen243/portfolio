@@ -8,18 +8,18 @@
   },
   "workspaces": [
     "apps/*",
-    "tools/*",
-    "!apps/web"
+    "packages/*"
   ],
   "scripts": {
-    "build": "bun run --filter @yuki/web-v2 build",
-    "clean": "bun run --filter '*' clean && git clean -xdf node_modules",
-    "dev": "bun run --filter @yuki/web-v2 dev",
+    "build:v2": "turbo run --filter @yuki/web-v2 build",
+    "build:v1": "turbo run --filter @yuki/web-v1 build",
+    "clean": "turbo run clean && git clean -xdf node_modules",
+    "dev": "turbo run --filter @yuki/web-v2 dev --continue",
     "format": "oxfmt --check",
     "format:fix": "oxfmt --write",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "typecheck": "bun run --filter '*' typecheck"
+    "typecheck": "turbo run --filter '*' typecheck"
   },
   "devDependencies": {
     "oxfmt": "^0.66.0",
@@ -34,14 +34,15 @@
     },
     "dev": {
       "@types/node": "^26.4.1",
-      "tsdown": "^0.21.7",
+      "tsdown": "^0.22.14",
       "typescript": "^7.0.2"
     },
     "react": {
       "@types/react": "^19.2.18",
       "@types/react-dom": "^19.2.5",
       "react": "^19.2.8",
-      "react-dom": "^19.2.8"
+      "react-dom": "^19.2.8",
+      "next": "^16.3.4"
     },
     "tailwind": {
       "@tailwindcss/postcss": "^4.3.3",

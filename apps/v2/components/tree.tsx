@@ -1,8 +1,7 @@
-import { FileIcon, FolderIcon, FolderOpenIcon } from 'lucide-react'
+import { FileIcon, FolderIcon, FolderOpenIcon } from '@yuki/ui/components/icons'
+import { Typography } from '@yuki/ui/components/typography'
+import { cn } from '@yuki/ui/lib/utils'
 import Link from 'next/link'
-
-import { Typography } from '@/components/ui/typography'
-import { cn } from '@/lib/utils'
 
 interface TreeNode {
   content: React.ReactNode
@@ -58,7 +57,7 @@ export const Tree: React.FC<TreeProps> = ({ node }) => {
                 className={cn(
                   'relative flex flex-col pb-1',
                   direction === 'vertical'
-                    ? 'before:absolute before:top-0 -left-2 before:left-0 before:h-full before:w-px before:bg-input last:before:h-4'
+                    ? '-left-2 before:absolute before:top-0 before:left-0 before:h-full before:w-px before:bg-input last:before:h-4'
                     : 'left-2'
                 )}
               >

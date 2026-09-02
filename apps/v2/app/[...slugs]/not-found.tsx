@@ -1,12 +1,12 @@
 'use client'
 
-import { ArrowRightIcon } from 'lucide-react'
+import { Button } from '@yuki/ui/components/button'
+import { ArrowRightIcon } from '@yuki/ui/components/icons'
+import { Typography } from '@yuki/ui/components/typography'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { TerminalContent } from '@/components/terminal'
-import { Button } from '@/components/ui/button'
-import { Typography } from '@/components/ui/typography'
 
 export default function DocsNotFoundPage() {
   const pathname = usePathname()

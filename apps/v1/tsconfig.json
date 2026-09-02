@@ -1,0 +1,20 @@
+{
+  "extends": "@yuki/tsconfig/react-package.json",
+  "compilerOptions": {
+    "plugins": [{ "name": "next" }],
+    "paths": {
+      "@/*": ["./*"],
+      "@/data": ["../v2/public/assets/data.json"],
+      "@/assets/*": ["../v2/public/assets/*"],
+      "collections/*": ["./.source/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}

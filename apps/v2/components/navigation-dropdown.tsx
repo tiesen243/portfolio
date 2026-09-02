@@ -1,12 +1,4 @@
-import {
-  CodeXmlIcon,
-  FolderKanbanIcon,
-  FolderPenIcon,
-  MenuIcon,
-} from 'lucide-react'
-import Link from 'next/link'
-
-import { Button } from '@/components/ui/button'
+import { Button } from '@yuki/ui/components/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,7 +7,15 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@yuki/ui/components/dropdown-menu'
+import {
+  CodeXmlIcon,
+  FolderKanbanIcon,
+  FolderPenIcon,
+  MenuIcon,
+} from '@yuki/ui/components/icons'
+import Link from 'next/link'
+
 import { getPages } from '@/lib/source'
 
 export const NavigationDropdown: React.FC = async () => {

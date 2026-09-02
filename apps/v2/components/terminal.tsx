@@ -1,7 +1,8 @@
+import { Typography } from '@yuki/ui/components/typography'
+import { cn } from '@yuki/ui/lib/utils'
+
 import { NavigationDropdown } from '@/components/navigation-dropdown'
 import { ToggleTheme } from '@/components/toggle-theme'
-import { Typography } from '@/components/ui/typography'
-import { cn } from '@/lib/utils'
 import data from '@/public/assets/data.json' with { type: 'json' }
 
 export function Terminal({

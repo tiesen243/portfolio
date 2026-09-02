@@ -1,8 +1,8 @@
 import type { NextRequest } from 'next/server'
 
+import { OpenGraph } from '@yuki/ui/components/open-graph'
 import { ImageResponse } from 'next/og'
 
-import { OpenGraph } from '@/components/ui/open-graph'
 import { appName } from '@/lib/contants'
 
 export const GET = (request: NextRequest) => {

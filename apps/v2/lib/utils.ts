@@ -1,5 +1,3 @@
-export { cn } from 'cnfast'
-
 export function getBaseUrl() {
   if (typeof window !== 'undefined') return window.location.origin
   if (process.env.VERCEL_PROJECT_PRODUCTION_URL)

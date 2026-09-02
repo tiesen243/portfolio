@@ -1,0 +1,36 @@
+{
+  "name": "@yuki/web-v1",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "next build",
+    "clean": "git clean -xdf .cache .next .source node_modules",
+    "dev": "next dev",
+    "postinstall": "fumadocs-mdx",
+    "start": "next start",
+    "typecheck": "fumadocs-mdx && next typegen && tsc --noEmit"
+  },
+  "dependencies": {
+    "@fumadocs/base-ui": "^16.10.6",
+    "@yuki/ui": "workspace:*",
+    "fumadocs-core": "16.15.4",
+    "fumadocs-mdx": "15.4.0",
+    "next": "catalog:react",
+    "next-themes": "^0.4.6",
+    "react": "catalog:react",
+    "react-dom": "catalog:react",
+    "zod": "catalog:prod"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "catalog:tailwind",
+    "@types/mdx": "^2.0.14",
+    "@types/node": "catalog:dev",
+    "@types/react": "catalog:react",
+    "@types/react-dom": "catalog:react",
+    "@yuki/oxlint": "workspace:*",
+    "@yuki/tsconfig": "workspace:*",
+    "tailwindcss": "catalog:tailwind",
+    "typescript": "catalog:dev"
+  }
+}

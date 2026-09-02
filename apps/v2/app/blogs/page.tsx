@@ -1,8 +1,8 @@
-import { FileTextIcon } from 'lucide-react'
+import { FileTextIcon } from '@yuki/ui/components/icons'
+import { Typography } from '@yuki/ui/components/typography'
 
 import { TerminalContent } from '@/components/terminal'
 import { Tree } from '@/components/tree'
-import { Typography } from '@/components/ui/typography'
 import { createMetadata } from '@/lib/create-metadata'
 import { getPages } from '@/lib/source'
 

@@ -1,11 +1,16 @@
 'use client'
 
+import { Button } from '@yuki/ui/components/button'
+import {
+  FieldSet,
+  FieldGroup,
+  Field,
+  FieldLabel,
+} from '@yuki/ui/components/field'
+import { Input } from '@yuki/ui/components/input'
+import { Textarea } from '@yuki/ui/components/textarea'
 import * as React from 'react'
 
-import { Button } from '@/components/ui/button'
-import { Field, FieldGroup, FieldLabel, FieldSet } from '@/components/ui/field'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
 import { sendEmail } from '@/lib/actions'
 
 export const ContactForm: React.FC = () => {
@@ -36,7 +41,7 @@ export const ContactForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className='order-last w-full max-w-lg min-[62rem]:order-0 bg-card p-4 border shadow-sm'
+      className='order-last w-full max-w-lg border bg-card p-4 shadow-sm min-[62rem]:order-0'
     >
       <FieldSet disabled={isSubmitting}>
         <FieldGroup>
