@@ -20,16 +20,28 @@
     {
       "content": "Frameworks & Libraries",
       "children": [
+        { "icon": "EffectLogo", "content": "Effect" },
+        { "icon": "ElysiaLogo", "content": "Elysia" },
         { "icon": "ReactLogo", "content": "React" },
         { "icon": "NextJsLogo", "content": "Next.js" },
-        { "icon": "NodeJsLogo", "content": "Node.js" }
+        { "icon": "ReactRouterLogo", "content": "React Router" },
+        { "icon": "ExpoLogo", "content": "Expo" },
+        { "icon": "TailwindLogo", "content": "Tailwind CSS" }
       ]
     },
     {
       "content": "IoT & Embedded Systems",
       "children": [
-        { "icon": "ArduinoLogo", "content": "Arduino" },
-        { "icon": "RaspberryPiLogo", "content": "Raspberry Pi" }
+        { "icon": "RaspberryLogo", "content": "Raspberry Pico 2 W" },
+        { "icon": "EspressifLogo", "content": "ESP8266" },
+        { "icon": "ArduinoLogo", "content": "Arduino Uno R3" }
+      ]
+    },
+    {
+      "content": "Databases",
+      "children": [
+        { "icon": "PostgreSQLLogo", "content": "PostgreSQL" },
+        { "icon": "MongoDBLogo", "content": "MongoDB" }
       ]
     },
     {
