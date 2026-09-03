@@ -12,9 +12,9 @@
     "typecheck": "fumadocs-mdx && next typegen && tsc --noEmit"
   },
   "dependencies": {
-    "@fumadocs/base-ui": "^16.10.6",
+    "@fumadocs/base-ui": "^16.15.5",
     "@yuki/ui": "workspace:*",
-    "fumadocs-core": "16.15.4",
+    "fumadocs-core": "16.15.5",
     "fumadocs-mdx": "15.4.0",
     "next": "catalog:react",
     "next-themes": "^0.4.6",

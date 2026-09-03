@@ -34,12 +34,12 @@
     },
     "dev": {
       "@types/node": "^26.4.1",
-      "tsdown": "^0.22.14",
+      "tsdown": "^0.23.0",
       "typescript": "^7.0.2"
     },
     "react": {
       "@types/react": "^19.2.18",
-      "@types/react-dom": "^19.2.5",
+      "@types/react-dom": "^19.2.7",
       "react": "^19.2.8",
       "react-dom": "^19.2.8",
       "next": "^16.3.4"

@@ -11,7 +11,7 @@
     "typecheck": "next typegen && tsc --noEmit"
   },
   "dependencies": {
-    "@fumadocs/base-ui": "^16.15.4",
+    "@fumadocs/base-ui": "^16.15.5",
     "@fumadocs/mdx-remote": "^1.5.1",
     "@yuki/ui": "workspace:*",
     "next": "catalog:react",
