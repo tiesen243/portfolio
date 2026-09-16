@@ -541,14 +541,36 @@ Theme=bgrt # or any theme you like
 sudo mkinitcpio -P
 ```
 
-#### 6. Install `nvm` for Node.js version management (it's required for some Neovim plugins)
+#### 6. Install `sddm` for display manager (optional)
+
+To install `sddm` (Simple Desktop Display Manager) for managing graphical logins, you can follow the steps below:
+
+1. Install `sddm` and the `sddm-kcm` package for KDE Plasma integration:
+
+   ```bash
+   sudo pacman -S sddm
+   ```
+
+2. Enable the `sddm` service to start at boot:
+
+   ```bash
+   sudo systemctl enable sddm
+   ```
+
+#### 7. Install `nvm` for Node.js version management (it's required for some Neovim plugins)
 
 To install `nvm` (Node Version Manager) for managing Node.js versions, you can follow the steps below:
 
 1. Download and run the `nvm` installation script:
 
    ```bash
-   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
+   yay -S nvm
+   ```
+
+   Remember to chown the ownership of the `nvm` directory to your user:
+
+   ```bash
+   sudo chown -R $USER:$USER /usr/share/nvm
    ```
 
 2. Restart your terminal and run the following command to install the latest LTS version of Node.js:
@@ -568,12 +590,6 @@ To install `nvm` (Node Version Manager) for managing Node.js versions, you can f
    # > v24.15.0
    npm -v
    # > 11.14.1
-   ```
-
-4. Install `bun` (optional):
-
-   ```bash
-   npm install -g bun@latest
    ```
 
 #### 7. Fix Screen Sharing
