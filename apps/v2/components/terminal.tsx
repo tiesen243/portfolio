@@ -35,7 +35,12 @@ export function Terminal({
         <h2 className='sr-only'>Copyright section</h2>
 
         <Typography>
-          ©{new Date().getFullYear()} {data.handle}. All rights reserved.
+          ©
+          {
+            // oxlint-disable-next-line react/purity
+            new Date().getFullYear()
+          }{' '}
+          {data.handle}. All rights reserved.
         </Typography>
       </TerminalContent>
 
