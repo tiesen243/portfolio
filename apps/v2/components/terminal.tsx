@@ -13,21 +13,21 @@ export function Terminal({
   return (
     <main
       className={cn(
-        'relative container flex flex-col gap-4 overflow-hidden border border-primary/50 bg-card/50 pt-18 pb-4 backdrop-blur-sm',
+        'relative container flex flex-col gap-4 overflow-hidden border-primary/50 pt-18 pb-4 backdrop-blur-xs md:border md:bg-card/50 md:backdrop-blur-sm',
         className
       )}
       {...props}
     >
-      <div className='absolute inset-0 flex h-14 w-full items-center gap-2 border-b border-primary/50 bg-primary/5 px-4 py-3'>
-        <div className='flex flex-1 items-center gap-2'>
-          <div className='size-3 rounded-full bg-red-500/60' />
-          <div className='size-3 rounded-full bg-yellow-500/60' />
-          <div className='size-3 rounded-full bg-green-500/60' />
-        </div>
+      <nav className='absolute inset-0 flex h-14 w-full items-center gap-2 border-b border-primary/50 px-4 py-3 md:bg-primary/5'>
+        <ul className='flex flex-1 items-center gap-2'>
+          <li className='size-3 rounded-full bg-red-500/60' />
+          <li className='size-3 rounded-full bg-yellow-500/60' />
+          <li className='size-3 rounded-full bg-green-500/60' />
+        </ul>
 
         <ToggleTheme />
         <NavigationDropdown />
-      </div>
+      </nav>
 
       {children}
 
