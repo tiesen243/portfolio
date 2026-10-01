@@ -1,3 +1,4 @@
+import { TerminalIcon } from '@yuki/ui/components/icons'
 import { Typography } from '@yuki/ui/components/typography'
 import { cn } from '@yuki/ui/lib/utils'
 
@@ -56,9 +57,12 @@ export function TerminalContent({
   ...props
 }: React.ComponentProps<'section'> & { command: string }) {
   return (
-    <section className={cn('flex flex-wrap gap-1 pl-6', className)} {...props}>
-      <Typography className='-ml-5 basis-full text-primary'>
-        $ {command}
+    <section
+      className={cn('flex flex-wrap gap-1 pl-2 md:pl-6', className)}
+      {...props}
+    >
+      <Typography className='-ml-6 inline-flex basis-full items-center gap-1 text-primary'>
+        <TerminalIcon className='size-5 shrink-0' /> {command}
       </Typography>
 
       {children}
