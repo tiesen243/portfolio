@@ -12,19 +12,19 @@
     "typecheck": "fumadocs-mdx && next typegen && tsc --noEmit"
   },
   "dependencies": {
-    "@fumadocs/base-ui": "^16.15.17",
+    "@fumadocs/base-ui": "catalog:fumadocs",
     "@yuki/ui": "workspace:*",
-    "fumadocs-core": "16.15.17",
-    "fumadocs-mdx": "15.4.5",
+    "fumadocs-core": "catalog:fumadocs",
+    "fumadocs-mdx": "catalog:fumadocs",
     "next": "catalog:react",
-    "next-themes": "^0.4.6",
+    "next-themes": "catalog:prod",
     "react": "catalog:react",
     "react-dom": "catalog:react",
     "zod": "catalog:prod"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:tailwind",
-    "@types/mdx": "^2.0.14",
+    "@types/mdx": "catalog:dev",
     "@types/node": "catalog:dev",
     "@types/react": "catalog:react",
     "@types/react-dom": "catalog:react",

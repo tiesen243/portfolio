@@ -11,18 +11,18 @@
     "typecheck": "next typegen && tsc --noEmit"
   },
   "dependencies": {
-    "@fumadocs/base-ui": "^16.15.17",
-    "@fumadocs/mdx-remote": "^1.5.2",
+    "@fumadocs/base-ui": "catalog:fumadocs",
+    "@fumadocs/mdx-remote": "catalog:fumadocs",
     "@yuki/ui": "workspace:*",
     "next": "catalog:react",
-    "next-themes": "^0.4.6",
+    "next-themes": "catalog:prod",
     "react": "catalog:react",
     "react-dom": "catalog:react",
     "zod": "catalog:prod"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:tailwind",
-    "@types/mdx": "^2.0.14",
+    "@types/mdx": "catalog:dev",
     "@types/node": "catalog:dev",
     "@types/react": "catalog:react",
     "@types/react-dom": "catalog:react",
