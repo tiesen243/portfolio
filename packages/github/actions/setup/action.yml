@@ -8,3 +8,6 @@ runs:
 
     - shell: bash
       run: bun ci
+
+    - shell: bash
+      run: bun run build --filter './packages/*'

@@ -13,6 +13,7 @@
   "scripts": {
     "build:v2": "turbo run --filter @yuki/web-v2 build",
     "build:v1": "turbo run --filter @yuki/web-v1 build",
+    "build": "turbo run build",
     "clean": "turbo run clean && git clean -xdf node_modules",
     "dev": "turbo run --filter @yuki/web-v2 dev --continue",
     "format": "oxfmt --check",
