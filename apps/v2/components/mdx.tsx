@@ -5,7 +5,8 @@ import * as TabComponents from '@fumadocs/base-ui/components/tabs'
 import defaultMdxComponents from '@fumadocs/base-ui/mdx'
 import { Typography } from '@yuki/ui/components/typography'
 import { cn } from '@yuki/ui/lib/utils'
-import Link from 'next/link'
+
+import { HoverLink } from '@/components/hover-link'
 
 export function getMDXComponents(components?: MDXComponents) {
   return {
@@ -17,24 +18,7 @@ export function getMDXComponents(components?: MDXComponents) {
     h3: (props) => <Typography variant='h3' {...props} />,
     h4: (props) => <Typography variant='h4' {...props} />,
     p: (props) => <Typography variant='p' {...props} />,
-    a: ({ className, ...props }) => {
-      const isExternalLink =
-        typeof props.href === 'string' &&
-        (props.href.startsWith('http') || props.href.startsWith('mailto:'))
-
-      return (
-        <Typography
-          as={Link}
-          className={cn('underline hover:text-primary', className)}
-          {...(isExternalLink && {
-            target: '_blank',
-            rel: 'noopener noreferrer',
-          })}
-          // oxlint-disable-next-line typescript/no-explicit-any
-          {...(props as any)}
-        />
-      )
-    },
+    a: (props) => <HoverLink {...props} />,
     ul: (props) => (
       <Typography
         variant='ul'

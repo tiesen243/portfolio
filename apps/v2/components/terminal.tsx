@@ -14,7 +14,7 @@ export function Terminal({
   return (
     <main
       className={cn(
-        'relative container flex flex-col gap-4 overflow-hidden border-primary/50 pt-18 pb-4 backdrop-blur-xs md:border md:bg-card/50 md:backdrop-blur-sm',
+        'relative container flex flex-col gap-4 overflow-hidden border-primary/50 bg-transparent pt-18 pb-4 backdrop-blur-xs md:border md:bg-card/40',
         className
       )}
       {...props}

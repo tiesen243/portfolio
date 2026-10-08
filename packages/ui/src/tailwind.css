@@ -181,6 +181,11 @@
     border-color: var(--color-border);
     outline-color: color-mix(in oklab, var(--color-ring) 50%, transparent);
     text-underline-offset: 4px;
+    font-feature-settings:
+      'calt' 1,
+      'liga' 1,
+      'ss11' 1,
+      'zero' 1;
 
     ::selection {
       background-color: var(--color-accent);

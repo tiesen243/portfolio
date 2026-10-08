@@ -3,6 +3,7 @@ import { Typography } from '@yuki/ui/components/typography'
 import Image from 'next/image'
 
 import { ContactForm } from '@/components/contact-form'
+import { HoverLink } from '@/components/hover-link'
 import { TerminalContent } from '@/components/terminal'
 import { Tree } from '@/components/tree'
 import data from '@/public/assets/data.json' with { type: 'json' }
@@ -123,26 +124,16 @@ export default function Page(_: PageProps<'/'>) {
                   <Typography>{project.description}</Typography>
                   <Typography>
                     Repository:{' '}
-                    <a
-                      href={`https://${project.repository}`}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='text-primary hover:underline'
-                    >
+                    <HoverLink href={`https://${project.repository}`}>
                       {project.repository}
-                    </a>
+                    </HoverLink>
                   </Typography>
                   {project.liveDemo && (
                     <Typography>
                       Live Demo:{' '}
-                      <a
-                        href={`https://${project.liveDemo}`}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        className='text-primary hover:underline'
-                      >
+                      <HoverLink href={`https://${project.liveDemo}`}>
                         {project.liveDemo}
-                      </a>
+                      </HoverLink>
                     </Typography>
                   )}
                 </>
@@ -161,17 +152,20 @@ export default function Page(_: PageProps<'/'>) {
             children: data.education.map((edu) => ({
               icon: icons.FileTextIcon,
               content: (
-                <>
-                  <div className='flex flex-wrap items-center gap-2 text-primary [&>p]:font-bold'>
-                    <Typography>{edu.institution}</Typography> -{' '}
+                <details className='group/education'>
+                  <summary className='flex cursor-pointer flex-wrap items-center text-primary [&>p]:font-bold'>
+                    <Typography>{edu.institution}</Typography>
+                    <span className='mx-1'>-</span>
                     <Typography>{edu.degree}</Typography>
+                    <Typography className='w-full text-sm font-normal! text-muted-foreground'>
+                      {edu.duration}
+                    </Typography>
+                  </summary>
+                  <div className='duration-300 ease-in-out fade-in group-open/education:animate-in'>
+                    <Typography>{edu.description}</Typography>
+                    <Typography>GPA: {edu.gpa}</Typography>
                   </div>
-                  <Typography className='text-sm text-muted-foreground'>
-                    {edu.duration}
-                  </Typography>
-                  <Typography>{edu.description}</Typography>
-                  <Typography>GPA: {edu.gpa}</Typography>
-                </>
+                </details>
               ),
             })),
           }}
@@ -187,16 +181,19 @@ export default function Page(_: PageProps<'/'>) {
             children: data.experience.map((exp) => ({
               icon: icons.FileBoxIcon,
               content: (
-                <>
-                  <div className='flex flex-wrap items-center gap-2 text-primary [&>p]:font-bold'>
-                    <Typography>{exp.company}</Typography> -{' '}
+                <details className='group/experience'>
+                  <summary className='flex cursor-pointer flex-wrap items-center text-primary [&>p]:font-bold'>
+                    <Typography>{exp.company}</Typography>
+                    <span className='mx-1'>-</span>
                     <Typography>{exp.role}</Typography>
-                  </div>
-                  <Typography className='text-sm text-muted-foreground'>
-                    {exp.duration}
+                    <Typography className='w-full text-sm font-normal! text-muted-foreground'>
+                      {exp.duration}
+                    </Typography>
+                  </summary>
+                  <Typography className='duration-300 ease-in-out fade-in group-open/experience:animate-in'>
+                    {exp.description}
                   </Typography>
-                  <Typography>{exp.description}</Typography>
-                </>
+                </details>
               ),
             })),
           }}
@@ -215,6 +212,7 @@ export default function Page(_: PageProps<'/'>) {
             children: data.certificates.map((cert) => ({
               icon: icons.FileTextIcon,
               href: cert.credential,
+              isExternal: true,
               content: (
                 <>
                   <Typography className='font-bold text-primary'>
@@ -238,21 +236,16 @@ export default function Page(_: PageProps<'/'>) {
 
         <Typography
           variant='ul'
-          className='mb-2 ml-0 h-fit list-none border bg-card p-4 shadow-sm min-[62rem]:mb-0 min-[62rem]:ml-4'
+          className='mb-2 ml-0 h-fit w-full list-none border bg-card p-4 shadow-sm min-[62rem]:mb-0 min-[62rem]:ml-4 min-[62rem]:w-fit'
         >
           <li className='font-bold'>Contact Information:</li>
 
           {data.contact.map((contact) => (
             <li key={contact.type}>
               {contact.type.charAt(0).toUpperCase() + contact.type.slice(1)}:{' '}
-              <a
-                href={contact.url ?? `https://${contact.text}`}
-                target='_blank'
-                rel='noopener noreferrer'
-                className='text-primary hover:underline'
-              >
+              <HoverLink href={contact.url ?? `https://${contact.text}`}>
                 {contact.text}
-              </a>
+              </HoverLink>
             </li>
           ))}
         </Typography>

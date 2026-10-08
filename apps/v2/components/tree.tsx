@@ -6,6 +6,7 @@ import Link from 'next/link'
 interface TreeNode {
   content: React.ReactNode
   href?: string
+  isExternal?: boolean
   icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>
   direction?: 'horizontal' | 'vertical'
   children?: TreeNode[]
@@ -68,6 +69,9 @@ export const Tree: React.FC<TreeProps> = ({ node }) => {
                 <Comp
                   className='group/tree-item pl-4'
                   {...(childNode.href ? { href: childNode.href } : {})}
+                  {...(childNode.isExternal
+                    ? { target: '_blank', rel: 'noopener noreferrer' }
+                    : {})}
                 >
                   <Tree node={childNode} />
                 </Comp>

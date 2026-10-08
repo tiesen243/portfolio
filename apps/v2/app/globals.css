@@ -5,3 +5,17 @@
 @source '../node_modules/@fumadocs/base-ui/dist/components/**/*.js';
 @source '../../../docs/**/*.mdx';
 @source '../../../packages/ui/dist/components/*.mjs';
+
+@theme inline {
+  --animate-pattern: pattern 4s linear infinite;
+
+  @keyframes pattern {
+    from {
+      background-position: 0 0;
+    }
+
+    to {
+      background-position: 40px 40px;
+    }
+  }
+}
