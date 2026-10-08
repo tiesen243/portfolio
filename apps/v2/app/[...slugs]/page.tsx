@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 
 import { CopyMarkdownButton } from '@/app/[...slugs]/_components/copy-markdown-button'
 import { OpenButton } from '@/app/[...slugs]/_components/open-button'
+import { ShareButton } from '@/app/[...slugs]/_components/share-buttom'
 import { getMDXComponents } from '@/components/mdx'
 import { TerminalContent } from '@/components/terminal'
 import { createMetadata } from '@/lib/create-metadata'
@@ -39,6 +40,8 @@ export default async function DocsPage({ params }: PageProps<'/[...slugs]'>) {
       </div>
 
       <div className='mb-4 flex items-center gap-2'>
+        <OpenButton slugs={slugs} />
+        <ShareButton />
         <CopyMarkdownButton
           content={`# ${metadata.title}
 
@@ -51,7 +54,6 @@ Published at: ${metadata.publishedAt}
 
 ${plain}`}
         />
-        <OpenButton slugs={slugs} />
       </div>
 
       <InlineTOC items={toc} className='w-full rounded-none' />

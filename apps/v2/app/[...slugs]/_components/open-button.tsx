@@ -12,10 +12,8 @@ import { getBaseUrl } from '@/lib/utils'
 
 export const OpenButton: React.FC<{ slugs: string[] }> = ({ slugs }) => (
   <DropdownMenu>
-    <DropdownMenuTrigger
-      render={<Button variant='outline' data-icon='inline-end' />}
-    >
-      Open <ChevronDownIcon />
+    <DropdownMenuTrigger render={<Button variant='outline' />}>
+      Open <ChevronDownIcon data-icon='inline-end' />
     </DropdownMenuTrigger>
 
     <DropdownMenuContent className='w-48'>
@@ -73,18 +71,23 @@ const PROVIDERS = [
     suffix: '',
   },
   {
-    label: 'Open in Scira',
-    href: 'https://scira.ai?q=',
-    suffix: '',
-  },
-  {
     label: 'Open in Cursor',
     href: 'https://cursor.com/link/prompt?text=',
     suffix: '',
   },
   {
+    label: 'Open in Grok',
+    href: 'https://grok.com/?q=',
+    suffix: '',
+  },
+  {
     label: 'Open in Perplexity',
     href: 'https://www.perplexity.ai/search?q=',
+    suffix: '',
+  },
+  {
+    label: 'Open in Scira',
+    href: 'https://scira.ai?q=',
     suffix: '',
   },
 ]

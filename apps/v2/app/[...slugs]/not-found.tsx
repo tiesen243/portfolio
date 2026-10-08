@@ -22,12 +22,14 @@ export default function DocsNotFoundPage() {
         <Button
           variant='outline'
           className='w-fit'
-          data-icon='inline-end'
-          render={<Link href='/' />}
           nativeButton={false}
+          render={<Link href='/' />}
         >
           <span>Take me home</span>
-          <ArrowRightIcon className='transition-transform group-hover/button:translate-x-0.5' />
+          <ArrowRightIcon
+            data-icon='inline-end'
+            className='transition-transform group-hover/button:translate-x-0.5'
+          />
         </Button>
       </TerminalContent>
     </>

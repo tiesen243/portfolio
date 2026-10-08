@@ -61,7 +61,7 @@ export function TerminalContent({
       className={cn('flex flex-wrap gap-1 pl-2 md:pl-6', className)}
       {...props}
     >
-      <Typography className='-ml-6 inline-flex basis-full items-center gap-1 text-primary'>
+      <Typography className='-ml-6 inline-flex w-full items-center gap-1 text-primary'>
         <TerminalIcon className='size-5 shrink-0' /> {command}
       </Typography>
 

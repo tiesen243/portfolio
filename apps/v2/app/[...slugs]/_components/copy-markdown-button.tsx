@@ -19,8 +19,12 @@ export const CopyMarkdownButton: React.FC<{ content: string }> = ({
   }
 
   return (
-    <Button variant='outline' data-icon='inline-start' onClick={handleCopy}>
-      {isCopied ? <CopyCheckIcon /> : <CopyIcon />}
+    <Button variant='outline' onClick={handleCopy}>
+      {isCopied ? (
+        <CopyCheckIcon data-icon='inline-start' />
+      ) : (
+        <CopyIcon data-icon='inline-start' />
+      )}
       Copy Markdown
     </Button>
   )

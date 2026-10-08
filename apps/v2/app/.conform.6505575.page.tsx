@@ -232,7 +232,7 @@ export default function Page(_: PageProps<'/'>) {
       <TerminalContent
         id='contact'
         command='cat ~/contact.txt'
-        className='flex-col flex-nowrap gap-3 md:flex-row md:flex-wrap'
+        className='flex-col gap-3 md:flex-row'
       >
         <h2 className='sr-only'>Contact section</h2>
 
@@ -240,7 +240,7 @@ export default function Page(_: PageProps<'/'>) {
 
         <Typography
           variant='ul'
-          className='ml-0 h-fit list-none border bg-card p-4 shadow-sm'
+          className='mb-2 ml-0 h-fit list-none border bg-card p-4 shadow-sm'
         >
           <li className='font-bold'>Contact Information:</li>
 

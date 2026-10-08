@@ -1,6 +1,6 @@
+import { ImageZoom } from '@fumadocs/base-ui/components/image-zoom'
 import { FileCodeIcon } from '@yuki/ui/components/icons'
 import { Typography } from '@yuki/ui/components/typography'
-import Image from 'next/image'
 
 import { TerminalContent } from '@/components/terminal'
 import { Tree } from '@/components/tree'
@@ -30,9 +30,10 @@ export default async function ProjectsPage() {
                 href: page.url,
                 content: (
                   <>
-                    <Typography className='group-hover/tree-item:underline'>
-                      {page.metadata.title}
-                    </Typography>
+                    <div className='relative w-fit'>
+                      <Typography>{page.metadata.title}</Typography>
+                      <span className='absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-current transition-transform duration-300 group-hover/tree-item:scale-x-100' />
+                    </div>
                     <Typography className='line-clamp-2 text-sm text-muted-foreground'>
                       {page.metadata.description}
                     </Typography>
@@ -53,7 +54,7 @@ export default async function ProjectsPage() {
           command={`kitten icat ~/projects/designs/${design}.png`}
         >
           <h2 className='sr-only'>Designs section for {design}</h2>
-          <Image
+          <ImageZoom
             src={`/assets/designs/${design}.png`}
             alt={`Design ${design}`}
             width={3000}

@@ -24,9 +24,11 @@ export default async function BlogsPage() {
               href: page.url,
               content: (
                 <>
-                  <Typography className='group-hover/tree-item:underline'>
-                    {page.metadata.title}
-                  </Typography>
+                  <div className='relative w-fit'>
+                    <Typography>{page.metadata.title}</Typography>
+                    <span className='absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-current transition-transform duration-300 group-hover/tree-item:scale-x-100' />
+                  </div>
+
                   <Typography className='line-clamp-2 text-sm text-muted-foreground'>
                     {page.metadata.description}
                   </Typography>

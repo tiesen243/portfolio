@@ -18,7 +18,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       <body
         className={cn(
           'flex min-h-dvh flex-col bg-background px-0 pb-8 font-mono text-foreground antialiased md:px-4',
-          'animate-pattern bg-[linear-gradient(135deg,color-mix(in_oklch,var(--color-border)_var(--alpha),transparent)_25%,transparent_25%,transparent_50%,color-mix(in_oklch,var(--color-border)_var(--alpha),transparent)_50%,color-mix(in_oklch,var(--color-border)_var(--alpha),transparent)_75%,transparent_75%,transparent)] bg-size-[40px_40px] [--alpha:24%] dark:[--alpha:12%]',
+          'motion-safe:animate-pattern bg-[linear-gradient(135deg,color-mix(in_oklch,var(--color-border)_var(--alpha),transparent)_25%,transparent_25%,transparent_50%,color-mix(in_oklch,var(--color-border)_var(--alpha),transparent)_50%,color-mix(in_oklch,var(--color-border)_var(--alpha),transparent)_75%,transparent_75%,transparent)] bg-size-[40px_40px] [--alpha:24%] motion-reduce:animate-none dark:[--alpha:12%]',
           georgianSerif.variable,
           geistSans.variable,
           geistMono.variable
