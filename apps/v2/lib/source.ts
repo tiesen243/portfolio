@@ -22,6 +22,7 @@ const frontmatterSchema = z.object({
     .transform((data) =>
       Intl.DateTimeFormat('en-US', { dateStyle: 'long' }).format(data)
     ),
+  pinned: z.boolean().default(false),
 })
 
 const compiler = createCompiler({
@@ -64,7 +65,12 @@ const uncachedGetPages = async (
       }
     })
 
-    return Promise.all(promises)
+    const pages = await Promise.all(promises)
+    return pages.toSorted(
+      (a, b) =>
+        Number(b.metadata.pinned) - Number(a.metadata.pinned) ||
+        b.metadata.publishedAt.localeCompare(a.metadata.publishedAt)
+    )
   } catch {
     return []
   }

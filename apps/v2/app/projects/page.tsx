@@ -1,5 +1,5 @@
 import { ImageZoom } from '@fumadocs/base-ui/components/image-zoom'
-import { FileCodeIcon } from '@yuki/ui/components/icons'
+import { FileCodeIcon, PinIcon } from '@yuki/ui/components/icons'
 import { Typography } from '@yuki/ui/components/typography'
 
 import { TerminalContent } from '@/components/terminal'
@@ -30,10 +30,14 @@ export default async function ProjectsPage() {
                 href: page.url,
                 content: (
                   <>
-                    <div className='relative w-fit'>
+                    <div className='relative inline-flex w-fit gap-2'>
                       <Typography>{page.metadata.title}</Typography>
+                      {page.metadata.pinned && (
+                        <PinIcon className='size-4 shrink-0 rotate-45' />
+                      )}
                       <span className='absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-current transition-transform duration-300 group-hover/tree-item:scale-x-100' />
                     </div>
+
                     <Typography className='line-clamp-2 text-sm text-muted-foreground'>
                       {page.metadata.description}
                     </Typography>
