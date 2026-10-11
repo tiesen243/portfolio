@@ -30,7 +30,7 @@
   "devEngines": {
     "packageManager": {
       "name": "bun",
-      "version": "1.4.2",
+      "version": "1.4.3",
       "onFail": "download"
     }
   },
@@ -46,8 +46,8 @@
     },
     "dev": {
       "@types/mdx": "^2.0.14",
-      "@types/node": "^26.6.4",
-      "tsdown": "^0.23.0",
+      "@types/node": "^26.6.5",
+      "tsdown": "^0.23.1",
       "typescript": "^7.0.2"
     },
     "react": {
@@ -63,10 +63,10 @@
       "tailwindcss": "^4.3.3"
     },
     "fumadocs": {
-      "@fumadocs/base-ui": "^16.16.2",
+      "@fumadocs/base-ui": "^16.17.1",
       "@fumadocs/mdx-remote": "^1.5.2",
-      "fumadocs-core": "^16.16.2",
-      "fumadocs-mdx": "^15.4.6"
+      "fumadocs-core": "^16.17.1",
+      "fumadocs-mdx": "^15.4.7"
     }
   }
 }
