@@ -9,7 +9,7 @@
     "dev": "next dev",
     "postinstall": "fumadocs-mdx",
     "start": "next start",
-    "typecheck": "fumadocs-mdx && next typegen && tsc --noEmit"
+    "typecheck": "fumadocs-mdx && next typegen && bun check"
   },
   "dependencies": {
     "@fumadocs/base-ui": "catalog:fumadocs",
