@@ -48,7 +48,7 @@
       "@types/mdx": "^2.0.14",
       "@types/node": "^26.6.5",
       "tsdown": "^0.23.2",
-      "typescript": "^7.0.2"
+      "typescript": "^7.1.0-beta"
     },
     "react": {
       "@types/react": "^19.3.0",
