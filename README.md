@@ -50,8 +50,6 @@ The repository is organized as a Bun-powered monorepo with two Next.js applicati
 - [Bun](https://bun.sh/) `>= 1.4.0`
 - Node.js `>= 24.20.0`
 
-The repository includes an `.nvmrc` file for Node.js version management.
-
 ## Getting started
 
 ### 1. Clone the repository
@@ -97,18 +95,18 @@ The application will be available at the local URL printed by Next.js, usually `
 
 Run commands from the repository root:
 
-| Command | Description |
-| --- | --- |
-| `bun run dev` | Start the v2 development server |
-| `bun run build` | Build all workspaces |
-| `bun run build:v1` | Build the v1 application |
-| `bun run build:v2` | Build the v2 application |
-| `bun run lint` | Check the code with Oxlint |
-| `bun run lint:fix` | Automatically fix supported lint issues |
-| `bun run format` | Check formatting with Oxfmt |
-| `bun run format:fix` | Format supported files with Oxfmt |
-| `bun run typecheck` | Run TypeScript checks across workspaces |
-| `bun run clean` | Remove generated build artifacts and dependencies |
+| Command              | Description                                       |
+| -------------------- | ------------------------------------------------- |
+| `bun run dev`        | Start the v2 development server                   |
+| `bun run build`      | Build all workspaces                              |
+| `bun run build:v1`   | Build the v1 application                          |
+| `bun run build:v2`   | Build the v2 application                          |
+| `bun run lint`       | Check the code with Oxlint                        |
+| `bun run lint:fix`   | Automatically fix supported lint issues           |
+| `bun run format`     | Check formatting with Oxfmt                       |
+| `bun run format:fix` | Format supported files with Oxfmt                 |
+| `bun run typecheck`  | Run TypeScript checks across workspaces           |
+| `bun run clean`      | Remove generated build artifacts and dependencies |
 
 Equivalent Makefile commands are also available:
 
