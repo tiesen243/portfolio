@@ -1,5 +1,6 @@
 import { FileTextIcon, PinIcon } from '@yuki/ui/components/icons'
 import { Typography } from '@yuki/ui/components/typography'
+import { cn } from '@yuki/ui/lib/utils'
 
 import { TerminalContent } from '@/components/terminal'
 import { Tree } from '@/components/tree'
@@ -24,12 +25,21 @@ export default async function BlogsPage() {
               href: page.url,
               content: (
                 <>
-                  <div className='relative inline-flex w-fit gap-2'>
+                  <div
+                    className={cn(
+                      'relative inline-flex w-fit gap-2',
+                      'after:absolute after:bottom-0 after:left-0',
+                      'after:h-px after:w-full after:origin-left',
+                      'after:scale-x-0 after:bg-current',
+                      'after:transition-transform after:duration-300 after:content-[""]',
+                      'group-hover/tree-item:after:scale-x-100'
+                    )}
+                  >
                     <Typography>{page.metadata.title}</Typography>
+
                     {page.metadata.pinned && (
                       <PinIcon className='size-4 shrink-0 rotate-45' />
                     )}
-                    <span className='absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-current transition-transform duration-300 group-hover/tree-item:scale-x-100' />
                   </div>
 
                   <Typography className='line-clamp-2 text-sm text-muted-foreground'>

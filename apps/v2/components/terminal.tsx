@@ -14,13 +14,13 @@ export function Terminal({
   return (
     <main
       className={cn(
-        'relative container flex flex-col gap-4 overflow-hidden border-primary/50 bg-transparent pt-18 pb-4 backdrop-blur-xs md:border md:bg-card/40',
+        'container flex flex-col gap-4 overflow-hidden border-primary/50 bg-transparent px-0 pb-4 backdrop-blur-xs md:border md:bg-card/40',
         className
       )}
       {...props}
     >
-      <nav className='absolute inset-0 flex h-14 w-full items-center gap-2 border-b border-primary/50 px-4 py-3 md:bg-primary/5'>
-        <ul className='flex flex-1 items-center gap-2'>
+      <nav className='flex h-14 w-full items-center justify-end gap-2 border-b border-primary/50 px-4 py-3 md:justify-start md:bg-primary/5'>
+        <ul className='hidden flex-1 items-center gap-2 md:flex'>
           <li className='size-3 rounded-full bg-red-500/60' />
           <li className='size-3 rounded-full bg-yellow-500/60' />
           <li className='size-3 rounded-full bg-green-500/60' />
@@ -58,7 +58,7 @@ export function TerminalContent({
 }: React.ComponentProps<'section'> & { command: string }) {
   return (
     <section
-      className={cn('flex flex-wrap gap-1 pl-2 md:pl-6', className)}
+      className={cn('mx-4 flex flex-wrap gap-1 pl-2 md:pl-6', className)}
       {...props}
     >
       <Typography className='-ml-6 inline-flex w-full items-center gap-1 text-primary'>

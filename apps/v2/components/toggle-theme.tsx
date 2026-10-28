@@ -1,7 +1,13 @@
 'use client'
 
 import { Button } from '@yuki/ui/components/button'
-import { MoonIcon, SunIcon } from '@yuki/ui/components/icons'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@yuki/ui/components/dropdown-menu'
+import { LaptopIcon, MoonIcon, SunIcon } from '@yuki/ui/components/icons'
 import { useMounted } from '@yuki/ui/hooks/use-mounted'
 import { useTheme } from 'next-themes'
 
@@ -12,13 +18,28 @@ export const ToggleTheme: React.FC = () => {
     return <Button variant='outline' size='icon-sm' aria-label='Toggle theme' />
 
   return (
-    <Button
-      variant='outline'
-      size='icon-sm'
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      aria-label='Toggle theme'
-    >
-      {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
-    </Button>
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={
+          <Button variant='outline' size='icon-sm' aria-label='Toggle theme' />
+        }
+      >
+        {theme === 'light' && <SunIcon />}
+        {theme === 'dark' && <MoonIcon />}
+        {theme === 'system' && <LaptopIcon />}
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent align='end'>
+        <DropdownMenuItem onClick={() => setTheme('light')}>
+          <SunIcon /> Light
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme('dark')}>
+          <MoonIcon /> Dark
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme('system')}>
+          <LaptopIcon /> System
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }

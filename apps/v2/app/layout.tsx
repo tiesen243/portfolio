@@ -1,10 +1,10 @@
 import '@/app/globals.css'
 
 import { cn } from '@yuki/ui/lib/utils'
+import { ThemeProvider } from 'next-themes'
 import { Noto_Serif_Georgian, Geist, Geist_Mono } from 'next/font/google'
 
 import { Header } from '@/components/header'
-import { Provider } from '@/components/provider'
 import { Terminal } from '@/components/terminal'
 import { createMetadata } from '@/lib/create-metadata'
 
@@ -24,11 +24,16 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
           geistMono.variable
         )}
       >
-        <Provider>
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='system'
+          disableTransitionOnChange
+          enableSystem
+        >
           <Header />
 
           <Terminal>{children}</Terminal>
-        </Provider>
+        </ThemeProvider>
       </body>
     </html>
   )

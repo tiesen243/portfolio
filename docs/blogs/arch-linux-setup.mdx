@@ -11,36 +11,14 @@ tags:
   - rolling-release
   - customization
   - installation-guide
-publishedAt: 2026-05-29
+publishedAt: 2026-10-28
 ---
 
 ## Introduction
 
-### What is Hyprland?
+Arch Linux is a great choice if you want a fast, minimal, and highly customizable desktop. In this guide, I’ll walk through my current Arch Linux setup with Hyprland/Niri, Noctalia, Neovim, Zsh, and a few other tools I use daily.
 
-Hyprland is a dynamic tiling Wayland compositor written in C++. It is engineered to deliver a highly customizable, feature-rich, and visually spectacular desktop environment without compromising on performance. With its fluid, physics-based animations, smooth window interpolation, and extensive layout options, Hyprland allows users to craft a highly personalized and cutting-edge workstation.
-
-#### Why Hyprland?
-
-Hyprland is an outstanding choice for users seeking a modern, fast, and automated desktop. As a native Wayland compositor, it offers superior security, better fractional scaling, and robust multi-monitor handling compared to traditional X11 window managers.
-
-Its dynamic tiling system automatically organizes your windows into optimal binary tree layouts (splitting screens vertically/horizontally as you open more apps), maximizing screen real estate and boosting productivity. It is highly favored by power users and developers who appreciate granular control over animations, window rules, and workspace behaviors.
-
-### What is Niri?
-
-Niri is a scroll-tiling Wayland compositor that introduces a fresh, innovative approach to window management. Inspired by concepts like PaperWM, Niri organizes windows sequentially inside an infinite horizontal ribbon. Instead of squeezing and splitting windows into increasingly smaller grid tiles, new windows open at their ideal size to the right, allowing you to scroll through your workspace smoothly like a film strip.
-
-#### Why Niri?
-
-Niri solves the classic "tiling fatigue" where windows eventually become too small to read on standard displays. It is exceptionally well-suited for ultra-wide monitors, laptops, and layout purists who want an organic, distraction-free multitasking workflow.
-
-By mapping windows to an infinite horizontal plane, it keeps your focus intact while maintaining full keyboard-driven efficiency. Furthermore, its configuration is clean, predictable, and heavily optimized for modern Wayland ecosystems.
-
-### The Best of Both Worlds
-
-By supporting both Hyprland and Niri, this setup bridges two distinct workflow philosophies under a single dotfile deployment.
-
-Whether you prefer Hyprland's structured dynamic grids or Niri's fluid horizontal scrolling, your core user experience remains perfectly synchronized. Both environments share the exact same underlying stack: **Matugen** for automatic Material You color palettes generated from your wallpaper, **Quickshell** for lightweight, interactive desktop widgets, and **Kitty** as the foundational terminal hub. This allows you to hot-swap your layout paradigm at the display manager login without breaking your aesthetic or muscle memory.
+Everything is managed through my YukiOS dotfiles, so most of the setup can be automated with a single installer.
 
 ## Installation
 
@@ -354,16 +332,38 @@ sudo systemctl enable grub-btrfsd
 
 ### Automatic install (Recommended)
 
-To download and run the installer automatically, copy and paste the following command into your terminal.
+The easiest way to apply my dotfiles is to use the installer from the repository. It is designed for Arch-based systems and handles the common setup steps for the desktop environment, shell, configuration files, and optional services.
+
+Before running it, make sure you have a working internet connection and a normal user account with `sudo` access.
+
+Run the installer directly:
 
 ```bash
 bash <(curl -fsSL "https://raw.githubusercontent.com/tiesen243/dotfiles/main/install.sh")
 ```
 
-<Callout>
-  Note: I dont install GPU drivers in the installer, you can install it manually
-  by following the [GPU drivers](#3-install-gpu-drivers) section in the manual
-  installation part.
+The installer asks for your choices once at the beginning and then runs the installation without additional interactive prompts.
+
+#### Dry-run mode
+
+If you want to inspect the installation flow before making changes, use:
+
+```bash
+bash <(curl -fsSL "https://raw.githubusercontent.com/tiesen243/dotfiles/main/install.sh") --dry-run
+```
+
+Dry-run mode shows the commands and actions that would be performed without running the installation commands.
+
+#### Show help
+
+```bash
+bash <(curl -fsSL "https://raw.githubusercontent.com/tiesen243/dotfiles/main/install.sh") --help
+```
+
+<Callout type="warning">
+
+The installer does not install GPU drivers. Install the appropriate drivers for your hardware manually using the [GPU driver section](#3-install-gpu-drivers) below.
+
 </Callout>
 
 ### Manual installation
@@ -391,11 +391,19 @@ git clone https://github.com/tiesen243/dotfiles.git ~/dotfiles
 1.3. Install packages
 
 ```bash
-yay -S --needed $(grep -v '^#' ~/dotfiles/package.txt)
+yay -S --needed --noconfirm --answerclean All --answerdiff None \
+  $(grep -v '^#' ~/dotfiles/package.txt)
 
-yay -S --needed hyprland # if you want to use hyprland as your tiling compositor
-yay -S --needed niri     # if you want to use niri as your scroll-tiling compositor
+# Choose the compositor you want to use
+yay -S --needed hyprland xdg-desktop-portal-hyprland
+# or
+yay -S --needed niri xdg-desktop-portal-gnome
+# or install both
+yay -S --needed hyprland niri \
+  xdg-desktop-portal-hyprland xdg-desktop-portal-gnome
 ```
+
+The automatic installer uses the same compositor choices and installs the matching desktop portal packages.
 
 1.4. Set `zsh` as the default shell
 
@@ -405,12 +413,13 @@ chsh -s $(which zsh)
 
 #### 2. Apply configuration
 
-2.1. Remove existed config and create the symbolic links to the config files
+The automatic installer backs up existing supported configurations to a timestamped directory such as `~/.config.bak_{timestamp}` before creating the symbolic links. If you are installing manually, back up your existing configuration first.
+
+2.1. Remove existing config and create the symbolic links to the config files
 
 ```bash
-rm -rf ~/{.cache,.local,.zshrc}
-rm -rf ~/.config/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lsd,matugen,niri,noctalia,nvim,zsh}
-ln -s ~/dotfiles/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lsd,matugen,niri,noctalia,nvim,zsh} ~/.config
+rm -rf ~/.config/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lsd,niri,noctalia,nvim,zsh}
+ln -s ~/dotfiles/{Thunar,btop,fastfetch,git,gtk-3.0,gtk-4.0,hypr,kitty,lsd,niri,noctalia,nvim,zsh} ~/.config
 
 echo 'export ZDOTDIR="$HOME/.config/zsh"' | sudo tee -a /etc/zsh/zshenv
 ```
@@ -451,31 +460,41 @@ sudo usermod -aG docker $USER
 
 To have better performance and support for your graphics card, you need to install the appropriate GPU drivers for your system. The installation process varies depending on the type of graphics card you have.
 
+<Callout type='info'>
+
+If you are using the `linux-cachyos` kernel, you can skip this step. CachyOS
+provides tools such as `chwd` to automatically detect your hardware and
+configure the appropriate GPU drivers.
+
+</Callout>
+
 1. For `Nvidia` users
 
-   If you are using `Nvidia` graphics card, you need to install `nvidia` and `nvidia-utils` packages and add the following line to your `/etc/mkinitcpio.conf` file.
+   If you are using an `Nvidia` graphics card, install the required packages:
 
    ```bash
    sudo pacman -S nvidia-open-dkms nvidia-utils linux-headers
    ```
 
-   Then, regenerate the initramfs file to apply the changes. (skip this step if you are using `linux-cachyos` kernel, because it already includes `nvidia` module in the initramfs)
+   Then, add the following modules to `/etc/mkinitcpio.conf`:
 
    ```bash title="/etc/mkinitcpio.conf"
    MODULES=(... i915 nvidia nvidia_modeset nvidia_uvm nvidia_drm)
    ```
 
+   Regenerate the initramfs:
+
    ```bash
    sudo mkinitcpio -P
    ```
 
-   Then, add the following line to your `/etc/default/grub` file to enable `nvidia` module in the grub.
+   Then, add the following kernel parameters to `/etc/default/grub`:
 
    ```bash title="/etc/default/grub"
    GRUB_CMDLINE_LINUX_DEFAULT="... nvidia-drm.modeset=1 nvidia-drm.fbdev=1"
    ```
 
-   Finally, regenerate the grub configuration file to apply the changes.
+   Finally, regenerate the GRUB configuration:
 
    ```bash
    sudo grub-mkconfig -o /boot/grub/grub.cfg
@@ -483,35 +502,50 @@ To have better performance and support for your graphics card, you need to insta
 
 2. For `AMD` users
 
-   If you are using `AMD` graphics card, you need to install `xf86-video-amdgpu` package.
+   If you are using an `AMD` graphics card, install the required packages:
 
    ```bash
    sudo pacman -S mesa vulkan-radeon libva-mesa-driver mesa-vdpau
    ```
 
-#### 4. Add Cachyos's Optimized Repositories (optional)
+#### 4. Add CachyOS Optimized Repositories (Optional)
 
-CachyOS provides optimized repositories for Arch Linux that can improve the performance of your system. To add Cachyos's optimized repositories, you can follow the steps below:
+CachyOS provides optimized repositories and packages for Arch Linux. If you want to use them, you can enable the CachyOS repositories with the official setup script:
 
 ```bash
 curl https://mirror.cachyos.org/cachyos-repo.tar.xz -o cachyos-repo.tar.xz
-tar xvf cachyos-repo.tar.xz && cd cachyos-repo
+tar xvf cachyos-repo.tar.xz
+cd cachyos-repo
 sudo ./cachyos-repo.sh
 ```
 
-Install Cachyos kernels (optional):
+After enabling the repositories, you can install the CachyOS kernel:
 
 ```bash
 sudo pacman -S linux-cachyos linux-cachyos-headers
-sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
 
-# You can remove the old kernels
+Then regenerate the GRUB configuration:
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+If you no longer need the default Arch kernel, you can remove it:
+
+```bash
 sudo pacman -Runs linux linux-headers
+```
+
+GPU drivers do not need to be installed manually after this. Use `chwd` to detect and configure the appropriate drivers automatically:
+
+```bash
+sudo chwd -a
 ```
 
 #### 5. Splash screen on boot (optional)
 
-To add a splash screen on boot, you can use `plymouth`. First, install the `plymouth` package and the `plymouth-theme-spinner` theme.
+To add a splash screen on boot, you can use `plymouth`. First, install the `plymouth` package.
 
 ```bash
 sudo pacman -S plymouth
@@ -545,7 +579,7 @@ sudo mkinitcpio -P
 
 To install `sddm` (Simple Desktop Display Manager) for managing graphical logins, you can follow the steps below:
 
-1. Install `sddm` and the `sddm-kcm` package for KDE Plasma integration:
+1. Install `sddm` package for KDE Plasma integration:
 
    ```bash
    sudo pacman -S sddm
@@ -557,50 +591,39 @@ To install `sddm` (Simple Desktop Display Manager) for managing graphical logins
    sudo systemctl enable sddm
    ```
 
-#### 7. Install `nvm` for Node.js version management (it's required for some Neovim plugins)
+#### 7. Install `vite-plus` for Node.js version management (it's required for some Neovim plugins)
 
-To install `nvm` (Node Version Manager) for managing Node.js versions, you can follow the steps below:
+You can install `vite-plus` from the AUR using `yay`:
 
-1. Download and run the `nvm` installation script:
+```bash
+yay -S vite-plus
+```
 
-   ```bash
-   yay -S nvm
-   ```
+After installation, restart your terminal and use `vite-plus` to install the latest LTS version of Node.js:
 
-   Remember to chown the ownership of the `nvm` directory to your user:
+```bash
+vp env install node@lts
+vp env default node@lts
+```
 
-   ```bash
-   sudo chown -R $USER:$USER /usr/share/nvm
-   ```
+Verify the installation:
 
-2. Restart your terminal and run the following command to install the latest LTS version of Node.js:
+```bash
+node -v
+npm -v
+```
 
-   ```bash
-   # Install the latest LTS version of Node.js
-   nvm install --lts
-
-   # Use the latest LTS version of Node.js
-   nvm use --lts
-   ```
-
-3. Verify the installation by checking the Node.js and npm versions:
-
-   ```bash
-   node -v
-   # > v24.15.0
-   npm -v
-   # > 11.14.1
-   ```
+Vite+ provides the `vp` CLI, which can manage Node.js runtimes and package managers in addition to the Vite toolchain.
 
 #### 7. Fix Screen Sharing
 
-If you encounter issues while sharing your screen on OBS Studio, Discord, or web browsers under Wayland, you need to install and configure the correct `xdg-desktop-portal` backends for each environment.
+If you encounter issues while sharing your screen on OBS Studio, Discord, or web browsers under Wayland, you need to install the appropriate `xdg-desktop-portal` backend for your compositor.
 
 1. For Hyprland
 
-   Hyprland requires its own dedicated portal implementation to handle window and monitor capturing properly.
+   Hyprland uses its dedicated portal backend for screen sharing and window capture.
 
-   Install the required portal package:
+   Install the required packages:
 
    ```bash
    sudo pacman -S xdg-desktop-portal-hyprland
@@ -608,32 +631,33 @@ If you encounter issues while sharing your screen on OBS Studio, Discord, or web
 
 2. For Niri
 
-   Niri relies on the wlroots portal implementation for screen casting capabilities.
+   Niri uses the GNOME portal backend for screen sharing.
 
-   First, install the backend wrapper:
+   Install the required package:
 
    ```bash
-   sudo pacman -S xdg-desktop-portal-wlr
+   sudo pacman -S xdg-desktop-portal-gnome
    ```
 
-   Next, you need to tell Niri to use `wlr` as its primary portal driver. Create or edit the Niri portal configuration file:
+3. Restart the Portal Services
 
-   ```bash title="/usr/share/xdg-desktop-portal/niri-portals.conf"
-   [preferred]
-   default=wlr;gtk
-   ```
+   After installing the appropriate backend, restart `xdg-desktop-portal` and the corresponding backend service.
 
-3. Verify and Restart Portals
-
-   To apply the changes immediately without rebooting, force-restart the portal system services:
+   For Hyprland:
 
    ```bash
    systemctl --user restart xdg-desktop-portal.service
-   systemctl --user restart xdg-desktop-portal-hyprland.service # For Hyprland users
-   systemctl --user restart xdg-desktop-portal-wlr.service # For Niri users
+   systemctl --user restart xdg-desktop-portal-hyprland.service
    ```
 
-   Or just reboot your system to ensure all changes take effect
+   For Niri:
+
+   ```bash
+   systemctl --user restart xdg-desktop-portal.service
+   systemctl --user restart xdg-desktop-portal-gnome.service
+   ```
+
+   Alternatively, you can simply reboot your system to ensure all portal services are restarted correctly.
 
 #### 8. Fix windows 11 time
 
@@ -686,7 +710,7 @@ Here are the essential keybindings for navigating and controlling your Hyprland 
 | `XF86AudioStop`           | Stop media playback                     |
 | `XF86AudioNext` / `Prev`  | Media player skip track next/previous   |
 
-<Callout>
+<Callout type="info">
 
 You can find all keybindings in your configuration file at `~/.config/hypr/modules/keymaps.lua` and `~/.config/niri/modules/keymaps.kdl`.
 
@@ -694,11 +718,13 @@ You can find all keybindings in your configuration file at `~/.config/hypr/modul
 
 ## Conclusion
 
-Congratulations! You have successfully installed and configured a dual-flavor Wayland environment on Arch Linux, combining the cutting-edge dynamic layouts of Hyprland with the fluid, infinite horizontal scrolling of Niri.
+Congratulations! You now have a flexible Arch Linux Wayland setup built around Hyprland and Niri, with a shared dotfile stack and a reproducible installation workflow.
 
-By leveraging a unified system stack—powered by Matugen for real-time dynamic color serialization, Quickshell for interactive desktop panels, and Kitty for hardware-accelerated terminal emulation—you now have a cohesive desktop experience where switching between two entirely different window management paradigms requires zero friction or aesthetic sacrifice.
+The YukiOS installer is designed to make rebuilding the setup easier: choose your compositor, browser, and optional services once, review the installation plan, and let the script handle the repetitive configuration work. Existing supported configurations are backed up before the dotfiles are linked, and timestamped logs are kept under `~/.local/state/yukios/` for troubleshooting.
 
-From setting up highly resilient Btrfs snapshots via Snapper to optimizing screen-sharing extensions across both compositors, your machine is now tailored for peak performance and ultimate desktop ricing. Experiment with the different layouts, refine your configurations, and enjoy the speed and security of a modern Linux setup. If you run into any issues or want to share your customizations, don't hesitate to reach out. Happy ricing, and welcome to the next level of the Arch Linux ecosystem!
+Whether you prefer Hyprland's dynamic tiling or Niri's scroll-tiling workflow, the goal is the same: a clean, fast, keyboard-driven Wayland desktop that can be reproduced from the dotfiles repository.
+
+If you customize the setup, keep the dotfiles repository as the source of truth so the system remains easy to rebuild or migrate later. Happy ricing!
 
 ## References
 

@@ -17,13 +17,17 @@ export const HoverLink: React.FC<React.ComponentProps<'a'>> = ({
       target={isExternal ? '_blank' : undefined}
       rel={isExternal ? 'noopener noreferrer' : undefined}
       className={cn(
-        'group/hover-link relative inline-block text-primary',
+        'relative inline-block text-primary',
+        'after:absolute after:bottom-0 after:left-0',
+        'after:h-px after:w-full after:content-[""]',
+        'after:origin-left after:scale-x-0',
+        'after:bg-current after:transition-transform after:duration-300',
+        'hover:after:scale-x-100',
         className
       )}
       {...props}
     >
       {children}
-      <span className='absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-current transition-transform duration-300 group-hover/hover-link:scale-x-100' />
     </Comp>
   )
 }

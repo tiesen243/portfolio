@@ -23,8 +23,8 @@
     "typecheck": "turbo run --filter '*' typecheck"
   },
   "devDependencies": {
-    "oxfmt": "^0.74.0",
-    "oxlint": "^1.89.0",
+    "oxfmt": "^0.75.0",
+    "oxlint": "^1.90.0",
     "turbo": "^2.11.10"
   },
   "devEngines": {
@@ -47,8 +47,8 @@
     "dev": {
       "@types/mdx": "^2.0.14",
       "@types/node": "^26.6.5",
-      "tsdown": "^0.23.2",
-      "typescript": "^7.1.0-beta"
+      "tsdown": "^0.23.3",
+      "typescript": "^7.0.2"
     },
     "react": {
       "@types/react": "^19.3.0",
