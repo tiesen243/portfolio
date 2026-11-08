@@ -23,8 +23,8 @@
     "typecheck": "turbo run --filter '*' typecheck"
   },
   "devDependencies": {
-    "oxfmt": "^0.75.0",
-    "oxlint": "^1.90.0",
+    "oxfmt": "^0.77.0",
+    "oxlint": "^1.92.0",
     "turbo": "^2.11.10"
   },
   "devEngines": {
@@ -46,8 +46,8 @@
     },
     "dev": {
       "@types/mdx": "^2.0.14",
-      "@types/node": "^26.6.5",
-      "tsdown": "^0.23.3",
+      "@types/node": "^26.6.6",
+      "tsdown": "^0.23.7",
       "typescript": "^7.0.2"
     },
     "react": {
@@ -55,18 +55,18 @@
       "@types/react-dom": "^19.3.0",
       "react": "^19.3.1",
       "react-dom": "^19.3.1",
-      "next": "^16.4.3"
+      "next": "^16.4.5"
     },
     "tailwind": {
-      "@tailwindcss/postcss": "^4.3.3",
+      "@tailwindcss/postcss": "^4.3.5",
       "@tailwindcss/vite": "^4.2.2",
-      "tailwindcss": "^4.3.3"
+      "tailwindcss": "^4.3.5"
     },
     "fumadocs": {
-      "@fumadocs/base-ui": "^16.17.8",
-      "@fumadocs/mdx-remote": "^1.5.2",
-      "fumadocs-core": "^16.17.8",
-      "fumadocs-mdx": "^15.4.10"
+      "@fumadocs/base-ui": "^16.18.2",
+      "@fumadocs/mdx-remote": "^1.5.3",
+      "fumadocs-core": "^16.18.2",
+      "fumadocs-mdx": "^15.5.1"
     }
   }
 }
